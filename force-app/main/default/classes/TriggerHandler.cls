@@ -151,12 +151,7 @@ public virtual class TriggerHandler {
     if(TriggerHandler.bypassedHandlers.contains(getHandlerName())) {
       return false;
     }
-    if(!getTriggerState()){
-      System.debug('Trigger Disabled Activate it Through Trigger Setting [Custom Metadata]');  
-      return false;
-    }
-	    
-    return true;
+   	return true;
   }
 
     
@@ -166,11 +161,7 @@ public virtual class TriggerHandler {
   }
     
   
-  private Boolean getTriggerState(){
-      String triggerName=getHandlerName().remove('Handler');
-      List<Trigger_Setting__mdt> triggerSetting=[SELECT Id FROM Trigger_Setting__mdt WHERE MasterLabel=:triggerName];
-      return triggerSetting.size()>0;
-  }    
+  
     
   /***************************************
    * context methods

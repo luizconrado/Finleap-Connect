@@ -1,19 +1,22 @@
-public inherited  sharing class LoggerService {
+public without sharing class LoggerService {
     
-    public static Log__c logException(String Source,String msg,Exception e){
+    public static Log__c logException(Final String Source,Final String msg,Exception e){
         Log__c log=new Log__c();
         log.Priority__c='Low';
         log.Source__c=Source;
         log.Message__c=msg;
         log.Stack_Trace__c=getLimits()+getStackTrace(e);
-        return log;
+        insert log;
+        return log;    
+        
     }
-    public static Log__c logError(String Source,String msg){
+    public static Log__c logError(Final String Source,Final String msg){
         Log__c log=new Log__c();
         log.Priority__c='Low';
         log.Source__c=Source;
         log.Message__c=msg;
         log.Stack_Trace__c=getLimits();
+        insert log;
         return log;
     }
     private static String getStackTrace(Exception ex){
