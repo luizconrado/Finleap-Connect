@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Make_Fields_Mandatory</fullName>
+    <active>true</active>
+    <description>Make fields like Email mandatory</description>
+    <errorConditionFormula>
+
+AND(
+ISBLANK(Email),
+NOT(CONTAINS($Label.Users_Exclusion,$User.Username))
+)
+    </errorConditionFormula>
+    <errorDisplayField>Email</errorDisplayField>
+    <errorMessage>Please enter an Email address before saving.</errorMessage>
+</ValidationRule>

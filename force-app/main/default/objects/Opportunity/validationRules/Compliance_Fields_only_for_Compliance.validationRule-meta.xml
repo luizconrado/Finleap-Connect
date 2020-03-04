@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+   <fullName>Compliance_Fields_only_for_Compliance</fullName>
+   <active>true</active>
+   <description>These fields can only be changed by Compliance Users</description>
+   <errorConditionFormula>IF( Record_Id__c == $CustomMetadata.Constant__mdt.Opp_Standard_Record_Type_Id.Value__c , 
+AND(
+   OR(
+      ISCHANGED( StageName ), 
+      ISNEW()
+     ),
+   OR(
+      NOT(ISPICKVAL(KYC_Form_Filled_Out__c , &quot;Yes&quot;)),
+      NOT(ISPICKVAL(KYC_Check_Status__c, &quot;Customer Passed&quot;)),
+      ISPICKVAL( Regulatory_Status__c , &quot;To be determined&quot;)    
+   ),
+   OR(
+      ISPICKVAL(PRIORVALUE(StageName), &quot;Qualifying&quot;),
+      ISPICKVAL(PRIORVALUE(StageName), &quot;Engage&quot;),
+      ISPICKVAL(PRIORVALUE(StageName), &quot;Convince&quot;),
+      ISPICKVAL(PRIORVALUE(StageName), &quot;Offer&quot;),
+      ISPICKVAL(PRIORVALUE(StageName), &quot;Negotiate&quot;),
+      ISNEW()
+   ),
+   OR(
+      ISPICKVAL(StageName, &quot;Confirmed&quot;),
+      ISPICKVAL(StageName, &quot;Closed Won&quot;)
+      /* ISPICKVAL(StageName, &quot;Cancelled&quot;) */
+   ),
+   NOT(CONTAINS($Label.Users_Exclusion,$User.Username))
+)
+, 
+False)</errorConditionFormula>
+   <errorDisplayField>KYC_Check_Status__c</errorDisplayField>
+   <errorMessage>Compliance Fields can only be modified by compliance users!</errorMessage>
+</ValidationRule>

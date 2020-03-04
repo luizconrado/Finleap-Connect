@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Revenue_Data_and_Dates</fullName>
+    <active>true</active>
+    <description>Revenue Data and Dates must be entered at this time in the Opportunity</description>
+    <errorConditionFormula>IF( Record_Id__c == $CustomMetadata.Constant__mdt.Opp_Standard_Record_Type_Id.Value__c , 
+AND (
+  
+  OR (
+     ISPICKVAL(StageName, &quot;Offer&quot;),
+     ISPICKVAL(StageName, &quot;Negotiate&quot;),
+     ISPICKVAL(StageName, &quot;Confirmed&quot;),
+     ISPICKVAL(StageName, &quot;Closed Won&quot;)
+	 ),
+  
+  AND( 
+	  OR ( 
+		 ISBLANK(TEXT(OTR_One_Time_Revenue__c)),
+            ISBLANK(TEXT(MRR_Monthly_Recurring_Revenue__c)),
+		 ISBLANK(TEXT(Revenue_Start_Date__c))
+		 )),
+	 
+     NOT(CONTAINS($Label.Users_Exclusion,$User.Username))
+)
+, 
+False)</errorConditionFormula>
+    <errorMessage>Rev. Start Date, MRR and OTR must be filled out at this point.</errorMessage>
+</ValidationRule>

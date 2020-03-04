@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Finleap_Investment_Campaign</fullName>
+    <active>true</active>
+    <label>Finleap Investment Campaign</label>
+    <picklistValues>
+        <picklist>Status</picklist>
+        <values>
+            <fullName>Aborted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Completed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In Progress</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Planned</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Target_Product__c</picklist>
+        <values>
+            <fullName>CS - FinanceAds</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CS - Finleap Cloud %28PaaS%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CVS - Information risk aaS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CVS - Outsourcing management aaS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CVS - Project</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Clark - Product</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DS - Analytics %26 Segmentation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DS - Data Science</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DS - Data activation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Element - Innovative Insurance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Element - Standard Insurance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Elinvar - Product</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FinanceAds - Product</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MP - Account Service</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MP - Contract Service</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MP - Document Service</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MP - I %2F A %2F M</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MP - KYC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MP - Notification Service</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MP - RegShield</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PairFinance - Product</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Perseus - Product</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WL - Digital Bank</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WL - Lendbox</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WL - Switchkit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WL - Virtual CFO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>solarisBank - API-based banking</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>solarisBank - API-based banking %2B Front-end</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>solarisBank - Blockchain</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>solarisBank - Business %2F SME Lending</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>solarisBank - Business KYC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>solarisBank - Consumer Lending</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>solarisBank - Custom Debit Cards</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>solarisBank - Escrow API</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>solarisBank - Overdrafts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>solarisBank - Retail KYC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>solarisBank - virtual IBANs</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type</picklist>
+        <values>
+            <fullName>Demo Signup %2F Trial</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Emails %26 Calls</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Event</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Referral Program</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Search</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Social Media</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Thought Leadership</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Website Direct</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

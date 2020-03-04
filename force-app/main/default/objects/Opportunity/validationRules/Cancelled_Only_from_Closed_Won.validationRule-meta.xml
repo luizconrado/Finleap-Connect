@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cancelled_Only_from_Closed_Won</fullName>
+    <active>true</active>
+    <description>An Opportunity can only be cancelled if it was Closed Won</description>
+    <errorConditionFormula>IF( Record_Id__c == $CustomMetadata.Constant__mdt.Opp_Standard_Record_Type_Id.Value__c , 
+AND(
+ ISCHANGED( StageName ),
+ ISPICKVAL(StageName, &quot;Cancelled&quot;),  
+ NOT(ISPICKVAL(PRIORVALUE(StageName),&quot;Closed Won&quot;)),
+ NOT(CONTAINS($Label.Users_Exclusion,$User.Username))
+), 
+False)</errorConditionFormula>
+    <errorDisplayField>StageName</errorDisplayField>
+    <errorMessage>Opportunities can only be cancelled if it was Closed Won.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>C_Level_Contact__c</fullName>
+    <description>With A-customers, please provide a C-contact as &quot;godfather&quot; for this account</description>
+    <externalId>false</externalId>
+    <inlineHelpText>With A-customers, please provide a C-contact as &quot;godfather&quot; for this account</inlineHelpText>
+    <label>C-Level Contact</label>
+    <required>false</required>
+    <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Cornelia</fullName>
+                <default>false</default>
+                <label>Cornelia</label>
+            </value>
+            <value>
+                <fullName>Markus</fullName>
+                <default>false</default>
+                <label>Markus</label>
+            </value>
+            <value>
+                <fullName>Patrick</fullName>
+                <default>false</default>
+                <label>Patrick</label>
+            </value>
+            <value>
+                <fullName>Ramin</fullName>
+                <default>false</default>
+                <label>Ramin</label>
+            </value>
+            <value>
+                <fullName>Taner</fullName>
+                <default>false</default>
+                <label>Taner</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

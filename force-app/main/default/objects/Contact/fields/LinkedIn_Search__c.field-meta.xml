@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LinkedIn_Search__c</fullName>
+    <description>Link to Google Search within LinkedIn</description>
+    <externalId>false</externalId>
+    <formula>HYPERLINK( &#39;https://www.google.com/search?q=site%3Alinkedin.com%2Fin%2F+AND+&quot;&#39; &amp; FirstName &amp; &#39;+&#39; &amp; MiddleName &amp; &#39;+&#39; &amp; LastName &amp; &#39;&quot;+AND+&quot;&#39; &amp; Account.Name &amp; &#39;&quot;&#39;, &#39;Probable Results Link&#39;,&quot;_blank&quot;)</formula>
+    <inlineHelpText>Link to Google Search within LinkedIn</inlineHelpText>
+    <label>LinkedIn Search</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

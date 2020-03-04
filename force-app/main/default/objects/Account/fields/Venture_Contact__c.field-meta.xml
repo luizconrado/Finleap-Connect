@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Venture_Contact__c</fullName>
+    <description>Finleap Ventures that this company has or had contact with</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Finleap Ventures that this company has or had contact with</inlineHelpText>
+    <label>Venture Contact</label>
+    <required>false</required>
+    <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Beesy</fullName>
+                <default>false</default>
+                <label>Beesy</label>
+            </value>
+            <value>
+                <fullName>Clark</fullName>
+                <default>false</default>
+                <label>Clark</label>
+            </value>
+            <value>
+                <fullName>Element</fullName>
+                <default>false</default>
+                <label>Element</label>
+            </value>
+            <value>
+                <fullName>Elinvar</fullName>
+                <default>false</default>
+                <label>Elinvar</label>
+            </value>
+            <value>
+                <fullName>European Fintech Fund</fullName>
+                <default>false</default>
+                <label>European Fintech Fund</label>
+            </value>
+            <value>
+                <fullName>Figo</fullName>
+                <default>false</default>
+                <label>Figo</label>
+            </value>
+            <value>
+                <fullName>Finleap</fullName>
+                <default>false</default>
+                <label>Finleap</label>
+            </value>
+            <value>
+                <fullName>Finleap Connect</fullName>
+                <default>false</default>
+                <label>Finleap Connect</label>
+            </value>
+            <value>
+                <fullName>Finreach Solutions</fullName>
+                <default>false</default>
+                <label>Finreach Solutions</label>
+            </value>
+            <value>
+                <fullName>Infinitec Solutions</fullName>
+                <default>false</default>
+                <label>Infinitec Solutions</label>
+            </value>
+            <value>
+                <fullName>Pair Finance</fullName>
+                <default>false</default>
+                <label>Pair Finance</label>
+            </value>
+            <value>
+                <fullName>Penta</fullName>
+                <default>false</default>
+                <label>Penta</label>
+            </value>
+            <value>
+                <fullName>Perseus</fullName>
+                <default>false</default>
+                <label>Perseus</label>
+            </value>
+            <value>
+                <fullName>SolarisBank</fullName>
+                <default>false</default>
+                <label>SolarisBank</label>
+            </value>
+            <value>
+                <fullName>Valendo</fullName>
+                <default>false</default>
+                <label>Valendo</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

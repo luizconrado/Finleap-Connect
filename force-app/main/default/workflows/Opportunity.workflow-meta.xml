@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Oppty_KYC_Form_Filled_Out</fullName>
+        <description>Oppty: KYC Form Filled Out</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>cornelia.schwertner@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>jonas.fitschen@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Opportunity_KYC_Form_Filled_Out</template>
+    </alerts>
+    <alerts>
+        <fullName>Oppty_KYC_Status_Changed</fullName>
+        <description>Oppty: KYC Status Changed</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>FLC - Account Manager</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>FLC - Business Development</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>FLC - Business Unit Owner</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>FLC - Customer Success Manager</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>FLC - Executive Sponsor</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>FLC - Solution Engineer</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>FLC - Vertical GM</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>Finleap - MD Responsible</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>luiz.conrado@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Opportunity_KYC_Status</template>
+    </alerts>
+    <alerts>
+        <fullName>Oppty_Stage_Change_to_All</fullName>
+        <description>Oppty: Stage Change to All</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>FLC - Account Manager</recipient>
+            <type>accountTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>FLC - Business Development</recipient>
+            <type>accountTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>FLC - Business Unit Owner</recipient>
+            <type>accountTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>FLC - Customer Success Manager</recipient>
+            <type>accountTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>FLC - Executive Sponsor</recipient>
+            <type>accountTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>FLC - Solution Engineer</recipient>
+            <type>accountTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>FLC - Vertical GM</recipient>
+            <type>accountTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>FLC - Account Manager</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>FLC - Business Development</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>FLC - Business Unit Owner</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>FLC - Customer Success Manager</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>FLC - Executive Sponsor</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>FLC - Solution Engineer</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>FLC - Vertical GM</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>luiz.conrado@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Opportunity_Stage_Modification</template>
+    </alerts>
+    <alerts>
+        <fullName>Oppty_Stage_Change_to_Cancelled</fullName>
+        <description>Oppty: Stage Change to Cancelled</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>birte.goslowski@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>cornelia.schwertner@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>frank.kebsch@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>jonas.fitschen@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>moritz.denkewitz@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>nils.landau@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>patrick.dittmer@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>ramin.niroumand@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Opportunity_Stage_Modification</template>
+    </alerts>
+    <alerts>
+        <fullName>Oppty_Stage_Change_to_Closed_Lost</fullName>
+        <description>Oppty: Stage Change to Closed Lost</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>frank.kebsch@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>moritz.denkewitz@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>patrick.dittmer@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>ramin.niroumand@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Opportunity_Stage_Modification</template>
+    </alerts>
+    <alerts>
+        <fullName>Oppty_Stage_Change_to_Closed_Won</fullName>
+        <description>Oppty: Stage Change to Closed Won</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>cornelia.schwertner@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>frank.kebsch@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>jonas.fitschen@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>moritz.denkewitz@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>patrick.dittmer@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>ramin.niroumand@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>sebastian.tiesler@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Opportunity_Stage_Modification</template>
+    </alerts>
+    <alerts>
+        <fullName>Oppty_Stage_Change_to_Confirmed</fullName>
+        <description>Oppty: Stage Change to Confirmed</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>cornelia.schwertner@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>frank.kebsch@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>jonas.fitschen@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>moritz.denkewitz@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>patrick.dittmer@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>ramin.niroumand@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Opportunity_Stage_Modification</template>
+    </alerts>
+    <alerts>
+        <fullName>Oppty_Stage_Change_to_Negotiate</fullName>
+        <description>Oppty: Stage Change to Negotiate</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>frank.kebsch@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>jonas.fitschen@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>moritz.denkewitz@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>patrick.dittmer@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>ramin.niroumand@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Opportunity_Stage_Modification</template>
+    </alerts>
+    <alerts>
+        <fullName>Oppty_Stage_Change_to_Offer</fullName>
+        <description>Oppty: Stage Change to Offer</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>frank.kebsch@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>moritz.denkewitz@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>patrick.dittmer@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>ramin.niroumand@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>sebastian.tiesler@finleap.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Opportunity_Stage_Modification</template>
+    </alerts>
+</Workflow>

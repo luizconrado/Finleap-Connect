@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Company_Size_Employees__c</fullName>
+    <description>Company Size based on the number of Employees</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Company Size based on the number of Employees</inlineHelpText>
+    <label>Company Size - Employees</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>&lt; 100</fullName>
+                <default>false</default>
+                <label>&lt; 100</label>
+            </value>
+            <value>
+                <fullName>101 - 500</fullName>
+                <default>false</default>
+                <label>101 - 500</label>
+            </value>
+            <value>
+                <fullName>501 - 1000</fullName>
+                <default>false</default>
+                <label>501 - 1000</label>
+            </value>
+            <value>
+                <fullName>&gt; 1000</fullName>
+                <default>false</default>
+                <label>&gt; 1000</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

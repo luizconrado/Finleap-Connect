@@ -2,8 +2,9 @@
 Finleap connect Org
 
 # Log
-
-
+    - Adding Standard and Finleap Investment Record Type To Contact,Opportunity,Task,Event,Campaing,Account
+    - Adding Log__c,Trigger_Setting__mdt,Contant__mdt
+    - Adding Task Trigger
 
 
 
