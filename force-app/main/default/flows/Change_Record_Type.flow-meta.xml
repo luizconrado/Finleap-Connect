@@ -11,6 +11,9 @@
         <label>myDecision</label>
         <locationX>50</locationX>
         <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision4</targetReference>
+        </defaultConnector>
         <defaultConnectorLabel>default</defaultConnectorLabel>
         <rules>
             <name>myRule_1</name>
@@ -25,7 +28,35 @@
             <connector>
                 <targetReference>myRule_1_A1</targetReference>
             </connector>
-            <label>Map Contact Type</label>
+            <label>New : Change Contact Type</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision4</name>
+        <label>myDecision4</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_5</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_5</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_5_A1</targetReference>
+            </connector>
+            <label>Update : Change Record Type</label>
         </rules>
     </decisions>
     <description>Change Contact record Type Based on Finleap_Contact_Type Value</description>
@@ -33,10 +64,21 @@
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
+                <stringValue>$CustomMetadata.Constant__mdt.Contact_Finleap_Invesment_Record_Type_Id.Value__c </stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_2_myRule_1_A2_9331949360</name>
+        <dataType>String</dataType>
+        <expression>{!$CustomMetadata.Constant__mdt.Contact_Finleap_Invesment_Record_Type_Id.Value__c}</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
                 <stringValue>$CustomMetadata.Constant__mdt.Contact_Standard_Record_Type_ID.Value__c </stringValue>
             </value>
         </processMetadataValues>
-        <name>formula_2_myRule_1_A2_3390267305</name>
+        <name>formula_3_myRule_1_A1_3221131071</name>
         <dataType>String</dataType>
         <expression>{!$CustomMetadata.Constant__mdt.Contact_Standard_Record_Type_ID.Value__c}</expression>
     </formulas>
@@ -47,7 +89,18 @@
                 <stringValue>$CustomMetadata.Constant__mdt.Contact_Standard_Record_Type_ID.Value__c </stringValue>
             </value>
         </processMetadataValues>
-        <name>formula_3_myRule_1_A2_4675648617</name>
+        <name>formula_6_myRule_5_A2_2006717721</name>
+        <dataType>String</dataType>
+        <expression>{!$CustomMetadata.Constant__mdt.Contact_Standard_Record_Type_ID.Value__c}</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>$CustomMetadata.Constant__mdt.Contact_Standard_Record_Type_ID.Value__c </stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_7_myRule_5_A2_4489955056</name>
         <dataType>String</dataType>
         <expression>{!$CustomMetadata.Constant__mdt.Contact_Standard_Record_Type_ID.Value__c}</expression>
     </formulas>
@@ -58,7 +111,7 @@
                 <stringValue>$CustomMetadata.Constant__mdt.Contact_Finleap_Invesment_Record_Type_Id.Value__c </stringValue>
             </value>
         </processMetadataValues>
-        <name>formula_4_myRule_1_A1_1776535863</name>
+        <name>formula_8_myRule_5_A1_6809097475</name>
         <dataType>String</dataType>
         <expression>{!$CustomMetadata.Constant__mdt.Contact_Finleap_Invesment_Record_Type_Id.Value__c}</expression>
     </formulas>
@@ -69,16 +122,49 @@
                 <stringValue>$CustomMetadata.Constant__mdt.Contact_Finleap_Invesment_Record_Type_Id.Value__c </stringValue>
             </value>
         </processMetadataValues>
-        <name>formula_5_myRule_1_A1_9872461435</name>
+        <name>formula_9_myRule_5_A1_0571824627</name>
         <dataType>String</dataType>
         <expression>{!$CustomMetadata.Constant__mdt.Contact_Finleap_Invesment_Record_Type_Id.Value__c}</expression>
     </formulas>
     <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>ISNEW()
+
+</stringValue>
+            </value>
+        </processMetadataValues>
         <name>formula_myRule_1</name>
         <dataType>Boolean</dataType>
-        <expression>true</expression>
+        <expression>ISNEW()</expression>
     </formulas>
-    <interviewLabel>Change_Record_Type-7_InterviewLabel</interviewLabel>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(
+
+NOT(ISNEW()),
+
+ISCHANGED([Contact].Finleap_Contact_Type__c ) 
+
+)
+
+</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_5</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(
+
+NOT(ISNEW()),
+
+ISCHANGED({!myVariable_current.Finleap_Contact_Type__c} ) 
+
+)</expression>
+    </formulas>
+    <interviewLabel>Change_Record_Type-9_InterviewLabel</interviewLabel>
     <label>Change Record Type</label>
     <processMetadataValues>
         <name>ObjectType</name>
@@ -131,11 +217,370 @@
             <name>referenceTargetField</name>
         </processMetadataValues>
         <name>myRule_1_A1</name>
-        <label>Change To Investment</label>
+        <label>Update Standard Contact Type</label>
         <locationX>100</locationX>
         <locationY>200</locationY>
         <connector>
             <targetReference>myRule_1_A2</targetReference>
+        </connector>
+        <filters>
+            <processMetadataValues>
+                <name>implicit</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>inputDataType</name>
+                <value>
+                    <stringValue>Picklist</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>Finleap Contact Type</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue/>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideType</name>
+                <value>
+                    <stringValue>Picklist</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>operatorDataType</name>
+                <value>
+                    <stringValue>String</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Picklist</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>Finleap_Contact_Type__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Normal</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <processMetadataValues>
+                <name>implicit</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </processMetadataValues>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <processMetadataValues>
+                <name>implicit</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>inputDataType</name>
+                <value>
+                    <stringValue>ID</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>Record Type ID</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue>RecordType</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideType</name>
+                <value>
+                    <stringValue>ID</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>operatorDataType</name>
+                <value>
+                    <stringValue>String</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Formula</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>RecordTypeId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>formula_3_myRule_1_A1_3221131071</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>Picklist</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>Finleap Contact Type</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue/>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Picklist</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>Finleap_Contact_Type__c</field>
+            <value>
+                <stringValue>Normal</stringValue>
+            </value>
+        </inputAssignments>
+        <object>Contact</object>
+    </recordUpdates>
+    <recordUpdates>
+        <processMetadataValues>
+            <name>evaluationType</name>
+            <value>
+                <stringValue>criteria</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>extraTypeInfo</name>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>isChildRelationship</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>reference</name>
+            <value>
+                <stringValue>[Contact]</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>referenceTargetField</name>
+        </processMetadataValues>
+        <name>myRule_1_A2</name>
+        <label>Update Investment Contact Type</label>
+        <locationX>100</locationX>
+        <locationY>300</locationY>
+        <filters>
+            <processMetadataValues>
+                <name>implicit</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>inputDataType</name>
+                <value>
+                    <stringValue>Picklist</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>Finleap Contact Type</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue/>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideType</name>
+                <value>
+                    <stringValue>Picklist</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>operatorDataType</name>
+                <value>
+                    <stringValue>String</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Picklist</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>Finleap_Contact_Type__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Investment</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <processMetadataValues>
+                <name>implicit</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </processMetadataValues>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <processMetadataValues>
+                <name>implicit</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>inputDataType</name>
+                <value>
+                    <stringValue>ID</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>Record Type ID</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue>RecordType</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideType</name>
+                <value>
+                    <stringValue>ID</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>operatorDataType</name>
+                <value>
+                    <stringValue>String</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Formula</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>RecordTypeId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>formula_2_myRule_1_A2_9331949360</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>Picklist</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>Finleap Contact Type</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue/>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Picklist</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>Finleap_Contact_Type__c</field>
+            <value>
+                <stringValue>Investment</stringValue>
+            </value>
+        </inputAssignments>
+        <object>Contact</object>
+    </recordUpdates>
+    <recordUpdates>
+        <processMetadataValues>
+            <name>evaluationType</name>
+            <value>
+                <stringValue>criteria</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>extraTypeInfo</name>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>isChildRelationship</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>reference</name>
+            <value>
+                <stringValue>[Contact]</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>referenceTargetField</name>
+        </processMetadataValues>
+        <name>myRule_5_A1</name>
+        <label>Change To Investment</label>
+        <locationX>500</locationX>
+        <locationY>200</locationY>
+        <connector>
+            <targetReference>myRule_5_A2</targetReference>
         </connector>
         <filters>
             <processMetadataValues>
@@ -245,7 +690,7 @@
             <field>RecordTypeId</field>
             <operator>NotEqualTo</operator>
             <value>
-                <elementReference>formula_4_myRule_1_A1_1776535863</elementReference>
+                <elementReference>formula_8_myRule_5_A1_6809097475</elementReference>
             </value>
         </filters>
         <inputAssignments>
@@ -281,7 +726,7 @@
             </processMetadataValues>
             <field>RecordTypeId</field>
             <value>
-                <elementReference>formula_5_myRule_1_A1_9872461435</elementReference>
+                <elementReference>formula_9_myRule_5_A1_0571824627</elementReference>
             </value>
         </inputAssignments>
         <object>Contact</object>
@@ -311,9 +756,9 @@
         <processMetadataValues>
             <name>referenceTargetField</name>
         </processMetadataValues>
-        <name>myRule_1_A2</name>
+        <name>myRule_5_A2</name>
         <label>Change To Standard Contact</label>
-        <locationX>100</locationX>
+        <locationX>500</locationX>
         <locationY>300</locationY>
         <filters>
             <processMetadataValues>
@@ -423,7 +868,7 @@
             <field>RecordTypeId</field>
             <operator>NotEqualTo</operator>
             <value>
-                <elementReference>formula_2_myRule_1_A2_3390267305</elementReference>
+                <elementReference>formula_6_myRule_5_A2_2006717721</elementReference>
             </value>
         </filters>
         <inputAssignments>
@@ -459,7 +904,7 @@
             </processMetadataValues>
             <field>RecordTypeId</field>
             <value>
-                <elementReference>formula_3_myRule_1_A2_4675648617</elementReference>
+                <elementReference>formula_7_myRule_5_A2_4489955056</elementReference>
             </value>
         </inputAssignments>
         <object>Contact</object>

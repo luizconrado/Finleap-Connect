@@ -8,6 +8,13 @@ Finleap connect Org
 
 
 
+# Utility Classes
+    - Constant : All Global Constant's 
+    - DatabaseUtility : Utility Call to insert records
+    - LoggerService : Utility Class to log errors,Exceptions to log__c object
+    - RandomUtility : Utility Class to generate random number or string
+    - SchemaUtility : Utillity Class to retrive schema related details
+    - TriggerHandler : virtual Class that needs to be extended by trigger handlers
 
 
 
