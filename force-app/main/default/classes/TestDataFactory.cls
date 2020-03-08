@@ -5,13 +5,15 @@ public class TestDataFactory {
         return getUser(Constant.FINLEAP_PROFILE_ID,isInsert);
  	}
     
-    
     public static Account getStandardAccount(Final Boolean isInsert){
         return getAccount(Constant.ACCOUNT_STANDARD_RECORDTYPE_ID,isInsert);
     }
     
     public static Contact getStandardContact(Final String accountId,Final Boolean isInsert){
         return getContact(Constant.CONTACT_STANDARD_RECORDTYPE_ID,accountId,isInsert);
+    }
+    public static Contact getInvestmentContact(Final String accountId,Final Boolean isInsert){
+        return getContact(Constant.CONTACT_FINLEAP_INVESTMENT_RECORDTYPE_ID,accountId,isInsert);
     }
     
     public static Opportunity getInvestmentOpportunity(Final String accountId,Final Boolean isInsert){
@@ -20,6 +22,15 @@ public class TestDataFactory {
     
     public static Task getInvestmentTask(Final String opportunityId,Final String contactId,Final Boolean isInsert){
         return getTask(Constant.TASK_FINLEAP_INVESTMENT_RECORDTYPE_ID,opportunityId,contactId,isInsert);
+    }
+     public static Task getStandardTask(Final String opportunityId,Final String contactId,Final Boolean isInsert){
+        return getTask(Constant.TASK_STANDARD_RECORDTYPE_ID,opportunityId,contactId,isInsert);
+    }
+    public static Event getStandardEvent(Final String opportunityId,Final String contactId,Final Boolean isInsert){
+        return getEvent(Constant.EVENT_STANDARD_RECORDTYPE_ID,opportunityId,contactId,isInsert);
+    }
+    public static Event getInvestmentEvent(Final String opportunityId,Final String contactId,Final Boolean isInsert){
+        return getEvent(Constant.EVENT_INVESTMENT_RECORDTYPE_ID,opportunityId,contactId,isInsert);
     }
     
     public static void addAccessAllPermissionSet(Final String userId){
@@ -97,6 +108,20 @@ public class TestDataFactory {
         if(isInsert) insert t;
         return t;
     }
+    private static Event getEvent(Final String recordTypeId,Final String whatId,Final String whoId,Final Boolean isInsert){
+        Event e=new Event();
+        e.Subject=Randomutility.getString(8);
+        e.ActivityDate=Date.today();
+        e.OwnerId=Userinfo.getUserId();
+        e.WhatId=whatId;
+       	e.StartDateTime=System.Datetime.now();
+        e.EndDateTime =System.Datetime.now()+1;
+        e.whoId=whoId;
+        e.recordTypeId=recordTypeId;
+        e.IsReminderSet=false;
+        if(isInsert) insert e;
+        return e;
+    }
     
     private static PermissionSet getAccessAllPermissionSet(){
         //HACK FOR Criteria based sharing rule:https://help.salesforce.com/articleView?id=security_sharing_rule_types.htm&type=5
@@ -106,10 +131,18 @@ public class TestDataFactory {
         op.add(new ObjectPermissions(ParentId=ps.Id,
                                      SobjectType='Contact',
                                      PermissionsRead=true,
+                                     PermissionsEdit=true,
+                                     PermissionsDelete =true,
+                                     PermissionsCreate=true,
+                                     PermissionsModifyAllRecords=true,
                                      PermissionsViewAllRecords=true));
         op.add(new ObjectPermissions(ParentId=ps.Id,
                                      SobjectType='Opportunity',
                                      PermissionsRead=true,
+                                     PermissionsEdit=true,
+                                     PermissionsDelete =true,
+                                     PermissionsCreate=true,
+                                     PermissionsModifyAllRecords=true,
                                      PermissionsViewAllRecords=true));
         insert op;
         return ps;

@@ -1,13 +1,9 @@
 public inherited sharing class TaskTriggerHelper {
     
-    public static void processInvestmentTasks(Final Map<Id,Task> newInvestmentTask){
-       changeStandardContactsToInvesetmentContacts(newInvestmentTask.keySet());
-    }
-    
     //HACK: Future Method is Needed as TaskRelation takes some time to be inserted in database
     @future
-    private static void changeStandardContactsToInvesetmentContacts(Final Set<Id> newInvestmentTaskIds){
-        List<TaskRelation> relatedOpportunityAndContact=getOpportunityAndContactRelation(newInvestmentTaskIds);
+    public static void changeStandardContactsToInvesetmentContacts(Final Set<Id> newTaskIds){
+        List<TaskRelation> relatedOpportunityAndContact=getOpportunityAndContactRelation(newTaskIds);
         Map<String,List<String>> taskIdAndStandardContacts=getStandardContactsOfInvestmentOpportunity(relatedOpportunityAndContact);
         List<String> contactIds=new List<String>();
         for(String taskId:taskIdAndStandardContacts.keySet()){
@@ -15,11 +11,9 @@ public inherited sharing class TaskTriggerHelper {
         }
         if(!contactIds.isEmpty()) convertStandardContactToInvestmentContact(contactIds);
     }
-  	@testVisible
-    private static List<TaskRelation> getOpportunityAndContactRelation(Final Set<Id> newInvestmentTask){
-        return [SELECT Id,RelationId,Relation.Type,TaskId,Relation.RecordTypeId FROM TaskRelation WHERE TaskId IN:newInvestmentTask AND (Relation.Type='Opportunity' OR Relation.Type='Contact')];
+    private static List<TaskRelation> getOpportunityAndContactRelation(Final Set<Id> newTasks){
+        return [SELECT Id,RelationId,Relation.Type,TaskId,Relation.RecordTypeId FROM TaskRelation WHERE TaskId IN:newTasks AND (Relation.Type='Opportunity' OR Relation.Type='Contact')];
     }
-    @testVisible
     private static Map<String,List<String>> getStandardContactsOfInvestmentOpportunity(Final List<TaskRelation> opportunityAndContactRelation){
         Map<Id,TaskRelation> investmentOpportunitys=new Map<Id,TaskRelation>();
         Map<Id,List<TaskRelation>> contactRelations=new Map<Id,List<TaskRelation>>();
@@ -53,7 +47,6 @@ public inherited sharing class TaskTriggerHelper {
         
         return taskContactMap;
     }
-    @testVisible
     private static List<DatabaseResponse>  convertStandardContactToInvestmentContact(Final List<String> contactIds){
         List<Contact> toChangeRecordType=new List<Contact>();
         //NOTE:Proccess Builder changes the record type based on Finleap_Contact_Type__c field value

@@ -14,6 +14,10 @@ public class ConstantTest {
         System.assert(!String.isEmpty(Constant.OPPORTUNITY_STANDARD_RECORDTYPE_ID));
         System.assert(!String.isEmpty(Constant.ACCOUNT_FINLEAP_INVESTOR_RECORDTYPE_ID));
         System.assert(!String.isEmpty(Constant.ACCOUNT_STANDARD_RECORDTYPE_ID));
+        System.assert(!String.isEmpty(Constant.EVENT_STANDARD_RECORDTYPE_ID));
+        System.assert(!String.isEmpty(Constant.EVENT_INVESTMENT_RECORDTYPE_ID));
+        
+            
     }
 
 }

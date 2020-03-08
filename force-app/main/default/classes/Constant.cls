@@ -8,6 +8,15 @@ public inherited  sharing class Constant {
         if(TASK_FINLEAP_INVESTMENT_RECORDTYPE_ID==null)TASK_FINLEAP_INVESTMENT_RECORDTYPE_ID= SchemaUtility.getRecordTypeId('Finleap_Invesment_Task','Task');
         return TASK_FINLEAP_INVESTMENT_RECORDTYPE_ID;
     }}
+    //Event
+     public static final string EVENT_STANDARD_RECORDTYPE_ID{private set;get{
+        if(EVENT_STANDARD_RECORDTYPE_ID==null)EVENT_STANDARD_RECORDTYPE_ID=SchemaUtility.getRecordTypeId('Standard_Event','Event');
+        return EVENT_STANDARD_RECORDTYPE_ID;
+    }}
+     public static final string EVENT_INVESTMENT_RECORDTYPE_ID{private set;get{
+        if(EVENT_INVESTMENT_RECORDTYPE_ID==null)EVENT_INVESTMENT_RECORDTYPE_ID=SchemaUtility.getRecordTypeId('Finleap_Invesment_Event','Event');
+        return EVENT_INVESTMENT_RECORDTYPE_ID;
+    }}
     //Opportunity
     public static final string OPPORTUNITY_FINLEAP_INVESTMENT_RECORDTYPE_ID{private set;get{
         if(OPPORTUNITY_FINLEAP_INVESTMENT_RECORDTYPE_ID==null)OPPORTUNITY_FINLEAP_INVESTMENT_RECORDTYPE_ID=SchemaUtility.getRecordTypeId('Finleap_Investment_Opportunity','Opportunity');

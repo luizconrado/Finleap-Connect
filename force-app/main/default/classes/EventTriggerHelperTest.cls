@@ -1,11 +1,11 @@
 @isTest
-public class TaskTriggerHelperTest {
+public class EventTriggerHelperTest {
     @testsetup
     static void testData(){
         Account acc=TestDataFactory.getStandardAccount(True);
         Contact investmentContact=TestDataFactory.getInvestmentContact(acc.Id,True);
         Opportunity investmentOpportunity=TestDataFactory.getInvestmentOpportunity(acc.Id,True);
-        Task t=TestDataFactory.getStandardTask(investmentOpportunity.Id,investmentContact.Id,True);
+        Event e=TestDataFactory.getStandardEvent(investmentOpportunity.Id,investmentContact.Id,True);
     }
     
     
@@ -18,7 +18,7 @@ public class TaskTriggerHelperTest {
             Contact standardCon=TestDataFactory.getStandardContact(acc.Id,True);
             Opportunity investmentOpportunity=TestDataFactory.getInvestmentOpportunity(acc.Id,True);
             Test.startTest();
-            	Task investmentTast=TestDataFactory.getInvestmentTask(investmentOpportunity.id,standardCon.id,true);
+            Event investmentEvent=TestDataFactory.getInvestmentEvent(investmentOpportunity.id,standardCon.id,true);
             Test.stopTest();
             List<Contact> standradContact=[select id from contact where recordtypeid=:Constant.CONTACT_STANDARD_RECORDTYPE_ID];
             System.assertEquals(0, standradContact.size());
@@ -32,14 +32,12 @@ public class TaskTriggerHelperTest {
             Account acc=[select id from account limit 1];
             Contact standardCon=TestDataFactory.getStandardContact(acc.Id,True);
             Test.startTest();
-                Task t=[select id,whoId from task limit 1];
-                t.whoId=standardCon.id;
-                update t;
+            Event e=[select id,whoId from Event limit 1];
+            e.whoId=standardCon.id;
+            update e;
             Test.stopTest();
             List<Contact> standradContact=[select id from contact where recordtypeid=:Constant.CONTACT_STANDARD_RECORDTYPE_ID];
             System.assertEquals(0, standradContact.size());
         }
     }
-    
-
 }
