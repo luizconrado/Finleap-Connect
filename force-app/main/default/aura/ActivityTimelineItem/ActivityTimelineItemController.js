@@ -1,0 +1,24 @@
+({
+	// common reusable function for toggle sections
+	toggleActivityDetail : function(component, event, helper) {
+        component.set("v.isExpanded", !component.get("v.isExpanded"));
+	},
+    handleMenuClick: function(component, event, helper) {
+        const actionItem = event.getParam("value");
+        if(actionItem==='Edit'){
+        	component.set('v.isEdit',true);    
+        }
+		//const item=component.get('v.item');
+        
+    },
+    closeModel: function(component, event, helper) {
+         component.set('v.isEdit',false);
+    },
+    save: function(component, event, helper) {
+        component.find("editForm").get("e.recordSave").fire();
+    },
+    onDone:function(component,event,helper){
+        let checked=event.srcElement.checked;
+        console.log('checked',checked)
+    }
+})
