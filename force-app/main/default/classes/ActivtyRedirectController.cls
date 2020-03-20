@@ -1,4 +1,4 @@
-public class ActivtyRedirect_Controller {
+public class ActivtyRedirectController {
     
     @AuraEnabled
     public static Map<String,String> getAccessDetails(Id activityId){

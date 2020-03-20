@@ -1,6 +1,0 @@
-<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" controller="ActivtyRedirect_Controller" access="global" >
-    <aura:handler name='init' value='{!this}' action='{!c.onInit}'/>
-    <lightning:notificationsLibrary aura:id="notifLib"/>
-    <lightning:navigation aura:id="navService"/>
-
-</aura:component>
