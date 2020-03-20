@@ -115,7 +115,7 @@
         <formFactor>Small</formFactor>
         <type>Default</type>
     </actionOverrides>
-    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <compactLayoutAssignment>Timeline</compactLayoutAssignment>
     <enableFeeds>true</enableFeeds>
     <recordTypeTrackFeedHistory>false</recordTypeTrackFeedHistory>
     <searchLayouts/>

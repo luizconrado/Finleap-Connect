@@ -3,13 +3,10 @@
     <fullName>Make_Fields_Mandatory</fullName>
     <active>true</active>
     <description>Make fields like Email mandatory</description>
-    <errorConditionFormula>
-
-AND(
+    <errorConditionFormula>AND(
 ISBLANK(Email),
 NOT(CONTAINS($Label.Users_Exclusion,$User.Username))
-)
-    </errorConditionFormula>
+)</errorConditionFormula>
     <errorDisplayField>Email</errorDisplayField>
     <errorMessage>Please enter an Email address before saving.</errorMessage>
 </ValidationRule>

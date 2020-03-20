@@ -330,7 +330,7 @@
     <enableFeeds>true</enableFeeds>
     <enableHistory>true</enableHistory>
     <recordTypeTrackFeedHistory>false</recordTypeTrackFeedHistory>
-    <recordTypeTrackHistory>false</recordTypeTrackHistory>
+    <recordTypeTrackHistory>true</recordTypeTrackHistory>
     <searchLayouts>
         <customTabListAdditionalFields>FULL_NAME</customTabListAdditionalFields>
         <customTabListAdditionalFields>ACCOUNT.NAME</customTabListAdditionalFields>
@@ -376,5 +376,5 @@
         <searchResultsAdditionalFields>CONTACT.TITLE</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>CONTACT.LAST_ACTIVITY</searchResultsAdditionalFields>
     </searchLayouts>
-    <sharingModel>Private</sharingModel>
+    <sharingModel>ReadWrite</sharingModel>
 </CustomObject>
