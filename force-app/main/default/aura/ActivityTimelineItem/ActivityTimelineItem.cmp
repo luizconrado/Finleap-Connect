@@ -77,14 +77,16 @@
                     <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
                         <div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
                             <!-- Mark Task as Complete -->
-                            <aura:if isTrue="{!and(v.item.activityTimelineType == 'Task',not(v.item.isComplete))}">
-                                <div class="slds-checkbox">
-                                    <input type="checkbox" name="options" onchange="{!c.onDone}" id="{!v.item.recordId}" value="{!v.item.recordId}" />
-                                    <label class="slds-checkbox__label" for="{!v.item.recordId}">
-                                        <span class="slds-checkbox_faux"></span>
-                                        <span class="slds-form-element__label slds-assistive-text">{!'Mark ' + v.item.subject + ' complete'}</span>
-                                    </label>
-                                </div>
+                            <aura:if isTrue="{!v.item.access}">
+                                <aura:if isTrue="{!and(v.item.activityTimelineType == 'Task',not(v.item.isComplete))}">
+                                    <div class="slds-checkbox">
+                                        <input type="checkbox" name="options" onchange="{!c.onDone}" id="{!v.item.recordId}" value="{!v.item.recordId}" />
+                                        <label class="slds-checkbox__label" for="{!v.item.recordId}">
+                                            <span class="slds-checkbox_faux"></span>
+                                            <span class="slds-form-element__label slds-assistive-text">{!'Mark ' + v.item.subject + ' complete'}</span>
+                                        </label>
+                                    </div>
+                                </aura:if>
                             </aura:if>
                             <h3 class="slds-truncate" title="{!v.item.subject}">
                                 <aura:if isTrue="{!v.item.access}">
@@ -129,8 +131,8 @@
                                 </aura:if>
                                 <lightning:formattedDateTime value="{!v.item.activityDate}" day="2-digit" month="short"/>
                             </p>
-                            <!--furqan-->
-                            <aura:if isTrue="{!v.item.activityTimelineType != 'Email'}">
+                            <!--furqan--> 
+                            <aura:if isTrue="{!and(v.item.activityTimelineType != 'Email',v.item.access)}">
                                 <lightning:buttonMenu onselect="{! c.handleMenuClick }" iconSize="x-small"  alternativeText="Show More Action" variant="border">
                                     <lightning:menuItem value="Edit" label="Edit" />
                                 </lightning:buttonMenu>

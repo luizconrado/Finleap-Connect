@@ -29,14 +29,16 @@
             <lightning:spinner alternativeText="Loading" />
         </aura:if>
     </div>
-    <!--View Options-->
-    <div class="slds-section slds-is-open slds-p-top_xx-small slds-p-bottom_x-small" >
-        <div class="slds-button-section__buttons slds-text-align_center slds-m-bottom_x-small slds-is-relative slds-float_right">
-            <lightning:button variant="base" label="Refresh" title="Refresh" onclick="{!c.refreshActivitys}"/>
-            <span> • </span>
-            <lightning:button variant="base" label="{!v.isExpandAll?'Collapse All':'Expand All'}" title="{!v.isExpandAll?'Collapse All':'Expand All'}" onclick="{!c.toggleExpand}"/>
-        </div>
-    </div>
+     <aura:if isTrue="{! !empty(activeSections)}">
+         <!--View Options-->
+         <div class="slds-section slds-is-open slds-p-top_xx-small slds-p-bottom_x-small" >
+             <div class="slds-button-section__buttons slds-text-align_center slds-m-bottom_x-small slds-is-relative slds-float_right">
+                 <lightning:button variant="base" label="Refresh" title="Refresh" onclick="{!c.refreshActivitys}"/>
+                 <span> • </span>
+                 <lightning:button variant="base" label="{!v.isExpandAll?'Collapse All':'Expand All'}" title="{!v.isExpandAll?'Collapse All':'Expand All'}" onclick="{!c.toggleExpand}"/>
+             </div>
+         </div>
+    </aura:if>
     <br/>
     <aura:if isTrue="{!v.loadTimeline}">
         <!-- Task List -->

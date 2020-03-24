@@ -26,6 +26,11 @@ public inherited  sharing class Constant {
         if(OPPORTUNITY_STANDARD_RECORDTYPE_ID == null) OPPORTUNITY_STANDARD_RECORDTYPE_ID=SchemaUtility.getRecordTypeId('Standard_Sales_Opportunity','Opportunity');
         return OPPORTUNITY_STANDARD_RECORDTYPE_ID;
     }}
+    
+    public static final string OPPORTUNITY_GLOBAL_RELATED_FIELDSET{private set;get{
+        if(OPPORTUNITY_GLOBAL_RELATED_FIELDSET==null)OPPORTUNITY_GLOBAL_RELATED_FIELDSET='Global_Related_List_Fields';
+        return OPPORTUNITY_GLOBAL_RELATED_FIELDSET;
+    }}
     //Contact
     public static final string CONTACT_FINLEAP_INVESTMENT_RECORDTYPE_ID{private set;get{
         if(CONTACT_FINLEAP_INVESTMENT_RECORDTYPE_ID == null) CONTACT_FINLEAP_INVESTMENT_RECORDTYPE_ID=SchemaUtility.getRecordTypeId('Finleap_Invesment_Contact','Contact');

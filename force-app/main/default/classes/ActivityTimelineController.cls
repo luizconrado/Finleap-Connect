@@ -1,4 +1,10 @@
-public class ActivityTimelineController {
+public with sharing class ActivityTimelineController {
+    
+    private static WithoutSharing db{set;get{
+        if(db==null)db=new WithoutSharing();
+        return db;
+    }}
+    
     @AuraEnabled
     public static List<ActivityTimelineGroup> getActivityTimeline(Id recordId, Boolean includeChildren) {
         //Find out the Sobject type of the recordId passed
@@ -82,8 +88,7 @@ public class ActivityTimelineController {
         }
         
         return lstActivityGroups;
-    }
-    
+    }    
     
     private static void addTasksAndEmails(List<ActivityTimelineModel> returnList, Id recordId, Set<Id> whatIdSet, Set<Id> whoIdSet) {
         List<Task> taskList = [SELECT Id, ActivityDate, Description, IsRecurrence, OwnerId, Owner.Name, Priority, Status, Subject, 
@@ -91,7 +96,7 @@ public class ActivityTimelineController {
                                	FROM Task
                                	WHERE WhatId IN: whatIdSet OR WhoId IN: whoIdSet
                                		ORDER BY ActivityDate DESC NULLS LAST];
-
+		taskList=db.queryTask(whatIdSet,whoIdSet,taskList);
         
         //generate a map of Task Status to get Closed Status
         Map<String, TaskStatus> mapTaskStatus = new Map<String, TaskStatus>();
@@ -110,8 +115,6 @@ public class ActivityTimelineController {
         for(Task t:taskList){
             taskAndWhatId.put(t.Id,t.WhatId);
         }
-        
-        Map<String,Boolean> accessDetails=Permission.getActitvityAccess(taskAndWhatId);        
          
 
         //generate a map of Email tasks
@@ -126,9 +129,7 @@ public class ActivityTimelineController {
                     mapEmailTasks.put(taskObj.Id, taskObj);
                 } else {
                     ActivityTimelineModel taskItem = new ActivityTimelineModel();
-                    //FURQAN
-                    taskItem.access=true;
-                    if(accessDetails.containsKey(taskObj.Id))	taskItem.access=accessDetails.get(taskObj.Id);  
+                    taskItem.access=false;
                     
                     taskItem.recordId = taskObj.Id;
                     taskItem.sobjectName = String.valueOf(Task.SobjectType);
@@ -173,13 +174,12 @@ public class ActivityTimelineController {
                                                             	FROM EmailMessageRelations)
                                                        	FROM EmailMessage
                                                        	WHERE ActivityId IN: mapEmailTasks.keySet()];
+                lstEmailMessages=db.queryEmail(mapEmailTasks.keySet(),lstEmailMessages);
                 For(EmailMessage emailMsg : lstEmailMessages){
                     Task taskObj = mapEmailTasks.get(emailMsg.ActivityId);
 
                     ActivityTimelineModel emailItem = new ActivityTimelineModel();
-                    //FURQAN
-                    emailItem.access=true;
-                    if(accessDetails.containsKey(emailMsg.ActivityId))	emailItem.access=accessDetails.get(emailMsg.ActivityId);  
+                    emailItem.access=false;
                     emailItem.recordId = emailMsg.Id;
                     emailItem.sobjectName = String.valueOf(EmailMessage.SobjectType);
                     emailItem.activityTimelineType = 'Email';
@@ -221,6 +221,7 @@ public class ActivityTimelineController {
                 }
             }
         }
+        
     }
 
     private static void addEvents(List<ActivityTimelineModel> returnList, Id recordId, Set<Id> whatIdSet, Set<Id> whoIdSet) {
@@ -228,21 +229,18 @@ public class ActivityTimelineController {
                                  		StartDateTime, Subject, Type, WhatId, What.Name, WhoId, Who.Name
                                 	FROM Event
                                 	WHERE WhatId IN: whatIdSet OR WhoId IN: whoIdSet];
-        
+        eventList=db.queryEvent(whatIdSet,whoIdSet,eventList);
         //genrate map of event and whatid
         Map<String,String> eventAndWhatId=new Map<String,String>();
         for(Event e:eventList){
             eventAndWhatId.put(e.Id,e.WhatId);
         }
         
-        Map<String,Boolean> accessDetails=Permission.getActitvityAccess(eventAndWhatId);
         
         if(eventList.size() > 0) {
             for(Event eventObj: eventList) {
                 ActivityTimelineModel eventItem = new ActivityTimelineModel();
-                //FURQAN
-                eventItem.access=true;
-                if(accessDetails.containsKey(eventObj.Id))	eventItem.access=accessDetails.get(eventObj.Id);    
+                eventItem.access=false;
                 eventItem.recordId = eventObj.Id;
                 eventItem.sobjectName = String.valueOf(Event.SobjectType);
                 eventItem.activityTimelineType = 'Event';
@@ -274,6 +272,34 @@ public class ActivityTimelineController {
 
                 returnList.add(eventItem);
             }
+        }
+    }	
+	   
+    private without sharing class WithoutSharing{
+        public List<Task> queryTask(Set<Id> whatIdSet, Set<Id> whoIdSet,List<Task> taskIds){
+            return [SELECT Id, ActivityDate, Description, IsRecurrence, OwnerId, Owner.Name, Priority, Status, Subject, 
+                               				TaskSubtype, Type, WhatId, What.Name, WhoId, Who.Name
+                               	FROM Task
+                               	WHERE (WhatId IN: whatIdSet OR WhoId IN: whoIdSet)
+                    			AND Id NOT IN: taskIds
+                               		ORDER BY ActivityDate DESC NULLS LAST];
+        }
+        public List<Event> queryEvent(Set<Id> whatIdSet, Set<Id> whoIdSet,List<Event> eventIds){
+            return [SELECT Id, ActivityDate, Description, EndDateTime, EventSubtype, IsRecurrence, OwnerId, Owner.Name, 
+                    StartDateTime, Subject, Type, WhatId, What.Name, WhoId, Who.Name
+                    FROM Event
+                    WHERE (WhatId IN: whatIdSet OR WhoId IN: whoIdSet)
+                    AND
+                    Id NOT IN:eventIds
+                   ];
+        }
+        public List<EmailMessage> queryEmail(Set<Id> mapEmailTasks,List<EmailMessage> emailIds){
+            return [SELECT Id, ActivityId, HasAttachment, MessageDate, Status, Subject, TextBody,
+                    (SELECT Id, RelationType, RelationId, Relation.Name, RelationAddress
+                     FROM EmailMessageRelations)
+                    FROM EmailMessage
+                    WHERE ActivityId IN: mapEmailTasks
+                    AND Id NOT IN: emailIds];
         }
     }
     

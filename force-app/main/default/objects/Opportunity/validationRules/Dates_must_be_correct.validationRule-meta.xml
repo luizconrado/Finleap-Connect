@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-	<fullName>Dates_must_be_correct</fullName>
-	<active>true</active>
-	<description>Dates must be within a normal range</description>
-	<errorConditionFormula>IF( Record_Id__c == $CustomMetadata.Constant__mdt.Opp_Standard_Record_Type_Id.Value__c , 
+    <fullName>Dates_must_be_correct</fullName>
+    <active>true</active>
+    <description>Dates must be within a normal range</description>
+    <errorConditionFormula>IF( Record_Id__c == $CustomMetadata.Constant__mdt.Opp_Standard_Record_Type_Id.Value__c , 
 AND(
 
 	NOT(ISPICKVAL(PRIORVALUE(StageName), &quot;Closed Won&quot;)),
@@ -29,6 +29,6 @@ AND(
 )
 , 
 False)</errorConditionFormula>
-	<errorMessage>Please check the dates you are entering.
+    <errorMessage>Please check the dates you are entering.
 Close Date, Revenue Start Date, Contract End Date.</errorMessage>
 </ValidationRule>

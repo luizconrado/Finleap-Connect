@@ -1,5 +1,4 @@
 global class ActivityTimelineModel implements Comparable {
-    //FURQAN
     @AuraEnabled
     public Boolean access {get;set;}
     @AuraEnabled

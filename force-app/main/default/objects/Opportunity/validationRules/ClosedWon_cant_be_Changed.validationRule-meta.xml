@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-	<fullName>ClosedWon_cant_be_Changed</fullName>
-	<active>true</active>
-	<description>Opportunities that are Closed Won cannot be changed anymore</description>
-	<errorConditionFormula>IF( Record_Id__c == $CustomMetadata.Constant__mdt.Opp_Standard_Record_Type_Id.Value__c , 
+    <fullName>ClosedWon_cant_be_Changed</fullName>
+    <active>true</active>
+    <description>Opportunities that are Closed Won cannot be changed anymore</description>
+    <errorConditionFormula>IF( Record_Id__c == $CustomMetadata.Constant__mdt.Opp_Standard_Record_Type_Id.Value__c , 
 AND(
 	NOT(ISCHANGED(StageName)),
 	ISPICKVAL(StageName, &quot;Closed Won&quot;), 
@@ -33,5 +33,5 @@ AND(
 )
 , 
 False)</errorConditionFormula>
-	<errorMessage>Opportunities that are Closed Won cannot be changed anymore</errorMessage>
+    <errorMessage>Opportunities that are Closed Won cannot be changed anymore</errorMessage>
 </ValidationRule>

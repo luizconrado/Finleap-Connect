@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-	<fullName>Oppty_Needs_to_be_Filled_out_Properly</fullName>
-	<active>true</active>
-	<errorConditionFormula>IF( Record_Id__c == $CustomMetadata.Constant__mdt.Opp_Standard_Record_Type_Id.Value__c ,
+    <fullName>Oppty_Needs_to_be_Filled_out_Properly</fullName>
+    <active>true</active>
+    <errorConditionFormula>IF( Record_Id__c == $CustomMetadata.Constant__mdt.Opp_Standard_Record_Type_Id.Value__c ,
 AND(
     NOT(
 	    OR(
@@ -28,6 +28,6 @@ AND(
 )
 , 
 False)</errorConditionFormula>
-	<errorMessage>Please make sure these fields are properly filled out:
+    <errorMessage>Please make sure these fields are properly filled out:
 Finleap Company, Product Vertical, Product, Type, Target Countries, Use Case Description, Revenue Start Date, MRR, OTR</errorMessage>
 </ValidationRule>

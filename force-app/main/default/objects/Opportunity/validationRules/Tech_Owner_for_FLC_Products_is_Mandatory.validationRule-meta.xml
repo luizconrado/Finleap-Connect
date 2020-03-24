@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-	<fullName>Tech_Owner_for_FLC_Products_is_Mandatory</fullName>
-	<active>false</active>
-	<description>For the Vertical or Product(s) chosen, a Tech Owner is Mandatory.
+    <fullName>Tech_Owner_for_FLC_Products_is_Mandatory</fullName>
+    <active>false</active>
+    <description>For the Vertical or Product(s) chosen, a Tech Owner is Mandatory.
 The Tech Owner also needs to update the Tech Stage and Tech Status.</description>
-	<errorConditionFormula>IF( Record_Id__c == $CustomMetadata.Constant__mdt.Opp_Standard_Record_Type_Id.Value__c , 
+    <errorConditionFormula>IF( Record_Id__c == $CustomMetadata.Constant__mdt.Opp_Standard_Record_Type_Id.Value__c , 
 AND(
     NOT(
 	    OR(
@@ -43,6 +43,6 @@ AND(
 )
 , 
 False)</errorConditionFormula>
-	<errorMessage>For the Vertical or Product(s) chosen, a Tech Owner is Mandatory.
+    <errorMessage>For the Vertical or Product(s) chosen, a Tech Owner is Mandatory.
 The Tech Owner also needs to update the Tech Stage and Tech Status.</errorMessage>
 </ValidationRule>
