@@ -21,19 +21,28 @@ public with sharing class ActivityTimelineController {
         }
         
         //Process Other 'Child' Objects
-        if(sobjType == Schema.Account.SObjectType || sobjType == Schema.Contact.SObjectType){
+        if(includeChildren){
             //Process Accounts
-            if(includeChildren) {
+            if(sobjType == Schema.Account.SObjectType) {
                 //Contacts
                 Map<Id, Contact> mapDirectContacts = new Map<Id, Contact>([SELECT Id FROM Contact WHERE AccountId =: recordId]);
                 whoIdSet.addAll(mapDirectContacts.keySet());
                 
                 //Opportunities
-                Map<Id, Opportunity> mapDirectOpportunities = new Map<Id, Opportunity>([SELECT Id FROM Opportunity WHERE AccountId =: recordId]);
+                List<Opportunity> opps=[SELECT Id FROM Opportunity WHERE AccountId =: recordId];
+                Map<Id, Opportunity> mapDirectOpportunities = new Map<Id, Opportunity>(db.queryOpportunity(recordId,opps));
                 whatIdSet.addAll(mapDirectOpportunities.keySet());
 
                 //Cases
                 Map<Id, Case> mapDirectCases = new Map<Id, Case>([SELECT Id FROM Case WHERE AccountId =: recordId]);
+                whatIdSet.addAll(mapDirectCases.keySet());
+            }
+            
+            if(sobjType == Schema.Contact.SObjectType){
+                List<OpportunityContactRole> oppContactRoleList=[SELECT Id, OpportunityId, ContactId FROM OpportunityContactRole WHERE ContactId=:recordId];
+                whatIdSet.addAll(db.queryOpportunityFromContactRole(recordId,oppContactRoleList));
+                
+                Map<Id, Case> mapDirectCases = new Map<Id, Case>([SELECT Id FROM Case WHERE ContactId =: recordId]);
                 whatIdSet.addAll(mapDirectCases.keySet());
             }
         }
@@ -96,8 +105,9 @@ public with sharing class ActivityTimelineController {
                                	FROM Task
                                	WHERE WhatId IN: whatIdSet OR WhoId IN: whoIdSet
                                		ORDER BY ActivityDate DESC NULLS LAST];
+        System.debug('KING 1 => '+taskList.size());
 		taskList=db.queryTask(whatIdSet,whoIdSet,taskList);
-        
+        System.debug('KING 2 => '+taskList.size());
         //generate a map of Task Status to get Closed Status
         Map<String, TaskStatus> mapTaskStatus = new Map<String, TaskStatus>();
 		for(TaskStatus ts: [SELECT MasterLabel, IsClosed FROM TaskStatus]){
@@ -192,6 +202,7 @@ public with sharing class ActivityTimelineController {
                     For(EmailMessageRelation relationObj : emailMsg.EmailMessageRelations){
                         //Assigned To
                         if(relationObj.RelationType == 'FromAddress'){
+                            
                             if(String.isNotEmpty(relationObj.relationId)){
                                 emailItem.assignedTo = new ActivityTimelineModel.RecordReference(relationObj.relationId, relationObj.Relation.Name);
                             } else {
@@ -300,6 +311,16 @@ public with sharing class ActivityTimelineController {
                     FROM EmailMessage
                     WHERE ActivityId IN: mapEmailTasks
                     AND Id NOT IN: emailIds];
+        }
+        public List<Opportunity> queryOpportunity(Id accountId,List<Opportunity> oppList){
+            return [SELECT Id FROM Opportunity WHERE AccountId =: accountId AND Id NOT IN:oppList];
+        }
+        public Set<Id> queryOpportunityFromContactRole(Id recordId,List<OpportunityContactRole> oppContactRoleList){
+            Set<Id> oppSetId=new Set<Id>();
+            for(OpportunityContactRole ocr:[SELECT Id, OpportunityId, ContactId FROM OpportunityContactRole WHERE ContactId=:recordId AND id NOT IN:oppContactRoleList]){
+                oppSetId.add(ocr.OpportunityId);
+            }
+            return oppSetId;
         }
     }
     

@@ -1,4 +1,4 @@
-public with sharing class RelatedOpportunitysController {
+public with sharing class RelatedOpportunityController {
     private static WithoutSharing db{set;get{
         if(db==null) db=new WithoutSharing();
         return db;
@@ -12,22 +12,7 @@ public with sharing class RelatedOpportunitysController {
         String query='SELECT Id,';
         for(FieldSet fd:fieldDetails){
             if(fd.fieldType=='REFERENCE' || fd.fieldType=='reference' ){
-                if(fd.fieldAPIName=='AccountId'){
-                    query+='Account.Name,';
-                }
-                if(fd.fieldAPIName=='CampaignId'){
-                    query+='Campaign.Name,';
-                }
-                if(fd.fieldAPIName=='ContractId'){
-                    query+='Contract.Name,';
-                }
-                if(fd.fieldAPIName=='OwnerId'){
-                    query+='Owner.Name,';
-                }
-                if(fd.fieldAPIName.contains('__c')){
-                    List<String> temp=fd.fieldAPIName.split('__c');
-                    query+=temp[0]+'__r.Name,';
-                }
+                query+=(fd.fieldAPIName.contains('__c'))?fd.fieldAPIName.substringBefore('Id')+'__r.Name,':fd.fieldAPIName.substringBefore('Id')+'.Name,';
             }
              query+=fd.fieldAPIName+',';
         }
@@ -42,7 +27,6 @@ public with sharing class RelatedOpportunitysController {
             oppList=db.queryOpportunity(recordId,oppList,query);
         }
         if(ObjectName=='Contact'){
-            
             List<OpportunityContactRole> oppContactRoleList=[SELECT Id, OpportunityId, ContactId FROM OpportunityContactRole WHERE ContactId=:recordId];
             oppList=db.queryOpportunityFromContactRole(recordId,oppContactRoleList,query);
         }
@@ -58,7 +42,7 @@ public with sharing class RelatedOpportunitysController {
         }
         public List<Opportunity> queryOpportunityFromContactRole(String recordId,List<OpportunityContactRole> oppContactRoleList,String query){
             List<String> oppListId=new List<String>();
-            for(OpportunityContactRole ocr:[SELECT Id, OpportunityId, ContactId FROM OpportunityContactRole WHERE ContactId=:recordId/* AND id NOT IN:oppContactRoleList*/]){
+            for(OpportunityContactRole ocr:[SELECT Id, OpportunityId, ContactId FROM OpportunityContactRole WHERE ContactId=:recordId AND id NOT IN:oppContactRoleList]){
                 oppListId.add(ocr.OpportunityId);
             }
             query+='  Id IN: oppListId ';

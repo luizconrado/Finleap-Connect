@@ -1,27 +1,28 @@
-<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName" Controller="RelatedOpportunitysController" access="global" >
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName"
+    Controller="RelatedOpportunityController" access="global">
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
-    <aura:handler event="aura:waiting" action="{!c.showSpinner}"/>
-    <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}"/>
-    
+    <aura:handler event="aura:waiting" action="{!c.showSpinner}" />
+    <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}" />
+
     <!--data attribute-->
     <aura:attribute name="opportunityList" access="Private" type="List" />
     <aura:attribute name="opportunityFieldsList" access="Private" type="List" />
-    
-    
-    
-    <aura:attribute name="isLoading" type="boolean" default="false"/>
-    <aura:attribute name="isView" type="boolean" default="false"/>
-    <aura:attribute name="isViewAll" type="boolean" default="false"/>
-    
+
+
+
+    <aura:attribute name="isLoading" type="boolean" default="false" />
+    <aura:attribute name="isView" type="boolean" default="false" />
+    <aura:attribute name="isViewAll" type="boolean" default="false" />
+
     <!--popup attributes-->
     <aura:attribute name="formView" type="Aura.Component[]" />
     <aura:attribute name="viewAllData" type="List" />
     <aura:attribute name="viewListData" access="Private" type="List" />
 
-    
+
     <aura:attribute name="header" access="Private" type="Object" />
     <aura:if isTrue="{!v.isView}">
-        <c:Modal header="{!v.header}" open="{!v.isView}" >
+        <c:Modal header="{!v.header}" open="{!v.isView}">
             <div class="slds-form form-horizontal" role="list">
                 <div class="slds-form__row  slds-p-around_medium">
                     {!v.formView}
@@ -30,40 +31,49 @@
         </c:Modal>
     </aura:if>
     <aura:if isTrue="{!v.isViewAll}">
-        <c:Modal header="All Opportunity" open="{!v.isViewAll}" >
-            
+        <c:Modal header="All Opportunity" open="{!v.isViewAll}">
+
             <aura:iteration items="{!v.viewAllData}" var="opp">
                 <article class="slds-box  slds-p-horizontal_medium slds-p-vertical_xx-small  slds-tile">
-                    <h3 class="slds-tile__title slds-truncate" id="{!opp.Id}" onclick="{!c.openOppPopUp}" title="{!opp.Name}">
+                    <h3 class="slds-tile__title slds-truncate" id="{!opp.Id}" onclick="{!c.openOppPopUp}"
+                        title="{!opp.Name}">
                         <a href="javascript:void(0);">{!opp.header}</a>
                     </h3>
                     <div class="slds-tile__detail">
                         <dl class="slds-list_horizontal slds-wrap">
-                            <dt class="slds-item_label slds-text-color_weak slds-truncate" title="{!opp.field1Label}">{!opp.field1Label}</dt>
-                            <dd class="slds-item_detail slds-truncate" title="{!opp.field1Value}">{!opp.field1Value}</dd>
-                            <dt class="slds-item_label slds-text-color_weak slds-truncate" title="{!opp.field2Label}">{!opp.field2Label}</dt>
-                            <dd class="slds-item_detail slds-truncate" title="{!opp.field2Value}">{!opp.field2Value}</dd>
-                            <dt class="slds-item_label slds-text-color_weak slds-truncate" title="{!opp.field3Label}">{!opp.field3Label}</dt>
-                            <dd class="slds-item_detail slds-truncate" title="{!opp.field3Value}">{!opp.field3Value}</dd>
+                            <dt class="slds-item_label slds-text-color_weak slds-truncate" title="{!opp.field1Label}">
+                                {!opp.field1Label}</dt>
+                            <dd class="slds-item_detail slds-truncate" title="{!opp.field1Value}">{!opp.field1Value}
+                            </dd>
+                            <dt class="slds-item_label slds-text-color_weak slds-truncate" title="{!opp.field2Label}">
+                                {!opp.field2Label}</dt>
+                            <dd class="slds-item_detail slds-truncate" title="{!opp.field2Value}">{!opp.field2Value}
+                            </dd>
+                            <dt class="slds-item_label slds-text-color_weak slds-truncate" title="{!opp.field3Label}">
+                                {!opp.field3Label}</dt>
+                            <dd class="slds-item_detail slds-truncate" title="{!opp.field3Value}">{!opp.field3Value}
+                            </dd>
                         </dl>
                     </div>
                 </article>
             </aura:iteration>
         </c:Modal>
     </aura:if>
-    
+
     <article class="slds-card_boundary">
-        <div class="slds-grid slds-page-header" >
-            <header class="slds-media slds-media--center slds-has-flexi-truncate" >
+        <div class="slds-grid slds-page-header">
+            <header class="slds-media slds-media--center slds-has-flexi-truncate">
                 <div class="slds-media__figure stencil slds-avatar slds-avatar_small">
-                    <lightning:icon iconName="standard:opportunity" size="small"/>
+                    <lightning:icon iconName="standard:opportunity" size="small" />
                 </div>
                 <div class="slds-media__body slds-card__header-title header-title">
                     <h2>
-                        <span lass="slds-card__header-title slds-truncate slds-m-right--xx-small" title="Global Opportunities">
+                        <span lass="slds-card__header-title slds-truncate slds-m-right--xx-small"
+                            title="Global Opportunities">
                             Global Opportunities
                         </span>
-                        <span class="slds-card__header-title slds-shrink-none slds-m-right--xx-small" title="{!v.opportunityList.length}">
+                        <span class="slds-card__header-title slds-shrink-none slds-m-right--xx-small"
+                            title="{!v.opportunityList.length}">
                             ({!v.opportunityList.length})
                         </span>
                     </h2>
@@ -79,17 +89,24 @@
             <aura:iteration items="{!v.viewListData}" var="opp">
                 <div style="width:30rem">
                     <article class="slds-p-horizontal_medium slds-p-vertical_xx-small  slds-tile">
-                        <h3 class="slds-tile__title slds-truncate" id="{!opp.Id}" onclick="{!c.openOppPopUp}" title="{!opp.Name}">
+                        <h3 class="slds-tile__title slds-truncate" id="{!opp.Id}" onclick="{!c.openOppPopUp}"
+                            title="{!opp.Name}">
                             <a href="javascript:void(0);">{!opp.header}</a>
                         </h3>
                         <div class="slds-tile__detail">
                             <dl class="slds-list_horizontal slds-wrap">
-                                <dt class="slds-item_label slds-text-color_weak slds-truncate" title="{!opp.field1Label}">{!opp.field1Label}</dt>
-                                <dd class="slds-item_detail slds-truncate" title="{!opp.field1Value}">{!opp.field1Value}</dd>
-                                <dt class="slds-item_label slds-text-color_weak slds-truncate" title="{!opp.field2Label}">{!opp.field2Label}</dt>
-                                <dd class="slds-item_detail slds-truncate" title="{!opp.field2Value}">{!opp.field2Value}</dd>
-                                <dt class="slds-item_label slds-text-color_weak slds-truncate" title="{!opp.field3Label}">{!opp.field3Label}</dt>
-                                <dd class="slds-item_detail slds-truncate" title="{!opp.field3Value}">{!opp.field3Value}</dd>
+                                <dt class="slds-item_label slds-text-color_weak slds-truncate"
+                                    title="{!opp.field1Label}">{!opp.field1Label}</dt>
+                                <dd class="slds-item_detail slds-truncate" title="{!opp.field1Value}">{!opp.field1Value}
+                                </dd>
+                                <dt class="slds-item_label slds-text-color_weak slds-truncate"
+                                    title="{!opp.field2Label}">{!opp.field2Label}</dt>
+                                <dd class="slds-item_detail slds-truncate" title="{!opp.field2Value}">{!opp.field2Value}
+                                </dd>
+                                <dt class="slds-item_label slds-text-color_weak slds-truncate"
+                                    title="{!opp.field3Label}">{!opp.field3Label}</dt>
+                                <dd class="slds-item_detail slds-truncate" title="{!opp.field3Value}">{!opp.field3Value}
+                                </dd>
                             </dl>
                         </div>
                     </article>
@@ -104,6 +121,6 @@
             </footer>
         </aura:if>
     </article>
-    
-    
+
+
 </aura:component>

@@ -1,41 +1,35 @@
 public class TestDataFactory {
     
     //Generator
-    public static User getFinleapUser(Final Boolean isInsert){
-        return getUser(Constant.FINLEAP_PROFILE_ID,isInsert);
- 	}
-    
+   
     public static Account getStandardAccount(Final Boolean isInsert){
         return getAccount(Constant.ACCOUNT_STANDARD_RECORDTYPE_ID,isInsert);
     }
-    
     public static Contact getStandardContact(Final String accountId,Final Boolean isInsert){
         return getContact(Constant.CONTACT_STANDARD_RECORDTYPE_ID,accountId,isInsert);
     }
-    public static Contact getInvestmentContact(Final String accountId,Final Boolean isInsert){
-        return getContact(Constant.CONTACT_FINLEAP_INVESTMENT_RECORDTYPE_ID,accountId,isInsert);
+    public static Opportunity getFinleapInvestmentOpportunity(Final String accountId,Final Boolean isInsert){
+        return getOpportunity(Constant.OPPORTUNITY_INVESTMENT_IN_FINLEAP_RECORDTYPE_ID,accountId,isInsert);
     }
-    
-    public static Opportunity getInvestmentOpportunity(Final String accountId,Final Boolean isInsert){
-        return getOpportunity(Constant.OPPORTUNITY_FINLEAP_INVESTMENT_RECORDTYPE_ID,accountId,isInsert);
-    }
-    
-    public static Task getInvestmentTask(Final String opportunityId,Final String contactId,Final Boolean isInsert){
-        return getTask(Constant.TASK_FINLEAP_INVESTMENT_RECORDTYPE_ID,opportunityId,contactId,isInsert);
-    }
-     public static Task getStandardTask(Final String opportunityId,Final String contactId,Final Boolean isInsert){
+    /*
+    public static Task getStandardTask(Final String opportunityId,Final String contactId,Final Boolean isInsert){
         return getTask(Constant.TASK_STANDARD_RECORDTYPE_ID,opportunityId,contactId,isInsert);
     }
     public static Event getStandardEvent(Final String opportunityId,Final String contactId,Final Boolean isInsert){
         return getEvent(Constant.EVENT_STANDARD_RECORDTYPE_ID,opportunityId,contactId,isInsert);
     }
-    public static Event getInvestmentEvent(Final String opportunityId,Final String contactId,Final Boolean isInsert){
-        return getEvent(Constant.EVENT_INVESTMENT_RECORDTYPE_ID,opportunityId,contactId,isInsert);
+*/
+    public static User getCommunicationsUser(Final Boolean isInsert){
+        return getUser(Constant.COMMUNICATION_PROFILE_ID,isInsert);
     }
-    
+    /*
     public static void addAccessAllPermissionSet(Final String userId){
         insert new PermissionSetAssignment(PermissionSetId=getAccessAllPermissionSet().Id,AssigneeId=userId);
 	}
+*/
+    public static void addOpportunityToContact(String oppId,String contactId){
+        getOpportunityContactRole(contactId,oppId,true);
+    }
     
     //Helpers
     private static User getUser(final Id profileId,Final Boolean isInsert) {
@@ -92,7 +86,16 @@ public class TestDataFactory {
         if(isInsert) insert opp;
         return opp;
     }
-    
+    private static OpportunityContactRole getOpportunityContactRole(String contactId,String oppId,Boolean isInsert){
+        OpportunityContactRole ocr = new OpportunityContactRole();
+        ocr.ContactId = contactId;
+        ocr.OpportunityId = oppId;
+        ocr.IsPrimary = TRUE;
+        ocr.Role = 'Decision Maker';
+       	if(isInsert) insert ocr;
+        return ocr;
+    }
+    /*
     private static Task getTask(Final String recordTypeId,Final String whatId,Final String whoId,Final Boolean isInsert){
         Task t=new Task();
         t.Subject=Randomutility.getString(8);
@@ -147,5 +150,5 @@ public class TestDataFactory {
         insert op;
         return ps;
     }
-    
+    */
 }
