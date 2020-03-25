@@ -5,7 +5,7 @@ public with sharing class RelatedOpportunityController {
     }}
     
     @AuraEnabled
-    Public static Map<String,List<Object>> getHiddenOpportunitys(String recordId,String ObjectName){
+    Public static Map<String,List<Object>> getHiddenOpportunitys(String recordId,String objectName){
         Map<String,List<Object>> returnValue=new Map<String,List<Object>>();
         FieldSet[] fieldDetails=SchemaUtility.getFieldSetMembers('Opportunity',Constant.OPPORTUNITY_GLOBAL_RELATED_FIELDSET);
         returnValue.put('fields',fieldDetails);
@@ -26,7 +26,7 @@ public with sharing class RelatedOpportunityController {
             oppList=Database.query(query);
             oppList=db.queryOpportunity(recordId,oppList,query);
         }
-        if(ObjectName=='Contact'){
+        if(objectName=='Contact'){
             List<OpportunityContactRole> oppContactRoleList=[SELECT Id, OpportunityId, ContactId FROM OpportunityContactRole WHERE ContactId=:recordId];
             oppList=db.queryOpportunityFromContactRole(recordId,oppContactRoleList,query);
         }

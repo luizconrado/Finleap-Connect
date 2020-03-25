@@ -3,22 +3,18 @@
 		helper.getOpportunitys(component);
 	},
     showSpinner : function(component, event, helper) {
-        //component.set("v.isLoading", true); 
+        component.set("v.isLoading", true); 
     },
     
     hideSpinner : function(component, event, helper) {
-        //component.set("v.isLoading", false); 
+        component.set("v.isLoading", false); 
     },
     openOppPopUp: function(component, event, helper) {
         let id=event.currentTarget.id;
         let oppList=component.get('v.opportunityList');
         const oppData=oppList.filter(o=>o.Id===id)[0];
-        
-        
-        
         helper.createView(component,oppData);
         
-        //component.set('v.Opportunity', );
         component.set('v.isViewAll',false);
         component.set('v.isView',true);
         

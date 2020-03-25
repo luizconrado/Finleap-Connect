@@ -15,7 +15,7 @@
         // set method paramaters
         action.setParams({
             "recordId" : component.get("v.recordId"),
-            "ObjectName": component.get("v.sObjectName")
+            "objectName": component.get("v.sObjectName")
         });
         
         
@@ -59,8 +59,7 @@
         component.set('v.header',oppDetails[fields[0].fieldAPIName]);
         $A.createComponents(formFileds,function(components, status, errorMessage){
             if (status === "SUCCESS") {
-               
-                component.set('v.formView',components);
+                component.set('v.viewRecordData',components);
             }
         });        
     },

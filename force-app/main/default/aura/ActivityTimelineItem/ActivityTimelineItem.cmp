@@ -90,7 +90,6 @@
                             </aura:if>
                             <h3 class="slds-truncate" title="{!v.item.subject}">
                                 <aura:if isTrue="{!v.item.access}">
-                                    <!-- FURQAN -->
                                     <a class="pq--link pq--link-no-border" href="{!'/lightning/r/' + v.item.sobjectName + '/' + v.item.recordId + '/view'}">
                                         <strong>{!v.item.subject}</strong>
                                     </a>
@@ -131,7 +130,6 @@
                                 </aura:if>
                                 <lightning:formattedDateTime value="{!v.item.activityDate}" day="2-digit" month="short"/>
                             </p>
-                            <!--furqan--> 
                             <aura:if isTrue="{!and(v.item.activityTimelineType != 'Email',v.item.access)}">
                                 <lightning:buttonMenu onselect="{! c.handleMenuClick }" iconSize="x-small"  alternativeText="Show More Action" variant="border">
                                     <lightning:menuItem value="Edit" label="Edit" />
@@ -292,12 +290,11 @@
                                 </div>
                             </div>
                             <aura:set attribute="else">
-                                 <!-- FURQAN -->
                                 <div>
                                     <span class="slds-text-title">Description</span>
                                     <div class="tenLinesScroll">
                                         <p class="slds-p-top_x-small">
-                                        	Insufficient privileges to view details.
+                                        	{!$Label.c.Insufficient_Access_Text}
                                         </p>
                                     </div>
                                 </div>

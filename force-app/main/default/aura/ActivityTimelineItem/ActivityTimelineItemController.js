@@ -8,7 +8,6 @@
         if(actionItem==='Edit'){
         	component.set('v.isEdit',true);    
         }
-		//const item=component.get('v.item');
         
     },
     closeModel: function(component, event, helper) {
@@ -19,6 +18,5 @@
     },
     onDone:function(component,event,helper){
         let checked=event.srcElement.checked;
-        console.log('checked',checked)
     }
 })

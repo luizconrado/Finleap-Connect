@@ -35,7 +35,7 @@
              <div class="slds-button-section__buttons slds-text-align_center slds-m-bottom_x-small slds-is-relative slds-float_right">
                  <lightning:button variant="base" label="Refresh" title="Refresh" onclick="{!c.refreshActivitys}"/>
                  <span> • </span>
-                 <lightning:button variant="base" label="{!v.isExpandAll?'Collapse All':'Expand All'}" title="{!v.isExpandAll?'Collapse All':'Expand All'}" onclick="{!c.toggleExpand}"/>
+                 <lightning:button variant="base" label="{!v.isExpandAll?$Lable.c.Collapse_Text:$Lable.c.Expand_Text}" title="{!v.isExpandAll?'Collapse All':'Expand All'}" onclick="{!c.toggleExpand}"/>
              </div>
          </div>
     </aura:if>
