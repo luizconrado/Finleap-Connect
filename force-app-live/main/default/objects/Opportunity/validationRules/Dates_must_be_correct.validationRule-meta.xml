@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+	<fullName>Dates_must_be_correct</fullName>
+	<active>true</active>
+	<description>Dates must be within a normal range</description>
+	<errorConditionFormula>AND(
+
+	NOT(ISPICKVAL(PRIORVALUE(StageName), &quot;Closed Won&quot;)),
+	NOT(ISPICKVAL(StageName, &quot;Cancelled&quot;)),
+	
+	OR(
+		CloseDate &lt; TODAY(),
+		CloseDate &lt;= DATEVALUE(CreatedDate),
+		CloseDate &gt; ADDMONTHS(TODAY(), 12),
+		
+		Revenue_Start_Date__c &lt;= TODAY(),
+		Revenue_Start_Date__c &lt;= DATEVALUE(CreatedDate),
+		Revenue_Start_Date__c &gt; ADDMONTHS(TODAY(), 15),
+		
+		Contract_End_Date__c &lt;= TODAY(),
+		Contract_End_Date__c &lt;= DATEVALUE(CreatedDate),
+		Contract_End_Date__c &gt; ADDMONTHS(TODAY(), 3),
+		
+		CloseDate &gt; Revenue_Start_Date__c
+		
+	),
+	NOT(CONTAINS($Label.Users_Exclusion,$User.Username)),
+	RecordType.DeveloperName =='Finleap_Connect_Standard_Sales'
+)</errorConditionFormula>
+	<errorMessage>Please check the dates you are entering.
+Close Date, Revenue Start Date, Contract End Date.</errorMessage>
+</ValidationRule>
