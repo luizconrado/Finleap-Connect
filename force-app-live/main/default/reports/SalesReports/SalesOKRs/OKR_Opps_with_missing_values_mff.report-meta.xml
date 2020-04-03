@@ -55,6 +55,13 @@
             <operator>equals</operator>
             <value>Simona Schamper,Oleksiy Khoroshko,Anais Cisneros,Claudia Kettmann,Cedric Boy Beeg,Florian Schwabl,Chris Scheuermann,Christian Hegeler</value>
         </criteriaItems>
+        <criteriaItems>
+            <column>RECORDTYPE</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Opportunity.Finleap_Connect_Standard_Sales</value>
+        </criteriaItems>
     </filter>
     <format>Summary</format>
     <groupingsDown>

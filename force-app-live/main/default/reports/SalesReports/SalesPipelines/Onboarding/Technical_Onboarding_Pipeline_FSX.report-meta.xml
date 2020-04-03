@@ -99,6 +99,13 @@
             <operator>notEqual</operator>
             <value/>
         </criteriaItems>
+        <criteriaItems>
+            <column>RECORDTYPE</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Opportunity.Finleap_Connect_Standard_Sales</value>
+        </criteriaItems>
     </filter>
     <format>Tabular</format>
     <name>Technical Onboarding Pipeline</name>
