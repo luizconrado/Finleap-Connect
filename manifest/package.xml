@@ -156,5 +156,25 @@
     <members>Finleap_Portfolio_Management</members>
     <members>World</members>
   </types>
+  <types>
+    <name>SharingRules</name>
+    <members>Opportunity</members>
+  </types>
+  <types>
+    <name>SharingOwnerRule</name>
+    <members>*</members>
+  </types>
+  <types>
+    <name>SharingCriteriaRule</name>
+    <members>*</members>
+  </types>
+  <types>
+    <name>SharingGuestRule</name>
+    <members>*</members>
+  </types>
+  <types>
+    <name>SharingTerritoryRule</name>
+    <members>*</members>
+  </types>
   <version>48.0</version>
 </Package>
