@@ -1,0 +1,25 @@
+<aura:component >
+    <aura:attribute name="label" type="String"/>
+    <aura:attribute name="value" type="String"/>
+    <aura:attribute name="isDate" type="Boolean" default="false"/>
+    <div class="slds-size_1-of-2 slds-max-small-size_1-of-1">
+        <div class="slds-form__item" role="listitem">
+            
+            <div class="slds-form-element slds-form-element_stacked slds-form-element_readonly">
+                <span class="slds-form-element__label">{!v.label}</span>
+                <div class="slds-form-element__control">
+                    <div class="slds-form-element__static">
+                        <aura:if isTrue="{!v.isDate}">
+                            <lightning:formattedDateTime value="{!v.value}" year="2-digit" month="short" day="2-digit" weekday="long"/> | 
+                            <aura:set attribute="else">
+                                {!v.value}
+                            </aura:set>
+                        </aura:if>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>
