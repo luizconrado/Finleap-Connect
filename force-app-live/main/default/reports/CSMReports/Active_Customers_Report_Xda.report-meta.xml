@@ -37,7 +37,7 @@
         <field>AMOUNT</field>
     </columns>
     <filter>
-        <booleanFilter>(1 OR (2 AND 3)) AND 4</booleanFilter>
+        <booleanFilter>((1 OR (2 AND 3)) AND 4) AND 5</booleanFilter>
         <criteriaItems>
             <column>STAGE_NAME</column>
             <isUnlocked>true</isUnlocked>

@@ -47,7 +47,7 @@
         <field>EXP_AMOUNT</field>
     </columns>
     <filter>
-        <booleanFilter>1 AND 2 AND (3 OR 4) AND 5</booleanFilter>
+        <booleanFilter>1 AND 2 AND (3 OR 4) AND 5 AND 6</booleanFilter>
         <criteriaItems>
             <column>User.Finleap_Country__c</column>
             <isUnlocked>true</isUnlocked>

@@ -63,7 +63,7 @@
         <field>ACCOUNT_NAME</field>
     </columns>
     <filter>
-        <booleanFilter>1 OR 2</booleanFilter>
+        <booleanFilter>(1 OR 2) AND 3</booleanFilter>
         <criteriaItems>
             <column>WON</column>
             <isUnlocked>false</isUnlocked>

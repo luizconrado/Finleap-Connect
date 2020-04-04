@@ -17,7 +17,7 @@
         <field>CLOSE_DATE</field>
     </columns>
     <filter>
-        <booleanFilter>1 OR 2</booleanFilter>
+        <booleanFilter>(1 OR 2) AND 3</booleanFilter>
         <criteriaItems>
             <column>CLOSE_DATE2</column>
             <isUnlocked>true</isUnlocked>
