@@ -7,7 +7,8 @@
             "includeChildren": component.get("v.includeChildren")
         });
         action.setCallback(this, function(response){
-            if (response.getState() === "SUCCESS") {
+            const status=response.getState() ;
+            if (status=== "SUCCESS") {
                 var timelineGroups = response.getReturnValue();
                 var activeSections = [];
                 timelineGroups.forEach(function(timelineGroup, index){
@@ -23,11 +24,10 @@
                 
                 component.set("v.activeSections", activeSections);
                 component.set("v.timelineGroups", timelineGroups);
-                component.set("v.isLoading", false);
+               
                 component.set('v.loadTimeline',true);
-                
-                
             }
+            component.set("v.isLoading", false);
         });
         
         $A.enqueueAction(action);

@@ -26,8 +26,10 @@
         <c:Modal isLarge="true" header="{!v.header}" open="{!v.isView}" >
             <lightning:accordion aura:id="accordion" activeSectionName="A">
                 <lightning:accordionSection name="A" label="Opportunity Information">
-                    <div class="slds-grid slds-wrap ">
+                    <div class="slds-form" role="list">
                         {!v.viewRecordData}
+                    </div>
+                    <div class="slds-grid slds-wrap ">
                     </div>
                 </lightning:accordionSection>
                 <div class="slds-notify_container slds-is-relative">

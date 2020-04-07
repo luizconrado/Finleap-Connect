@@ -84,7 +84,7 @@ private class ActivityTimelineControllerTest {
             }
             //System.debug('testActivitiesForContacts '+lstActivities.size());
 
-            System.assertEquals(TASK_COUNT + CALL_COUNT + EVENT_COUNT+EMAIL_COUNT, lstActivities.size());
+            System.assertEquals(TASK_COUNT + CALL_COUNT + EVENT_COUNT, lstActivities.size());
             
             Test.stopTest();
         }

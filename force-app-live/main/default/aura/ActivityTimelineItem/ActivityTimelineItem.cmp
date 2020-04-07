@@ -124,22 +124,26 @@
                                 </div>
                             </aura:if>
                         </div>
+                        
                         <div class="slds-timeline__actions slds-timeline__actions_inline">
-                            <p class="{!v.item.isOverdue ? 'slds-timeline__date slds-text-color_error' : 'slds-timeline__date'}">
-                                <aura:if isTrue="{!and(v.item.activityTimelineType != 'Task', v.item.activityTimelineType != 'Call')}">
-                                    <lightning:formattedDateTime value="{!v.item.activityDate}" hour="2-digit" minute="2-digit" hour12="false"/> | 
-                                </aura:if>
-                                <lightning:formattedDateTime value="{!v.item.activityDate}" day="2-digit" month="short"/>
-                            </p>
+                            <aura:if isTrue="{!v.item.activityDate!=v.item.createdDate}">
+                                <p class="{!v.item.isOverdue ? 'slds-timeline__date slds-text-color_error' : 'slds-timeline__date'}">
+                                    <aura:if isTrue="{!and(v.item.activityTimelineType != 'Task', v.item.activityTimelineType != 'Call')}">
+                                        <lightning:formattedDateTime value="{!v.item.activityDate}" hour="2-digit" minute="2-digit" hour12="false"/> | 
+                                    </aura:if>
+                                    <lightning:formattedDateTime value="{!v.item.activityDate}" day="2-digit" month="short"/>
+                                </p>
+                                <aura:set attribute="else">
+                                    No due date&nbsp;
+                                </aura:set>
+                            </aura:if>
                             <aura:if isTrue="{!and(v.item.activityTimelineType != 'Email',v.item.access)}">
                                 <lightning:buttonMenu onselect="{! c.handleMenuClick }" iconSize="x-small"  alternativeText="Show More Action" variant="border">
                                     <lightning:menuItem value="Edit" label="Edit" />
                                 </lightning:buttonMenu>
                             </aura:if>
                         </div>
-                        
                     </div>
-
                     <p class="slds-m-horizontal_xx-small">
                         <!-- Assigned To | Sender -->
                         <aura:if isTrue="{!v.item.assignedTo}">
@@ -157,7 +161,6 @@
                                 </a>
                             </aura:set>
                         </aura:if>
-                        
                         <!-- Tense -->
                         <aura:if isTrue="{!v.item.isComplete}">
                             <!-- Past Tense -->

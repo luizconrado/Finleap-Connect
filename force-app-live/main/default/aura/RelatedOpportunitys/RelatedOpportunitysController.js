@@ -14,6 +14,7 @@
         let oppList=component.get('v.opportunityList');
         const oppData=oppList.filter(o=>o.Id===id)[0];
         if(!oppData.access){
+            component.set('v.viewRecordData',[]);
         	helper.createView(component,oppData);  
             component.set('v.isView',true);
         }

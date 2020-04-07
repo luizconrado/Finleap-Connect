@@ -23,15 +23,15 @@
                 const privateOpp=data.Private;
                 let allOpp=[];
                 //Adding access to records
-                allOpp.push(...globalOpp.map(o=>{
-                            o.access=true;
-                            return o;
-                            }))
-                allOpp.push(...privateOpp.map(o=>{
-                            o.access=false;
-                            if(o.Name) o.Name=o.Limited_Access_Name__c;
-                            return o;
-                            }));
+                allOpp.push(...globalOpp.map(function(o){
+                    o.access=true;
+                    return o;
+                }))
+                allOpp.push(...privateOpp.map(function(o){
+                    o.access=false;
+                    if(o.Name) o.Name=o.Limited_Access_Name__c;
+                    return o;
+                }));
               	
                 component.set('v.viewListData',_self.getViewList(fieldDataList,allOpp,3))
                 //Orignal Data 
@@ -57,20 +57,37 @@
         let _self=this;
         const fields=component.get('v.opportunityFieldsList');
         let formFileds=[];
-        fields.forEach(function(field){
-            let element=JSON.parse(JSON.stringify(_self.configMap["string"]));
-            let [fieldName,fieldValue]=_self.parseRecord(oppDetails,field);
-            element.attributes.label = fieldName;
-            element.attributes.value = fieldValue;
-            formFileds.push([element.componentDef,element.attributes]);   
-        });
+        let i=0,j=fields.length;
+        while(i<j){
+            formFileds.push(_self.createElement(oppDetails,fields[i],fields[i+1])); 
+            i=i+2;
+        }
+       
         let [fieldName,fieldValue]=_self.parseRecord(oppDetails,fields[0]);
         component.set('v.header',fieldValue);
-        $A.createComponents(formFileds,function(components, status, errorMessage){
+        _self.createComponent(component,formFileds)
+    },
+    createElement:function(record,field,field2){
+        const element=JSON.parse(JSON.stringify(this.configMap["string"]));
+        let [fieldName,fieldValue]=this.parseRecord(record,field);
+        
+        element.attributes.label1 = fieldName;
+        element.attributes.value1 = fieldValue;
+        if(field2){
+            let [fieldName2,fieldValue2]=this.parseRecord(record,field2);   
+            element.attributes.label2 = fieldName2;
+            element.attributes.value2 = fieldValue2;
+        }
+         
+        return [element.componentDef,element.attributes];
+    },
+    createComponent:function(component,form){
+         $A.createComponents(form,function(components, status, errorMessage){
             if (status === "SUCCESS") {
+            
                 component.set('v.viewRecordData',components);
             }
-        });        
+        });       
     },
     getViewList:function(fields,allOpp,limit){
         let _self=this;
