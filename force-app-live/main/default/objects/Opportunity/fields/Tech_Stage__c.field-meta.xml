@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Tech_Stage__c</fullName>
+    <description>Solution Engineer Tech Stages</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Solution Engineer Tech Stages</inlineHelpText>
+    <label>Tech Stage</label>
+    <required>false</required>
+    <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Awaiting Start</fullName>
+                <default>false</default>
+                <label>Awaiting Start</label>
+            </value>
+            <value>
+                <fullName>Workshop</fullName>
+                <default>false</default>
+                <label>Workshop</label>
+            </value>
+            <value>
+                <fullName>Testing</fullName>
+                <default>false</default>
+                <label>Testing</label>
+            </value>
+            <value>
+                <fullName>PoC</fullName>
+                <default>false</default>
+                <label>PoC</label>
+            </value>
+            <value>
+                <fullName>Integration</fullName>
+                <default>false</default>
+                <label>Integration</label>
+            </value>
+            <value>
+                <fullName>Family &amp; Friends</fullName>
+                <default>false</default>
+                <label>Family &amp; Friends</label>
+            </value>
+            <value>
+                <fullName>Live</fullName>
+                <default>false</default>
+                <label>Live</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

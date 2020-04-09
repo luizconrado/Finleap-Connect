@@ -15,7 +15,7 @@
 		)
 	),
 	NOT(CONTAINS($Label.Users_Exclusion,$User.Username)),
-	RecordType.DeveloperName =='Finleap_Connect_Standard_Sales'
+	RecordTypeId == $CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c
 )</errorConditionFormula>
 	<errorDisplayField>Contract_End_Date__c</errorDisplayField>
 	<errorMessage>Contract End Date must be filled out if case the contract is cancelled.

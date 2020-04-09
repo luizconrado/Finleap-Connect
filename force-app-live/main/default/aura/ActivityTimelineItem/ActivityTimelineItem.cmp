@@ -74,6 +74,7 @@
                 <!-- ACTIVITY SUMMARY -->
                 <!-- ================ -->
                 <div class="slds-media__body">
+                    <!--Title-->
                     <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
                         <div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
                             <!--TODO:Implement  Mark Task as Complete
@@ -95,7 +96,7 @@
                                         <strong>{!v.item.subject}</strong>
                                     </a>
                                     <aura:set attribute="else">
-                                        <strong>{!v.item.subject}</strong>
+                                        <strong class="no-access-color">{!v.item.subject}</strong>
                                     </aura:set>
                                 </aura:if>
                             </h3>
@@ -165,36 +166,36 @@
                         <aura:if isTrue="{!v.item.isComplete}">
                             <!-- Past Tense -->
                             <aura:if isTrue="{!v.item.activityTimelineType == 'Task'}">
-                                had a task 
+                                had a task
                             </aura:if>
                             <aura:if isTrue="{!v.item.activityTimelineType == 'Call'}">
-                                logged a call 
+                                logged a call
                             </aura:if>
                             <aura:if isTrue="{!v.item.activityTimelineType == 'Email'}">
-                                sent an email 
+                                sent an email
                             </aura:if>
                             <aura:if isTrue="{!v.item.activityTimelineType == 'Event'}">
-                                had an event 
+                                had an event
                             </aura:if>
 
                             <!-- Future Tense -->
                             <aura:set attribute="else">
-                                {!v.item.assignedTo.isCurrentUser ? 'have' : 'has'}
+                                {!v.item.assignedTo.isCurrentUser ? ' have' : ' has'}
                                 <aura:if isTrue="{!v.item.activityTimelineType == 'Task'}">
-                                    an upcoming task 
+                                    an upcoming task
                                 </aura:if>
                                 <aura:if isTrue="{!v.item.activityTimelineType == 'Call'}">
                                     an upcoming call 
                                 </aura:if>
                                 <aura:if isTrue="{!v.item.activityTimelineType == 'Event'}">
-                                    an upcoming event 
+                                    an upcoming event
                                 </aura:if>
                             </aura:set>
                         </aura:if>
 
                         <!-- Contact or Lead or Recipients -->
                         <aura:if isTrue="{!v.item.recipients}">
-                            {!v.item.activityTimelineType == 'Email' ? 'to' : 'with'} &nbsp;
+                            {!v.item.activityTimelineType == 'Email' ? 'to ' : 'with '}
                             <aura:if isTrue="{!v.item.recipients[0].isCurrentUser}">
                                 you
                                 <aura:set attribute="else">
@@ -217,7 +218,7 @@
 
                         <!-- Related To -->
                         <aura:if isTrue="{!v.item.relatedTo}">
-                            about 
+                            about
                             <aura:if isTrue="{!v.item.relatedTo.access}">
                                 <a class="pq--link" href="{!'/lightning/r/' + v.item.relatedTo.sobjectName + '/' + v.item.relatedTo.recordId + '/view'}">
                                     {!v.item.relatedTo.recordName}
@@ -260,7 +261,7 @@
                                                     {!v.item.recipients[0].recordName}
                                                 </a>
                                                 <aura:if isTrue="{!v.item.recipients.length > 1}">
-                                                    and {!v.item.recipients.length - 1} {!v.item.recipients.length == 2 ? 'other' : 'others'}
+                                                    and {!v.item.recipients.length - 1} {!v.item.recipients.length == 2 ? 'other ' : 'others '}
                                                 </aura:if>
                                             </aura:if>
                                             <aura:if isTrue="{!v.item.toEmail}">
@@ -299,14 +300,12 @@
                                 </div>
                             </div>
                             <aura:set attribute="else">
-                                <div>
-                                    <span class="slds-text-title">Description</span>
-                                    <div class="tenLinesScroll">
-                                        <p class="slds-p-top_x-small">
-                                        	{!$Label.c.Insufficient_Access_Text}
-                                        </p>
-                                    </div>
+                                <div class="slds-notify info-title slds-notify_alert slds-theme_alert-texture slds-theme_warning" role="alert">
+                                    <h2>
+                                    {!$Label.c.Insufficient_Access_Text}
+                                    </h2>
                                 </div>
+                                
                             </aura:set>
                         </aura:if>
                     </article>

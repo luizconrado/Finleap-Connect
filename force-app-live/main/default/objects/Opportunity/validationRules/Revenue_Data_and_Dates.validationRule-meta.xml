@@ -20,7 +20,7 @@
 		 )),
 	 
      NOT(CONTAINS($Label.Users_Exclusion,$User.Username)),
-     RecordType.DeveloperName =='Finleap_Connect_Standard_Sales'
+     RecordTypeId == $CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c
 )</errorConditionFormula>
     <errorMessage>Rev. Start Date, MRR and OTR must be filled out at this point.</errorMessage>
 </ValidationRule>

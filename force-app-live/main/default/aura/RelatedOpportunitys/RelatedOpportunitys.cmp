@@ -33,17 +33,9 @@
                     </div>
                 </lightning:accordionSection>
                 <div class="slds-notify_container slds-is-relative">
-                    <div class="slds-notify slds-notify_toast slds-theme_info" role="status">
-                        <span class="slds-assistive-text">info</span>
-                        <span class="slds-icon_container slds-icon-utility-info slds-m-right_small slds-no-flex slds-align-top" title="Description of icon when needed">
-                            <lightning:icon iconName="utility:info" alternativeText="Utility info" size="small" title="info" />
-                            
-                        </span>
-                        <div class="slds-notify__content">
-                            <h2 class="slds-text-heading_small">
-                                You do not have sufficient privileges to view complete opportunity
-                            </h2>
-                        </div>
+                    <div class=" info-title slds-notify slds-notify_toast slds-theme_alert-texture slds-theme_warning" role="status">
+                       
+                        {!$Label.c.Insufficient_Access_Text}
                     </div>
                 </div>
             </lightning:accordion>
@@ -79,7 +71,7 @@
                 <div class="slds-media__figure stencil slds-avatar slds-avatar_small">
                     <lightning:icon iconName="standard:opportunity" size="small"/>
                 </div>
-                <div class="slds-media__body slds-card__header-title header-title">
+                <div class="slds-media__body slds-card__header-title">
                     <h2>
                         <span lass="slds-card__header-title slds-truncate slds-m-right--xx-small" title="Global Opportunities">
                             Global Opportunities

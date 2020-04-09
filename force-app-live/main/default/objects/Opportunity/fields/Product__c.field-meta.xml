@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product__c</fullName>
+    <description>Products selected for this Opportunity</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Products selected for this Opportunity</inlineHelpText>
+    <label>Product</label>
+    <required>false</required>
+    <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Product</valueSetName>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

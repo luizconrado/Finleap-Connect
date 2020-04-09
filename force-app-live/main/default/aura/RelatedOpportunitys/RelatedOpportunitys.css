@@ -1,15 +1,16 @@
 .THIS  .set-max-height{
     max-height:16rem;
 }
-.THIS .header-title{
-  
+.THIS .info-title{
+  justify-content:center;
+  font-weight:normal;
 }
 .THIS .set-tile-width{
     width:30rem
 }
 
 .THIS .no-access-color{
-    color: #c23934;
+    color: t(noAccessColor);
     border-bottom:1px dotted;
 }
 .THIS .dotted-underline{

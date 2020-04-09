@@ -29,7 +29,7 @@
 	ISCHANGED( OwnerId )
 	),
 	NOT(CONTAINS($Label.Users_Exclusion,$User.Username)),
-	RecordType.DeveloperName =='Finleap_Connect_Standard_Sales'
+	RecordTypeId == $CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c
 )</errorConditionFormula>
 	<errorMessage>Opportunities that are Closed Won cannot be changed anymore</errorMessage>
 </ValidationRule>

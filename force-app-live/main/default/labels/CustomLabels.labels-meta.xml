@@ -21,7 +21,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Insufficient Access Text</shortDescription>
-        <value>Insufficient privileges to view details.</value>
+        <value>Insufficient privileges to view full details. Please contact the record owner.</value>
     </labels>
     <labels>
         <fullName>Month_April</fullName>
