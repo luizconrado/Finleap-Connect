@@ -25,7 +25,7 @@
                 {!v.body}
             </div>
             <footer class="slds-modal__footer">
-                <lightning:button label="Cancle" title="Cancle" onclick="{! c.closeModel }"/>
+                <lightning:button label="Cancel" title="Cancel" onclick="{! c.closeModel }"/>
             </footer>
         </div>
     </section>

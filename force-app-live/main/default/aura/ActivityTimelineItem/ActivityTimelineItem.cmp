@@ -20,7 +20,7 @@
                     <force:recordEdit aura:id="editForm" recordId="{!v.item.recordId}" onSaveSuccess="{!c.closeModel}" />
                 </div>
                 <footer class="slds-modal__footer">
-                    <lightning:button label="Cancle" title="Cancle" onclick="{! c.closeModel }"/>
+                    <lightning:button label="Cancel" title="Cancel" onclick="{! c.closeModel }"/>
                     <lightning:button variant="brand" label="Save" title="Save" onclick="{! c.save }"/>
                 </footer>
             </div>
