@@ -20,14 +20,13 @@
         component.set('v.isExpandAll',isExpandAll);
     },
     loadActivitys:function(component,event,helper){
-        let sectionName=event.getSource().get("v.value");  
+        let sectionIndex=event.getSource().get("v.value");  
         let timelineGroups=component.get("v.timelineGroups");
-        timelineGroups.forEach(function(timelineGroup, index){
-            if(timelineGroup.sectionName==sectionName){
-                timelineGroup.limit+=6;
-                timelineGroup.load=timelineGroup.limit<timelineGroup.items.length;
-            }
-        });
-        component.set("v.timelineGroups", timelineGroups);
+        let loadLimiter=component.get("v.loadLimiter")
+
+        loadLimiter.limit+=1;
+        loadLimiter.load =loadLimiter.limit<timelineGroups.length;
+        
+        component.set("v.loadLimiter", loadLimiter);
     },
 })

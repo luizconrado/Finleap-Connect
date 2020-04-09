@@ -18,16 +18,21 @@
                     timelineGroup.items.forEach(function(item){
                         item.isExpanded=false;
                     });
-                    timelineGroup.limit=4;
-                    timelineGroup.load=timelineGroup.limit<timelineGroup.items.length;
                 });
                 
+                let loadLimiter={
+                    limit:2,
+                    load:2<timelineGroups.length
+                };
+                
+                component.set("v.loadLimiter", loadLimiter);
                 component.set("v.activeSections", activeSections);
                 component.set("v.timelineGroups", timelineGroups);
                
-                component.set('v.loadTimeline',true);
+                component.set("v.loadTimeline",true);
+                component.set("v.isLoading", false);
             }
-            component.set("v.isLoading", false);
+            
         });
         
         $A.enqueueAction(action);
