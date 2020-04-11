@@ -1,0 +1,95 @@
+<aura:component   controller="UploadFileController"  >
+    <aura:attribute name="fileTypes" type="List" default="['Other File']"/>
+    <aura:attribute name="selectedType" type="String"/>
+    <aura:attribute name="customType" type="String"/>
+    <aura:attribute name="documentData" type="List"/>
+    <aura:attribute name="currentStep" type="String" default="1"/>
+    <aura:attribute name="loader" type="boolean" default="false"/>
+    <aura:attribute name="isOpen" type="boolean" default="false"/>
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="sObjectName" type="String" />
+  
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    
+    <section role="dialog" tabindex="-1" aria-label="Popup Up Modal" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            
+            <div class="modal-header slds-modal__header slds-size_1-of-1">
+                <h4 class="title slds-text-heading--medium" >Upload File</h4>
+                <lightning:progressIndicator currentStep="{!v.currentStep}" type="base" hasError="false" variant="base">
+                    <lightning:progressStep label="Select File Type" value="1" id="1" onclick="{!c.step1}"/>
+                    <lightning:progressStep label="Upload File" value="2" id="2" onclick="{!c.step2}"/>
+                </lightning:progressIndicator>
+            </div>
+            
+            <div class="slds-modal__content slds-is-relative slds-p-around--x-small  slds-size_1-of-1 slds-is-relative" aura:id="modalbody" id="modalbody">
+                <aura:if isTrue="{!v.currentStep=='1'}">
+                    <lightning:select label="Select File Type" name="selectType" required="true" value="{!v.selectedType}" >
+                        <aura:iteration items="{!v.fileTypes}" var="type">
+                            <option value="{!type}">{!type}</option>
+                        </aura:iteration>
+                    </lightning:select>
+                    <aura:if isTrue="{!v.selectedType=='Other File'}">
+                        <lightning:input name="otherValue" aura:id="otherValue" value="{!v.customType}" label="Enter Custom File Type" />
+                    </aura:if>
+                </aura:if>
+                <aura:if isTrue="{!v.currentStep=='2'}">
+                    <aura:if isTrue="{!v.documentData.length>0}">
+                        Following File Already exsits in system, Upload New Version
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="File Name">File Name</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <aura:iteration items="{!v.documentData}" var="doc">
+                                    <tr class="slds-hint-parent">
+                                        <th data-label="File Name" scope="row">
+                                            <div class="slds-truncate" title="{!doc.Title}">
+                                                <a href="{!'/'+doc.Id}" tabindex="-1">{!doc.Title}</a>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </aura:iteration>
+                            </tbody>
+                        </table>
+                    </aura:if>
+                    <div class="slds-form-element">
+                        <span class="slds-form-element__label" id="file-selector-primary-label">Select File</span>
+                        <div class="slds-form-element__control">
+                            <div class="slds-file-selector slds-file-selector_files">
+                                <div class="slds-file-selector__dropzone">
+                                    <input  onchange ="{!c.uploadFile}" type="file" class="slds-file-selector__input slds-assistive-text" id="file-upload-input-01" aria-labelledby="file-selector-primary-label file-selector-secondary-label" />
+                                    <!-- accept="image/png"-->
+                                    <label class="slds-file-selector__body" for="file-upload-input-01" id="file-selector-secondary-label">
+                                        <span class="slds-file-selector__button slds-button slds-button_neutral">
+                                            <lightning:icon iconName="symbols:upload" alternativeText="upload image" />
+                                            Upload Files</span>
+                                        <span class="slds-file-selector__text slds-medium-show">or Drop Files</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </aura:if>
+                <aura:if isTrue="{!v.loader}">
+                    <lightning:spinner alternativeText="Loading" size="medium" />
+                </aura:if>
+            </div>   
+            <div class="modal-footer slds-modal__footer slds-size_1-of-1">
+                <div class="forceChangeRecordTypeFooter">
+                    <lightning:button label="Cancel" title="Cancel" onclick="{! c.cancel }"/>
+                    <lightning:button disabled="{!v.loader}" label="{!v.currentStep=='2'?'Finish':'Next'}" title="Next" onclick="{! c.checkDuplicate }"/>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+
+    
+</aura:component>

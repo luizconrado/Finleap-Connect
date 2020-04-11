@@ -1,0 +1,114 @@
+<aura:component controller="RelatedAttachmentsController" implements="force:hasSObjectName,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <lightning:navigation aura:id="navService"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="attachmentList" type="List" access="private"/>
+    <aura:attribute name="isLoading" type="boolean" default="false"/>
+    <aura:attribute name="isViewAll" type="boolean" default="false"/>
+    <aura:attribute name="isNewFile" type="boolean" default="false"/>
+    
+    <aura:if isTrue="{!v.isNewFile}">
+        
+    </aura:if>
+
+    <aura:if isTrue="{!v.isViewAll}">
+        <c:Modal header="All Files" open="{!v.isViewAll}" >
+            
+            <aura:iteration items="{!v.attachmentList}" var="file">
+                
+                <article class="slds-box  slds-tile slds-media">
+                    <div class="slds-media__figure">
+                        <span class="slds-icon_container" title="{!file.FileType}">
+                            <lightning:icon iconName="{!file.icon}" alternativeText="{!file.FileType}" title="{!file.FileType}" />
+                        </span>
+                    </div>
+                    <div class="slds-media__body">
+                        <h3 class="slds-tile__title slds-truncate" id="{!file.Id}" onclick="{!c.openFile}" title="{!file.Title}">
+                            <a href="javascript:void(0);">{!file.Title}</a>
+                        </h3>
+                        
+                        <div class="slds-tile__detail">
+                            <dl class="slds-list_horizontal slds-wrap">
+                                <dt class="slds-item_label slds-text-color_weak slds-truncate" title="Owner">Owner</dt>
+                                <dd class="slds-item_detail slds-truncate" title="{!file.Owner.Name}">{!file.Owner.Name}</dd>
+                                <dt class="slds-item_label slds-text-color_weak slds-truncate" title="LastModifiedDate">LastModifiedDate</dt>
+                                <dd class="slds-item_detail slds-truncate" title="{!file.field2Value}">
+                                    <lightning:formattedDateTime value="{!file.LastModifiedDate}" year="numeric" month="numeric" day="numeric" hour="2-digit"
+                                                                 minute="2-digit"  hour12="true"/>
+                                </dd>
+                                <dt class="slds-item_label slds-text-color_weak slds-truncate" title="File Size">File Size</dt>
+                                <dd class="slds-item_detail slds-truncate" title="{!file.ContentSize}">{!file.ContentSize} KB</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </article>
+
+            </aura:iteration>
+        </c:Modal>
+    </aura:if>
+    
+    <article class="slds-card_boundary">
+        <div class="slds-grid slds-page-header" >
+            <header class="slds-media slds-media--center slds-has-flexi-truncate" >
+                <div class="slds-media__figure stencil slds-avatar slds-avatar_small">
+                    <lightning:icon iconName="standard:file" size="small"/>
+                </div>
+                <div class="slds-media__body slds-card__header-title header-title">
+                    <h2>
+                        <span lass="slds-card__header-title slds-truncate slds-m-right--xx-small" title="Attachments">
+                           Attachments
+                        </span>
+                        <span class="slds-card__header-title slds-shrink-none slds-m-right--xx-small" title="{!v.attachmentList.length}" >
+                            ({!v.attachmentList.length})
+                        </span>
+                    </h2>
+                </div>
+                <div class="slds-no-flex">
+                    <lightning:buttonMenu  iconSize="small" onselect="{! c.handleSelect }" variant="border-filled" alternativeText="Show one or more action">
+                        <lightning:menuItem value="Upload_File" label="Upload File" />
+                    </lightning:buttonMenu>
+                </div>
+            </header>
+        </div>
+        <div class="slds-card slds-scrollable_y set-max-height">
+            <div class="slds-is-relative">
+                <aura:if isTrue="{! v.isLoading }">
+                    <lightning:spinner alternativeText="Loading" />
+                </aura:if>
+            </div>
+            <ul>
+                <aura:iteration items="{!v.attachmentList}" var="file" end="3">
+                    <li  class="slds-p-horizontal_medium slds-p-vertical_xx-small">
+                        <div class="slds-size_12-of-12 slds-grid">
+                            <div class="slds-show_inline-block slds-float_left slds-align-middle">
+                                <lightning:icon iconName="{!file.icon}" alternativeText="{!file.FileType}" title="{!file.FileType}" />
+                            </div>
+                            <div class="slds-show_inline-block slds-float_left slds-p-left--x-small slds-truncate slds-m-right_x-small">
+                                <span class="slds-text-body " title="{!file.Title}" >
+                                    <a href="{!'/lightning/r/ContentDocument/'+file.Id+'/view'}">{!file.Title}</a>
+                                    
+                                </span>
+                                <p class="slds-m-around--none  slds-text-body--small slds-truncate" >
+                                    <span >
+                                        <lightning:formattedDateTime value="{!file.ContentModifiedDate}"/>
+                                    </span>
+                                    <span>
+                                        <span>&nbsp;{!file.ContentSize}</span><span>KB </span>
+                                    </span>
+                                    <span > {!file.FileExtension} </span>
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                </aura:iteration>
+            </ul>
+            
+        </div>
+        <aura:if isTrue="{!v.attachmentList.length>0}">
+            <footer class="slds-card__footer">
+                <a class="slds-card__footer-action" href="javascript:void(0);" onclick="{!c.showAll}">View All
+                    <span class="slds-assistive-text">Attachments</span>
+                </a>
+            </footer>
+        </aura:if>
+    </article>
+</aura:component>
