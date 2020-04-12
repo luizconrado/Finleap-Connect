@@ -1,6 +1,6 @@
 ({
-	// common reusable function for toggle sections
 	toggleActivityDetail : function(component, event, helper) {
+      
         component.set("v.isExpanded", !component.get("v.isExpanded"));
 	},
     handleMenuClick: function(component, event, helper) {
@@ -17,6 +17,7 @@
         component.find("editForm").get("e.recordSave").fire();
     },
     onDone:function(component,event,helper){
+        //TODO:Implement Task complete feature
         let checked=event.srcElement.checked;
     }
 })

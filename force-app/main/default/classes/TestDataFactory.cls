@@ -1,7 +1,6 @@
 public class TestDataFactory {
     
     //Generator
-   
     public static Account getStandardAccount(Final Boolean isInsert){
         return getAccount(Constant.ACCOUNT_STANDARD_RECORDTYPE_ID,isInsert);
     }
@@ -11,22 +10,14 @@ public class TestDataFactory {
     public static Opportunity getFinleapInvestmentOpportunity(Final String accountId,Final Boolean isInsert){
         return getOpportunity(Constant.OPPORTUNITY_INVESTMENT_IN_FINLEAP_RECORDTYPE_ID,accountId,isInsert);
     }
-    /*
-    public static Task getStandardTask(Final String opportunityId,Final String contactId,Final Boolean isInsert){
-        return getTask(Constant.TASK_STANDARD_RECORDTYPE_ID,opportunityId,contactId,isInsert);
+    public static Opportunity getFinleapStandardOpportunity(Final String accountId,Final Boolean isInsert){
+        return getOpportunity(Constant.OPPORTUNITY_STANDARD_SALES_RECORDTYPE_ID,accountId,isInsert);
     }
-    public static Event getStandardEvent(Final String opportunityId,Final String contactId,Final Boolean isInsert){
-        return getEvent(Constant.EVENT_STANDARD_RECORDTYPE_ID,opportunityId,contactId,isInsert);
-    }
-*/
+    
     public static User getCommunicationsUser(Final Boolean isInsert){
         return getUser(Constant.COMMUNICATION_PROFILE_ID,isInsert);
     }
-    /*
-    public static void addAccessAllPermissionSet(Final String userId){
-        insert new PermissionSetAssignment(PermissionSetId=getAccessAllPermissionSet().Id,AssigneeId=userId);
-	}
-*/
+   
     public static void addOpportunityToContact(String oppId,String contactId){
         getOpportunityContactRole(contactId,oppId,true);
     }
@@ -95,60 +86,6 @@ public class TestDataFactory {
        	if(isInsert) insert ocr;
         return ocr;
     }
-    /*
-    private static Task getTask(Final String recordTypeId,Final String whatId,Final String whoId,Final Boolean isInsert){
-        Task t=new Task();
-        t.Subject=Randomutility.getString(8);
-        t.ActivityDate=Date.today();
-        t.OwnerId=Userinfo.getUserId();
-        t.WhatId=whatId;
-        t.whoId=whoId;
-        t.recordTypeId=recordTypeId;
-        t.Priority='Normal';
-        t.Status='Open';
-        t.Type='Other';
-        t.IsReminderSet=false;
-        if(isInsert) insert t;
-        return t;
-    }
-    private static Event getEvent(Final String recordTypeId,Final String whatId,Final String whoId,Final Boolean isInsert){
-        Event e=new Event();
-        e.Subject=Randomutility.getString(8);
-        e.ActivityDate=Date.today();
-        e.OwnerId=Userinfo.getUserId();
-        e.WhatId=whatId;
-       	e.StartDateTime=System.Datetime.now();
-        e.EndDateTime =System.Datetime.now()+1;
-        e.whoId=whoId;
-        e.recordTypeId=recordTypeId;
-        e.IsReminderSet=false;
-        if(isInsert) insert e;
-        return e;
-    }
-    
-    private static PermissionSet getAccessAllPermissionSet(){
-        //HACK FOR Criteria based sharing rule:https://help.salesforce.com/articleView?id=security_sharing_rule_types.htm&type=5
-        PermissionSet ps = new PermissionSet(Name=Randomutility.getString(4),label=Randomutility.getString(4));
-        insert ps;
-        List<ObjectPermissions> op = new List<ObjectPermissions>();
-        op.add(new ObjectPermissions(ParentId=ps.Id,
-                                     SobjectType='Contact',
-                                     PermissionsRead=true,
-                                     PermissionsEdit=true,
-                                     PermissionsDelete =true,
-                                     PermissionsCreate=true,
-                                     PermissionsModifyAllRecords=true,
-                                     PermissionsViewAllRecords=true));
-        op.add(new ObjectPermissions(ParentId=ps.Id,
-                                     SobjectType='Opportunity',
-                                     PermissionsRead=true,
-                                     PermissionsEdit=true,
-                                     PermissionsDelete =true,
-                                     PermissionsCreate=true,
-                                     PermissionsModifyAllRecords=true,
-                                     PermissionsViewAllRecords=true));
-        insert op;
-        return ps;
-    }
-    */
+   
+   
 }

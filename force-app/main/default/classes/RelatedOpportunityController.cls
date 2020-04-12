@@ -5,33 +5,35 @@ public with sharing class RelatedOpportunityController {
     }}
     
     @AuraEnabled
-    Public static Map<String,List<Object>> getHiddenOpportunitys(String recordId,String objectName){
+    Public static String getHiddenOpportunitys(String recordId,String objectName){
+       
         Map<String,List<Object>> returnValue=new Map<String,List<Object>>();
         FieldSet[] fieldDetails=SchemaUtility.getFieldSetMembers('Opportunity',Constant.OPPORTUNITY_GLOBAL_RELATED_FIELDSET);
-        returnValue.put('fields',fieldDetails);
+        returnValue.put('Fields',fieldDetails);
         String query='SELECT Id,';
         for(FieldSet fd:fieldDetails){
             if(fd.fieldType=='REFERENCE' || fd.fieldType=='reference' ){
-                query+=(fd.fieldAPIName.contains('__c'))?fd.fieldAPIName.substringBefore('Id')+'__r.Name,':fd.fieldAPIName.substringBefore('Id')+'.Name,';
+                query+=(fd.fieldAPIName.contains('__c'))?fd.fieldAPIName.substringBefore('__c')+'__r.Name,':fd.fieldAPIName.substringBefore('Id')+'.Name,';
             }
              query+=fd.fieldAPIName+',';
         }
-        query=query.removeEnd(',');
+        if(query.contains('Limited_Access_Name__c')) query=query.removeEnd(',');
+        else query+='Limited_Access_Name__c';
         query+=' FROM Opportunity WHERE ';
-        
-        
-        List<Opportunity> oppList=new List<Opportunity>();
         if(objectName=='Account'){
             query+=' AccountId =: recordId ';
-            oppList=Database.query(query);
-            oppList=db.queryOpportunity(recordId,oppList,query);
+            List<Opportunity> oppList=Database.query(query);
+            returnValue.put('Global',oppList);
+			returnValue.put('Private',db.queryOpportunity(recordId,oppList,query));
         }
         if(objectName=='Contact'){
             List<OpportunityContactRole> oppContactRoleList=[SELECT Id, OpportunityId, ContactId FROM OpportunityContactRole WHERE ContactId=:recordId];
-            oppList=db.queryOpportunityFromContactRole(recordId,oppContactRoleList,query);
+            List<String> oppListId=new List<String>();
+            for(OpportunityContactRole ocr:oppContactRoleList) oppListId.add(ocr.OpportunityId);
+            returnValue.put('Global', Database.query(query+' Id IN:oppListId'));
+            returnValue.put('Private',db.queryOpportunityFromContactRole(recordId,oppContactRoleList,query));
         }
-        returnValue.put('OppList',oppList);
-        return returnValue;
+        return JSON.serialize(returnValue);
     }
 
     private without sharing class WithoutSharing{

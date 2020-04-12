@@ -4,6 +4,8 @@ public with sharing class ActivityTimelineController {
         if(db==null)db=new WithoutSharing();
         return db;
     }}
+    private static Map<Id, Opportunity> mapHiddenOpportunities = new Map<Id, Opportunity>();
+    
     
     @AuraEnabled
     public static List<ActivityTimelineGroup> getActivityTimeline(Id recordId, Boolean includeChildren) {
@@ -12,7 +14,10 @@ public with sharing class ActivityTimelineController {
 
         Set<Id> whatIdSet = new Set<Id>();
         Set<Id> whoIdSet = new Set<Id>();
-
+		Set<Id> eventIdSet=new Set<id>();
+        Set<Id> taskIdSet=new Set<Id>();
+        
+       
         //Add the record passed
         if(sobjType == Schema.Contact.SObjectType) {
 			whoIdSet.add(recordId);
@@ -26,33 +31,43 @@ public with sharing class ActivityTimelineController {
             if(sobjType == Schema.Account.SObjectType) {
                 //Contacts
                 Map<Id, Contact> mapDirectContacts = new Map<Id, Contact>([SELECT Id FROM Contact WHERE AccountId =: recordId]);
+                
                 whoIdSet.addAll(mapDirectContacts.keySet());
+                eventIdSet.addAll(db.queryEventRelation(mapDirectContacts.keySet()));
+                taskIdSet.addAll(db.queryTaskRelation(mapDirectContacts.keySet()));
+                
+              
+                
                 
                 //Opportunities
                 List<Opportunity> opps=[SELECT Id FROM Opportunity WHERE AccountId =: recordId];
-                Map<Id, Opportunity> mapDirectOpportunities = new Map<Id, Opportunity>(db.queryOpportunity(recordId,opps));
-                whatIdSet.addAll(mapDirectOpportunities.keySet());
-
+                Map<Id, Opportunity> mapVisibleOpportunities = new Map<Id, Opportunity>(opps);
+                mapHiddenOpportunities = new Map<Id, Opportunity>(db.queryOpportunity(recordId,opps));
+                whatIdSet.addAll(mapHiddenOpportunities.keySet());
+				whatIdSet.addAll(mapVisibleOpportunities.keySet());
+               
                 //Cases
                 Map<Id, Case> mapDirectCases = new Map<Id, Case>([SELECT Id FROM Case WHERE AccountId =: recordId]);
                 whatIdSet.addAll(mapDirectCases.keySet());
             }
-            
             if(sobjType == Schema.Contact.SObjectType){
-                List<OpportunityContactRole> oppContactRoleList=[SELECT Id, OpportunityId, ContactId FROM OpportunityContactRole WHERE ContactId=:recordId];
-                whatIdSet.addAll(db.queryOpportunityFromContactRole(recordId,oppContactRoleList));
-                
                 Map<Id, Case> mapDirectCases = new Map<Id, Case>([SELECT Id FROM Case WHERE ContactId =: recordId]);
+                
+                
                 whatIdSet.addAll(mapDirectCases.keySet());
+                eventIdSet.addAll(db.queryEventRelation(new Set<Id>{recordId}));
+                taskIdSet.addAll(db.queryTaskRelation(new Set<Id>{recordId}));
+
             }
+			
         }
 
         // Create a return List
         List<ActivityTimelineModel> lstAllActivities = new List<ActivityTimelineModel>();
 
         // Add Tasks, Emails & Events
-        addTasksAndEmails(lstAllActivities, recordId, whatIdSet, whoIdSet);
-        addEvents(lstAllActivities, recordId, whatIdSet, whoIdSet);
+        addTasksAndEmails(lstAllActivities, recordId, whatIdSet, whoIdSet,taskIdSet);
+        addEvents(lstAllActivities, recordId, whatIdSet, whoIdSet,eventIdSet);
             
         return generateGroups(lstAllActivities);
     }
@@ -75,6 +90,11 @@ public with sharing class ActivityTimelineController {
             //Only Completed items
             if(item.isComplete){
                 List<ActivityTimelineModel> lstActivities = new List<ActivityTimelineModel>();
+                //No due date
+                if(item.activityDate==null) item.activityDate=item.createdDate;
+                   
+                
+                
                 DateTime firstDayOfMonth = Datetime.newInstance(item.activityDate.year(), item.activityDate.month(), 1, 0, 0, 0);
                 Long mapKey = firstDayOfMonth.getTime();
                 if(mapActivityTimeline.containsKey(mapKey)){
@@ -99,15 +119,18 @@ public with sharing class ActivityTimelineController {
         return lstActivityGroups;
     }    
     
-    private static void addTasksAndEmails(List<ActivityTimelineModel> returnList, Id recordId, Set<Id> whatIdSet, Set<Id> whoIdSet) {
-        List<Task> taskList = [SELECT Id, ActivityDate, Description, IsRecurrence, OwnerId, Owner.Name, Priority, Status, Subject, 
-                               				TaskSubtype, Type, WhatId, What.Name, WhoId, Who.Name
-                               	FROM Task
-                               	WHERE WhatId IN: whatIdSet OR WhoId IN: whoIdSet
-                               		ORDER BY ActivityDate DESC NULLS LAST];
-        System.debug('KING 1 => '+taskList.size());
-		taskList=db.queryTask(whatIdSet,whoIdSet,taskList);
-        System.debug('KING 2 => '+taskList.size());
+    private static void addTasksAndEmails(List<ActivityTimelineModel> returnList, Id recordId, Set<Id> whatIdSet, Set<Id> whoIdSet,Set<Id> taskIdSet) {
+        
+        
+        List<Task> taskList = [SELECT Id, ActivityDate,CreatedDate, Description, IsRecurrence, OwnerId, Owner.Name, Priority, Status, Subject, 
+                               TaskSubtype, Type, WhatId, What.Name, WhoId, Who.Name
+                               FROM Task
+                               WHERE WhatId IN: whatIdSet OR WhoId IN: whoIdSet OR Id IN:taskIdSet
+                               ORDER BY ActivityDate DESC NULLS LAST];
+        
+        //get not accessable records
+		Map<Id,Task> privateTaskMap=new Map<Id,Task>(db.queryTask(whatIdSet,whoIdSet,taskList,taskIdSet));
+        taskList.addAll(privateTaskMap.values());
         //generate a map of Task Status to get Closed Status
         Map<String, TaskStatus> mapTaskStatus = new Map<String, TaskStatus>();
 		for(TaskStatus ts: [SELECT MasterLabel, IsClosed FROM TaskStatus]){
@@ -120,12 +143,6 @@ public with sharing class ActivityTimelineController {
             mapTaskPriority.put(tp.MasterLabel, tp);
 		}
         
-        //genrate map of event and whatid
-        Map<String,String> taskAndWhatId=new Map<String,String>();
-        for(Task t:taskList){
-            taskAndWhatId.put(t.Id,t.WhatId);
-        }
-         
 
         //generate a map of Email tasks
         //The Enhanced Emails are stored in the Email Message object but they have a corresponding Task with SubType Email.
@@ -137,11 +154,11 @@ public with sharing class ActivityTimelineController {
                 if(taskObj.TaskSubtype == 'Email'){
                     //Collect tasks for handling email messages separately
                     mapEmailTasks.put(taskObj.Id, taskObj);
-                } else {
+                }
+                else {
                     ActivityTimelineModel taskItem = new ActivityTimelineModel();
-                    taskItem.access=false;
-                    
                     taskItem.recordId = taskObj.Id;
+                    taskItem.createdDate=taskObj.CreatedDate;
                     taskItem.sobjectName = String.valueOf(Task.SobjectType);
                     taskItem.activityTimelineType = taskObj.TaskSubtype;
                     taskItem.activityDate = taskObj.ActivityDate;
@@ -173,6 +190,18 @@ public with sharing class ActivityTimelineController {
                     taskItem.isRecurring = taskObj.IsRecurrence;
                     taskItem.isPriority = mapTaskPriority.get(taskObj.Priority).IsHighPriority;
 
+                    //handle record access
+                    taskItem.access=!privateTaskMap.containsKey(taskObj.Id);
+                    if(!taskItem.access){
+                        taskItem.subject  = 'Task - of '+ taskObj.Owner.Name + ((String.isNotEmpty(taskObj.WhoId))?' related to '+taskObj.Who.Name:' ');
+                        //Related To
+                        if(String.isNotEmpty(taskObj.WhatId)){
+                            //Dont add the current record in related to
+                            if(taskObj.WhatId != recordId){
+                                taskItem.relatedTo = new ActivityTimelineModel.RecordReference((mapHiddenOpportunities.containsKey(taskObj.WhatId))?mapHiddenOpportunities.get(taskObj.WhatId).Limited_Access_Name__c:' ');    
+                            }
+                        }
+                    }
                     returnList.add(taskItem);
                 }
             }
@@ -184,12 +213,14 @@ public with sharing class ActivityTimelineController {
                                                             	FROM EmailMessageRelations)
                                                        	FROM EmailMessage
                                                        	WHERE ActivityId IN: mapEmailTasks.keySet()];
-                lstEmailMessages=db.queryEmail(mapEmailTasks.keySet(),lstEmailMessages);
+                Map<Id,EmailMessage> privateLstEmailMessagesMap=new Map<Id,EmailMessage>(db.queryEmail(mapEmailTasks.keySet(),lstEmailMessages));
+
+                lstEmailMessages.addAll(privateLstEmailMessagesMap.values());
                 For(EmailMessage emailMsg : lstEmailMessages){
                     Task taskObj = mapEmailTasks.get(emailMsg.ActivityId);
-
+					String limitedAccessSubject = 'Email - from ';
                     ActivityTimelineModel emailItem = new ActivityTimelineModel();
-                    emailItem.access=false;
+                    
                     emailItem.recordId = emailMsg.Id;
                     emailItem.sobjectName = String.valueOf(EmailMessage.SobjectType);
                     emailItem.activityTimelineType = 'Email';
@@ -205,14 +236,18 @@ public with sharing class ActivityTimelineController {
                             
                             if(String.isNotEmpty(relationObj.relationId)){
                                 emailItem.assignedTo = new ActivityTimelineModel.RecordReference(relationObj.relationId, relationObj.Relation.Name);
+                                limitedAccessSubject += emailItem.assignedTo.recordName +' ';
                             } else {
                                 emailItem.fromEmail = new ActivityTimelineModel.EmailReference(relationObj.RelationAddress);
+                                limitedAccessSubject += emailItem.fromEmail.address +' ';
                             }
                         } else if(relationObj.RelationType == 'ToAddress'){
                             if(String.isNotEmpty(relationObj.relationId)){
                                 emailItem.recipients.add(new ActivityTimelineModel.RecordReference(relationObj.relationId, relationObj.Relation.Name));
+                                limitedAccessSubject +='to '+ emailItem.recipients[0].recordName +' ';
                             } else {
                                 emailItem.toEmail = new ActivityTimelineModel.EmailReference(relationObj.RelationAddress);
+                                limitedAccessSubject +='to '+ emailItem.toEmail.address +' ';
                             }
                         }
                     }
@@ -227,6 +262,19 @@ public with sharing class ActivityTimelineController {
 
                     emailItem.isComplete = true;
                     emailItem.hasAttachments = emailMsg.HasAttachment;
+                    
+                    //handle access
+                    emailItem.access=!privateLstEmailMessagesMap.containsKey(emailMsg.Id);
+                    if(!emailItem.access){
+                       emailItem.subject=limitedAccessSubject;
+                        //Related To
+                        if(String.isNotEmpty(taskObj.WhatId)){
+                            //Dont add the current record in Related To
+                            if(taskObj.WhatId != recordId){
+                                emailItem.relatedTo = new ActivityTimelineModel.RecordReference((mapHiddenOpportunities.containsKey(taskObj.WhatId))?mapHiddenOpportunities.get(taskObj.WhatId).Limited_Access_Name__c:'');
+                            }
+                        }
+                    }
 
                     returnList.add(emailItem);
                 }
@@ -235,24 +283,23 @@ public with sharing class ActivityTimelineController {
         
     }
 
-    private static void addEvents(List<ActivityTimelineModel> returnList, Id recordId, Set<Id> whatIdSet, Set<Id> whoIdSet) {
-        List<Event> eventList = [SELECT Id, ActivityDate, Description, EndDateTime, EventSubtype, IsRecurrence, OwnerId, Owner.Name, 
-                                 		StartDateTime, Subject, Type, WhatId, What.Name, WhoId, Who.Name
-                                	FROM Event
-                                	WHERE WhatId IN: whatIdSet OR WhoId IN: whoIdSet];
-        eventList=db.queryEvent(whatIdSet,whoIdSet,eventList);
-        //genrate map of event and whatid
-        Map<String,String> eventAndWhatId=new Map<String,String>();
-        for(Event e:eventList){
-            eventAndWhatId.put(e.Id,e.WhatId);
-        }
+    private static void addEvents(List<ActivityTimelineModel> returnList, Id recordId, Set<Id> whatIdSet, Set<Id> whoIdSet,Set<Id> eventIdSet) {
+   	
         
+        List<Event> eventList = [SELECT Id, ActivityDate, Description, EndDateTime, EventSubtype, IsRecurrence, OwnerId, Owner.Name,CreatedDate, 
+                                 StartDateTime, Subject, Type, WhatId, What.Name, WhoId, Who.Name
+                                 FROM Event
+                                 WHERE WhatId IN: whatIdSet OR WhoId IN: whoIdSet OR Id IN: eventIdSet];
+        
+        Map<Id,Event> privateEventMap=new Map<Id,Event>(db.queryEvent(whatIdSet,whoIdSet,eventList,eventIdSet));
+		eventList.addAll(privateEventMap.values());        
+              
         
         if(eventList.size() > 0) {
             for(Event eventObj: eventList) {
                 ActivityTimelineModel eventItem = new ActivityTimelineModel();
-                eventItem.access=false;
                 eventItem.recordId = eventObj.Id;
+                eventItem.createdDate=eventObj.CreatedDate;
                 eventItem.sobjectName = String.valueOf(Event.SobjectType);
                 eventItem.activityTimelineType = 'Event';
                 eventItem.activityDate = eventObj.ActivityDate;
@@ -281,31 +328,58 @@ public with sharing class ActivityTimelineController {
                 eventItem.endDateTime = eventObj.EndDateTime;
                 eventItem.isComplete = eventObj.StartDateTime < System.now();
 
+                //handle record access
+                eventItem.access=!privateEventMap.containsKey(eventObj.Id);
+                if(!eventItem.access){ 
+                    eventItem.subject  = 'Event - of '+ eventObj.Owner.Name + ((String.isNotEmpty(eventObj.WhoId))?' related to '+eventObj.Who.Name:'');
+                    //Related To
+                    if(String.isNotEmpty(eventObj.WhatId)){
+                        //Dont add the current record in related to
+                        if(eventObj.WhatId != recordId){
+                            
+                            eventItem.relatedTo = new ActivityTimelineModel.RecordReference((mapHiddenOpportunities.containsKey(eventObj.WhatId))?mapHiddenOpportunities.get(eventObj.WhatId).Limited_Access_Name__c:'');    
+                        }
+                    }
+                }
                 returnList.add(eventItem);
             }
         }
     }	
 	   
     private without sharing class WithoutSharing{
-        public List<Task> queryTask(Set<Id> whatIdSet, Set<Id> whoIdSet,List<Task> taskIds){
-            return [SELECT Id, ActivityDate, Description, IsRecurrence, OwnerId, Owner.Name, Priority, Status, Subject, 
+        public List<Task> queryTask(Set<Id> whatIdSet, Set<Id> whoIdSet,List<Task> taskIds,Set<id> taskIdSet){
+            return [SELECT Id, ActivityDate,CreatedDate, Description, IsRecurrence, OwnerId, Owner.Name, Priority, Status, Subject, 
                                				TaskSubtype, Type, WhatId, What.Name, WhoId, Who.Name
                                	FROM Task
-                               	WHERE (WhatId IN: whatIdSet OR WhoId IN: whoIdSet)
+                               	WHERE (WhatId IN: whatIdSet OR WhoId IN: whoIdSet OR ID IN: taskIdSet)
                     			AND Id NOT IN: taskIds
                                		ORDER BY ActivityDate DESC NULLS LAST];
         }
-        public List<Event> queryEvent(Set<Id> whatIdSet, Set<Id> whoIdSet,List<Event> eventIds){
-            return [SELECT Id, ActivityDate, Description, EndDateTime, EventSubtype, IsRecurrence, OwnerId, Owner.Name, 
+        public Set<Id> queryEventRelation(Set<Id> ids){
+            Set<Id> eventIdSet=new Set<Id>();
+            List<EventRelation> er=[SELECT Id, RelationId, EventId FROM EventRelation WHERE RelationId IN:ids];
+            for(EventRelation e:er) eventIdSet.add(e.EventId);
+            return eventIdSet;
+        }
+        public List<Event> queryEvent(Set<Id> whatIdSet, Set<Id> whoIdSet,List<Event> eventIds,Set<id> eventIdSet){
+            
+            return [SELECT Id, ActivityDate,CreatedDate, Description, EndDateTime, EventSubtype, IsRecurrence, OwnerId, Owner.Name, 
                     StartDateTime, Subject, Type, WhatId, What.Name, WhoId, Who.Name
                     FROM Event
-                    WHERE (WhatId IN: whatIdSet OR WhoId IN: whoIdSet)
+                    WHERE (WhatId IN: whatIdSet OR WhoId IN: whoIdSet OR ID IN:eventIdSet)
                     AND
-                    Id NOT IN:eventIds
+                    (Id NOT IN:eventIds) ORDER BY ActivityDate DESC NULLS LAST
                    ];
         }
+        public Set<Id> queryTaskRelation(Set<Id> ids){
+            Set<Id> taskIdSet=new Set<Id>();
+            List<TaskRelation> tr=[SELECT Id, RelationId, TaskId FROM TaskRelation WHERE RelationId IN:ids];
+            for(TaskRelation t:tr) taskIdSet.add(t.TaskId);
+            return taskIdSet;
+        }
+        
         public List<EmailMessage> queryEmail(Set<Id> mapEmailTasks,List<EmailMessage> emailIds){
-            return [SELECT Id, ActivityId, HasAttachment, MessageDate, Status, Subject, TextBody,
+            return [SELECT Id, ActivityId,CreatedDate, HasAttachment, MessageDate, Status, Subject, TextBody,
                     (SELECT Id, RelationType, RelationId, Relation.Name, RelationAddress
                      FROM EmailMessageRelations)
                     FROM EmailMessage
@@ -313,15 +387,9 @@ public with sharing class ActivityTimelineController {
                     AND Id NOT IN: emailIds];
         }
         public List<Opportunity> queryOpportunity(Id accountId,List<Opportunity> oppList){
-            return [SELECT Id FROM Opportunity WHERE AccountId =: accountId AND Id NOT IN:oppList];
+            return [SELECT Id,Limited_Access_Name__c FROM Opportunity WHERE AccountId =: accountId AND Id NOT IN:oppList];
         }
-        public Set<Id> queryOpportunityFromContactRole(Id recordId,List<OpportunityContactRole> oppContactRoleList){
-            Set<Id> oppSetId=new Set<Id>();
-            for(OpportunityContactRole ocr:[SELECT Id, OpportunityId, ContactId FROM OpportunityContactRole WHERE ContactId=:recordId AND id NOT IN:oppContactRoleList]){
-                oppSetId.add(ocr.OpportunityId);
-            }
-            return oppSetId;
-        }
+      
     }
     
    

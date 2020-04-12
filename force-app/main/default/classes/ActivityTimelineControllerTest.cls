@@ -14,7 +14,7 @@ private class ActivityTimelineControllerTest {
         
         Opportunity lstOpportunities = TestDataFactory.getFinleapInvestmentOpportunity(lstAccounts.Id,true);
         
-        TestDataFactory.addOpportunityToContact(lstOpportunities.Id,lstContacts.Id);
+         TestDataFactory.addOpportunityToContact(lstOpportunities.Id,lstContacts.Id);
 
         //Insert Activities
         
@@ -54,7 +54,7 @@ private class ActivityTimelineControllerTest {
             For(ActivityTimelineGroup groupObj : groups){
                 lstActivities.addAll(groupObj.items);
             }
-            System.assertEquals(TASK_COUNT + CALL_COUNT + EVENT_COUNT + EMAIL_COUNT , lstActivities.size());
+            System.assertEquals(TASK_COUNT*2 + CALL_COUNT*2 + EVENT_COUNT*2 + EMAIL_COUNT*2 , lstActivities.size());
             
             Test.stopTest();
         }
@@ -66,7 +66,9 @@ private class ActivityTimelineControllerTest {
         User u=TestDataFactory.getCommunicationsUser(true);
         
         System.runAs(u){
-            List<Contact> lstContacts = [SELECT Id FROM Contact];
+            List<Contact> lstContacts = [SELECT Id,AccountId FROM Contact];
+            Opportunity standardOpportunitiy = TestDataFactory.getFinleapStandardOpportunity(lstContacts[0].AccountId,true);
+            TestDataFactory.addOpportunityToContact(standardOpportunitiy.Id,lstContacts[0].Id);
             
             Test.startTest();
             List<ActivityTimelineGroup> groups = ActivityTimelineController.getActivityTimeline(lstContacts[0].Id, true);
@@ -80,7 +82,9 @@ private class ActivityTimelineControllerTest {
             For(ActivityTimelineGroup groupObj : groups){
                 lstActivities.addAll(groupObj.items);
             }
-            System.assertEquals(TASK_COUNT + CALL_COUNT + EVENT_COUNT+EMAIL_COUNT, lstActivities.size());
+            //System.debug('testActivitiesForContacts '+lstActivities.size());
+
+            System.assertEquals(TASK_COUNT + CALL_COUNT + EVENT_COUNT, lstActivities.size());
             
             Test.stopTest();
         }

@@ -1,7 +1,7 @@
 <aura:component>
     <aura:attribute name="item" type="ActivityTimelineModel"/>
     <aura:attribute name="isExpanded" type="boolean" default="false"/>
-    
+
     <aura:attribute name="isEdit" type="boolean" default="false"/>
     <aura:if isTrue="{!v.isEdit}">
         <section role="dialog" tabindex="-1" aria-label="Meaningful description of the modal content" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
@@ -20,7 +20,7 @@
                     <force:recordEdit aura:id="editForm" recordId="{!v.item.recordId}" onSaveSuccess="{!c.closeModel}" />
                 </div>
                 <footer class="slds-modal__footer">
-                    <lightning:button label="Cancle" title="Cancle" onclick="{! c.closeModel }"/>
+                    <lightning:button label="Cancel" title="Cancel" onclick="{! c.closeModel }"/>
                     <lightning:button variant="brand" label="Save" title="Save" onclick="{! c.save }"/>
                 </footer>
             </div>
@@ -74,9 +74,10 @@
                 <!-- ACTIVITY SUMMARY -->
                 <!-- ================ -->
                 <div class="slds-media__body">
+                    <!--Title-->
                     <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
                         <div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
-                            <!-- Mark Task as Complete -->
+                            <!--TODO:Implement  Mark Task as Complete
                             <aura:if isTrue="{!v.item.access}">
                                 <aura:if isTrue="{!and(v.item.activityTimelineType == 'Task',not(v.item.isComplete))}">
                                     <div class="slds-checkbox">
@@ -88,13 +89,14 @@
                                     </div>
                                 </aura:if>
                             </aura:if>
+ 							-->
                             <h3 class="slds-truncate" title="{!v.item.subject}">
                                 <aura:if isTrue="{!v.item.access}">
                                     <a class="pq--link pq--link-no-border" href="{!'/lightning/r/' + v.item.sobjectName + '/' + v.item.recordId + '/view'}">
                                         <strong>{!v.item.subject}</strong>
                                     </a>
                                     <aura:set attribute="else">
-                                        <strong>{!v.item.subject}</strong>
+                                        <strong class="no-access-color">{!v.item.subject}</strong>
                                     </aura:set>
                                 </aura:if>
                             </h3>
@@ -123,22 +125,26 @@
                                 </div>
                             </aura:if>
                         </div>
+                        
                         <div class="slds-timeline__actions slds-timeline__actions_inline">
-                            <p class="{!v.item.isOverdue ? 'slds-timeline__date slds-text-color_error' : 'slds-timeline__date'}">
-                                <aura:if isTrue="{!and(v.item.activityTimelineType != 'Task', v.item.activityTimelineType != 'Call')}">
-                                    <lightning:formattedDateTime value="{!v.item.activityDate}" hour="2-digit" minute="2-digit" hour12="false"/> | 
-                                </aura:if>
-                                <lightning:formattedDateTime value="{!v.item.activityDate}" day="2-digit" month="short"/>
-                            </p>
+                            <aura:if isTrue="{!v.item.activityDate!=v.item.createdDate}">
+                                <p class="{!v.item.isOverdue ? 'slds-timeline__date slds-text-color_error' : 'slds-timeline__date'}">
+                                    <aura:if isTrue="{!and(v.item.activityTimelineType != 'Task', v.item.activityTimelineType != 'Call')}">
+                                        <lightning:formattedDateTime value="{!v.item.activityDate}" hour="2-digit" minute="2-digit" hour12="false"/> | 
+                                    </aura:if>
+                                    <lightning:formattedDateTime value="{!v.item.activityDate}" day="2-digit" month="short"/>
+                                </p>
+                                <aura:set attribute="else">
+                                    No due date&nbsp;
+                                </aura:set>
+                            </aura:if>
                             <aura:if isTrue="{!and(v.item.activityTimelineType != 'Email',v.item.access)}">
                                 <lightning:buttonMenu onselect="{! c.handleMenuClick }" iconSize="x-small"  alternativeText="Show More Action" variant="border">
                                     <lightning:menuItem value="Edit" label="Edit" />
                                 </lightning:buttonMenu>
                             </aura:if>
                         </div>
-                        
                     </div>
-
                     <p class="slds-m-horizontal_xx-small">
                         <!-- Assigned To | Sender -->
                         <aura:if isTrue="{!v.item.assignedTo}">
@@ -156,41 +162,40 @@
                                 </a>
                             </aura:set>
                         </aura:if>
-                        
                         <!-- Tense -->
                         <aura:if isTrue="{!v.item.isComplete}">
                             <!-- Past Tense -->
                             <aura:if isTrue="{!v.item.activityTimelineType == 'Task'}">
-                                had a task 
+                                had a task
                             </aura:if>
                             <aura:if isTrue="{!v.item.activityTimelineType == 'Call'}">
-                                logged a call 
+                                logged a call
                             </aura:if>
                             <aura:if isTrue="{!v.item.activityTimelineType == 'Email'}">
-                                sent an email 
+                                sent an email
                             </aura:if>
                             <aura:if isTrue="{!v.item.activityTimelineType == 'Event'}">
-                                had an event 
+                                had an event
                             </aura:if>
 
                             <!-- Future Tense -->
                             <aura:set attribute="else">
-                                {!v.item.assignedTo.isCurrentUser ? 'have' : 'has'}
+                                {!v.item.assignedTo.isCurrentUser ? ' have' : ' has'}
                                 <aura:if isTrue="{!v.item.activityTimelineType == 'Task'}">
-                                    an upcoming task 
+                                    an upcoming task
                                 </aura:if>
                                 <aura:if isTrue="{!v.item.activityTimelineType == 'Call'}">
                                     an upcoming call 
                                 </aura:if>
                                 <aura:if isTrue="{!v.item.activityTimelineType == 'Event'}">
-                                    an upcoming event 
+                                    an upcoming event
                                 </aura:if>
                             </aura:set>
                         </aura:if>
 
                         <!-- Contact or Lead or Recipients -->
                         <aura:if isTrue="{!v.item.recipients}">
-                            {!v.item.activityTimelineType == 'Email' ? 'to' : 'with'} &nbsp;
+                            {!v.item.activityTimelineType == 'Email' ? 'to ' : 'with '}
                             <aura:if isTrue="{!v.item.recipients[0].isCurrentUser}">
                                 you
                                 <aura:set attribute="else">
@@ -213,10 +218,15 @@
 
                         <!-- Related To -->
                         <aura:if isTrue="{!v.item.relatedTo}">
-                            about 
-                            <a class="pq--link" href="{!'/lightning/r/' + v.item.relatedTo.sobjectName + '/' + v.item.relatedTo.recordId + '/view'}">
-                                {!v.item.relatedTo.recordName}
-                            </a>
+                            about
+                            <aura:if isTrue="{!v.item.relatedTo.access}">
+                                <a class="pq--link" href="{!'/lightning/r/' + v.item.relatedTo.sobjectName + '/' + v.item.relatedTo.recordId + '/view'}">
+                                    {!v.item.relatedTo.recordName}
+                                </a>
+                                <aura:set attribute="else">
+                                	{!v.item.relatedTo.recordName}
+                                </aura:set>
+                            </aura:if>
                         </aura:if>
                     </p>
                     <!-- ACTIVITY DETAIL -->
@@ -251,7 +261,7 @@
                                                     {!v.item.recipients[0].recordName}
                                                 </a>
                                                 <aura:if isTrue="{!v.item.recipients.length > 1}">
-                                                    and {!v.item.recipients.length - 1} {!v.item.recipients.length == 2 ? 'other' : 'others'}
+                                                    and {!v.item.recipients.length - 1} {!v.item.recipients.length == 2 ? 'other ' : 'others '}
                                                 </aura:if>
                                             </aura:if>
                                             <aura:if isTrue="{!v.item.toEmail}">
@@ -290,14 +300,12 @@
                                 </div>
                             </div>
                             <aura:set attribute="else">
-                                <div>
-                                    <span class="slds-text-title">Description</span>
-                                    <div class="tenLinesScroll">
-                                        <p class="slds-p-top_x-small">
-                                        	{!$Label.c.Insufficient_Access_Text}
-                                        </p>
-                                    </div>
+                                <div class="slds-notify info-title slds-notify_alert slds-theme_alert-texture slds-theme_warning" role="alert">
+                                    <h2>
+                                    {!$Label.c.Insufficient_Access_Text}
+                                    </h2>
                                 </div>
+                                
                             </aura:set>
                         </aura:if>
                     </article>

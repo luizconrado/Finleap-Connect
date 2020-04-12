@@ -1,6 +1,12 @@
 global class ActivityTimelineModel implements Comparable {
+
     @AuraEnabled
     public Boolean access {get;set;}
+    
+    @AuraEnabled
+    public DateTime createdDate {get;set;}
+    
+  
     @AuraEnabled
     public Id recordId {get;set;}
 
@@ -74,12 +80,19 @@ global class ActivityTimelineModel implements Comparable {
         public String recordName {get;set;}
         @AuraEnabled
         public String sobjectName {get;set;}
-        
+        @AuraEnabled
+        public Boolean access {get;set;}
+       
         public RecordReference(Id recordId, String recordName){
             this.recordId = recordId;
             this.isCurrentUser = recordId == UserInfo.getUserId();
             this.recordName = recordName;
             this.sobjectName = String.valueOf(recordId.getSobjectType());
+            this.access=true;
+        }
+        public RecordReference(String recordName){
+            this.recordName = recordName;
+            this.access = false;
         }
     }
 

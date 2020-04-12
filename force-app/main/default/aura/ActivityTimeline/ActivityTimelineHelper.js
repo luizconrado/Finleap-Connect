@@ -1,24 +1,18 @@
 ({
 	getActivitys : function(component) {
         component.set('v.loadTimeline',false);
-        
-        // retrieve server method
-        var action = component.get("c.getActivityTimeline");
-        
-        // set method paramaters
+        let action = component.get("c.getActivityTimeline");
         action.setParams({
             "recordId" : component.get("v.recordId"),
             "includeChildren": component.get("v.includeChildren")
         });
-        
-        
-        // set call back instructions
         action.setCallback(this, function(response){
-            if (response.getState() === "SUCCESS") {
+            const status=response.getState() ;
+            if (status=== "SUCCESS") {
                 var timelineGroups = response.getReturnValue();
                 var activeSections = [];
                 timelineGroups.forEach(function(timelineGroup, index){
-                    var sectionName = 'Section'+index;
+                    const sectionName = 'Section'+index;
                     activeSections.push(sectionName);
                     timelineGroup.sectionName = sectionName;
                     timelineGroup.items.forEach(function(item){
@@ -26,16 +20,21 @@
                     });
                 });
                 
-                // assign server retrieved items to component variable
+                let loadLimiter={
+                    limit:2,
+                    load:2<timelineGroups.length
+                };
+                
+                component.set("v.loadLimiter", loadLimiter);
                 component.set("v.activeSections", activeSections);
                 component.set("v.timelineGroups", timelineGroups);
-                
-                component.set('v.loadTimeline',true);
-                
+               
+                component.set("v.loadTimeline",true);
+                component.set("v.isLoading", false);
             }
+            
         });
         
-        // queue action on the server
         $A.enqueueAction(action);
 
 		
