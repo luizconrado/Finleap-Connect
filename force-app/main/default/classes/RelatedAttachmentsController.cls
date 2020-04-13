@@ -9,12 +9,17 @@ public with sharing class RelatedAttachmentsController {
     }
     
     @AuraEnabled
-    public static List<String> getAllOptions(String recordId,String sObjectName){
+    public static List<String> getAllOptions(String recordId,String objectName){
+        String query='SELECT RecordTypeId FROM '+objectName+' where Id =:recordId';
+        System.debug('Query '+query);
+		List<Sobject> recordList=Database.query(query);
+    	String recordTypeName=Schema.getGlobalDescribe().get(objectName).getDescribe().getRecordTypeInfosById().get((String)recordList.get(0).get('RecordTypeId')).getDeveloperName();
+        List<File_Type_Option__mdt> customOptions=[SELECT Id,Types__c FROM File_Type_Option__mdt WHERE  Object_Name__c=:objectName AND Record_Type_Name__c=:recordTypeName];
+        if(customOptions.size()==0) customOptions=[SELECT Id,Types__c FROM File_Type_Option__mdt WHERE  DeveloperName='Default'];
         List<String> options=new List<String>();
         options.add('--Select Type--');
-        options.add('Terms and Condition');
-        options.add('Valuation');
-        options.add('Other File');
+        if(!String.isEmpty(customOptions.get(0).Types__c)) options.addAll(customOptions.get(0).Types__c.split(','));
+     	options.add('Other File');
         return options;
     }
     

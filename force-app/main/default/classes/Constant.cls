@@ -4,9 +4,9 @@ public inherited  sharing class Constant {
         if(OPPORTUNITY_INVESTMENT_IN_FINLEAP_RECORDTYPE_ID == null) OPPORTUNITY_INVESTMENT_IN_FINLEAP_RECORDTYPE_ID=SchemaUtility.getRecordTypeId('Finleap_Investment_in_Finleap_Group','Opportunity');
         return OPPORTUNITY_INVESTMENT_IN_FINLEAP_RECORDTYPE_ID;
     }}
-    public static final string OPPORTUNITY_STANDARD_SALES_RECORDTYPE_ID{private set;get{
-        if(OPPORTUNITY_STANDARD_SALES_RECORDTYPE_ID == null) OPPORTUNITY_STANDARD_SALES_RECORDTYPE_ID=SchemaUtility.getRecordTypeId('Finleap_Connect_Standard_Sales','Opportunity');
-        return OPPORTUNITY_STANDARD_SALES_RECORDTYPE_ID;
+    public static final string OPPORTUNITY_ECOSYSTEM_RECORDTYPE_ID{private set;get{
+        if(OPPORTUNITY_ECOSYSTEM_RECORDTYPE_ID == null) OPPORTUNITY_ECOSYSTEM_RECORDTYPE_ID=SchemaUtility.getRecordTypeId('Finleap_Ecosystem_Development','Opportunity');
+        return OPPORTUNITY_ECOSYSTEM_RECORDTYPE_ID;
     }}
     public static final string OPPORTUNITY_GLOBAL_RELATED_FIELDSET{private set;get{
         if(OPPORTUNITY_GLOBAL_RELATED_FIELDSET==null)OPPORTUNITY_GLOBAL_RELATED_FIELDSET='Global_Related_List_Fields';
@@ -26,5 +26,9 @@ public inherited  sharing class Constant {
     public static final string COMMUNICATION_PROFILE_ID{private set;get{
         if(COMMUNICATION_PROFILE_ID==null) COMMUNICATION_PROFILE_ID = [SELECT Id FROM Profile WHERE Name = 'Finleap Communication' LIMIT 1].Id;
         return COMMUNICATION_PROFILE_ID;
+    }}
+    public static final string FINLEAP_STANDARD_PROFILE_ID{private set;get{
+        if(FINLEAP_STANDARD_PROFILE_ID==null) FINLEAP_STANDARD_PROFILE_ID = [SELECT Id FROM Profile WHERE Name = 'Finleap Connect Sales' LIMIT 1].Id;
+        return FINLEAP_STANDARD_PROFILE_ID;
     }}
 }

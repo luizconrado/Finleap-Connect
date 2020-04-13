@@ -35,7 +35,7 @@
             }
         },{
             "recordId" : component.get("v.recordId"),
-            "objectName": component.get("v.sObjectName")
+            "objectName": component.get("v.SObjectName")
         })
     },
     getVersion:function(component,type){
@@ -134,6 +134,8 @@
         component.set('v.currentStep','1');
         component.set('v.customType');
         component.set('v.selectedType');
+        component.set('v.fileloader',false);
+
         component.set('v.isUpload',false);
     }
 })

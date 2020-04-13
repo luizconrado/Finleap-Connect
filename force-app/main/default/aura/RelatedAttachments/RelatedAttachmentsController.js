@@ -37,10 +37,13 @@
         }
     },
     actionInvoked:function(component,event,helper){
+        component.set('v.fileloader',true);
+
         helper.callApex(component,"getAllOptions",function(response){
             let status=response.getState();
             if (status === "SUCCESS"){
                 let data = response.getReturnValue();
+                component.set('v.fileloader',false);
                 component.set('v.fileTypes',data);
                 component.set('v.isUpload',true);
             }
