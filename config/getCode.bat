@@ -12,3 +12,11 @@ ECHO ============================
 ECHO Getting All Lighting Components
 ECHO ============================
 call  sfdx force:source:retrieve -m AuraDefinitionBundle
+ECHO ============================
+ECHO Getting All Custom Metadata
+ECHO ============================
+call  sfdx force:source:retrieve -m CustomMetadata
+ECHO ============================
+ECHO Getting All Custom Label
+ECHO ============================
+call sfdx force:source:retrieve -m CustomLabels
