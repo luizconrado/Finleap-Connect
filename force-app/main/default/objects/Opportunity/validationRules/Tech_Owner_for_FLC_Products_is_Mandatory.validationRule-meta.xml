@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Tech_Owner_for_FLC_Products_is_Mandatory</fullName>
+    <active>false</active>
+    <description>For the Vertical or Product(s) chosen, a Tech Owner is Mandatory.
+The Tech Owner also needs to update the Tech Stage and Tech Status.</description>
+    <errorConditionFormula>AND(
+    NOT(
+	    OR(
+	    ISPICKVAL(StageName, &#39;Qualifying&#39;),
+	    ISPICKVAL(StageName, &#39;Engage&#39;),
+	    ISPICKVAL(StageName, &#39;Convince&#39;),
+	    ISPICKVAL(StageName, &#39;Closed Lost&#39;)
+        )
+	),
+	OR(
+	INCLUDES(Product_Vertical__c, &#39;White-Label Products&#39;),
+	INCLUDES(Product_Vertical__c, &#39;Micro Products&#39;),
+	INCLUDES(Product_Vertical__c, &#39;Core Services&#39;),
+	INCLUDES(Product_Vertical__c, &#39;Data Services&#39;),
+	INCLUDES(Product__c, &#39;WL - Switchkit&#39;),
+	INCLUDES(Product__c, &#39;WL - Virtual CFO&#39;),
+	INCLUDES(Product__c, &#39;WL - Digital Bank&#39;),
+	INCLUDES(Product__c, &#39;MP - RegShield&#39;),
+	INCLUDES(Product__c, &#39;MP - Account Service&#39;),
+	INCLUDES(Product__c, &#39;MP - Contract Service&#39;),
+	INCLUDES(Product__c, &#39;MP - Document Service&#39;),
+	INCLUDES(Product__c, &#39;MP - Notification Service&#39;),
+	INCLUDES(Product__c, &#39;MP - KYC&#39;),
+	INCLUDES(Product__c, &#39;MP - I / A / M&#39;),
+	INCLUDES(Product__c, &#39;CS - Finleap Cloud (PaaS)&#39;),
+	INCLUDES(Product__c, &#39;DS - Analytics &amp; Segmentation&#39;),
+	INCLUDES(Product__c, &#39;DS - Data Science&#39;),
+	INCLUDES(Product__c, &#39;DS - Data activation&#39;)
+	),
+	OR(
+	ISBLANK(Tech_Owner__c),
+	ISBLANK(TEXT(Tech_Stage__c)),
+	ISBLANK(TEXT(Tech_Status__c))	
+	),
+	NOT(CONTAINS($Label.Users_Exclusion,$User.Username))
+)</errorConditionFormula>
+    <errorMessage>For the Vertical or Product(s) chosen, a Tech Owner is Mandatory.
+The Tech Owner also needs to update the Tech Stage and Tech Status.</errorMessage>
+</ValidationRule>

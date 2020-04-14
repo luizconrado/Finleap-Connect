@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+  <types>
+    <name>ValidationRule</name>
+    <members>Opportunity.Cancelled_Only_from_Closed_Won</members>
+    <members>Opportunity.ClosedLost_or_Cancelled_cant_be_Changed</members>
+    <members>Opportunity.ClosedWon_cant_be_Changed</members>
+    <members>Opportunity.Compliance_Fields_only_for_Compliance</members>
+    <members>Opportunity.Contract_End_Date_must_be_filled_out</members>
+    <members>Opportunity.Dates_must_be_correct</members>
+    <members>Opportunity.From_ClosedWon_only_to_Cancelled</members>
+    <members>Opportunity.KYC_Check_needs_to_be_done</members>
+    <members>Opportunity.Opportunity_Lost_Reason</members>
+    <members>Opportunity.Oppty_Needs_to_be_Filled_out_Properly</members>
+    <members>Opportunity.Revenue_Data_and_Dates</members>
+    <members>Opportunity.Tech_Owner_for_FLC_Products_is_Mandatory</members>
+  </types>
+  <version>48.0</version>
+</Package>
