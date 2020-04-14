@@ -111,21 +111,18 @@
     <filter>
         <criteriaItems>
             <column>STAGE_NAME</column>
-            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>notEqual</operator>
             <value>Closed Won,Closed Lost,Cancelled</value>
         </criteriaItems>
         <criteriaItems>
             <column>Opportunity.Finleap_Company__c</column>
-            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>includes</operator>
             <value>Finleap Connect</value>
         </criteriaItems>
         <criteriaItems>
             <column>Opportunity.Revenue_Start_Date__c</column>
-            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>THIS_YEAR</value>
@@ -136,20 +133,6 @@
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>Opportunity.Finleap_Connect_Standard_Sales</value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>User.Finleap_Country__c</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>DE</value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>User.Is_Finleap_Connect__c</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>1</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>

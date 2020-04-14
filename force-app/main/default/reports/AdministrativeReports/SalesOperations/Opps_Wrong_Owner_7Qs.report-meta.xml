@@ -18,10 +18,16 @@
     <filter>
         <criteriaItems>
             <column>FULL_NAME</column>
-            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>notEqual</operator>
             <value>Berini Marco,Chris Scheuermann,Marco Berini,Kseniia Snigur,Elisabetta Torossian,Ignacio Garcia,Nicolas Montes-Edwards,Ramin Niroumand,Oleksiy Khoroshko,Claudia Kettmann,Cedric Boy Beeg,Florian Schwabl,Simona Schamper,Anais Cisneros,Mariana Peressini</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>RECORDTYPE</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Opportunity.Finleap_Connect_Standard_Sales</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>
