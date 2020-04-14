@@ -38,7 +38,8 @@ The Tech Owner also needs to update the Tech Stage and Tech Status.</description
 	ISBLANK(TEXT(Tech_Stage__c)),
 	ISBLANK(TEXT(Tech_Status__c))	
 	),
-	NOT(CONTAINS($Label.Users_Exclusion,$User.Username))
+	NOT(CONTAINS($Label.Users_Exclusion,$User.Username)),
+	RecordTypeId == $CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c
 )</errorConditionFormula>
     <errorMessage>For the Vertical or Product(s) chosen, a Tech Owner is Mandatory.
 The Tech Owner also needs to update the Tech Stage and Tech Status.</errorMessage>

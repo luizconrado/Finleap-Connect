@@ -26,7 +26,8 @@
       ISPICKVAL(StageName, &quot;Closed Won&quot;)
       /* ISPICKVAL(StageName, &quot;Cancelled&quot;) */
    ),
-   NOT(CONTAINS($Label.Users_Exclusion,$User.Username))
+   NOT(CONTAINS($Label.Users_Exclusion,$User.Username)),
+   RecordTypeId == $CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c
 )</errorConditionFormula>
     <errorDisplayField>KYC_Check_Status__c</errorDisplayField>
     <errorMessage>Compliance Fields can only be modified by compliance users!</errorMessage>

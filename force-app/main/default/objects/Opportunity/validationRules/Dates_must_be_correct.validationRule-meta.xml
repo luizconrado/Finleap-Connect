@@ -24,7 +24,8 @@
 		CloseDate &gt; Revenue_Start_Date__c
 		
 	),
-	NOT(CONTAINS($Label.Users_Exclusion,$User.Username))
+	NOT(CONTAINS($Label.Users_Exclusion,$User.Username)),
+	RecordTypeId == $CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c
 )</errorConditionFormula>
     <errorMessage>Please check the dates you are entering.
 Close Date, Revenue Start Date, Contract End Date.</errorMessage>

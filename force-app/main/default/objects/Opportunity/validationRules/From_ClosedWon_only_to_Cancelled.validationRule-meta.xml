@@ -7,7 +7,8 @@
  ISCHANGED( StageName ),
  NOT(ISPICKVAL (StageName, &quot;Cancelled&quot;)),  
  ISPICKVAL(PRIORVALUE(StageName),&quot;Closed Won&quot;),
- NOT(CONTAINS($Label.Users_Exclusion,$User.Username))
+ NOT(CONTAINS($Label.Users_Exclusion,$User.Username)),
+ RecordTypeId == $CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c
 )</errorConditionFormula>
     <errorDisplayField>StageName</errorDisplayField>
     <errorMessage>A Closed Won Opportunity can only be cancelled.

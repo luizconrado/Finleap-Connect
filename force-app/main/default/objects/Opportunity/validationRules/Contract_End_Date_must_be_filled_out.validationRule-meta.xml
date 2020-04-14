@@ -14,8 +14,8 @@
 		ISPICKVAL(StageName,&#39;Cancelled&#39;)			
 		)
 	),
-	NOT(CONTAINS($Label.Users_Exclusion,$User.Username))
-	
+	NOT(CONTAINS($Label.Users_Exclusion,$User.Username)),
+	RecordTypeId == $CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c
 )</errorConditionFormula>
     <errorDisplayField>Contract_End_Date__c</errorDisplayField>
     <errorMessage>Contract End Date must be filled out if case the contract is cancelled.

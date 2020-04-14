@@ -19,7 +19,8 @@
 		 ISBLANK(TEXT(Revenue_Start_Date__c))
 		 )),
 	 
-     NOT(CONTAINS($Label.Users_Exclusion,$User.Username))
+     NOT(CONTAINS($Label.Users_Exclusion,$User.Username)),
+     RecordTypeId == $CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c
 )</errorConditionFormula>
     <errorMessage>Rev. Start Date, MRR and OTR must be filled out at this point.</errorMessage>
 </ValidationRule>

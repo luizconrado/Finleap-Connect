@@ -27,7 +27,8 @@
       ISPICKVAL(StageName, &quot;Closed Won&quot;)
       /* ISPICKVAL(StageName, &quot;Cancelled&quot;) */
    ),
-   NOT(CONTAINS($Label.Users_Exclusion,$User.Username))
+   NOT(CONTAINS($Label.Users_Exclusion,$User.Username)),
+   RecordTypeId == $CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c
 )</errorConditionFormula>
     <errorMessage>The Regulatory Status and KYC Form need to be filled out and the Customer needs to pass the check by compliance.</errorMessage>
 </ValidationRule>

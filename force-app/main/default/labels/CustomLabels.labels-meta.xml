@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>Users_Exclusion</fullName>
+        <categories>AdminExclusion</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Users Exclusion</shortDescription>
+        <value>luiz.conrado@finreach.com
+luiz.conrado@finleap.com
+system.administrator@finreach.com
+system.administrator@finleap.com
+mariana.peressini@finleap.com</value>
+    </labels>
+</CustomLabels>
