@@ -6,6 +6,11 @@ Finleap connect Org
                    Metadata Affected
                    1. Validation Rule
                    2. Custom Metadata
+    - 05-04-2020 : Adding Record Type filter to all opportunity process builder 
+                   Adding Roles
+                   Metadata Affected
+                   1. Process builder
+                   2. Roles
 
 
 # Commands
