@@ -9,10 +9,6 @@
     <members>CustomLabels</members>
   </types>
   <types>
-    <name>CustomLabel</name>
-    <members>*</members>
-  </types>
-  <types>
     <name>CustomObject</name>
     <members>Constant__mdt</members>
   </types>
@@ -34,6 +30,20 @@
     <members>Opportunity.Oppty_Needs_to_be_Filled_out_Properly</members>
     <members>Opportunity.Revenue_Data_and_Dates</members>
     <members>Opportunity.Tech_Owner_for_FLC_Products_is_Mandatory</members>
+  </types>
+  <types>
+    <name>Flow</name>
+    <members>Opp_Compliance_Check</members>
+    <members>Opp_Won_Cancelled_Lost_Warning</members>
+  </types>
+  <types>
+    <name>Role</name>
+    <members>Finleap_Build</members>
+    <members>Finleap_Communication</members>
+    <members>Finleap_Connect_Sales</members>
+    <members>Finleap_Group</members>
+    <members>Finleap_Portfolio_Management</members>
+    <members>World</members>
   </types>
   <version>48.0</version>
 </Package>
