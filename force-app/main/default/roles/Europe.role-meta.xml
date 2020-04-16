@@ -2,9 +2,9 @@
 <Role xmlns="http://soap.sforce.com/2006/04/metadata">
     <caseAccessLevel>Edit</caseAccessLevel>
     <contactAccessLevel>Edit</contactAccessLevel>
-    <description>Finleap Communication</description>
+    <description>Europe</description>
     <mayForecastManagerShare>false</mayForecastManagerShare>
-    <name>Finleap Communication</name>
+    <name>Europe</name>
     <opportunityAccessLevel>Edit</opportunityAccessLevel>
-    <parentRole>Finleap_Group</parentRole>
+    <parentRole>World</parentRole>
 </Role>
