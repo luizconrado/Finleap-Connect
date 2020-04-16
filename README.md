@@ -11,6 +11,10 @@ Finleap connect Org
                    Metadata Affected
                    1. Process builder
                    2. Roles
+    - 16-04-2020 : Rearranging Roles and sharing rules of opportuntiys
+                    Metadata Affected
+                    1.Roles
+                    2.Sharing rules
 
 
 # Commands
