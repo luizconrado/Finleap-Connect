@@ -6,6 +6,14 @@ declare module "@salesforce/label/c.Expand_Text" {
     var Expand_Text: string;
     export default Expand_Text;
 }
+declare module "@salesforce/label/c.File_Accepted_Extensions" {
+    var File_Accepted_Extensions: string;
+    export default File_Accepted_Extensions;
+}
+declare module "@salesforce/label/c.File_Delete_Users_Exclusion" {
+    var File_Delete_Users_Exclusion: string;
+    export default File_Delete_Users_Exclusion;
+}
 declare module "@salesforce/label/c.Insufficient_Access_Text" {
     var Insufficient_Access_Text: string;
     export default Insufficient_Access_Text;

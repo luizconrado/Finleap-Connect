@@ -78,6 +78,7 @@
     <filter>
         <criteriaItems>
             <column>Opportunity.Product_Vertical__c</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>Micro Products</value>

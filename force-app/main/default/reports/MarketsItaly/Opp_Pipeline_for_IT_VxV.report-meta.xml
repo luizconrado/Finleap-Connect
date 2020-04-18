@@ -97,12 +97,14 @@
         <booleanFilter>1 AND 2 AND 3</booleanFilter>
         <criteriaItems>
             <column>User.Finleap_Country__c</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>IT</value>
         </criteriaItems>
         <criteriaItems>
             <column>CLOSED</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>0</value>

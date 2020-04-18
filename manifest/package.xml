@@ -1,6 +1,55 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-    <types>
+	<types>
+		<members>*</members>
+		<name>ApexClass</name>
+	</types>
+	<types>
+		<members>*</members>
+		<name>ApexTrigger</name>
+	</types>
+	<types>
+		<members>*</members>
+		<name>AuraDefinitionBundle</name>
+	</types>
+	<types>
+		<members>Constant__mdt.value__c</members>
+		<members>ContentVersion.Type__c</members>
+		<members>File_Type_Option__mdt.Object_Name__c</members>
+		<members>File_Type_Option__mdt.Record_Type_Name__c</members>
+		<members>File_Type_Option__mdt.Types__c</members>
+		<members>Trigger_Setting__mdt.Active__c</members>
+		<name>CustomField</name>
+	</types>
+	<types>
+		<members>*</members>
+		<name>CustomLabels</name>
+	</types>
+	<types>
+		<members>*</members>
+		<name>CustomMetadata</name>
+	</types>
+	<types>
+		<members>Standard_View_Account_Record_Page</members>
+		<members>Standard_View_Contact_Record_Page</members>
+		<members>Standard_View_Opportunity_Record_Page</members>
+		<name>FlexiPage</name>
+	</types>
+	<types>
+		<members>Opp_Compliance_Check</members>
+		<members>Opp_Won_Cancelled_Lost_Warning</members>
+		<name>Flow</name>
+	</types>
+	<types>
+		<members>Account-Account Layout</members>
+		<members>Constant__mdt-Constant Layout</members>
+		<members>Contact-Contact Layout</members>
+		<members>File_Type_Option__mdt-File Type Option Layout</members>
+		<members>Opportunity-Opportunity Layout</members>
+		<members>Trigger_Setting__mdt-Trigger Setting Layout</members>
+		<name>Layout</name>
+	</types>
+	 <types>
         <name>Report</name>
         <members>unfiled$public/MASK_Push_Challenger_Banks</members>
         <members>unfiled$public/Micro_Products_Opportunities</members>
@@ -255,5 +304,34 @@
         <members>CampaignUpdates/new_report_IPN</members>
 
     </types>
-    <version>48.0</version>
+	<types>
+		<members>Finleap_Build</members>
+		<members>Finleap_Communication</members>
+		<members>Finleap_Connect</members>
+		<members>Finleap_Group</members>
+		<members>Finleap_Portfolio_Management</members>
+		<members>World</members>
+		<members>Europe</members>
+		<name>Role</name>
+	</types>
+	<types>
+		<members>Opportunity</members>
+		<name>SharingRules</name>
+	</types>
+	<types>
+		<members>Opportunity.Cancelled_Only_from_Closed_Won</members>
+		<members>Opportunity.ClosedLost_or_Cancelled_cant_be_Changed</members>
+		<members>Opportunity.ClosedWon_cant_be_Changed</members>
+		<members>Opportunity.Compliance_Fields_only_for_Compliance</members>
+		<members>Opportunity.Contract_End_Date_must_be_filled_out</members>
+		<members>Opportunity.Dates_must_be_correct</members>
+		<members>Opportunity.From_ClosedWon_only_to_Cancelled</members>
+		<members>Opportunity.KYC_Check_needs_to_be_done</members>
+		<members>Opportunity.Opportunity_Lost_Reason</members>
+		<members>Opportunity.Oppty_Needs_to_be_Filled_out_Properly</members>
+		<members>Opportunity.Revenue_Data_and_Dates</members>
+		<members>Opportunity.Tech_Owner_for_FLC_Products_is_Mandatory</members>
+		<name>ValidationRule</name>
+	</types>
+	<version>48.0</version>
 </Package>

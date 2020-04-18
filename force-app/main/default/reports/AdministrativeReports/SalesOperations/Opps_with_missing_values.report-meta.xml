@@ -27,24 +27,28 @@
         <booleanFilter>(1 AND (2 OR 3 OR 4)) AND 5</booleanFilter>
         <criteriaItems>
             <column>STAGE_NAME</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>Engage,Convince,Offer,Negotiate,Confirmed</value>
         </criteriaItems>
         <criteriaItems>
             <column>Opportunity.MRR_Monthly_Recurring_Revenue__c</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value/>
         </criteriaItems>
         <criteriaItems>
             <column>Opportunity.OTR_One_Time_Revenue__c</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value/>
         </criteriaItems>
         <criteriaItems>
             <column>Opportunity.Revenue_Start_Date__c</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value/>

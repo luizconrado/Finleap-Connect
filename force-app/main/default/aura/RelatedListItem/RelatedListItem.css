@@ -1,0 +1,7 @@
+.THIS .no-access-color{
+    color: t(noAccessColor);
+    border-bottom:1px dotted;
+}
+.THIS .dotted-underline{
+    border-bottom:1px dotted;
+}

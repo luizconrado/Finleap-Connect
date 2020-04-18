@@ -1,0 +1,20 @@
+<aura:component>
+    <aura:handler name="init" value="{!this}" action="{!c.createView}" />
+
+    
+    <aura:attribute name="fieldsList" type="List" />
+    <aura:attribute name="record" type="Object" />
+    <aura:attribute name="header" type="string" />
+    
+    <aura:attribute name="layout" type="Aura.Component[]" access="private" />
+    <aura:attribute name="load" type="boolean" access="private" />
+    <aura:if isTrue="{!v.load}">
+        <lightning:accordion aura:id="accordion" activeSectionName="A">
+            <lightning:accordionSection name="A" label="{!v.header}">
+                <div class="slds-form" role="list">
+                    {!v.layout}
+                </div>
+            </lightning:accordionSection>
+        </lightning:accordion>
+    </aura:if>
+</aura:component>

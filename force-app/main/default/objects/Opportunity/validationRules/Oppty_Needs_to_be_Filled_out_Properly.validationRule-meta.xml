@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Oppty_Needs_to_be_Filled_out_Properly</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+    NOT(
+	    OR(
+	    ISPICKVAL(StageName, &#39;Qualifying&#39;),
+	    ISPICKVAL(StageName, &#39;Engage&#39;),
+	    ISPICKVAL(StageName, &#39;Closed Lost&#39;)
+        )
+	),
+	OR(
+	ISBLANK(Finleap_Company__c ),
+	ISBLANK(Product_Vertical__c),
+	ISBLANK(Product__c),
+	ISBLANK(TEXT(Type)),
+	ISBLANK(Target_Countries__c),
+	ISBLANK(Use_Case_Description__c),
+	ISBLANK(TEXT(Revenue_Start_Date__c)),
+	ISBLANK(TEXT(MRR_Monthly_Recurring_Revenue__c)),
+	ISBLANK(TEXT(OTR_One_Time_Revenue__c)),	
+	AND(MRR_Monthly_Recurring_Revenue__c &lt;= 0, OTR_One_Time_Revenue__c &lt;= 0),
+	LEN(Use_Case_Description__c) &lt;= 50
+	),
+	NOT(CONTAINS($Label.Users_Exclusion,$User.Username)),
+	RecordTypeId == $CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c
+)</errorConditionFormula>
+    <errorMessage>Please make sure these fields are properly filled out:
+Finleap Company, Product Vertical, Product, Type, Target Countries, Use Case Description, Revenue Start Date, MRR, OTR</errorMessage>
+</ValidationRule>

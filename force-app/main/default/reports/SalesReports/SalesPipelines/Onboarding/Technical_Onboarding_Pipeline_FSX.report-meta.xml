@@ -65,36 +65,42 @@
         <booleanFilter>1 AND 2 AND 3 AND 4 AND (5 OR 6) AND 7</booleanFilter>
         <criteriaItems>
             <column>STAGE_NAME</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>Offer,Negotiate,Confirmed,Closed Won</value>
         </criteriaItems>
         <criteriaItems>
             <column>Opportunity.Is_Test__c</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>0</value>
         </criteriaItems>
         <criteriaItems>
             <column>Opportunity.Finleap_Company__c</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>includes</operator>
             <value>Finleap Connect</value>
         </criteriaItems>
         <criteriaItems>
             <column>Opportunity.Product__c</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>notEqual</operator>
             <value/>
         </criteriaItems>
         <criteriaItems>
             <column>Opportunity.Tech_Stage__c</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>Workshop,Testing,PoC,Integration,Family &amp; Friends</value>
         </criteriaItems>
         <criteriaItems>
             <column>Opportunity.Tech_Owner__c</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>notEqual</operator>
             <value/>

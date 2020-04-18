@@ -1,0 +1,55 @@
+<aura:component >
+    <aura:attribute name="label1" type="String"/>
+    <aura:attribute name="label2" type="String"/>
+    <aura:attribute name="id1" type="String"/>
+    <aura:attribute name="id2" type="String"/>
+    <aura:attribute name="value1" type="String"/>
+    <aura:attribute name="value2" type="String"/>
+    <aura:attribute name="isDate1" type="Boolean" default="false"/>
+    <aura:attribute name="isDate2" type="Boolean" default="false"/>
+    <div class="slds-form__row">
+        <div class="slds-form__item" role="listitem">
+            <div class="slds-form-element slds-form-element_stacked slds-form-element_readonly">
+                <span class="slds-form-element__label">{!v.label1}</span>
+                <div class="slds-form-element__control">
+                    <div class="slds-form-element__static">
+                        <aura:if isTrue="{!!empty(v.value1)}">
+                            <aura:if isTrue="{!v.isDate1}">
+                                <lightning:formattedDateTime value="{!v.value1}" year="2-digit" month="short" day="2-digit" weekday="long"/> | 
+                            </aura:if>
+                            <aura:if isTrue="{!!empty(v.id1)}">
+                                <a href="{!'/'+v.id1}" class="dotted-underline">{!v.value1}</a>
+                                <aura:set attribute="else">
+                                    {!v.value1}
+                                </aura:set>
+                            </aura:if>
+                        </aura:if>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <aura:if isTrue="{!!empty(v.label2)}">
+            <div class="slds-form__item" role="listitem">
+                <div class="slds-form-element slds-form-element_stacked slds-form-element_readonly">
+                    <span class="slds-form-element__label">{!v.label2}</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">
+                            <aura:if isTrue="{!!empty(v.value2)}">
+                                <aura:if isTrue="{!v.isDate2}">
+                                    <lightning:formattedDateTime value="{!v.value2}" year="2-digit" month="short" day="2-digit" weekday="long"/> | 
+                                </aura:if>
+                                <aura:if isTrue="{!!empty(v.id2)}">
+                                    <a href="{!'/'+v.id2}" class="dotted-underline">{!v.value2}</a>
+                                    <aura:set attribute="else">
+                                    	{!v.value2}
+                                    </aura:set>
+                                </aura:if>
+                            </aura:if>
+                     
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aura:if>
+    </div>
+</aura:component>
