@@ -18,18 +18,21 @@
     <filter>
         <criteriaItems>
             <column>CREATED_DATE</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>LAST_MONTH</value>
         </criteriaItems>
         <criteriaItems>
             <column>field_key</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>KYC Check Status</value>
         </criteriaItems>
         <criteriaItems>
             <column>NEWVAL</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>Customer Passed</value>

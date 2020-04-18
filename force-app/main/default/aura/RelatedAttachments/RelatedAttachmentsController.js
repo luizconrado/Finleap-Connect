@@ -7,6 +7,7 @@
     viewAllInvoked:function(component){
         const isMobile=component.get('v.isMobile');
         if(isMobile){
+            //if in mobile context opening modal as refrence
             const viewAllListData=component.get('v.attachmentList');
             const relatedList={
                 componentDef:"c:RelatedListItem",
@@ -38,8 +39,7 @@
     },
     actionInvoked:function(component,event,helper){
         component.set('v.fileloader',true);
-
-        helper.callApex(component,"getAllOptions",function(response){
+		helper.callApex(component,"getAllOptions",function(response){
             let status=response.getState();
             if (status === "SUCCESS"){
                 let data = response.getReturnValue();
@@ -48,15 +48,13 @@
                 component.set('v.isUpload',true);
             }
             else if (status === "ERROR") {
-                var errors = response.getError();
-                if (errors) {
-                    if (errors[0] && errors[0].message) {
-                        console.log("Error message: " + 
-                                    errors[0].message);
-                    }
-                } else {
-                    console.log("Unknown error");
-                }
+                const toastEvent = $A.get("e.force:showToast");
+                toastEvent.setParams({
+                    "title": "File Options Error!",
+                    "type":'error',
+                    "message": "Please contact your system admin if problem continues."
+                });
+                toastEvent.fire();
             }
         },{
             "recordId" : component.get("v.recordId"),
@@ -73,7 +71,7 @@
         if(type==='Other File'){
             type=component.get('v.customType');
         }
-        if(type==undefined ||type=='' && type=='Other File' || type =='--Select Type--'){
+        if(type==undefined || type.trim()=='' && type=='Other File' || type =='--Select Type--'){
             var toastEvent = $A.get("e.force:showToast");
             toastEvent.setParams({
                 "title": "Error!",
@@ -93,7 +91,7 @@
             if(type==='Other File'){
                 type=component.get('v.customType');
             }
-            if(type==undefined ||type=='' && type=='Other File' || type =='--Select Type--'){
+            if(type==undefined ||type.trim()=='' && type=='Other File' || type =='--Select Type--'){
                 var toastEvent = $A.get("e.force:showToast");
                 toastEvent.setParams({
                     "title": "Error!",
@@ -122,12 +120,13 @@
         const file = fileList[0];
         let fsize = file.size; 
         fsize = Math.round((fsize / 1024)); 
-        if (fsize >= 5000) { 
+        //limiting file size to 4mb as apex/payload limit
+        if (fsize >= 4000) { 
             let toastEvent = $A.get("e.force:showToast");
             toastEvent.setParams({
                 "title":'File to big',
                 "type":"info",
-                "message": "File too Big, please select a file less than 5mb"
+                "message": "File too Big, please select a file less than 4mb"
             });
             toastEvent.fire();
             return ;
@@ -148,39 +147,54 @@
             let dataStart = fileContents.indexOf(base64Mark) + base64Mark.length;
             fileContents = fileContents.substring(dataStart);
             component.set('v.fileloader',true);
-            helper.callApex(component,'uploadContentVersion',function(response){
-                let status = response.getState();
-                let data = response.getReturnValue();
-                if(status==='SUCCESS'){
-                    let toastEvent = $A.get("e.force:showToast");
-                    toastEvent.setParams({
-                        "title":'File Uploaded',
-                        "type":"success",
-                        "message": "File Upload Success"
-                    });
-                    toastEvent.fire();
-                    helper.getFiles(component);
-
-                } 
-                else if(status==='ERROR'){
-                    let toastEvent = $A.get("e.force:showToast");
-                    toastEvent.setParams({
-                        "title":'Upload Failed',
-                        "type":"error",
-                        "message": "Cannot Upload New Version Please Try Again."
-                    });
-                    toastEvent.fire();
-                }
-                
-                helper.closeUploadPopup(component);
-
-            },{
-                base64:fileContents,
-                fileType:type,
-                documentId:id,
-                filename:file.name,
-                recordId:component.get('v.recordId')
-            })
+            //calling apex to upload file
+            window.setTimeout(
+                $A.getCallback(function() {
+                    helper.callApex(component,'uploadContentVersion',function(response){
+                        let status = response.getState();
+                        let data = response.getReturnValue();
+                        if(status==='SUCCESS'){
+                            let toastEvent = $A.get("e.force:showToast");
+                            toastEvent.setParams({
+                                "title":'File Uploaded',
+                                "type":"success",
+                                "message": "File Upload Success"
+                            });
+                            toastEvent.fire();
+                            helper.getFiles(component);
+                            
+                        } 
+                        else if(status==='ERROR'){
+                            var errors = response.getError();
+                            if (errors) {
+                                if (errors[0] && errors[0].message) {
+                                    console.log("Error message: " + 
+                                                errors[0].message);
+                                }
+                            } else {
+                                console.log("Unknown error");
+                            }
+                            let toastEvent = $A.get("e.force:showToast");
+                            toastEvent.setParams({
+                                "title":'Upload Failed',
+                                "type":"error",
+                                "message": "Cannot upload please try again."
+                            });
+                            toastEvent.fire();
+                        }
+                        
+                        helper.closeUploadPopup(component);
+                        
+                    },
+                                    {
+                                        base64:fileContents,
+                                        fileType:type,
+                                        documentId:id,
+                                        filename:file.name,
+                                        recordId:component.get('v.recordId')
+                                    })
+                }),100);
+            
             
         }, false);
     }

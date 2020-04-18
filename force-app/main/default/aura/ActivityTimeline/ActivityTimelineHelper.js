@@ -19,7 +19,7 @@
                         item.isExpanded=false;
                     });
                 });
-                
+                //Adding limit to length of time sections load on init
                 let loadLimiter={
                     limit:2,
                     load:2<timelineGroups.length
@@ -31,6 +31,15 @@
                
                 component.set("v.loadTimeline",true);
                 component.set("v.isLoading", false);
+            }
+            else if(status=="ERROR"){
+                const toastEvent = $A.get("e.force:showToast");
+                toastEvent.setParams({
+                    "title": "Timeline Error!",
+                    "type":'error',
+                    "message": "Please contact your system admin if problem continues."
+                });
+                toastEvent.fire();
             }
             
         });

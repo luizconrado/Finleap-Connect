@@ -9,9 +9,11 @@ public class AccountTriggerHandler extends Triggerhandler {
         Map<Id,Account> newAccountMap=(Map<Id,Account>) Trigger.newMap;
         Map<Id,Account> oldAccountMap=(Map<Id,Account>) Trigger.oldMap;
         
+        //Retreving all accounts whoese owner is changed
         for(Account a:newAccountMap.values()){
             if(a.OwnerId!=oldAccountMap.get(a.Id).OwnerId) accountOwnerChanged.add(a);
         }
+        
         
         List<AccountTeamMember> teamMemebers=[SELECT  AccountId, UserId, TeamMemberRole, PhotoUrl, Title, AccountAccessLevel, OpportunityAccessLevel, CaseAccessLevel, ContactAccessLevel 
                                               FROM AccountTeamMember WHERE AccountId IN: accountOwnerChanged];

@@ -23,9 +23,8 @@
     <aura:attribute name="fileTypes" type="List" />
     <aura:attribute name="selectedType" type="String" />
     <aura:attribute name="customType" type="String" />
-    <aura:attribute name="acceptExt" type="String" default=".xls,.xlsx,.png,.csv,.pdf,.doc,.docx,.ppt,.pttx" />
+    <aura:attribute name="acceptExt" type="String" default="{!$Label.c.File_Accepted_Extensions}" />
     <aura:attribute name="duplicateAttachmentList" type="List" />
-
     
     
 

@@ -13,8 +13,11 @@
             let status=response.getState();
             if (status === "SUCCESS"){
                 let data = response.getReturnValue();
+                //set icon based on file type
                 data=_self.setFileIcon(data);
+                //calculate file size
                 data=_self.parseSize(data);
+                //getting  view object list
                 data=_self.getViewList(data);
                 component.set('v.attachmentList',data);
                 component.set('v.attachmentViewList',data.slice(0,3));
@@ -23,15 +26,13 @@
                 component.set('v.loadView',true);
             }
             else if (status === "ERROR") {
-                var errors = response.getError();
-                if (errors) {
-                    if (errors[0] && errors[0].message) {
-                        console.log("Error message: " + 
-                                    errors[0].message);
-                    }
-                } else {
-                    console.log("Unknown error");
-                }
+                const toastEvent = $A.get("e.force:showToast");
+                toastEvent.setParams({
+                    "title": "Attachments Error!",
+                    "type":'error',
+                    "message": "Please contact your system admin if problem continues."
+                });
+                toastEvent.fire();
             }
         },{
             "recordId" : component.get("v.recordId"),
@@ -45,6 +46,7 @@
             let status = response.getState();
             let data = response.getReturnValue();
             if(status==='SUCCESS'){
+                
                 data.forEach(function(file){
                     file.ContentModifiedDate=_self.parseDate(file.ContentModifiedDate);
                 });
@@ -61,6 +63,7 @@
     getViewList:function(files){
         const _self=this;
         let displayList=[];
+        //creates view object list
         files.forEach(function(file,index){
             let fileObj={};
             fileObj.access=true;

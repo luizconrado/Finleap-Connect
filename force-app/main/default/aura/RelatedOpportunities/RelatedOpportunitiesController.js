@@ -31,15 +31,13 @@
                 component.set('v.loadView',true);
             }
             else if (status === "ERROR") {
-                var errors = response.getError();
-                if (errors) {
-                    if (errors[0] && errors[0].message) {
-                        console.log("Error message: " + 
-                                    errors[0].message);
-                    }
-                } else {
-                    console.log("Unknown error");
-                }
+                const toastEvent = $A.get("e.force:showToast");
+                toastEvent.setParams({
+                    "title": "Global Opportunities error!",
+                    "type":'error',
+                    "message": "Please contact your system admin if problem continues."
+                });
+                toastEvent.fire();
             }
         },{
             "recordId" : component.get("v.recordId"),
@@ -49,6 +47,7 @@
     viewAllInvoked:function(component, event, helper){
         const isMobile=component.get('v.isMobile');
         if(isMobile){
+            //if in mobile context opening modal as refrence
             const viewAllListData=component.get('v.viewAllListData');
             const relatedList={
                 componentDef:"c:RelatedListItem",
@@ -78,7 +77,6 @@
         }
     },
     openRecordInvoked:function(component, event, helper){
-        console.log('RelatedOpportunities Component');
         const data=event.getParam("data");
         const id=data.recordId;
         const opportunityList=component.get('v.opportunityList');
@@ -86,6 +84,7 @@
         let record=opportunityList.filter(o=>o.Id==id)[0];
         
         if(!record.access){
+            //if in mobile context opening modal as refrence
             let [fieldName,fieldValue]=helper.parseRecord(record,fields[0]);
             const isMobile=component.get('v.isMobile');
             if(isMobile){

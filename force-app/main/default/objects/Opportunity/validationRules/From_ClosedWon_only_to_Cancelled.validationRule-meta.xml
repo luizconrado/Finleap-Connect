@@ -3,15 +3,13 @@
     <fullName>From_ClosedWon_only_to_Cancelled</fullName>
     <active>true</active>
     <description>Opportunities won can only move to cancelled</description>
-    <errorConditionFormula>IF( Record_Id__c == $CustomMetadata.Constant__mdt.Opp_Standard_Record_Type_Id.Value__c , 
-AND(
+    <errorConditionFormula>AND(
  ISCHANGED( StageName ),
  NOT(ISPICKVAL (StageName, &quot;Cancelled&quot;)),  
  ISPICKVAL(PRIORVALUE(StageName),&quot;Closed Won&quot;),
- NOT(CONTAINS($Label.Users_Exclusion,$User.Username))
-)
-, 
-False)</errorConditionFormula>
+ NOT(CONTAINS($Label.Users_Exclusion,$User.Username)),
+ RecordTypeId == $CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c
+)</errorConditionFormula>
     <errorDisplayField>StageName</errorDisplayField>
     <errorMessage>A Closed Won Opportunity can only be cancelled.
 Please also enter a reason for the loss of the opportunity.</errorMessage>

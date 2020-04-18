@@ -19,18 +19,21 @@
     <filter>
         <criteriaItems>
             <column>STAGE_NAME</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>Qualifying</value>
         </criteriaItems>
         <criteriaItems>
             <column>STAGE_DURATION</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>greaterOrEqual</operator>
             <value>30</value>
         </criteriaItems>
         <criteriaItems>
             <column>FULL_NAME</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>Simona Schamper,Oleksiy Khoroshko,Anais Cisneros,Claudia Kettmann,Cedric Boy Beeg,Florian Schwabl,Chris Scheuermann,Christian Hegeler</value>

@@ -3,8 +3,7 @@
     <fullName>Revenue_Data_and_Dates</fullName>
     <active>true</active>
     <description>Revenue Data and Dates must be entered at this time in the Opportunity</description>
-    <errorConditionFormula>IF( Record_Id__c == $CustomMetadata.Constant__mdt.Opp_Standard_Record_Type_Id.Value__c , 
-AND (
+    <errorConditionFormula>AND (
   
   OR (
      ISPICKVAL(StageName, &quot;Offer&quot;),
@@ -20,9 +19,8 @@ AND (
 		 ISBLANK(TEXT(Revenue_Start_Date__c))
 		 )),
 	 
-     NOT(CONTAINS($Label.Users_Exclusion,$User.Username))
-)
-, 
-False)</errorConditionFormula>
+     NOT(CONTAINS($Label.Users_Exclusion,$User.Username)),
+     RecordTypeId == $CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c
+)</errorConditionFormula>
     <errorMessage>Rev. Start Date, MRR and OTR must be filled out at this point.</errorMessage>
 </ValidationRule>

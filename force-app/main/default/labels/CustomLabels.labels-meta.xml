@@ -17,6 +17,25 @@
         <value>Expand All</value>
     </labels>
     <labels>
+        <fullName>File_Accepted_Extensions</fullName>
+        <categories>RelatedList</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>File Accepted Extensions</shortDescription>
+        <value>.xls,.xlsx,.png,.csv,.pdf,.doc,.docx,.ppt,.pttx,.zip</value>
+    </labels>
+    <labels>
+        <fullName>File_Delete_Users_Exclusion</fullName>
+        <categories>AdminExclusion</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>File Delete Users Exclusion</shortDescription>
+        <value>luiz.conrado@finreach.com
+luiz.conrado@finleap.com
+system.administrator@finreach.com
+system.administrator@finleap.com</value>
+    </labels>
+    <labels>
         <fullName>Insufficient_Access_Text</fullName>
         <categories>Related List</categories>
         <language>en_US</language>
@@ -126,7 +145,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Restricted Edit/Upload Files Objects</shortDescription>
-        <value>Account</value>
+        <value>Account,Opportunity,Contract</value>
     </labels>
     <labels>
         <fullName>Upcoming_Overdue</fullName>

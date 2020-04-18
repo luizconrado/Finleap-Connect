@@ -4,8 +4,7 @@
     <active>false</active>
     <description>For the Vertical or Product(s) chosen, a Tech Owner is Mandatory.
 The Tech Owner also needs to update the Tech Stage and Tech Status.</description>
-    <errorConditionFormula>IF( Record_Id__c == $CustomMetadata.Constant__mdt.Opp_Standard_Record_Type_Id.Value__c , 
-AND(
+    <errorConditionFormula>AND(
     NOT(
 	    OR(
 	    ISPICKVAL(StageName, &#39;Qualifying&#39;),
@@ -39,10 +38,9 @@ AND(
 	ISBLANK(TEXT(Tech_Stage__c)),
 	ISBLANK(TEXT(Tech_Status__c))	
 	),
-	NOT(CONTAINS($Label.Users_Exclusion,$User.Username))
-)
-, 
-False)</errorConditionFormula>
+	NOT(CONTAINS($Label.Users_Exclusion,$User.Username)),
+	RecordTypeId == $CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c
+)</errorConditionFormula>
     <errorMessage>For the Vertical or Product(s) chosen, a Tech Owner is Mandatory.
 The Tech Owner also needs to update the Tech Stage and Tech Status.</errorMessage>
 </ValidationRule>

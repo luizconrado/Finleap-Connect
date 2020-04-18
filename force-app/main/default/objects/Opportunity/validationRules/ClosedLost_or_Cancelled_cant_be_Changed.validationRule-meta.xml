@@ -3,8 +3,7 @@
     <fullName>ClosedLost_or_Cancelled_cant_be_Changed</fullName>
     <active>true</active>
     <description>Opportunities that are Closed Lost cannot be changed anymore</description>
-    <errorConditionFormula>IF( Record_Id__c == $CustomMetadata.Constant__mdt.Opp_Standard_Record_Type_Id.Value__c , 
-AND(
+    <errorConditionFormula>AND(
 	OR(
 		OR(
 			AND(
@@ -55,9 +54,8 @@ AND(
 			)	
 		)
 	),
-	NOT(CONTAINS($Label.Users_Exclusion,$User.Username))
-)
-, 
-False)</errorConditionFormula>
+	NOT(CONTAINS($Label.Users_Exclusion,$User.Username)),
+	RecordTypeId == $CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c
+)</errorConditionFormula>
     <errorMessage>Closed Lost or Cancelled opportunities cannot be changed anymore</errorMessage>
 </ValidationRule>

@@ -2,6 +2,7 @@ public with sharing class RelatedAttachmentsController {
 
     @AuraEnabled
     public static List<ContentDocument> getAllAttachments(String recordId,String sObjectName){
+        //retriving all files of entity 
         List<ContentDocumentLink> links=[SELECT Id, LinkedEntityId, ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId=:recordId];
         Set<Id> contentDocumentIds=new Set<Id>();
         for(ContentDocumentLink cdl:links) contentDocumentIds.add(cdl.ContentDocumentId);
@@ -11,9 +12,9 @@ public with sharing class RelatedAttachmentsController {
     @AuraEnabled
     public static List<String> getAllOptions(String recordId,String objectName){
         String query='SELECT RecordTypeId FROM '+objectName+' where Id =:recordId';
-        System.debug('Query '+query);
 		List<Sobject> recordList=Database.query(query);
     	String recordTypeName=Schema.getGlobalDescribe().get(objectName).getDescribe().getRecordTypeInfosById().get((String)recordList.get(0).get('RecordTypeId')).getDeveloperName();
+        //based on object name and recordtype getting options from custom metadata
         List<File_Type_Option__mdt> customOptions=[SELECT Id,Types__c FROM File_Type_Option__mdt WHERE  Object_Name__c=:objectName AND Record_Type_Name__c=:recordTypeName];
         if(customOptions.size()==0) customOptions=[SELECT Id,Types__c FROM File_Type_Option__mdt WHERE  DeveloperName='Default'];
         List<String> options=new List<String>();
@@ -25,11 +26,10 @@ public with sharing class RelatedAttachmentsController {
     
     @AuraEnabled 
     public static List<ContentVersion> checkDuplicateFile(string recordId,String fileType){
+        //getting all versions of attachments
         List<ContentDocumentLink> link=[SELECT ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId=:recordId];
         List<String> contentDocumentIds=new List<String>();
-        For(ContentDocumentLink doc:link){
-            contentDocumentIds.add(doc.ContentDocumentId);
-        }
+        For(ContentDocumentLink doc:link) contentDocumentIds.add(doc.ContentDocumentId);
         return [SELECT Id, ContentDocumentId,Title,ContentSize,Type__c,ContentModifiedDate,FileExtension,ContentModifiedBy.Name FROM ContentVersion WHERE Type__c=:fileType AND ContentDocumentId IN: contentDocumentIds ORDER BY ContentModifiedDate DESC];
     }
     
@@ -41,9 +41,7 @@ public with sharing class RelatedAttachmentsController {
         cv.Upload__c=true;
         cv.PathOnClient = filename;
         cv.Type__c=fileType;
-        if(!String.isBlank(documentId)){
-            cv.ContentDocumentId=documentId;
-        }
+        if(!String.isBlank(documentId)) cv.ContentDocumentId=documentId;
         upsert cv;
         if(String.isBlank(documentId)){
             ContentVersion cvNew=[SELECT ContentDocumentId FROM ContentVersion WHERE id=:cv.Id];

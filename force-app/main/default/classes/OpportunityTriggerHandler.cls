@@ -8,7 +8,7 @@ public class OpportunityTriggerHandler extends Triggerhandler {
         List<Opportunity> opportunityOwnerChanged=new List<Opportunity>();
         Map<Id,Opportunity> newOpportunityMap=(Map<Id,Opportunity>) Trigger.newMap;
         Map<Id,Opportunity> oldOpportunityMap=(Map<Id,Opportunity>) Trigger.oldMap;
-        
+        //filtering all opportuntitys whose owner is changed
         for(Opportunity o:newOpportunityMap.values()){
             if(o.OwnerId!=oldOpportunityMap.get(o.Id).OwnerId)  opportunityOwnerChanged.add(o);
         }

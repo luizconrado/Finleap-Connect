@@ -67,7 +67,7 @@ private class ActivityTimelineControllerTest {
         
         System.runAs(u){
             List<Contact> lstContacts = [SELECT Id,AccountId FROM Contact];
-            Opportunity standardOpportunitiy = TestDataFactory.getFinleapStandardOpportunity(lstContacts[0].AccountId,true);
+            Opportunity standardOpportunitiy = TestDataFactory.getFinleapEcosystemOpportunity(lstContacts[0].AccountId,true);
             TestDataFactory.addOpportunityToContact(standardOpportunitiy.Id,lstContacts[0].Id);
             
             Test.startTest();

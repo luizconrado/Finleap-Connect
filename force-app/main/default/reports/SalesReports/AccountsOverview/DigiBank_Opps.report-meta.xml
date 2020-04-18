@@ -15,6 +15,7 @@
     <filter>
         <criteriaItems>
             <column>Opportunity.Product__c</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>WL - Digital Bank</value>

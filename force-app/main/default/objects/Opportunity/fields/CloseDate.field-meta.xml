@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>CloseDate</fullName>
-    <description>Date when you believe this Opportunity will be won. This date needs to be in the future.</description>
-    <inlineHelpText>Date when you believe this Opportunity will be won. This date needs to be in the future.</inlineHelpText>
-    <trackFeedHistory>true</trackFeedHistory>
-    <trackHistory>true</trackHistory>
-    <trackTrending>true</trackTrending>
-</CustomField>

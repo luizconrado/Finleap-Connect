@@ -3,14 +3,12 @@
     <fullName>Opportunity_Lost_Reason</fullName>
     <active>true</active>
     <description>A reason must be entered when an Opportunity is Lost</description>
-    <errorConditionFormula>IF( Record_Id__c == $CustomMetadata.Constant__mdt.Opp_Standard_Record_Type_Id.Value__c , 
-AND(
+    <errorConditionFormula>AND(
 OR(ISPICKVAL (StageName, &quot;Closed Lost&quot;),ISPICKVAL (StageName, &quot;Cancelled&quot;)),
 ISBLANK(TEXT(Loss_Reason__c)),
-NOT(CONTAINS($Label.Users_Exclusion,$User.Username))
-)
-, 
-False)</errorConditionFormula>
+NOT(CONTAINS($Label.Users_Exclusion,$User.Username)),
+RecordTypeId == $CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c
+)</errorConditionFormula>
     <errorDisplayField>Loss_Reason__c</errorDisplayField>
     <errorMessage>Please enter a reason for the Loss of this Opportunity.</errorMessage>
 </ValidationRule>

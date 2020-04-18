@@ -3,8 +3,7 @@
     <fullName>Dates_must_be_correct</fullName>
     <active>true</active>
     <description>Dates must be within a normal range</description>
-    <errorConditionFormula>IF( Record_Id__c == $CustomMetadata.Constant__mdt.Opp_Standard_Record_Type_Id.Value__c , 
-AND(
+    <errorConditionFormula>AND(
 
 	NOT(ISPICKVAL(PRIORVALUE(StageName), &quot;Closed Won&quot;)),
 	NOT(ISPICKVAL(StageName, &quot;Cancelled&quot;)),
@@ -25,10 +24,9 @@ AND(
 		CloseDate &gt; Revenue_Start_Date__c
 		
 	),
-	NOT(CONTAINS($Label.Users_Exclusion,$User.Username))
-)
-, 
-False)</errorConditionFormula>
+	NOT(CONTAINS($Label.Users_Exclusion,$User.Username)),
+	RecordTypeId == $CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c
+)</errorConditionFormula>
     <errorMessage>Please check the dates you are entering.
 Close Date, Revenue Start Date, Contract End Date.</errorMessage>
 </ValidationRule>

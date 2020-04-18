@@ -21,7 +21,8 @@ public with sharing class ActivityTimelineController {
         //Add the record passed
         if(sobjType == Schema.Contact.SObjectType) {
 			whoIdSet.add(recordId);
-        } else {
+        } 
+        else {
         	whatIdSet.add(recordId);
         }
         

@@ -1,4 +1,4 @@
-<design:component>
+<design:component label="Related Attachments">
 	<design:supportedFormFactors>
         <design:supportedFormFactor type="Large"/>
         <design:supportedFormFactor type="Small"/>

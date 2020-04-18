@@ -3,8 +3,7 @@
     <fullName>Compliance_Fields_only_for_Compliance</fullName>
     <active>true</active>
     <description>These fields can only be changed by Compliance Users</description>
-    <errorConditionFormula>IF( Record_Id__c == $CustomMetadata.Constant__mdt.Opp_Standard_Record_Type_Id.Value__c , 
-AND(
+    <errorConditionFormula>AND(
    OR(
       ISCHANGED( StageName ), 
       ISNEW()
@@ -27,10 +26,9 @@ AND(
       ISPICKVAL(StageName, &quot;Closed Won&quot;)
       /* ISPICKVAL(StageName, &quot;Cancelled&quot;) */
    ),
-   NOT(CONTAINS($Label.Users_Exclusion,$User.Username))
-)
-, 
-False)</errorConditionFormula>
+   NOT(CONTAINS($Label.Users_Exclusion,$User.Username)),
+   RecordTypeId == $CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c
+)</errorConditionFormula>
     <errorDisplayField>KYC_Check_Status__c</errorDisplayField>
     <errorMessage>Compliance Fields can only be modified by compliance users!</errorMessage>
 </ValidationRule>

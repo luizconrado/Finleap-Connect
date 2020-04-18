@@ -1,4 +1,5 @@
 ({
+    exception:['RECORDTYPEID'],
     configMap: {
         "string": {
             componentDef: "c:FormElement",
@@ -9,13 +10,17 @@
         let _self=this;
         let fieldName=field.fieldLabel
         let fieldValue=record[field.fieldAPIName]
+        let fieldid='';
         if(field.fieldType=='REFERENCE' || field.fieldType=='reference'){
+            if(!_self.exception.includes(field.fieldAPIName.toLocaleUpperCase())){
+            	fieldid=fieldValue;    
+            }
             [fieldName,fieldValue]= _self.parseRefrence(record,field);
         }
         if(field.fieldType=='DATETIME'){
             fieldValue=_self.parseDate(fieldValue);
         }
-        return [fieldName,fieldValue]
+        return [fieldName,fieldValue,fieldid]
     },
     parseRefrence:function(opp,field){
         let fieldName='';
@@ -50,16 +55,22 @@
     },
     createElement:function(record,field,field2){
         const element=JSON.parse(JSON.stringify(this.configMap["string"]));
-        let [fieldName,fieldValue]=this.parseRecord(record,field);
+        let [fieldName,fieldValue,fieldid]=this.parseRecord(record,field);
         
         element.attributes.label1 = fieldName;
         element.attributes.value1 = fieldValue;
+        if(fieldid){
+            element.attributes.id1 = fieldid;
+        }
         if(field2){
-            let [fieldName2,fieldValue2]=this.parseRecord(record,field2);   
+            let [fieldName2,fieldValue2,fieldid2]=this.parseRecord(record,field2);   
             element.attributes.label2 = fieldName2;
             element.attributes.value2 = fieldValue2;
+            if(fieldid2){
+                element.attributes.id2 = fieldid2;
+            }
         }
-         
+        
         return [element.componentDef,element.attributes];
     },
     createComponent:function(component,form){

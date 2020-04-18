@@ -3,8 +3,7 @@
     <fullName>KYC_Check_needs_to_be_done</fullName>
     <active>true</active>
     <description>KYC Check needs to be done</description>
-    <errorConditionFormula>IF( Record_Id__c == $CustomMetadata.Constant__mdt.Opp_Standard_Record_Type_Id.Value__c , 
-AND(
+    <errorConditionFormula>AND(
    OR(
       ISCHANGED( StageName ), 
       ISNEW()
@@ -28,9 +27,8 @@ AND(
       ISPICKVAL(StageName, &quot;Closed Won&quot;)
       /* ISPICKVAL(StageName, &quot;Cancelled&quot;) */
    ),
-   NOT(CONTAINS($Label.Users_Exclusion,$User.Username))
-)
-, 
-False)</errorConditionFormula>
+   NOT(CONTAINS($Label.Users_Exclusion,$User.Username)),
+   RecordTypeId == $CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c
+)</errorConditionFormula>
     <errorMessage>The Regulatory Status and KYC Form need to be filled out and the Customer needs to pass the check by compliance.</errorMessage>
 </ValidationRule>

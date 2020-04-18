@@ -16,6 +16,7 @@
     getViewList:function(fields,allOpp,limit){
         let _self=this;
         let displayList=[];
+        //creating list view object
         allOpp.forEach(function(opp,oppIndex){
             if(oppIndex<limit){
                 let oppObj={};
@@ -23,6 +24,7 @@
                 oppObj.Id=opp.Id;
                 fields.forEach(function(field,index){
                     if(index<4){
+                        //getting field name and field value from record
                         let  [fieldName,fieldValue]=_self.parseRecord(opp,field);
                         if(index==0){
                             oppObj.header=fieldValue;

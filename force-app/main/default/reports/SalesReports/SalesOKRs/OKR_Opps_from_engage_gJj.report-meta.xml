@@ -24,15 +24,17 @@
         <field>Opportunity.Revenue_Start_Date__c</field>
     </columns>
     <filter>
-        <booleanFilter>1 AND 2</booleanFilter>
+        <booleanFilter>1 AND 2 AND 3</booleanFilter>
         <criteriaItems>
             <column>STAGE_NAME</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>Engage,Convince,Offer,Negotiate,Confirmed</value>
         </criteriaItems>
         <criteriaItems>
             <column>FULL_NAME</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>x Peter Hiekmann,Oleksiy Khoroshko,Anais Cisneros,Simona Schamper,Claudia Kettmann,Cedric Boy Beeg,Florian Schwabl,Chris Scheuermann</value>

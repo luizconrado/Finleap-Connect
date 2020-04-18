@@ -27,6 +27,7 @@
     <filter>
         <criteriaItems>
             <column>ACCOUNT_NAME</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>Revolut Ltd,Tomorrow GmbH,Air bank,Wirecard AG,bunq B.V.,N26 GmbH,Monese,Openbank,S.A.,MoneYou B.V.,Holvi Payment Services Ltd</value>
