@@ -129,7 +129,7 @@ system.administrator@finleap.com</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Month October</shortDescription>
-        <value>Month October</value>
+        <value>October</value>
     </labels>
     <labels>
         <fullName>Month_September</fullName>
