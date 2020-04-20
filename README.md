@@ -39,30 +39,3 @@ sfdx force:mdapi:deploy:report
 # Windows script to deploy
 config\deploy.bat
 
-
-force-app-live\main\default\reports\Sales_and_Marketing_Reports\Closed_opportunity.report-meta.xml
-force-app-live\main\default\reports\Sales_and_Marketing_Reports\Sales_Exec_Bookings_Trend.report-meta.xml
-force-app-live\main\default\reports\Sales_and_Marketing_Reports\Sales_Exec_Closed_Deals_QTD.report-meta.xml
-force-app-live\main\default\reports\SalesReports\OpportunitiesOverview\Opps_by_Prio.report-meta.xml
-force-app-live\main\default\reports\SalesReports\OpportunitiesOverview\New_Report_nKz.report-meta.xml
-force-app-live\main\default\reports\Sales_Marketing_Reports\Win_Ratio.report-meta.xml
-force-app-live\main\default\reports\Sales_Marketing_Reports\Open_Oppties_This_Q.report-meta.xml
-force-app-live\main\default\reports\Sales_Marketing_Reports\Closed_Won_80_This_Q_by_Owner.report-meta.xml
-force-app-live\main\default\reports\Sales_Marketing_Reports\Closed_Won_by_Type.report-meta.xml
-force-app-live\main\default\reports\Sales_Marketing_Reports\Closed_Won_This_Q_by_Owner.report-meta.xml
-force-app-live\main\default\reports\Sales_Marketing_Reports\Closed_Won_This_Q_by_Type.report-meta.xml
-force-app-live\main\default\reports\Sales_and_Marketing_Reports\Sales_Exec_Open_Deals.report-meta.xml
-force-app-live\main\default\reports\Sales_and_Marketing_Reports\Sales_Exec_Open_Pipeline_next_90_days.report-meta.xml
-force-app-live\main\default\reports\Sales_and_Marketing_Reports\Sales_Exec_Open_Pipeline.report-meta.xml
-force-app-live\main\default\reports\Sales_and_Marketing_Reports\Sales_Exec_Top_Closed_Deals.report-meta.xml
-force-app-live\main\default\reports\Sales_and_Marketing_Reports\Sales_Exec.report-meta.xml
-force-app-live\main\default\reports\Sales_and_Marketing_Reports\Sales_Manager_Closed_Deals.report-meta.xml
-force-app-live\main\default\reports\Sales_and_Marketing_Reports\Sales_Manager_Open_Opportunities.report-meta.xml
-force-app-live\main\default\reports\Sales_and_Marketing_Reports\Sales_Manager_Open_Pipeline.report-meta.xml
-force-app-live\main\default\reports\Sales_and_Marketing_Reports\Sales_Manager_Pipeline_Next_90_days.report-meta.xml
-force-app-live\main\default\reports\Sales_and_Marketing_Reports\Sales_Person_MTD_Sales.report-meta.xml
-force-app-live\main\default\reports\Sales_and_Marketing_Reports\Sales_Person_Open_Pipeline_by_stage.report-meta.xml
-force-app-live\main\default\reports\Sales_and_Marketing_Reports\SP_Current_Month_Open_Pipeline.report-meta.xml
-force-app-live\main\default\reports\Sales_and_Marketing_Reports\Closed_opportunity.report-meta.xml
-force-app-live\main\default\reports\Sales_and_Marketing_Reports\Sales_Exec_Bookings_Trend.report-meta.xml
-force-app-live\main\default\reports\Sales_and_Marketing_Reports\Sales_Exec_Closed_Deals_QTD.report-meta.xml
