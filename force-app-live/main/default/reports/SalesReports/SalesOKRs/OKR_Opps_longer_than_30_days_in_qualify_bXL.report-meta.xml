@@ -22,28 +22,24 @@
     <filter>
         <criteriaItems>
             <column>FROM_OPPORTUNITY_STAGE_NAME</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>Qualifying</value>
         </criteriaItems>
         <criteriaItems>
             <column>STAGE_DURATION</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>greaterOrEqual</operator>
             <value>90</value>
         </criteriaItems>
         <criteriaItems>
             <column>OWNER_NAME</column>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>Simona Schamper,Oleksiy Khoroshko,Anais Cisneros,Claudia Kettmann,Cedric Boy Beeg,Florian Schwabl,Chris Scheuermann,Christian Hegeler</value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>RECORDTYPE</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>Opportunity.Finleap_Connect_Standard_Sales</value>
+            <value>Simona Schamper,Oleksiy Khoroshko,Anais Cisneros,Claudia Kettmann,Cedric Boy Beeg,Florian Schwabl,Chris Scheuermann,Christian Hegeler</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>

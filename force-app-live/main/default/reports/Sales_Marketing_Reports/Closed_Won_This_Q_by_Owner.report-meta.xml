@@ -58,15 +58,6 @@
     <columns>
         <field>ACCOUNT_NAME</field>
     </columns>
-    <filter>
-        <criteriaItems>
-            <column>RECORDTYPE</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>Opportunity.Finleap_Connect_Standard_Sales</value>
-        </criteriaItems>
-    </filter>
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>

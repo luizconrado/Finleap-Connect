@@ -48,22 +48,17 @@
     <filter>
         <criteriaItems>
             <column>STAGE_NAME</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>Offer,Negotiate,Confirmed,Closed Won</value>
         </criteriaItems>
         <criteriaItems>
             <column>FULL_NAME</column>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>Simona Schamper,Oleksiy Khoroshko,Anais Cisneros,Claudia Kettmann,Cedric Boy Beeg,Florian Schwabl,Chris Scheuermann,Christian Hegeler</value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>RECORDTYPE</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>Opportunity.Finleap_Connect_Standard_Sales</value>
+            <value>Simona Schamper,Oleksiy Khoroshko,Anais Cisneros,Claudia Kettmann,Cedric Boy Beeg,Florian Schwabl,Chris Scheuermann,Christian Hegeler</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>

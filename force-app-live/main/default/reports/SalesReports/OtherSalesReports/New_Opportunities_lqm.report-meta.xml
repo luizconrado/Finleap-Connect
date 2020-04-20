@@ -23,16 +23,10 @@
     <filter>
         <criteriaItems>
             <column>FULL_NAME</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>notContain</operator>
             <value>Ignacio,Marco,Kseniia,Elisabetta,Nicolas,Mariana</value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>RECORDTYPE</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>Opportunity.Finleap_Connect_Standard_Sales</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>

@@ -111,12 +111,14 @@
     <filter>
         <criteriaItems>
             <column>STAGE_NAME</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>notEqual</operator>
             <value>Closed Won,Closed Lost,Cancelled</value>
         </criteriaItems>
         <criteriaItems>
             <column>Opportunity.Finleap_Company__c</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>includes</operator>
             <value>Finleap Connect</value>

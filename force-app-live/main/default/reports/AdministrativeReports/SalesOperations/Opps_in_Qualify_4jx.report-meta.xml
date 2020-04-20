@@ -19,16 +19,10 @@
     <filter>
         <criteriaItems>
             <column>STAGE_NAME</column>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>Qualifying</value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>RECORDTYPE</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>Opportunity.Finleap_Connect_Standard_Sales</value>
+            <value>Qualifying</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>

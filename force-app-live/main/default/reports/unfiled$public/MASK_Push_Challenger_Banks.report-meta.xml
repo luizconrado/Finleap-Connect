@@ -27,16 +27,10 @@
     <filter>
         <criteriaItems>
             <column>ACCOUNT_NAME</column>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>Revolut Ltd,Tomorrow GmbH,Air bank,Wirecard AG,bunq B.V.,N26 GmbH,Monese,Openbank,S.A.,MoneYou B.V.,Holvi Payment Services Ltd</value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>RECORDTYPE</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>Opportunity.Finleap_Connect_Standard_Sales</value>
+            <value>Revolut Ltd,Tomorrow GmbH,Air bank,Wirecard AG,bunq B.V.,N26 GmbH,Monese,Openbank,S.A.,MoneYou B.V.,Holvi Payment Services Ltd</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>

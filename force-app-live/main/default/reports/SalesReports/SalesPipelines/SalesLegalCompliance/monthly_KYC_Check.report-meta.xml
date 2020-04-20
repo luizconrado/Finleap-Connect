@@ -18,28 +18,24 @@
     <filter>
         <criteriaItems>
             <column>CREATED_DATE</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>LAST_MONTH</value>
         </criteriaItems>
         <criteriaItems>
             <column>field_key</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>KYC Check Status</value>
         </criteriaItems>
         <criteriaItems>
             <column>NEWVAL</column>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>Customer Passed</value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>RECORDTYPE</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>Opportunity.Finleap_Connect_Standard_Sales</value>
+            <value>Customer Passed</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>

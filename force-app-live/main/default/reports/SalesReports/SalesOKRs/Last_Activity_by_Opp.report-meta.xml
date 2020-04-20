@@ -15,28 +15,24 @@
     <filter>
         <criteriaItems>
             <column>STAGE_NAME</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>Engage,Convince,Offer,Negotiate</value>
         </criteriaItems>
         <criteriaItems>
             <column>FULL_NAME</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>Simona Schamper,Oleksiy Khoroshko,Anais Cisneros,Claudia Kettmann,Cedric Boy Beeg,Florian Schwabl,Chris Scheuermann,Christian Hegeler</value>
         </criteriaItems>
         <criteriaItems>
             <column>LAST_ACTIVITY</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>lessThan</operator>
             <value>LAST_N_DAYS:30</value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>RECORDTYPE</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>Opportunity.Finleap_Connect_Standard_Sales</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>

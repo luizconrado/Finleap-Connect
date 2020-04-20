@@ -67,25 +67,21 @@
         <aggregateTypes>Average</aggregateTypes>
         <field>EXP_AMOUNT</field>
     </columns>
+    <description>Opportunities Closed Won Last Month - Used for Finance Reports (KPI_Sales)</description>
     <filter>
         <criteriaItems>
             <column>STAGE_NAME</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>Closed Won</value>
         </criteriaItems>
         <criteriaItems>
             <column>Opportunity.Finleap_Company__c</column>
+            <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>includes</operator>
             <value>Finleap Connect</value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>RECORDTYPE</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>Opportunity.Finleap_Connect_Standard_Sales</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>
