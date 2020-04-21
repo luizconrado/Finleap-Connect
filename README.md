@@ -1,6 +1,32 @@
 # Finleap-Connect
 Finleap connect Org
 
+# Functionality 
+
+1. Opportunitys are private shared with users based on role and profile
+    Metadata
+    a. roles
+    b. sharing settings
+    c. profile
+2. User who dont have access to Opportunity can view limited fileds via Global Opportunity component
+    Metadata
+    a.field set
+    b.apex
+    c.aura component
+3. User who dont have access to Activity can view limited fileds via Global activity component
+    Metadata
+    a.field set
+    b.apex
+    c.aura component
+4. User cannot delete file 
+    Metadata
+    a.trigger
+    b.apex
+5. on change ot account or opportunity owner, respective team memebers are not lost
+    Metadata
+    a.trigger
+    b.apex
+
 # Change Log
     - 14-04-2020 :  Adding Record Type filter to all opportunity validation rules
                     Metadata Affected
@@ -25,6 +51,9 @@ Finleap connect Org
                     5.Flexi Page
                     6.Custom metadata
                     7.Custom Label
+    -21-04-2020 : Adding opportunity report type filter to reprts
+                    Metadata affected
+                    1.reports
 
 
 
