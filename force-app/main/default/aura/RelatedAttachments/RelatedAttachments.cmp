@@ -106,6 +106,9 @@
                                                     <th class="" scope="col">
                                                         <div class="slds-truncate" title="Extension">Extension</div>
                                                     </th>
+                                                    <th class="" scope="col">
+                                                        <div class="slds-truncate" title="Version">Version</div>
+                                                    </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -128,7 +131,9 @@
                                                          <td data-label="File Size">
                                                             <div class="slds-truncate" title="{!doc.FileExtension}">{!doc.FileExtension}</div>
                                                         </td>
-                                                        
+                                                         <td data-label="Version Number">
+                                                            <div class="slds-truncate" title="{!doc.VersionNumber}">{!doc.VersionNumber}</div>
+                                                        </td>
                                                         
                                                     </tr>
                                                 </aura:iteration>

@@ -8,6 +8,7 @@ public with sharing class RelatedOpportunityController {
     Public static String getHiddenOpportunitys(String recordId,String objectName){
        
         Map<String,List<Object>> returnValue=new Map<String,List<Object>>();
+        //Getting fileds from field set and creating query
         FieldSet[] fieldDetails=SchemaUtility.getFieldSetMembers('Opportunity',Constant.OPPORTUNITY_GLOBAL_RELATED_FIELDSET);
         returnValue.put('Fields',fieldDetails);
         String query='SELECT Id,';
@@ -20,6 +21,7 @@ public with sharing class RelatedOpportunityController {
         if(query.contains('Limited_Access_Name__c')) query=query.removeEnd(',');
         else query+='Limited_Access_Name__c';
         query+=' FROM Opportunity WHERE ';
+        //querying records using with and without sharing
         if(objectName=='Account'){
             query+=' AccountId =: recordId ';
             List<Opportunity> oppList=Database.query(query);
@@ -29,9 +31,7 @@ public with sharing class RelatedOpportunityController {
         if(objectName=='Contact'){
             List<OpportunityContactRole> oppContactRoleList=[SELECT Id, OpportunityId, ContactId FROM OpportunityContactRole WHERE ContactId=:recordId];
             List<String> oppListId=new List<String>();
-            for(OpportunityContactRole ocr:oppContactRoleList){
-                oppListId.add(ocr.OpportunityId);
-            }
+            for(OpportunityContactRole ocr:oppContactRoleList) oppListId.add(ocr.OpportunityId);
             returnValue.put('Global', Database.query(query+' Id IN:oppListId'));
             returnValue.put('Private',db.queryOpportunityFromContactRole(recordId,oppContactRoleList,query));
         }

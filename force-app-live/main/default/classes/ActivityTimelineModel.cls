@@ -1,6 +1,12 @@
 global class ActivityTimelineModel implements Comparable {
+
     @AuraEnabled
     public Boolean access {get;set;}
+    
+    @AuraEnabled
+    public DateTime createdDate {get;set;}
+    
+  
     @AuraEnabled
     public Id recordId {get;set;}
 
