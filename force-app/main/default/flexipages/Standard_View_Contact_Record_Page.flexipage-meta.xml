@@ -172,6 +172,9 @@
             </componentInstanceProperties>
             <componentName>force:relatedListContainer</componentName>
         </componentInstances>
+        <componentInstances>
+            <componentName>RelatedAttachments</componentName>
+        </componentInstances>
         <mode>Replace</mode>
         <name>activityTabContent</name>
         <type>Facet</type>

@@ -25,7 +25,6 @@
         <field>CREATED_DATE</field>
     </columns>
     <columns>
-        <aggregateTypes>Average</aggregateTypes>
         <field>AGE</field>
     </columns>
     <columns>
@@ -35,7 +34,6 @@
         <field>LAST_STAGE_CHANGE_DATE</field>
     </columns>
     <columns>
-        <aggregateTypes>Average</aggregateTypes>
         <field>STAGE_DURATION</field>
     </columns>
     <columns>
@@ -53,14 +51,17 @@
     </columns>
     <columns>
         <aggregateTypes>Sum</aggregateTypes>
+        <aggregateTypes>Average</aggregateTypes>
         <field>Opportunity.MRR_Monthly_Recurring_Revenue__c</field>
     </columns>
     <columns>
         <aggregateTypes>Sum</aggregateTypes>
+        <aggregateTypes>Average</aggregateTypes>
         <field>Opportunity.OTR_One_Time_Revenue__c</field>
     </columns>
     <columns>
         <aggregateTypes>Sum</aggregateTypes>
+        <aggregateTypes>Average</aggregateTypes>
         <field>AMOUNT</field>
     </columns>
     <columns>

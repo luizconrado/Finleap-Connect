@@ -1,0 +1,165 @@
+<aura:component controller="RelatedAttachmentsController" implements="flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName" access="global" >
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="RelatedList_viewAll" event="c:RelatedListEvent" action="{!c.viewAllInvoked}"/>
+    <aura:handler name="RelatedList_menuAction" event="c:RelatedListEvent" action="{!c.actionInvoked}"/>
+
+    <lightning:navigation aura:id="navService"/>
+    
+    
+    
+    <!--ui attributes-->
+    <aura:attribute name="isMobile" type="boolean" default="false" access="private"/>
+    <aura:attribute name="loadView" type="boolean" default="false" />    
+    <aura:attribute name="isViewAll" type="boolean" default="false" />  
+    <aura:attribute name="isUpload" type="boolean" default="false" />  
+    <aura:attribute name="fileloader" type="boolean" default="false" />  
+    
+    <!--data attributes-->
+    <aura:attribute name="attachmentList" type="List" />
+    <aura:attribute name="attachmentViewList" type="List" />
+
+    <!--upload file attributes-->
+    <aura:attribute name="currentStep" type="String" default="1"/>
+    <aura:attribute name="fileTypes" type="List" />
+    <aura:attribute name="selectedType" type="String" />
+    <aura:attribute name="customType" type="String" />
+    <aura:attribute name="acceptExt" type="String" default="{!$Label.c.File_Accepted_Extensions}" />
+    <aura:attribute name="duplicateAttachmentList" type="List" />
+    
+    
+
+    
+     <!--popups-->
+    <aura:if isTrue="{!v.isViewAll}"> 
+        <c:Modal header="{!'All Attachments ('+v.attachmentList.length+')'}" open="{!v.isViewAll}" >
+            <c:RelatedListItem inlineDetals="true" recordList="{!v.attachmentList}" tileclass="slds-box" viewLength="{!v.attachmentList.length}"></c:RelatedListItem>
+        </c:Modal>
+    </aura:if>
+    <aura:if isTrue="{!v.isUpload}"> 
+        <c:Modal header="Upload File" open="{!v.isUpload}" showFooter="false">
+            <div class="slds-modal__content slds-is-relative " id="modal-content-id-1">
+                <div class="slds-grid slds-grid_vertical">
+                    <div class="slds-col slds-p-left_medium slds-p-top_medium  slds-p-right_medium">
+                        <lightning:progressIndicator currentStep="{!v.currentStep}" type="base" hasError="false" variant="base">
+                            <lightning:progressStep label="Select File Type" value="1" id="1" onclick="{!c.step1}"/>
+                            <lightning:progressStep label="Upload File" value="2" id="2" onclick="{!c.step2}"/>
+                        </lightning:progressIndicator>
+                    </div>
+                    <div class="slds-col">
+                        <aura:if isTrue="{!v.fileloader}">
+                            <lightning:spinner alternativeText="Loading" size="medium" />
+                        </aura:if>
+                        <aura:if isTrue="{!v.currentStep=='1'}">
+                            <div class="slds-p-around_medium">
+                                <lightning:select  value="{!v.selectedType}" label="Select File Type" name="selectType" required="true"   >
+                                    <aura:iteration items="{!v.fileTypes}" var="type">
+                                        <option value="{!type}">{!type}</option>
+                                    </aura:iteration>
+                                </lightning:select>
+                                <aura:if isTrue="{!v.selectedType=='Other File'}">
+                                    <lightning:input  name="otherValue" aura:id="otherValue" value="{!v.customType}" label="Enter Custom File Type" />
+                                </aura:if>
+                            </div>
+                        </aura:if>
+                        <aura:if isTrue="{!v.currentStep=='2'}">
+                            
+                            <div class="slds-grid slds-grid_vertical slds-grid_align-center">
+                                <div class="slds-col slds-p-around_medium">
+                                    <div class="slds-form-element">
+                                        <span class="slds-form-element__label" id="file-selector-primary-label">
+                                            {!v.duplicateAttachmentList.length>0?'Upload New Version of Attachment':'Attachment'}
+                                        </span>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-file-selector slds-file-selector_files">
+                                                <div class="slds-file-selector__dropzone">
+                                                    <input onchange ="{!c.uploadFile}" type="file" class="slds-file-selector__input slds-assistive-text" accept="{!v.acceptExt}"  id="file-upload-input-01" aria-labelledby="file-selector-primary-label file-selector-secondary-label" />
+                                                    <label class="slds-file-selector__body" for="file-upload-input-01" id="file-selector-secondary-label">
+                                                        <span class="slds-file-selector__button slds-button slds-button_neutral">
+                                                            <lightning:icon iconName="utility:upload" size="xx-small" alternativeText="upload image" />
+                                                            &nbsp;Upload Files
+                                                        </span>
+                                                        <span class="slds-file-selector__text slds-medium-show">or Drop Files</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <aura:if isTrue="{!v.duplicateAttachmentList.length>0}">
+                                    <div class="slds-col slds-scrollable_x">
+                                        <span class="slds-p-left_medium slds-p-bottom_small">File version already exist in system</span>
+                                        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                                            <thead>
+                                                <tr class="slds-line-height_reset">
+                                                    <th class="" scope="col">
+                                                        <div class="slds-truncate" title="File Name">File Name</div>
+                                                    </th>
+                                                    <th class="" scope="col">
+                                                        <div class="slds-truncate" title="Uploade Date">Uploade Date</div>
+                                                    </th>
+                                                    <th class="" scope="col">
+                                                        <div class="slds-truncate" title="Uploade By">Uploade By</div>
+                                                    </th>
+                                                    <th class="" scope="col">
+                                                        <div class="slds-truncate" title="File Size">File Size</div>
+                                                    </th>
+                                                    <th class="" scope="col">
+                                                        <div class="slds-truncate" title="Extension">Extension</div>
+                                                    </th>
+                                                    <th class="" scope="col">
+                                                        <div class="slds-truncate" title="Version">Version</div>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <aura:iteration items="{!v.duplicateAttachmentList}" var="doc">
+                                                    <tr class="slds-hint-parent">
+                                                        <th data-label="File Name" scope="row">
+                                                            <div class="slds-truncate" title="{!doc.Title}">
+                                                                <a   target="_blank"  href="{!'/'+doc.Id}" tabindex="-1">{!doc.Title}</a>
+                                                            </div>
+                                                        </th>
+                                                        <td data-label="File Size">
+                                                            <div class="slds-truncate" title="{!doc.ContentModifiedDate}">{!doc.ContentModifiedDate}</div>
+                                                        </td>
+                                                        <td data-label="File Size">
+                                                            <div class="slds-truncate" title="{!doc.ContentModifiedBy.Name}">{!doc.ContentModifiedBy.Name}</div>
+                                                        </td>
+                                                        <td data-label="File Size">
+                                                            <div class="slds-truncate" title="{!doc.ContentSize}">{!doc.ContentSize}</div>
+                                                        </td>
+                                                         <td data-label="File Size">
+                                                            <div class="slds-truncate" title="{!doc.FileExtension}">{!doc.FileExtension}</div>
+                                                        </td>
+                                                         <td data-label="Version Number">
+                                                            <div class="slds-truncate" title="{!doc.VersionNumber}">{!doc.VersionNumber}</div>
+                                                        </td>
+                                                        
+                                                    </tr>
+                                                </aura:iteration>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </aura:if>
+                            </div>
+                            
+                        </aura:if>
+                    </div>
+                </div>
+            </div>
+            <footer class="slds-modal__footer">
+                <lightning:button label="Cancel" title="Cancel" onclick="{! c.closeUpload }"/>
+                <lightning:button disabled="{!v.fileloader}" label="{!v.currentStep=='2'?'Finish':'Next'}" title="Next" onclick="{!c.nextStep}"/>
+            </footer>
+            
+        </c:Modal>
+    </aura:if>
+    
+    
+     <!--list-->
+    <aura:if isTrue="{!v.loadView}">
+        <c:RelatedList inlineDetals="true" icon="standard:file" header="{!'Attachments ('+v.attachmentList.length+')'}" recordViewList="{!v.attachmentViewList}" recordActions="[{value:'Upload_file',name:'Upload file'}]">
+        </c:RelatedList>
+    </aura:if>
+    
+</aura:component>

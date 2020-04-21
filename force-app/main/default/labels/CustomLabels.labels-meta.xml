@@ -145,7 +145,7 @@ system.administrator@finleap.com</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Restricted Edit/Upload Files Objects</shortDescription>
-        <value>Account,Opportunity,Contract</value>
+        <value>Account,Opportunity,Contract,Campaign,Contact</value>
     </labels>
     <labels>
         <fullName>Upcoming_Overdue</fullName>

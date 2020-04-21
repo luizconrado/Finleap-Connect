@@ -26,6 +26,16 @@ Finleap connect Org
     Metadata
     a.trigger
     b.apex
+6. Custom Component to upload files that has preconfigred options retrived from custom metadata.
+    Metadata
+    a.apex
+    b.Custom metadata
+    c.aura component
+7. User cannot upload file from standard upload button. for specifed object
+    a.custom label
+    b.trigger
+    c.apex
+    d.custom field
 
 # Change Log
     - 14-04-2020 :  Adding Record Type filter to all opportunity validation rules
@@ -54,6 +64,16 @@ Finleap connect Org
     -21-04-2020 : Adding opportunity report type filter to reprts
                     Metadata affected
                     1.reports
+    -21-04-2020 : Adding Related Attachments component and its respective configuration
+                    Metadata Affected
+                    1.Apex
+                    2.Trigger
+                    3.RecordType
+                    4.FlexiPage
+                    5.Layout
+                    6.Custom Filed
+                    7.Custom Metadata
+                    8.Custom Label
 
 
 

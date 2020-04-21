@@ -35,6 +35,13 @@
             <operator>equals</operator>
             <value>RegShield 2.0 Sales Push (new business)</value>
         </criteriaItems>
+        <criteriaItems>
+            <column>RECORDTYPE</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Opportunity.Finleap_Connect_Standard_Sales</value>
+        </criteriaItems>
     </filter>
     <format>Summary</format>
     <groupingsDown>

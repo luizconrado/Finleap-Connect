@@ -41,6 +41,13 @@
             <operator>greaterOrEqual</operator>
             <value>30</value>
         </criteriaItems>
+        <criteriaItems>
+            <column>RECORDTYPE</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Opportunity.Finleap_Connect_Standard_Sales</value>
+        </criteriaItems>
     </filter>
     <format>Tabular</format>
     <name>OKRs Opps in Qualify dur. 30d_1</name>

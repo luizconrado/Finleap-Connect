@@ -6,6 +6,12 @@ public class SchemaUtilityTest {
         System.assert(!String.isEmpty(standardTaskId));
     }
     @isTest
+    static void getRecordTypeNamePositive(){
+        String standardLeadId=SchemaUtility.getRecordTypeId('Standard_Lead','Lead');
+        String standardLeadName=SchemaUtility.getRecordTypeName(standardLeadId,'Lead');
+        System.assertEquals('Standard_Lead', standardLeadName);
+    }
+    @isTest
     static void getRecordTypeIdNegative(){
         String standardTaskId=SchemaUtility.getRecordTypeId('Task','Task');
         System.assert(String.isEmpty(standardTaskId));

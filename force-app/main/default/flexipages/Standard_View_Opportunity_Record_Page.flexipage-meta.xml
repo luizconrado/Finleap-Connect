@@ -153,6 +153,9 @@
             </componentInstanceProperties>
             <componentName>force:relatedListContainer</componentName>
         </componentInstances>
+        <componentInstances>
+            <componentName>RelatedAttachments</componentName>
+        </componentInstances>
         <name>Facet-2dd4a937-65ba-4bca-b4a4-2bf24d33aaf2</name>
         <type>Facet</type>
     </flexiPageRegions>

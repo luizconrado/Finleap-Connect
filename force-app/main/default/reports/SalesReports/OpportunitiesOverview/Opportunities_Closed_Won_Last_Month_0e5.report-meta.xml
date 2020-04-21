@@ -67,6 +67,7 @@
         <aggregateTypes>Average</aggregateTypes>
         <field>EXP_AMOUNT</field>
     </columns>
+    <description>Opportunities Closed Won Last Month - Used for Finance Reports (KPI_Sales)</description>
     <filter>
         <criteriaItems>
             <column>STAGE_NAME</column>

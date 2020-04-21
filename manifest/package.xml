@@ -15,11 +15,27 @@
 	<types>
 		<members>Constant__mdt.value__c</members>
 		<members>ContentVersion.Type__c</members>
+        <members>ContentVersion.Upload__c</members>
 		<members>File_Type_Option__mdt.Object_Name__c</members>
 		<members>File_Type_Option__mdt.Record_Type_Name__c</members>
 		<members>File_Type_Option__mdt.Types__c</members>
 		<members>Trigger_Setting__mdt.Active__c</members>
 		<name>CustomField</name>
+	</types>
+    <types>
+		<members>Account.Standard_Partner_Account</members>
+		<members>Campaign.Standard_Campaign</members>
+		<members>Contact.Standard_Contact</members>
+		<members>Contract.Standard_Contract</members>
+		<members>Opportunity.Finleap_Build_Investment</members>
+		<members>Opportunity.Finleap_Build_Project</members>
+		<members>Opportunity.Finleap_Connect_Standard_Sales</members>
+		<members>Opportunity.Finleap_Ecosystem_Development</members>
+		<members>Opportunity.Finleap_Investment_in_Finleap_Group</members>
+		<members>Opportunity.Finleap_Investment_in_Venture</members>
+		<members>Opportunity.Finleap_Sales_for_Ventures</members>
+		<members>Opportunity.Finleap_Venture_Acquisition</members>
+		<name>RecordType</name>
 	</types>
 	<types>
 		<members>*</members>
@@ -33,6 +49,8 @@
 		<members>Standard_View_Account_Record_Page</members>
 		<members>Standard_View_Contact_Record_Page</members>
 		<members>Standard_View_Opportunity_Record_Page</members>
+        <members>Standard_View_Campaign_Record_Page</members>
+        <members>Standard_View_Contract_Record_Page</members>
 		<name>FlexiPage</name>
 	</types>
 	<types>
@@ -331,7 +349,7 @@
 		<members>Opportunity.Oppty_Needs_to_be_Filled_out_Properly</members>
 		<members>Opportunity.Revenue_Data_and_Dates</members>
 		<members>Opportunity.Tech_Owner_for_FLC_Products_is_Mandatory</members>
-		<name>ValidationRule</name>
+        <name>ValidationRule</name>
 	</types>
 	<version>48.0</version>
 </Package>

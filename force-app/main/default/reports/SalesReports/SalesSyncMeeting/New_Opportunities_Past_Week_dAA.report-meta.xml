@@ -43,13 +43,29 @@
     <columns>
         <field>CAMPAIGN_SOURCE</field>
     </columns>
+    <filter>
+        <criteriaItems>
+            <column>CREATED_DATE</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>LAST_N_DAYS:14</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>RECORDTYPE</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Opportunity.Finleap_Connect_Standard_Sales</value>
+        </criteriaItems>
+    </filter>
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
         <field>FULL_NAME</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>New Opportunities - Past Week</name>
+    <name>New Opportunities - Past 14 DAYS</name>
     <params>
         <name>open</name>
         <value>all</value>
@@ -69,6 +85,6 @@
     <showSubTotals>true</showSubTotals>
     <timeFrameFilter>
         <dateColumn>CREATED_DATE</dateColumn>
-        <interval>INTERVAL_LAST7</interval>
+        <interval>INTERVAL_CUSTOM</interval>
     </timeFrameFilter>
 </Report>
