@@ -1,7 +1,7 @@
 public class ContentVersionHandler  extends Triggerhandler {
 
     public ContentVersionHandler() {
-        this.setMaxLoopCount(4);
+        this.setMaxLoopCount(5);
     }
     
     public override void afterInsert() {

@@ -2,6 +2,8 @@
     checkInprogress:function(component,event,helper){
         const loadView=component.get('v.loadView');
         const opportunityRecord=component.get('v.OpportunityRecord');
+        const filterRecordType=component.get('v.filterRecordType');
+
         if(loadView===false && opportunityRecord.IsClosed===false){
             helper.callApex(component,"getAllInProgressOpportunties",function(response){
                 let status=response.getState();
@@ -11,6 +13,7 @@
                     const fieldDataList=data.Fields;
                     const globalOpp=data.Global;
                     const privateOpp=data.Private;
+                    const filterRecordTypeIds=data.FilterIds;
                     let allOpp=[];
                     //Adding access to records
                     allOpp.push(...globalOpp.map(function(o){
@@ -22,8 +25,26 @@
                         if(o.Name) o.Name=o.Limited_Access_Name__c;
                         return o;
                     }));
-                    
+                    if(filterRecordType){
+                        let sameRecordTypeCount=allOpp.reduce(function(total, cur) {
+                            if(cur.RecordTypeId==opportunityRecord.RecordTypeId){
+                                total=total+1;    
+                            }
+                            return total;
+                        }, 0);
+                        if(sameRecordTypeCount==allOpp.length){
+                            return;
+                        }
+                    }
                     if(allOpp.length>0){
+                        
+                        let investmentExsists = allOpp.find(function (opp) {
+                            return filterRecordTypeIds.includes(opp.RecordTypeId);
+                        });
+                        if(investmentExsists){
+                            component.set('v.filterRecordTypeExsists',true);
+                        }
+                        
                         component.set('v.viewListData',helper.getViewList(fieldDataList,allOpp,3))
                         component.set('v.viewAllListData',helper.getViewList(fieldDataList,allOpp,allOpp.length))
                         
@@ -43,7 +64,7 @@
                     toastEvent.fire();
                 }
             },{
-                "recordTypeId" : component.get('v.filterRecordType')?opportunityRecord.RecordTypeId:'',
+                "recordTypeId" : opportunityRecord.RecordTypeId,
                 "accountId": opportunityRecord.AccountId,
                 "recordId":opportunityRecord.Id
             })
@@ -53,8 +74,8 @@
 	doInit : function(component, event, helper) {
         const isMobile= $A.get("$Browser.formFactor")==='PHONE';
         component.set('v.isMobile',isMobile);
-	
-	},
+        
+    },
     viewAllInvoked:function(component, event, helper){
         const isMobile=component.get('v.isMobile');
         if(isMobile){

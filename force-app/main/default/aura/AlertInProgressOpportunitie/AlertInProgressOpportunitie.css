@@ -1,0 +1,6 @@
+.THIS .no-access-color svg{
+    fill: t(noAccessColor);
+}
+.THIS .access-color svg{
+    fill:white;
+}

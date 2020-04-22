@@ -1,4 +1,4 @@
-<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" controller="ShowInProgressController" access="global" >
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" controller="AlertShowInProgressController" access="global" >
     
     <aura:attribute name="OpportunityRecord" type="Object"/>
     <aura:attribute name="recordLoadError" type="String"/>
@@ -25,11 +25,13 @@
     <aura:attribute name="viewListData" type="List" />
     <aura:attribute name="viewAllListData" type="List" />
     
+
     <!--load attributs-->
     <aura:attribute name="isMobile" type="boolean" default="false" access="private"/>
     <aura:attribute name="loadView" type="boolean" default="false" />    
     <aura:attribute name="isViewAll" type="boolean" default="false" />
     <aura:attribute name="isViewRecord" type="boolean" default="false" />
+	<aura:attribute name="filterRecordTypeExsists" type="boolean" default="false" />    
     
     <!--modal-attributes-->
     <aura:attribute name="viewHeader" type="string" />    
@@ -56,8 +58,11 @@
     <aura:if isTrue="{!v.loadView}">
         <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_info" role="alert">
             <span class="slds-assistive-text">info</span>
-            <span class="slds-icon_container slds-icon-utility-user slds-m-right_x-small" title="Description of icon when needed">
-                <lightning:icon iconName="utility:warning" size="small" alternativeText="Warning!" title="Warning" />
+            <span class="{! join(' ',
+                         'slds-icon_container slds-icon-utility-user slds-m-right_x-small',
+                         (v.filterRecordTypeExsists?'no-access-color':'access-color')
+                         )}" title="Warning">
+                <lightning:icon iconName="utility:warning" size="x-small" alternativeText="{!v.filterRecordTypeExsists?'One or more investment opportunites':'Warning'}" title="{!v.filterRecordTypeExsists?'One or more investment opportunites':'Warning'}" />
                 
             </span>
             <h2>Current parent account has one or more open opportunities currently in progress.

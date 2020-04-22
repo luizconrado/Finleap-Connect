@@ -1,7 +1,7 @@
 public class AccountTriggerHandler extends Triggerhandler {
 
     public AccountTriggerHandler() {
-        this.setMaxLoopCount(2);
+        this.setMaxLoopCount(5);
     }
     
     public override void beforeupdate(){

@@ -11,6 +11,11 @@ public class SchemaUtilityTest {
         String standardLeadName=SchemaUtility.getRecordTypeName(standardLeadId,'Lead');
         System.assertEquals('Standard_Lead', standardLeadName);
     }
+     @isTest
+    static void getRecordTypeNameNegative(){
+        String standardLeadName=SchemaUtility.getRecordTypeName('0060Q000009psZFQAY','Lead');
+        System.assert(String.isEmpty(standardLeadName));
+    }
     @isTest
     static void getRecordTypeIdNegative(){
         String standardTaskId=SchemaUtility.getRecordTypeId('Task','Task');
