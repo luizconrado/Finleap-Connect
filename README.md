@@ -36,6 +36,11 @@ Finleap connect Org
     b.trigger
     c.apex
     d.custom field
+8. Alert Component for opportunity page shows all open opponrtunities of same account 
+    a.apex
+    b.aura component
+    c.custom metadata
+    d.flexi page
 
 # Change Log
     - 14-04-2020 :  Adding Record Type filter to all opportunity validation rules
@@ -74,6 +79,12 @@ Finleap connect Org
                     6.Custom Filed
                     7.Custom Metadata
                     8.Custom Label
+    -22-04-2020 : Adding Opportunity Alert component and its respective configurations
+                    Metadata Affected
+                    1.Apex
+                    2.Aura Component
+                    3.Flexi Page
+                    4.Custom Metadata
 
 
 
