@@ -1,0 +1,7 @@
+<design:component label="Open Opportunities">
+    <design:attribute name="filterRecordType" default="false" label="Show only if open oppotunities with different record types are present."/>
+    <design:supportedFormFactors>
+        <design:supportedFormFactor type="Large"/>
+        <design:supportedFormFactor type="Small"/>
+    </design:supportedFormFactors>
+</design:component>

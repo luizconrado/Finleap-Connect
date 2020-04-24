@@ -1,7 +1,7 @@
 public class ContentDocumentHandler extends Triggerhandler {
 
     public ContentDocumentHandler() {
-        this.setMaxLoopCount(1);
+        this.setMaxLoopCount(5);
     }
     public override void beforedelete() {
         List<ContentDocument> files=(List<ContentDocument>) Trigger.old;

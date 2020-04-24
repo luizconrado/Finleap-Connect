@@ -1,7 +1,7 @@
 public class ContentVersionHandler  extends Triggerhandler {
 
     public ContentVersionHandler() {
-        this.setMaxLoopCount(4);
+        this.setMaxLoopCount(5);
     }
     
     public override void afterInsert() {
@@ -29,7 +29,7 @@ public class ContentVersionHandler  extends Triggerhandler {
         }
         for(ContentVersion cv:cvs){ 
             if(contentLinksMap.containsKey(cv.ContentDocumentId)){
-            	if(!cv.Upload__c) cv.addError('Please use component to upload file');
+                if(!cv.Upload__c) cv.addError('Please use component to upload file');
                 else updateSuccessFiles.add(cv.Id);
             }
         }

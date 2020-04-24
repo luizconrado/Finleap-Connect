@@ -1,7 +1,7 @@
 public class OpportunityTriggerHandler extends Triggerhandler {
 
     public OpportunityTriggerHandler() {
-        this.setMaxLoopCount(2);
+        this.setMaxLoopCount(5);
     }
     
     public override void beforeupdate(){
