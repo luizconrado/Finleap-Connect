@@ -36,7 +36,7 @@
         <componentInstances>
             <componentInstanceProperties>
                 <name>filterRecordType</name>
-                <value>true</value>
+                <value>false</value>
             </componentInstanceProperties>
             <componentName>AlertInProgressOpportunitie</componentName>
         </componentInstances>

@@ -49,7 +49,7 @@
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>LAST_N_DAYS:14</value>
+            <value>LAST_N_DAYS:7</value>
         </criteriaItems>
         <criteriaItems>
             <column>RECORDTYPE</column>
@@ -79,7 +79,7 @@
         <field>FULL_NAME</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>New Opportunities DE - Past 14 DAYS</name>
+    <name>New Opportunities DE - Past 7 DAYS</name>
     <params>
         <name>open</name>
         <value>all</value>

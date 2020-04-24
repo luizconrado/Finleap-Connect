@@ -15,6 +15,12 @@
     <columns>
         <field>STAGE_NAME</field>
     </columns>
+    <columns>
+        <field>OLDVAL</field>
+    </columns>
+    <columns>
+        <field>NEWVAL</field>
+    </columns>
     <filter>
         <criteriaItems>
             <column>CREATED_DATE</column>
@@ -35,7 +41,7 @@
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>Customer Passed</value>
+            <value>Customer Passed,customer rejected</value>
         </criteriaItems>
         <criteriaItems>
             <column>RECORDTYPE</column>
@@ -60,8 +66,8 @@
     <showDetails>true</showDetails>
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
-    <sortColumn>CREATED_DATE</sortColumn>
-    <sortOrder>Desc</sortOrder>
+    <sortColumn>Opportunity.Product__c</sortColumn>
+    <sortOrder>Asc</sortOrder>
     <timeFrameFilter>
         <dateColumn>CREATED_DATE</dateColumn>
         <interval>INTERVAL_CUSTOM</interval>

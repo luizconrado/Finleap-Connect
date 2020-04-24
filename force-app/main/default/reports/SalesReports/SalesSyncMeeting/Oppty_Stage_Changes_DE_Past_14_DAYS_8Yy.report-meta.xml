@@ -55,7 +55,7 @@
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>LAST_N_DAYS:14</value>
+            <value>LAST_N_DAYS:7</value>
         </criteriaItems>
         <criteriaItems>
             <column>LAST_UPDATE</column>
@@ -78,6 +78,13 @@
             <operator>equals</operator>
             <value>DE</value>
         </criteriaItems>
+        <criteriaItems>
+            <column>CREATED_DATE</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notEqual</operator>
+            <value>LAST_N_DAYS:7</value>
+        </criteriaItems>
     </filter>
     <format>Summary</format>
     <groupingsDown>
@@ -90,7 +97,7 @@
         <field>ACCOUNT.NAME</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Oppty Stage Changes DE - Past 14 DAYS</name>
+    <name>Oppty Stage Changes DE - Past 7 DAYS</name>
     <params>
         <name>include</name>
         <value>all</value>

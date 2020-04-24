@@ -25,7 +25,7 @@
         <field>EVENT_SUBTYPE</field>
     </columns>
     <filter>
-        <booleanFilter>1 AND 2 AND 3 AND 4 AND 5</booleanFilter>
+        <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
         <criteriaItems>
             <column>DUE_DATE</column>
             <columnToColumn>false</columnToColumn>
@@ -46,13 +46,6 @@
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>DE</value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>SUBJECT</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>notContain</operator>
-            <value>Email</value>
         </criteriaItems>
         <criteriaItems>
             <column>ASSIGNED</column>
