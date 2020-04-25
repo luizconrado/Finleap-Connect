@@ -1,3 +1,0 @@
-<design:component label="Global Timeline">
-	<design:attribute name="includeChildren" default="false" label="Include Activities from all Related Objects? (only valid for Accounts,Contacts)"/>
-</design:component>
