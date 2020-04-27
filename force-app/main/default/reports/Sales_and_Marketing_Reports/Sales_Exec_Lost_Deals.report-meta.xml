@@ -50,13 +50,6 @@
             <operator>equals</operator>
             <value>Closed Lost</value>
         </criteriaItems>
-        <criteriaItems>
-            <column>RECORDTYPE</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>Opportunity.Finleap_Connect_Standard_Sales</value>
-        </criteriaItems>
     </filter>
     <format>Matrix</format>
     <groupingsAcross>

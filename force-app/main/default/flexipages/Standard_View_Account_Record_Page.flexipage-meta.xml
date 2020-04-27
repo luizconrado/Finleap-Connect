@@ -160,6 +160,9 @@
             <componentName>RelatedOpportunities</componentName>
         </componentInstances>
         <componentInstances>
+            <componentName>RelatedAttachments</componentName>
+        </componentInstances>
+        <componentInstances>
             <componentInstanceProperties>
                 <name>relatedListComponentOverride</name>
                 <value>NONE</value>

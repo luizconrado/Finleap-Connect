@@ -6,5 +6,5 @@
     <mayForecastManagerShare>false</mayForecastManagerShare>
     <name>Finleap Communication</name>
     <opportunityAccessLevel>Edit</opportunityAccessLevel>
-    <parentRole>World</parentRole>
+    <parentRole>Finleap_Group</parentRole>
 </Role>

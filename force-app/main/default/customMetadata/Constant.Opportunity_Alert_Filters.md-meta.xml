@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Opportunity Alert Filters</label>
+    <protected>false</protected>
+    <values>
+        <field>value__c</field>
+        <value xsi:type="xsd:string">Finleap_Build_Investment,Finleap_Investment_in_Venture,Finleap_Venture_Acquisition,Finleap_Investment_in_Finleap_Group</value>
+    </values>
+</CustomMetadata>

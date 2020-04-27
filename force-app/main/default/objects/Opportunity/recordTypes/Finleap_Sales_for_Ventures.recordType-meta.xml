@@ -2,7 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Finleap_Sales_for_Ventures</fullName>
     <active>true</active>
-    <businessProcess>Finleap Sales</businessProcess>
+    <businessProcess>Finleap Connect Sales Process</businessProcess>
     <description>Finleap Sales for Ventures</description>
     <label>Finleap Sales for Ventures</label>
     <picklistValues>

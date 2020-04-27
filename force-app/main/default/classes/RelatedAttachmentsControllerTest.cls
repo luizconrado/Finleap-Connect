@@ -31,7 +31,7 @@ public class RelatedAttachmentsControllerTest {
             Test.startTest();
             try{
                 ContentVersion cv=TestDataFactory.getContentDocument('csv','',false);
-                cv.Upload__c=true;
+                cv.Upload__c=false;
 				insert cv;
                 ContentVersion cvNew=[SELECT ContentDocumentId FROM ContentVersion WHERE id=:cv.Id];
                 TestDataFactory.setContentDocumentLink(cvNew.ContentDocumentId,a.Id,true);
@@ -43,19 +43,14 @@ public class RelatedAttachmentsControllerTest {
                 System.assert(e.getMessage().contains('FIELD_CUSTOM_VALIDATION_EXCEPTION'));
             }
             try{
-                ContentVersion cv=TestDataFactory.getContentDocument('csv','',false);
-                cv.Upload__c=true;
-                insert cv;
+                ContentVersion cv=TestDataFactory.getContentDocument('csv','',true);
                 ContentVersion cvNew=[SELECT ContentDocumentId FROM ContentVersion WHERE id=:cv.Id];
                 TestDataFactory.setContentDocumentLink(cvNew.ContentDocumentId,a.Id,true);
-                ContentVersion cv2=TestDataFactory.getContentDocument('csv',cvNew.ContentDocumentId,false);
-                cv2.Upload__c=true;
-                insert cv2;
+                ContentVersion cv2=TestDataFactory.getContentDocument('csv',cvNew.ContentDocumentId,true);
                 ContentDocument cd=[SElect id from ContentDocument WHERE id=:cvNew.ContentDocumentId];
             	delete cd;
             }
             catch(Exception e){
-                system.debug(e.getMessage());
                 System.assert(e.getMessage().contains('FIELD_CUSTOM_VALIDATION_EXCEPTION'));
             }
             Test.stopTest();

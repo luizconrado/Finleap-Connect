@@ -59,7 +59,7 @@
         <field>Opportunity.Tech_Stage__c</field>
     </columns>
     <filter>
-        <booleanFilter>(1 OR (2 AND 3)) AND 4 AND 5</booleanFilter>
+        <booleanFilter>(1 OR (2 AND 3)) AND 4</booleanFilter>
         <criteriaItems>
             <column>STAGE_NAME</column>
             <columnToColumn>false</columnToColumn>
@@ -87,13 +87,6 @@
             <isUnlocked>true</isUnlocked>
             <operator>includes</operator>
             <value>Finleap Connect</value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>RECORDTYPE</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>Opportunity.Finleap_Connect_Standard_Sales</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>

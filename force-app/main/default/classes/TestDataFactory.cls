@@ -58,6 +58,7 @@ public class TestDataFactory {
         ContentVersion cv = new ContentVersion();
         cv.VersionData = EncodingUtil.base64Decode(EncodingUtil.base64Encode(Blob.valueOf(RandomUtility.getString(100))));
         cv.Title = fileType;
+        cv.Upload__c=true; 
         cv.PathOnClient = RandomUtility.getString(6);
         cv.Type__c=fileType;
         if(!String.isBlank(documentId)) cv.ContentDocumentId=documentId;

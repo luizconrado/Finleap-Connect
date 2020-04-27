@@ -2,7 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Finleap_Ecosystem_Development</fullName>
     <active>true</active>
-    <businessProcess>Finleap Sales</businessProcess>
+    <businessProcess>Finleap Connect Sales Process</businessProcess>
     <description>Finleap Ecosystem Development</description>
     <label>Finleap Ecosystem Development</label>
     <picklistValues>

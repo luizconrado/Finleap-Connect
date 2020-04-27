@@ -19,7 +19,7 @@
                         item.isExpanded=false;
                     });
                 });
-                //Adding limit to length of time sections load on init
+                
                 let loadLimiter={
                     limit:2,
                     load:2<timelineGroups.length

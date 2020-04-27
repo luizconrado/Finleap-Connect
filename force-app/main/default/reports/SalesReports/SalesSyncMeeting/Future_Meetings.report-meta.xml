@@ -19,7 +19,7 @@
         <field>STATUS</field>
     </columns>
     <filter>
-        <booleanFilter>(1 OR 2) AND 3 AND 4 AND 5</booleanFilter>
+        <booleanFilter>1 OR 2</booleanFilter>
         <criteriaItems>
             <column>TASK_TYPE</column>
             <columnToColumn>false</columnToColumn>
@@ -33,27 +33,6 @@
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>Event</value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>Activity.Compay_Assigned_To__c</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>finleap connect</value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>Activity.Country_Assigned_to__c</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>DE</value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>DUE_DATE</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>NEXT_N_DAYS:14</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>
@@ -79,6 +58,6 @@
     <sortOrder>Asc</sortOrder>
     <timeFrameFilter>
         <dateColumn>DUE_DATE</dateColumn>
-        <interval>INTERVAL_CUSTOM</interval>
+        <interval>INTERVAL_NEXT7</interval>
     </timeFrameFilter>
 </Report>

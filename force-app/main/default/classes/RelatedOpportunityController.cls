@@ -24,7 +24,7 @@ public with sharing class RelatedOpportunityController {
         //querying records using with and without sharing
         if(objectName=='Account'){
             query+=' AccountId =: recordId ';
-            List<Opportunity> oppList=Database.query(query);
+            List<Opportunity> oppList=Database.query(query+' ORDER BY CreatedDate Desc');
             returnValue.put('Global',oppList);
 			returnValue.put('Private',db.queryOpportunity(recordId,oppList,query));
         }
@@ -32,7 +32,7 @@ public with sharing class RelatedOpportunityController {
             List<OpportunityContactRole> oppContactRoleList=[SELECT Id, OpportunityId, ContactId FROM OpportunityContactRole WHERE ContactId=:recordId];
             List<String> oppListId=new List<String>();
             for(OpportunityContactRole ocr:oppContactRoleList) oppListId.add(ocr.OpportunityId);
-            returnValue.put('Global', Database.query(query+' Id IN:oppListId'));
+            returnValue.put('Global', Database.query(query+' Id IN:oppListId ORDER BY CreatedDate Desc'));
             returnValue.put('Private',db.queryOpportunityFromContactRole(recordId,oppContactRoleList,query));
         }
         return JSON.serialize(returnValue);
@@ -49,7 +49,7 @@ public with sharing class RelatedOpportunityController {
             for(OpportunityContactRole ocr:[SELECT Id, OpportunityId, ContactId FROM OpportunityContactRole WHERE ContactId=:recordId AND id NOT IN:oppContactRoleList]){
                 oppListId.add(ocr.OpportunityId);
             }
-            query+='  Id IN: oppListId ';
+            query+='  Id IN: oppListId ORDER BY CreatedDate Desc';
             return Database.query(query);
         }
     }

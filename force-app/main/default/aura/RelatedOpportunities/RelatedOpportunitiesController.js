@@ -47,7 +47,6 @@
     viewAllInvoked:function(component, event, helper){
         const isMobile=component.get('v.isMobile');
         if(isMobile){
-            //if in mobile context opening modal as refrence
             const viewAllListData=component.get('v.viewAllListData');
             const relatedList={
                 componentDef:"c:RelatedListItem",
@@ -84,7 +83,6 @@
         let record=opportunityList.filter(o=>o.Id==id)[0];
         
         if(!record.access){
-            //if in mobile context opening modal as refrence
             let [fieldName,fieldValue]=helper.parseRecord(record,fields[0]);
             const isMobile=component.get('v.isMobile');
             if(isMobile){

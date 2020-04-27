@@ -13,11 +13,8 @@
             let status=response.getState();
             if (status === "SUCCESS"){
                 let data = response.getReturnValue();
-                //set icon based on file type
                 data=_self.setFileIcon(data);
-                //calculate file size
                 data=_self.parseSize(data);
-                //getting  view object list
                 data=_self.getViewList(data);
                 component.set('v.attachmentList',data);
                 component.set('v.attachmentViewList',data.slice(0,3));
@@ -46,7 +43,6 @@
             let status = response.getState();
             let data = response.getReturnValue();
             if(status==='SUCCESS'){
-                
                 data.forEach(function(file){
                     file.ContentModifiedDate=_self.parseDate(file.ContentModifiedDate);
                 });
@@ -63,7 +59,6 @@
     getViewList:function(files){
         const _self=this;
         let displayList=[];
-        //creates view object list
         files.forEach(function(file,index){
             let fileObj={};
             fileObj.access=true;
