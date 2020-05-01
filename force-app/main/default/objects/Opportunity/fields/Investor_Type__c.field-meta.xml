@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Investor_Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Investor Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Angel</fullName>
+                <default>false</default>
+                <label>Angel</label>
+            </value>
+            <value>
+                <fullName>Business Angel</fullName>
+                <default>false</default>
+                <label>Business Angel</label>
+            </value>
+            <value>
+                <fullName>Corporate VC</fullName>
+                <default>false</default>
+                <label>Corporate VC</label>
+            </value>
+            <value>
+                <fullName>HNWI / Family Offices</fullName>
+                <default>false</default>
+                <label>HNWI / Family Offices</label>
+            </value>
+            <value>
+                <fullName>Institutional / Consulting</fullName>
+                <default>false</default>
+                <label>Institutional / Consulting</label>
+            </value>
+            <value>
+                <fullName>Lead Investor</fullName>
+                <default>false</default>
+                <label>Lead Investor</label>
+            </value>
+            <value>
+                <fullName>Strategic - Asset Mgmt</fullName>
+                <default>false</default>
+                <label>Strategic - Asset Mgmt</label>
+            </value>
+            <value>
+                <fullName>Strategic - Banks</fullName>
+                <default>false</default>
+                <label>Strategic - Banks</label>
+            </value>
+            <value>
+                <fullName>Strategic - Financial Services</fullName>
+                <default>false</default>
+                <label>Strategic - Financial Services</label>
+            </value>
+            <value>
+                <fullName>Strategic - Insurance</fullName>
+                <default>false</default>
+                <label>Strategic - Insurance</label>
+            </value>
+            <value>
+                <fullName>Strategic - PE / VC Funds</fullName>
+                <default>false</default>
+                <label>Strategic - PE / VC Funds</label>
+            </value>
+            <value>
+                <fullName>Strategic - Tech/IT</fullName>
+                <default>false</default>
+                <label>Strategic - Tech/IT</label>
+            </value>
+            <value>
+                <fullName>SWF / Pension Funds</fullName>
+                <default>false</default>
+                <label>SWF / Pension Funds</label>
+            </value>
+            <value>
+                <fullName>Transformational</fullName>
+                <default>false</default>
+                <label>Transformational</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

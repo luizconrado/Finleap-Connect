@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Opportunity</entityName>
+    <fieldName>StageName</fieldName>
+    <masterLabel>Finleap Investment Venture Opportunity</masterLabel>
+    <pathAssistantSteps>
+        <fieldNames>Loss_Reason__c</fieldNames>
+        <fieldNames>Loss_Reason_Detail__c</fieldNames>
+        <picklistValueName>Closed Lost</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Sub_Stage__c</fieldNames>
+        <fieldNames>Extended_Deck_Sent__c</fieldNames>
+        <fieldNames>DD_Light_Access_Granted__c</fieldNames>
+        <fieldNames>DD_Light_Follow_Up__c</fieldNames>
+        <fieldNames>Term_Sheet_Signed__c</fieldNames>
+        <info>&lt;p&gt;*** Do not forget to log all your Emails, Calls, Tasks and Meeting in Salesforce ***&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Make sure your &amp;quot;Next Step&amp;quot; is updated.&lt;/li&gt;&lt;li&gt;Send an &amp;quot;Extended Deck&amp;quot; to the client and follow up, make sure to update &amp;quot;Extended Deck&amp;quot; and &amp;quot;&lt;span style=&quot;font-size: 13px;&quot;&gt;Extended Deck Follow Up&amp;quot; &lt;/span&gt;dates&lt;/li&gt;&lt;li&gt;Request access to Due Diligence Light and follow up on it for the status of approval, make sure to update &amp;quot;DD Light (Access Granted)&amp;quot; and &amp;quot;DD Light Follow Up&amp;quot; dates&lt;/li&gt;&lt;li&gt;Prepare a term sheet and get approval, make sure to update the &amp;quot;Term Sheet Signed&amp;quot; date&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Deep Dive</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Sub_Stage__c</fieldNames>
+        <fieldNames>DD_Confirmatory_Access_Granted__c</fieldNames>
+        <fieldNames>DD_Confirmatory_Follow_Up__c</fieldNames>
+        <fieldNames>Q_A_Answered__c</fieldNames>
+        <fieldNames>Mgmt_Meeting_Scheduled__c</fieldNames>
+        <info>&lt;p&gt;*** Do not forget to log all your Emails, Calls, Tasks and Meeting in Salesforce ***&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Make sure your &amp;quot;Next Step&amp;quot; is updated.&lt;/li&gt;&lt;li&gt;Request access to Due Diligence Confirmatory and follow up on it for the status of approval, make sure to update &amp;quot;DD Confirmatory (Access Granted)&amp;quot; and &amp;quot;DD Confirmatory Follow Up&amp;quot; dates&lt;/li&gt;&lt;li&gt;Prepare question/concerns list and get them rectified, make sure to update &amp;quot;Q&amp;amp;A Answered&amp;quot; date&lt;/li&gt;&lt;li&gt;Schedule a meeting with Management and client, make sure to update &amp;quot;Mgmt. Meeting Scheduled&amp;quot; date when the meeting is held&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Due Diligence</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Sub_Stage__c</fieldNames>
+        <fieldNames>Fact_Sheet_Sent__c</fieldNames>
+        <fieldNames>Fact_Sheet_Follow_Up__c</fieldNames>
+        <info>&lt;p&gt;*** Do not forget to log all your Emails, Calls, Tasks and Meeting in Salesforce ***&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Update the &amp;quot;Close Date&amp;quot; after your first interactions.&lt;/li&gt;&lt;li&gt;Make sure your &amp;quot;Next Step&amp;quot; is updated.&lt;/li&gt;&lt;li&gt;Update the &amp;quot;Amount&amp;quot; after your first interaction&lt;/li&gt;&lt;li&gt;Prepare a Fact Sheet and send to a client, make sure to update &amp;quot;Fact Sheet Sent&amp;quot; and &amp;quot;Fact Sheet Follow Up&amp;quot; dates&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Engage</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Sub_Stage__c</fieldNames>
+        <fieldNames>Short_Deck_Sent__c</fieldNames>
+        <fieldNames>Intro_Meeting_Scheduled__c</fieldNames>
+        <fieldNames>Intro_Call_Scheduled__c</fieldNames>
+        <fieldNames>NDA_Signed__c</fieldNames>
+        <info>&lt;p&gt;*** Do not forget to log all your Emails, Calls, Tasks and Meeting in Salesforce ***&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Make sure your &amp;quot;Next Step&amp;quot; is updated.&lt;/li&gt;&lt;li&gt;If interest prepare shot deck and send to client, make sure to update &amp;quot;Short Deck Sent&amp;quot; date&lt;/li&gt;&lt;li&gt;Schedule a &amp;quot;Call/Meeting&amp;quot; with the client. make sure to update the &amp;quot;Scheduled&amp;quot; date&lt;/li&gt;&lt;li&gt;Get NDA Signed, make sure to update &amp;quot;NDA Signed&amp;quot; date&lt;/li&gt;&lt;li&gt;Send an &amp;quot;Extended Deck&amp;quot; to the client, make sure to update &amp;quot;Extended Deck&amp;quot; sent date&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>General Interest</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Sub_Stage__c</fieldNames>
+        <fieldNames>ISHA_Negotiation_Start_Date__c</fieldNames>
+        <fieldNames>ISHA_Negotiation_Signed_Date__c</fieldNames>
+        <info>&lt;p&gt;*** Do not forget to log all your Emails, Calls, Tasks and Meeting in Salesforce ***&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Make sure your &amp;quot;Next Step&amp;quot; is updated.&lt;/li&gt;&lt;li&gt;While ISHA Negotiation, make sure to update the &amp;quot;ISHA Negotiation Start Date&amp;quot; date when the negotiation starts&lt;/li&gt;&lt;li&gt;During the negotiation of ISHA Terms make sure to update all interactions in salesforce&lt;/li&gt;&lt;li&gt;Post negotiation and ISHA is signed make sure to update &amp;quot;ISHA Negotiation Signed Date&amp;quot;&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Negotiation</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>CloseDate</fieldNames>
+        <fieldNames>NextStep</fieldNames>
+        <info>&lt;ul&gt;&lt;li&gt;Make sure your Opportunity Name has a meaningful value.&lt;/li&gt;&lt;li&gt;Research Customer/Partner properly before engaging.&lt;/li&gt;&lt;li&gt;Enter a reasonable &amp;quot;Close Date&amp;quot; target for this Opportunity.&lt;/li&gt;&lt;li&gt;Choose what Finleap Company this Opportunity is for.&lt;/li&gt;&lt;li&gt;Prepare a &amp;quot;Use Case Description&amp;quot; for this opportunity.&lt;/li&gt;&lt;li&gt;Make sure your &amp;quot;Next Step&amp;quot; is updated.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</info>
+        <picklistValueName>Qualifying</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Sub_Stage__c</fieldNames>
+        <fieldNames>ISHA_Negotiation_Signed_Date__c</fieldNames>
+        <picklistValueName>Signed</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Finleap_Investment_in_Venture</recordTypeName>
+</PathAssistant>

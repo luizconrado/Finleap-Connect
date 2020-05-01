@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Tech_Status_Description__c</fullName>
+    <description>Description of what is going on with the Tech Process.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Description of what is going on with the Tech Process.</inlineHelpText>
+    <label>Tech Status Description</label>
+    <length>8000</length>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>LongTextArea</type>
+    <visibleLines>4</visibleLines>
+</CustomField>

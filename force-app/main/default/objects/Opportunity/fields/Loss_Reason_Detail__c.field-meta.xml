@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Loss_Reason_Detail__c</fullName>
+    <description>Detailed Information on why this Opportunity was Closed Lost</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Detailed Information on why this Opportunity was Closed Lost</inlineHelpText>
+    <label>Loss Reason Detail</label>
+    <length>8000</length>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>LongTextArea</type>
+    <visibleLines>4</visibleLines>
+</CustomField>

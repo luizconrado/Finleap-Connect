@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sub_Stage__c</fullName>
+    <externalId>false</externalId>
+    <label>Sub Stage</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>StageName</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Awaiting Fact Sheet to be Sent Out</fullName>
+                <default>false</default>
+                <label>Awaiting Fact Sheet to be Sent Out</label>
+            </value>
+            <value>
+                <fullName>Awaiting Follow up after Fact Sheet</fullName>
+                <default>false</default>
+                <label>Awaiting Follow up after Fact Sheet</label>
+            </value>
+            <value>
+                <fullName>Awaiting Short Deck to be Sent Out</fullName>
+                <default>false</default>
+                <label>Awaiting Short Deck to be Sent Out</label>
+            </value>
+            <value>
+                <fullName>Awaiting Initial Call/Meeting to be Schedule</fullName>
+                <default>false</default>
+                <label>Awaiting Initial Call/Meeting to be Schedule</label>
+            </value>
+            <value>
+                <fullName>Awaiting NDA to be Signed</fullName>
+                <default>false</default>
+                <label>Awaiting NDA to be Signed</label>
+            </value>
+            <value>
+                <fullName>Awaiting Extended Deck to be Sent Out</fullName>
+                <default>false</default>
+                <label>Awaiting Extended Deck to be Sent Out</label>
+            </value>
+            <value>
+                <fullName>Awaiting Extended Deck Follow Up</fullName>
+                <default>false</default>
+                <label>Awaiting Extended Deck Follow Up</label>
+            </value>
+            <value>
+                <fullName>Awaiting Invitation to Due Diligence</fullName>
+                <default>false</default>
+                <label>Awaiting Invitation to Due Diligence</label>
+            </value>
+            <value>
+                <fullName>Awaiting Follow up after Due Diligence</fullName>
+                <default>false</default>
+                <label>Awaiting Follow up after Due Diligence</label>
+            </value>
+            <value>
+                <fullName>Awaiting Term Sheet to be Signed</fullName>
+                <default>false</default>
+                <label>Awaiting Term Sheet to be Signed</label>
+            </value>
+            <value>
+                <fullName>Awaiting Invitation to Due Diligence Confirmatory</fullName>
+                <default>false</default>
+                <label>Awaiting Invitation to Due Diligence Confirmatory</label>
+            </value>
+            <value>
+                <fullName>Awaiting Follow up after Due Diligence Confirmatory</fullName>
+                <default>false</default>
+                <label>Awaiting Follow up after Due Diligence Confirmatory</label>
+            </value>
+            <value>
+                <fullName>Awaiting Q&amp;A to be Answered</fullName>
+                <default>false</default>
+                <label>Awaiting Q&amp;A to be Answered</label>
+            </value>
+            <value>
+                <fullName>Awaiting Invitation for on-site Mgmt. Meeting</fullName>
+                <default>false</default>
+                <label>Awaiting Invitation for on-site Mgmt. Meeting</label>
+            </value>
+            <value>
+                <fullName>Awaiting ISHA Negotiation</fullName>
+                <default>false</default>
+                <label>Awaiting ISHA Negotiation</label>
+            </value>
+            <value>
+                <fullName>Awaiting ISHA to be Signed</fullName>
+                <default>false</default>
+                <label>Awaiting ISHA to be Signed</label>
+            </value>
+            <value>
+                <fullName>Awaiting Deal Closure</fullName>
+                <default>false</default>
+                <label>Awaiting Deal Closure</label>
+            </value>
+            <value>
+                <fullName>Completed</fullName>
+                <default>false</default>
+                <label>Completed</label>
+            </value>
+            <value>
+                <fullName>Proceed to the next stage</fullName>
+                <default>false</default>
+                <label>Proceed to the next stage</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Completed</controllingFieldValue>
+            <controllingFieldValue>Signed</controllingFieldValue>
+            <controllingFieldValue>Closed Won - Funnelled</controllingFieldValue>
+            <controllingFieldValue>Confirmed</controllingFieldValue>
+            <controllingFieldValue>Closed Won</controllingFieldValue>
+            <controllingFieldValue>Cancelled</controllingFieldValue>
+            <valueName>Completed</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Negotiation</controllingFieldValue>
+            <controllingFieldValue>Due Diligence</controllingFieldValue>
+            <controllingFieldValue>Negotiate</controllingFieldValue>
+            <valueName>Awaiting ISHA Negotiation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Negotiation</controllingFieldValue>
+            <controllingFieldValue>Negotiate</controllingFieldValue>
+            <controllingFieldValue>Confirmed</controllingFieldValue>
+            <valueName>Awaiting ISHA to be Signed</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Negotiation</controllingFieldValue>
+            <controllingFieldValue>General Interest</controllingFieldValue>
+            <controllingFieldValue>Deep Dive</controllingFieldValue>
+            <controllingFieldValue>Qualifying</controllingFieldValue>
+            <controllingFieldValue>Due Diligence</controllingFieldValue>
+            <controllingFieldValue>Engage</controllingFieldValue>
+            <controllingFieldValue>Convince</controllingFieldValue>
+            <controllingFieldValue>Offer</controllingFieldValue>
+            <controllingFieldValue>Negotiate</controllingFieldValue>
+            <valueName>Proceed to the next stage</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Interest</controllingFieldValue>
+            <valueName>Awaiting Short Deck to be Sent Out</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Interest</controllingFieldValue>
+            <valueName>Awaiting Initial Call/Meeting to be Schedule</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Interest</controllingFieldValue>
+            <valueName>Awaiting NDA to be Signed</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Deep Dive</controllingFieldValue>
+            <valueName>Awaiting Extended Deck to be Sent Out</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Deep Dive</controllingFieldValue>
+            <valueName>Awaiting Extended Deck Follow Up</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Deep Dive</controllingFieldValue>
+            <valueName>Awaiting Invitation to Due Diligence</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Deep Dive</controllingFieldValue>
+            <valueName>Awaiting Follow up after Due Diligence</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Deep Dive</controllingFieldValue>
+            <valueName>Awaiting Term Sheet to be Signed</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Due Diligence</controllingFieldValue>
+            <valueName>Awaiting Invitation to Due Diligence Confirmatory</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Due Diligence</controllingFieldValue>
+            <valueName>Awaiting Follow up after Due Diligence Confirmatory</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Due Diligence</controllingFieldValue>
+            <valueName>Awaiting Q&amp;A to be Answered</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Due Diligence</controllingFieldValue>
+            <valueName>Awaiting Invitation for on-site Mgmt. Meeting</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Engage</controllingFieldValue>
+            <valueName>Awaiting Fact Sheet to be Sent Out</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Engage</controllingFieldValue>
+            <valueName>Awaiting Follow up after Fact Sheet</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Confirmed</controllingFieldValue>
+            <valueName>Awaiting Deal Closure</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

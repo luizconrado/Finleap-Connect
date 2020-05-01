@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Finleap_Company__c</fullName>
+    <description>Please select the respective Finleap Company.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Please select the respective Finleap Company.</inlineHelpText>
+    <label>Finleap Company</label>
+    <required>false</required>
+    <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Finleap Connect</fullName>
+                <default>false</default>
+                <label>Finleap Connect</label>
+            </value>
+            <value>
+                <fullName>Element</fullName>
+                <default>false</default>
+                <label>Element</label>
+            </value>
+            <value>
+                <fullName>elinvar</fullName>
+                <default>false</default>
+                <label>elinvar</label>
+            </value>
+            <value>
+                <fullName>solarisBank</fullName>
+                <default>false</default>
+                <label>solarisBank</label>
+            </value>
+            <value>
+                <fullName>BillFront</fullName>
+                <default>false</default>
+                <label>BillFront</label>
+            </value>
+            <value>
+                <fullName>Clark</fullName>
+                <default>false</default>
+                <label>Clark</label>
+            </value>
+            <value>
+                <fullName>Crosslend</fullName>
+                <default>false</default>
+                <label>Crosslend</label>
+            </value>
+            <value>
+                <fullName>financeAds</fullName>
+                <default>false</default>
+                <label>financeAds</label>
+            </value>
+            <value>
+                <fullName>Joonko</fullName>
+                <default>false</default>
+                <label>Joonko</label>
+            </value>
+            <value>
+                <fullName>PAIR Finance</fullName>
+                <default>false</default>
+                <label>PAIR Finance</label>
+            </value>
+            <value>
+                <fullName>Penta</fullName>
+                <default>false</default>
+                <label>Penta</label>
+            </value>
+            <value>
+                <fullName>Perseus</fullName>
+                <default>false</default>
+                <label>Perseus</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Beesy</fullName>
+                <default>false</default>
+                <label>Beesy</label>
+            </value>
+            <value>
+                <fullName>Consumer Platform</fullName>
+                <default>false</default>
+                <label>Consumer Platform</label>
+            </value>
+            <value>
+                <fullName>Cyber</fullName>
+                <default>false</default>
+                <label>Cyber</label>
+            </value>
+            <value>
+                <fullName>Deutsche Fintech Solutions</fullName>
+                <default>false</default>
+                <label>Deutsche Fintech Solutions</label>
+            </value>
+            <value>
+                <fullName>European Fintech Fund</fullName>
+                <default>false</default>
+                <label>European Fintech Fund</label>
+            </value>
+            <value>
+                <fullName>Figo</fullName>
+                <default>false</default>
+                <label>Figo</label>
+            </value>
+            <value>
+                <fullName>Finleap</fullName>
+                <default>false</default>
+                <label>Finleap</label>
+            </value>
+            <value>
+                <fullName>FinReach</fullName>
+                <default>false</default>
+                <label>FinReach</label>
+            </value>
+            <value>
+                <fullName>Finreach Solutions</fullName>
+                <default>false</default>
+                <label>Finreach Solutions</label>
+            </value>
+            <value>
+                <fullName>Infinitec Solutions</fullName>
+                <default>false</default>
+                <label>Infinitec Solutions</label>
+            </value>
+            <value>
+                <fullName>MoneyMap</fullName>
+                <default>false</default>
+                <label>MoneyMap</label>
+            </value>
+            <value>
+                <fullName>ReloadFinance</fullName>
+                <default>false</default>
+                <label>ReloadFinance</label>
+            </value>
+            <value>
+                <fullName>SBOT</fullName>
+                <default>false</default>
+                <label>SBOT</label>
+            </value>
+            <value>
+                <fullName>SME Banking</fullName>
+                <default>false</default>
+                <label>SME Banking</label>
+            </value>
+            <value>
+                <fullName>Superr</fullName>
+                <default>false</default>
+                <label>Superr</label>
+            </value>
+            <value>
+                <fullName>Valendo</fullName>
+                <default>false</default>
+                <label>Valendo</label>
+            </value>
+            <value>
+                <fullName>Zinsbaustein</fullName>
+                <default>false</default>
+                <label>Zinsbaustein</label>
+            </value>
+            <value>
+                <fullName>None</fullName>
+                <default>false</default>
+                <label>None</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>
