@@ -41,6 +41,12 @@ Finleap connect Org
     b.aura component
     c.custom metadata
     d.flexi page
+9. Related List Component update: fixing navigation for opportunity,file
+    a.aura
+    b.apex
+10. Adding isTest=false to all reports filter
+    a.Report
+11. Adding Opportuntiy page layout,path for all the recordtypes
 
 # Change Log
     - 14-04-2020 :  Adding Record Type filter to all opportunity validation rules
