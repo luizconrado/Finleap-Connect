@@ -21,9 +21,16 @@
                     if(o.Name) o.Name=o.Limited_Access_Name__c;
                     return o;
                 }));
-              	
-                component.set('v.viewListData',helper.getViewList(fieldDataList,allOpp,3))
-                component.set('v.viewAllListData',helper.getViewList(fieldDataList,allOpp,allOpp.length))
+                
+                let openOpp=allOpp.filter(o=>o.IsClosed===false);
+                let closedOpp=allOpp.filter(o=>o.IsClosed===true);
+                
+                let allSortedOpp=[];
+                allSortedOpp.push(...openOpp);
+                allSortedOpp.push(...closedOpp);
+                
+                component.set('v.viewListData',helper.getViewList(fieldDataList,allSortedOpp,3))
+                component.set('v.viewAllListData',helper.getViewList(fieldDataList,allSortedOpp,allSortedOpp.length))
                 
                 //Orignal Data 
                 component.set('v.opportunityList',allOpp)
@@ -47,6 +54,7 @@
     viewAllInvoked:function(component, event, helper){
         const isMobile=component.get('v.isMobile');
         if(isMobile){
+            //if in mobile context opening modal as refrence
             const viewAllListData=component.get('v.viewAllListData');
             const relatedList={
                 componentDef:"c:RelatedListItem",
@@ -83,6 +91,7 @@
         let record=opportunityList.filter(o=>o.Id==id)[0];
         
         if(!record.access){
+            //if in mobile context opening modal as refrence
             let [fieldName,fieldValue]=helper.parseRecord(record,fields[0]);
             const isMobile=component.get('v.isMobile');
             if(isMobile){

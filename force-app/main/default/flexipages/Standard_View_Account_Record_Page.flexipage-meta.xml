@@ -160,9 +160,6 @@
             <componentName>RelatedOpportunities</componentName>
         </componentInstances>
         <componentInstances>
-            <componentName>RelatedAttachments</componentName>
-        </componentInstances>
-        <componentInstances>
             <componentInstanceProperties>
                 <name>relatedListComponentOverride</name>
                 <value>NONE</value>
@@ -176,6 +173,9 @@
                 <value>true</value>
             </componentInstanceProperties>
             <componentName>force:relatedListContainer</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentName>RelatedAttachments</componentName>
         </componentInstances>
         <mode>Replace</mode>
         <name>feedTabContent</name>

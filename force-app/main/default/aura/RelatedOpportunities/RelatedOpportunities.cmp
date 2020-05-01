@@ -25,7 +25,7 @@
     <!--popups-->
     <aura:if isTrue="{!v.isViewAll}">
         <c:Modal header="{!'All Opportunities ('+v.viewAllListData.length+')'}" open="{!v.isViewAll}" >
-            <c:RelatedListItem recordList="{!v.viewAllListData}" tileclass="slds-box" viewLength="{!v.viewAllListData.length}"></c:RelatedListItem>
+            <c:RelatedListItem sobjectName="Opportunity" recordList="{!v.viewAllListData}" tileclass="slds-box" viewLength="{!v.viewAllListData.length}"></c:RelatedListItem>
         </c:Modal>
     </aura:if>
     <aura:if isTrue="{!v.isViewRecord}">
@@ -41,7 +41,7 @@
     
     <!--list-->
     <aura:if isTrue="{!v.loadView}">
-        <c:RelatedList icon="standard:opportunity" header="{!'Global Opportunities ('+v.opportunityList.length+')'}" recordViewList="{!v.viewListData}">
+        <c:RelatedList sobjectName="Opportunity"  icon="standard:opportunity" header="{!'Global Opportunities ('+v.opportunityList.length+')'}" recordViewList="{!v.viewListData}">
         </c:RelatedList>
     </aura:if>
 

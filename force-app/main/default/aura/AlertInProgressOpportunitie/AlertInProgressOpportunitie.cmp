@@ -1,4 +1,4 @@
-<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" controller="AlertShowInProgressController" access="global" >
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName" controller="AlertShowInProgressController" access="global" >
     
     <aura:attribute name="OpportunityRecord" type="Object"/>
     <aura:attribute name="recordLoadError" type="String"/>
@@ -40,7 +40,7 @@
     <!--popups-->
     <aura:if isTrue="{!v.isViewAll}">
         <c:Modal header="{!'All Opportunities ('+v.viewAllListData.length+')'}" open="{!v.isViewAll}" >
-            <c:RelatedListItem recordList="{!v.viewAllListData}" tileclass="slds-box" viewLength="{!v.viewAllListData.length}"></c:RelatedListItem>
+            <c:RelatedListItem sobjectName="Opportunity"  recordList="{!v.viewAllListData}" tileclass="slds-box" viewLength="{!v.viewAllListData.length}"></c:RelatedListItem>
         </c:Modal>
     </aura:if>
     <aura:if isTrue="{!v.isViewRecord}">
@@ -62,10 +62,10 @@
                          'slds-icon_container slds-icon-utility-user slds-m-right_x-small',
                          (v.filterRecordTypeExsists?'no-access-color':'access-color')
                          )}" title="Warning">
-                <lightning:icon iconName="utility:warning" size="x-small" alternativeText="{!v.filterRecordTypeExsists?'One or more investment opportunites':'Warning'}" title="{!v.filterRecordTypeExsists?'One or more investment opportunites':'Warning'}" />
+                <lightning:icon iconName="utility:warning" size="x-small" alternativeText="{!v.filterRecordTypeExsists?'One or more open investment opportunities currently in progress.':'Warning'}" title="{!v.filterRecordTypeExsists?'One or more investment opportunites':'Warning'}" />
                 
             </span>
-            <h2>Current parent account has one or more open opportunities currently in progress.
+            <h2>Parent account has one or more open opportunities currently in progress.
                 <a href="javascript:void(0);" onclick="{!c.viewAllInvoked}">More Information</a>
             </h2>
         </div>

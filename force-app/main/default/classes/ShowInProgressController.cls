@@ -19,18 +19,23 @@ public with sharing class ShowInProgressController {
         }
         if(query.contains('Limited_Access_Name__c')) query=query.removeEnd(',');
         else query+='Limited_Access_Name__c';
-        query+=' FROM Opportunity WHERE ';
-        String publicQuery=query+'AccountId=:accountId AND RecordTypeId=:recordTypeId AND Id!=:recordId';
+        query+=' FROM Opportunity WHERE IsClosed =false AND ';
+        String publicQuery=query+'AccountId=:accountId AND ';
+        if(String.isBlank(recordTypeId))  publicQuery+=' Id!=:recordId';
+        else publicQuery+='RecordTypeId!=:recordTypeId AND Id!=:recordId';
         List<Opportunity> oppList=Database.query(publicQuery);
         returnValue.put('Global',oppList);
         returnValue.put('Private',db.queryOpportunity(query,accountId,recordId,recordTypeId,oppList));
         return  JSON.serialize(returnValue);
     }
-
+    
     private without sharing class WithoutSharing{
         public List<Opportunity> queryOpportunity(Final String query,
         Final String accountId,Final string recordId,final String recordTypeId,Final List<Opportunity> oppList){
-            String privateQuery=query+'AccountId=:accountId AND RecordTypeId=:recordTypeId AND Id!=:recordId AND Id NOT IN: oppList';
+            String privateQuery=query+'AccountId=:accountId AND ';
+            if(String.isBlank(recordTypeId))  privateQuery+=' Id!=:recordId';
+            else privateQuery+='RecordTypeId!=:recordTypeId AND Id!=:recordId';
+            privateQuery+=' AND Id NOT IN: oppList';
             return Database.query(privateQuery);
         }
     }

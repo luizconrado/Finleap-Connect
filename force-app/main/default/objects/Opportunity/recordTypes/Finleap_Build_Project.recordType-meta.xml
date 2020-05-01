@@ -2,7 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Finleap_Build_Project</fullName>
     <active>true</active>
-    <businessProcess>Finleap Connect Sales Process</businessProcess>
+    <businessProcess>Finleap Sales</businessProcess>
     <description>Finleap Build Project</description>
     <label>Finleap Build Project</label>
     <picklistValues>

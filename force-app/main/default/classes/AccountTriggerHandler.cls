@@ -1,7 +1,7 @@
 public class AccountTriggerHandler extends Triggerhandler {
 
     public AccountTriggerHandler() {
-        this.setMaxLoopCount(4);
+        this.setMaxLoopCount(5);
     }
     
     public override void beforeupdate(){
@@ -9,15 +9,21 @@ public class AccountTriggerHandler extends Triggerhandler {
         Map<Id,Account> newAccountMap=(Map<Id,Account>) Trigger.newMap;
         Map<Id,Account> oldAccountMap=(Map<Id,Account>) Trigger.oldMap;
         
+        //Retreving all accounts whoese owner is changed
         for(Account a:newAccountMap.values()){
             if(a.OwnerId!=oldAccountMap.get(a.Id).OwnerId) accountOwnerChanged.add(a);
         }
         
+        
+        if(accountOwnerChanged.size()>0) setTeamMembers(accountOwnerChanged);
+        
+    }
+    
+    private static void setTeamMembers(List<Account> accountOwnerChanged){
         List<AccountTeamMember> teamMemebers=[SELECT  AccountId, UserId, TeamMemberRole, PhotoUrl, Title, AccountAccessLevel, OpportunityAccessLevel, CaseAccessLevel, ContactAccessLevel 
                                               FROM AccountTeamMember WHERE AccountId IN: accountOwnerChanged];
-       
-        insertTeamMemebers(JSON.serialize(teamMemebers));
         
+        if(teamMemebers.size()>0) insertTeamMemebers(JSON.serialize(teamMemebers));
     }
     
     @future

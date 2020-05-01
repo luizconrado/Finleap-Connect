@@ -1,9 +1,18 @@
 public inherited  sharing class Constant {
    	//Opportunity
+    public static final string OPPORTUNITY_FINLEAP_BUILD_INVESTMENT_RECORDTYPE_ID{private set;get{
+        if(OPPORTUNITY_FINLEAP_BUILD_INVESTMENT_RECORDTYPE_ID == null) OPPORTUNITY_FINLEAP_BUILD_INVESTMENT_RECORDTYPE_ID=SchemaUtility.getRecordTypeId('Finleap_Build_Investment','Opportunity');
+        return OPPORTUNITY_FINLEAP_BUILD_INVESTMENT_RECORDTYPE_ID;
+    }}
+    public static final string OPPORTUNITY_FINLEAP_INVESTMENT_IN_VENTURE_RECORDTYPE_ID{private set;get{
+        if(OPPORTUNITY_FINLEAP_INVESTMENT_IN_VENTURE_RECORDTYPE_ID == null) OPPORTUNITY_FINLEAP_INVESTMENT_IN_VENTURE_RECORDTYPE_ID=SchemaUtility.getRecordTypeId('Finleap_Investment_in_Venture','Opportunity');
+        return OPPORTUNITY_FINLEAP_INVESTMENT_IN_VENTURE_RECORDTYPE_ID;
+    }}
     public static final string OPPORTUNITY_INVESTMENT_IN_FINLEAP_RECORDTYPE_ID{private set;get{
         if(OPPORTUNITY_INVESTMENT_IN_FINLEAP_RECORDTYPE_ID == null) OPPORTUNITY_INVESTMENT_IN_FINLEAP_RECORDTYPE_ID=SchemaUtility.getRecordTypeId('Finleap_Investment_in_Finleap_Group','Opportunity');
         return OPPORTUNITY_INVESTMENT_IN_FINLEAP_RECORDTYPE_ID;
     }}
+    
     public static final string OPPORTUNITY_ECOSYSTEM_RECORDTYPE_ID{private set;get{
         if(OPPORTUNITY_ECOSYSTEM_RECORDTYPE_ID == null) OPPORTUNITY_ECOSYSTEM_RECORDTYPE_ID=SchemaUtility.getRecordTypeId('Finleap_Ecosystem_Development','Opportunity');
         return OPPORTUNITY_ECOSYSTEM_RECORDTYPE_ID;
