@@ -16,6 +16,10 @@
                 <behavior>Readonly</behavior>
                 <field>Legacy_Salesforce_ID__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>HubSpot_Id__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>

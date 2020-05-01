@@ -21,9 +21,16 @@
                     if(o.Name) o.Name=o.Limited_Access_Name__c;
                     return o;
                 }));
-              	
-                component.set('v.viewListData',helper.getViewList(fieldDataList,allOpp,3))
-                component.set('v.viewAllListData',helper.getViewList(fieldDataList,allOpp,allOpp.length))
+                
+                let openOpp=allOpp.filter(o=>o.IsClosed===false);
+                let closedOpp=allOpp.filter(o=>o.IsClosed===true);
+                
+                let allSortedOpp=[];
+                allSortedOpp.push(...openOpp);
+                allSortedOpp.push(...closedOpp);
+                
+                component.set('v.viewListData',helper.getViewList(fieldDataList,allSortedOpp,3))
+                component.set('v.viewAllListData',helper.getViewList(fieldDataList,allSortedOpp,allSortedOpp.length))
                 
                 //Orignal Data 
                 component.set('v.opportunityList',allOpp)

@@ -26,6 +26,15 @@
         <field>ACTIVE</field>
     </columns>
     <description>Which of my users are logging?</description>
+    <filter>
+        <criteriaItems>
+            <column>Account.Is_Test__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>0</value>
+        </criteriaItems>
+    </filter>
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
@@ -36,6 +45,10 @@
     <params>
         <name>active</name>
         <value>active</value>
+    </params>
+    <params>
+        <name>co</name>
+        <value>0</value>
     </params>
     <reportType>User</reportType>
     <showDetails>true</showDetails>

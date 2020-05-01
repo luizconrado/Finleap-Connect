@@ -18,6 +18,9 @@ public with sharing class RelatedOpportunityController {
             }
              query+=fd.fieldAPIName+',';
         }
+        
+        if(!query.contains('IsClosed ')) query+='IsClosed,';
+      
         if(query.contains('Limited_Access_Name__c')) query=query.removeEnd(',');
         else query+='Limited_Access_Name__c';
         query+=' FROM Opportunity WHERE ';

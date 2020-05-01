@@ -157,9 +157,6 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <componentInstances>
-            <componentName>RelatedOpportunities</componentName>
-        </componentInstances>
-        <componentInstances>
             <componentInstanceProperties>
                 <name>relatedListComponentOverride</name>
                 <value>NONE</value>
@@ -173,6 +170,9 @@
                 <value>true</value>
             </componentInstanceProperties>
             <componentName>force:relatedListContainer</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentName>RelatedOpportunities</componentName>
         </componentInstances>
         <componentInstances>
             <componentName>RelatedAttachments</componentName>

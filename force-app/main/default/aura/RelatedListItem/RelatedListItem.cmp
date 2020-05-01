@@ -6,6 +6,8 @@
     <aura:attribute name="viewLength" type="string"/>
     <aura:attribute name="tileclass" type="string" default=""/>
     <aura:attribute name="inlineDetals" type="boolean" default="false"/>
+    <aura:attribute name="sobjectName" type="string" default=""/>
+    
     
     <aura:iteration items="{!v.recordList}" end="viewLength" var="record">
         <article class="{! join(' ','slds-media slds-p-horizontal_medium slds-p-vertical_xx-small  slds-tile',v.tileclass)}">
@@ -18,7 +20,7 @@
             </aura:if>
             <div class="slds-media__body">
                 <h3 class="slds-tile__title slds-truncate"  onclick="{!c.openRecord}"  id="{!record.Id}"  title="{!record.Name}">
-                    <a href="{!record.access?'/'+record.Id:'javascript:void(0);'}" class="{!record.access?'dotted-underline':'no-access-color'}">{!record.header}</a>
+                    <a href="{!record.access?empty(v.sobjectName)?'/'+record.Id:'/lightning/r/' + v.sobjectName + '/' + record.Id + '/view':'javascript:void(0);'}" class="{!record.access?'dotted-underline':'no-access-color'}">{!record.header}</a>
                 </h3>
                 <div class="slds-tile__detail">
                     <aura:if isTrue="{!!v.inlineDetals}">

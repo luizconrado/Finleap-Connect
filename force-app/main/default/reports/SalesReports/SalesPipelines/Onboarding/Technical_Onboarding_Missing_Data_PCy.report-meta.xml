@@ -62,7 +62,7 @@
         <field>EXP_AMOUNT</field>
     </columns>
     <filter>
-        <booleanFilter>(1 OR (7 AND (8 OR 9))) AND 2 AND 3 AND 4 AND (5 OR 6) AND 10</booleanFilter>
+        <booleanFilter>(1 OR (7 AND (8 OR 9))) AND 2 AND 3 AND 4 AND (5 OR 6) AND 10 AND 11</booleanFilter>
         <criteriaItems>
             <column>STAGE_NAME</column>
             <columnToColumn>false</columnToColumn>
@@ -132,6 +132,13 @@
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>Opportunity.Finleap_Connect_Standard_Sales</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Opportunity.Is_Test__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>0</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>

@@ -32,7 +32,7 @@
      <!--popups-->
     <aura:if isTrue="{!v.isViewAll}"> 
         <c:Modal header="{!'All Attachments ('+v.attachmentList.length+')'}" open="{!v.isViewAll}" >
-            <c:RelatedListItem inlineDetals="true" recordList="{!v.attachmentList}" tileclass="slds-box" viewLength="{!v.attachmentList.length}"></c:RelatedListItem>
+            <c:RelatedListItem sobjectName="ContentDocument"  inlineDetals="true" recordList="{!v.attachmentList}" tileclass="slds-box" viewLength="{!v.attachmentList.length}"></c:RelatedListItem>
         </c:Modal>
     </aura:if>
     <aura:if isTrue="{!v.isUpload}"> 
@@ -158,7 +158,7 @@
     
      <!--list-->
     <aura:if isTrue="{!v.loadView}">
-        <c:RelatedList inlineDetals="true" icon="standard:file" header="{!'Attachments ('+v.attachmentList.length+')'}" recordViewList="{!v.attachmentViewList}" recordActions="[{value:'Upload_file',name:'Upload file'}]">
+        <c:RelatedList sobjectName="ContentDocument"  inlineDetals="true" icon="standard:file" header="{!'Attachments ('+v.attachmentList.length+')'}" recordViewList="{!v.attachmentViewList}" recordActions="[{value:'Upload_file',name:'Upload file'}]">
         </c:RelatedList>
     </aura:if>
     

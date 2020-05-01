@@ -19,6 +19,15 @@
         <field>ACCOUNT.NAME</field>
     </columns>
     <description>Who has the most open cases?</description>
+    <filter>
+        <criteriaItems>
+            <column>Account.Is_Test__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>0</value>
+        </criteriaItems>
+    </filter>
     <format>Matrix</format>
     <groupingsAcross>
         <dateGranularity>Day</dateGranularity>

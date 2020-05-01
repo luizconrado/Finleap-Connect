@@ -76,7 +76,7 @@
         <field>Revenue_Stream__c.Expected_Monthly_Revenue_Weighted__c</field>
     </columns>
     <filter>
-        <booleanFilter>1 AND 2 AND 3 AND 4 AND 5 AND 6 AND 7</booleanFilter>
+        <booleanFilter>1 AND 2 AND 3 AND 4 AND 5 AND 6 AND 7 AND 8</booleanFilter>
         <criteriaItems>
             <column>Revenue_Stream__c.Contract_Ended__c</column>
             <columnToColumn>false</columnToColumn>
@@ -125,6 +125,13 @@
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>1</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Opportunity.Is_Test__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>0</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>

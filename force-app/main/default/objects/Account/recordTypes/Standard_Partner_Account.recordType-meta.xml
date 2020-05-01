@@ -78,6 +78,10 @@
     <picklistValues>
         <picklist>Industry</picklist>
         <values>
+            <fullName>Banks</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Communication Services</fullName>
             <default>false</default>
         </values>
@@ -91,10 +95,6 @@
         </values>
         <values>
             <fullName>Energy</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Financials</fullName>
             <default>false</default>
         </values>
         <values>

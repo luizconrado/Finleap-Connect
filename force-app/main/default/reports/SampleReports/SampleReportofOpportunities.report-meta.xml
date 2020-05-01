@@ -40,6 +40,15 @@
         <field>ACCOUNT_NAME</field>
     </columns>
     <description>How many opportunities are being added to Salesforce?</description>
+    <filter>
+        <criteriaItems>
+            <column>Opportunity.Is_Test__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>0</value>
+        </criteriaItems>
+    </filter>
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Month</dateGranularity>

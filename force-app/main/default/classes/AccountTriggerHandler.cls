@@ -15,11 +15,15 @@ public class AccountTriggerHandler extends Triggerhandler {
         }
         
         
+        if(accountOwnerChanged.size()>0) setTeamMembers(accountOwnerChanged);
+        
+    }
+    
+    private static void setTeamMembers(List<Account> accountOwnerChanged){
         List<AccountTeamMember> teamMemebers=[SELECT  AccountId, UserId, TeamMemberRole, PhotoUrl, Title, AccountAccessLevel, OpportunityAccessLevel, CaseAccessLevel, ContactAccessLevel 
                                               FROM AccountTeamMember WHERE AccountId IN: accountOwnerChanged];
-       
-        insertTeamMemebers(JSON.serialize(teamMemebers));
         
+        if(teamMemebers.size()>0) insertTeamMemebers(JSON.serialize(teamMemebers));
     }
     
     @future
