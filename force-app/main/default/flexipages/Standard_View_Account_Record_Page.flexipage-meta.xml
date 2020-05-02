@@ -157,6 +157,9 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <componentInstances>
+            <componentName>RelatedAccountTeamMembers</componentName>
+        </componentInstances>
+        <componentInstances>
             <componentInstanceProperties>
                 <name>relatedListComponentOverride</name>
                 <value>NONE</value>
@@ -170,6 +173,9 @@
                 <value>true</value>
             </componentInstanceProperties>
             <componentName>force:relatedListContainer</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentName>RelatedHistoryTracker</componentName>
         </componentInstances>
         <componentInstances>
             <componentName>RelatedOpportunities</componentName>

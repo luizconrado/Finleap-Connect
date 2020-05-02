@@ -46,5 +46,31 @@ public inherited  sharing class SchemaUtility {
         
         return wrapperList;
     }
+    
+    public static Map<String,PicklistEntry[]> getObjectPicklistFileds(String objectAPIName){
+        Schema.DescribeSObjectResult sObjectName = Schema.getGlobalDescribe().get(objectAPIName).getDescribe();
+        Map<String,PicklistEntry[]> picklistValues=new Map<String,PicklistEntry[]>();
+        for (SObjectField f : sObjectName.fields.getMap().values()) {
+            DescribeFieldResult field = f.getDescribe();
+            if(field.getType()===Schema.DisplayType.Picklist){
+                picklistValues.put(field.getName(),field.getPicklistValues());
+            }
+        }
+        return picklistValues;
+    }
+    
+    public static Map<String,DescribeFieldResult> getAllObjectFields(DescribeSObjectResult sObjectName){
+        Map<String,DescribeFieldResult> listOfObjectFields=new Map<String,DescribeFieldResult>();
+        
+        for (SObjectField f : sObjectName.fields.getMap().values()) {
+            DescribeFieldResult field = f.getDescribe();
+            listOfObjectFields.put(field.getName(),field);
+        }   
+        return listOfObjectFields; 
+    }
+    public static DescribeSobjectResult getSobjectType(String objectApiName){
+        Schema.DescribeSobjectResult[] results = Schema.describeSObjects(new String[] { objectApiName });
+        return results[0];
+    }
 
 }

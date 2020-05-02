@@ -14,9 +14,13 @@ public class AccountTriggerHandler extends Triggerhandler {
             if(a.OwnerId!=oldAccountMap.get(a.Id).OwnerId) accountOwnerChanged.add(a);
         }
         
-        
         if(accountOwnerChanged.size()>0) setTeamMembers(accountOwnerChanged);
         
+    }
+    public override void afterupdate(){
+        List<Account> newAccountList=(List<Account>) Trigger.new;
+        Map<Id,Account> oldAccountMap=(Map<Id,Account>) Trigger.oldMap;
+        TrackHistory.track('Account', newAccountList,oldAccountMap);
     }
     
     private static void setTeamMembers(List<Account> accountOwnerChanged){

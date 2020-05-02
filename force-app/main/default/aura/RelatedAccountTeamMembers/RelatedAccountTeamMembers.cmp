@@ -1,0 +1,272 @@
+<aura:component controller="RelatedAccountTeamController" implements="flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="RelatedList_viewAll" event="c:RelatedListEvent" action="{!c.viewAllInvoked}"/>
+    <aura:handler name="RelatedList_menuAction" event="c:RelatedListEvent" action="{!c.actionInvoked}"/>
+    
+    <lightning:navigation aura:id="navService"/>
+    
+    
+    
+    <!--ui attributes-->
+    <aura:attribute name="isMobile" type="boolean" default="false" access="private"/>
+    <aura:attribute name="loadView" type="boolean" default="false" />    
+    <aura:attribute name="isViewAll" type="boolean" default="false" />  
+    <aura:attribute name="isAddMemeber" type="boolean" default="false" />  
+    <aura:attribute name="isRemoveMemeber" type="boolean" default="false" />  
+    <aura:attribute name="isLoading" type="boolean" default="false"/>
+    
+    <!--data attributes-->
+    <aura:attribute name="teamMemberList" type="List" />
+    <aura:attribute name="teamMemberViewList" type="List" />
+    <aura:attribute name="teamRoleOptions" type="List" />
+    
+    <aura:attribute name="newTeamMemberList" type="List" />
+    <aura:attribute name="deleteTeamMemberList" type="List" />
+    <aura:attribute name="copyTeamMemberList" type="List" />
+    <aura:attribute name="orignalTeamMemberList" type="List" />
+    <aura:attribute name="userList" type="List" />
+    <aura:attribute name="currentUserIndex" type="String" />
+    
+    <!--popups-->
+    <aura:if isTrue="{!v.isViewAll}"> 
+        <c:Modal header="{!'Account Team ('+v.teamMemberList.length+')'}" open="{!v.isViewAll}" >
+            <c:RelatedListItem   inlineDetals="True" sobjectName="AccountTeamMember"    recordList="{!v.teamMemberList}" tileclass="slds-box" viewLength="{!v.teamMemberList.length}"></c:RelatedListItem>
+        </c:Modal>
+    </aura:if>
+    <aura:if isTrue="{!v.isAddMemeber}">
+        <c:Modal isLarge="true" header="Add account team members" open="{!v.isAddMemeber}" showFooter="false">
+            <div class="slds-modal__content slds-is-relative " id="modal-content-id-1">
+                <div class="slds-p-around_small" >
+                    <div class=" slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_info" role="alert">
+                        There are various ways to grant account team access. If a member is granted access via another method, the member’s actual access can be greater than the level you grant via this team.
+                    </div>
+                </div>
+                <aura:if isTrue="{!v.isLoading}">
+                    <lightning:spinner alternativeText="Loading" size="medium" />
+                </aura:if>
+                <table class="slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="User"><abbr class="slds-required" title="required">* </abbr>User</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Team Role"><abbr class="slds-required" title="required">* </abbr>Team Role</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Account Access"><abbr class="slds-required" title="required">* </abbr>Account Access</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Case Access"><abbr class="slds-required" title="required">* </abbr>Case Access</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Opportunity Access"><abbr class="slds-required" title="required">* </abbr>Opportunity Access</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Remove"></div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <aura:iteration items="{!v.newTeamMemberList}" var="item">
+                            <tr class="slds-hint-parent">
+                                
+                                <td data-label="User">
+                                    <div class="slds-truncate" title="User">
+                                        <div class="slds-form-element">
+                                            <div class="hide-label  slds-form-element__control">
+                                                <aura:if isTrue="{!empty(item.userId)}">
+                                                   <lightning:input onchange="{! c.searchUser }" name="{!item.index}" varient="label-hidden" type="search" />
+                                                    <aura:if isTrue="{!v.currentUserIndex==item.index}">
+                                                        <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                                                <aura:iteration items="{!v.userList}" var="user">
+                                                                    <li data-userid="{!user.Id}" data-index="{!item.index}" data-userName="{!user.Name}" onclick="{!c.onUserSelect}" role="presentation" class="slds-listbox__item">
+                                                                        <div aria-selected="true" id="{!user.Id}" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta slds-has-focus" role="option" tabindex="0">
+                                                                            <span class="slds-media__body">
+                                                                                <span class="slds-listbox__option-text slds-listbox__option-text_entity">{!user.Name}</span>
+                                                                            </span>
+                                                                        </div>
+                                                                    </li>
+                                                                </aura:iteration>
+                                                            </ul>
+                                                    </aura:if>
+                                                    <aura:set attribute="else">
+                                                        <div class="slds-combobox_container slds-has-selection">
+                                                            <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
+                                                                <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_left-right" role="none">
+                                                                    <span class="slds-icon_container slds-icon-standard-account slds-combobox__input-entity-icon" title="Account">
+                                                                        <lightning:icon iconName="standard:user" size="small" alternativeText="user" title="user" />
+                                                                        <span class="slds-assistive-text">User</span>
+                                                                    </span>
+                                                                    <input type="text" class="slds-input slds-combobox__input slds-combobox__input-value" id="{!item.userId}" aria-controls="{!item.index}" 
+                                                                           autoComplete="off" role="textbox"  readonly="true" value="{!item.userName}" />
+                                                                    <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" title="Remove selected user"   data-index="{!item.index}" onclick="{!c.onUserremove}">
+                                                                        X
+                                                                        <span class="slds-assistive-text">Remove selected user</span>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </aura:set>
+                                                </aura:if>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>   
+                                <td data-label="Team Role">
+                                    <div class="hide-label slds-truncate" title="Team Role">
+                                        <lightning:select value="{!item.role}" variant="label-hidden"     >
+                                            <aura:iteration items="{!v.teamRoleOptions}" var="type">
+                                                <option value="{!type.value}">{!type.name}</option>
+                                            </aura:iteration>
+                                        </lightning:select>
+                                    </div>
+                                </td>
+                                <td data-label="Account Access">
+                                    <div class="hide-label slds-truncate" title="Account Access">
+                                        <lightning:select value="{!item.accountAccess}" variant="label-hidden"    >
+                                            <option value="Edit">Read/Write</option>
+                                        </lightning:select>
+                                    </div>
+                                </td>
+                                <td data-label="Case Access">
+                                    <div class="hide-label slds-truncate" title="Case Access">
+                                        <lightning:select  value="{!item.accountAccess}" variant ="label-hidden"     >
+                                            <option value="Edit">Read/Write</option>
+                                        </lightning:select>
+                                    </div>
+                                </td>
+                                <td data-label="Opportunity Access">
+                                    <div class="hide-label slds-truncate" title="Opportunity Access">
+                                        <lightning:select  value="{!item.opportunityAccess}"  variant="label-hidden"  >
+                                            <option value="Edit">Read/Write</option>
+                                            <option value="Read">Read Only</option>
+                                            <option value="None">Private</option>
+                                        </lightning:select>
+                                    </div>
+                                </td>
+                                <td data-label="Remove">
+                                    <div class="slds-truncate" title="Remove">
+                                        <lightning:buttonIcon   value="{!item.index}" iconName="utility:delete"  variant="border-filled" alternativeText="Remove" title="Remove" onclick="{!c.removeNewRow}" />
+                                    </div>
+                                </td>
+                            </tr>
+                        </aura:iteration>
+                    </tbody>
+                </table>
+            </div>
+            <footer class="slds-modal__footer">
+                <lightning:button value="Add_Memeber" label="Add Row" title="Add Row" onclick="{!c.addNewRow}"/>
+                <lightning:button variant="brand-outline" value="Add_Memeber" label="Cancel" title="Cancel" onclick="{! c.closePopup }"/>
+                <lightning:button variant="brand" value="Add_Memeber" label="Save" title="Save" onclick="{!c.insertUser}" />
+            </footer>
+        </c:Modal>
+    </aura:if>
+    <aura:if isTrue="{!v.isRemoveMemeber}">
+        <c:Modal isLarge="true" header="Remove account team members" open="{!v.isRemoveMemeber}" showFooter="false">
+            <div class="slds-modal__content slds-is-relative " id="modal-content-id-1">
+                <aura:if isTrue="{!v.isLoading}">
+                    <lightning:spinner alternativeText="Loading" size="medium" />
+                </aura:if>
+                <div class="slds-modal__content slds-is-relative " id="modal-content-id-1">
+                    <table class="slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="User">User</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Team Role">Team Role</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Account Access">Account Access</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Case Access">Case Access</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Opportunity Access">Opportunity Access</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Remove"></div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <aura:iteration items="{!v.orignalTeamMemberList}" var="item">
+                                <tr class="slds-hint-parent">
+                                    
+                                    <td data-label="User">
+                                        <div class="slds-truncate" title="User">
+                                            <div class="slds-form-element">
+                                                <div class="slds-form-element__control">
+                                                    <div class="slds-combobox_container slds-has-selection">
+                                                        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" readonly="true" role="combobox">
+                                                            <div class="slds-combobox__form-element" role="none">
+                                                                <input disabled="true" type="text" class="slds-input slds-combobox__input slds-combobox__input-value" id="{!item.Id}" aria-controls="{!item.index}" 
+                                                                       autoComplete="off" role="textbox"   value="{!item.User.Name}" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>   
+                                    <td data-label="Team Role">
+                                        <div class="hide-label slds-truncate" title="Team Role">
+                                            <lightning:select disabled="true" value="{!item.TeamMemberRole}" variant="label-hidden"     >
+                                                <aura:iteration items="{!v.teamRoleOptions}" var="type">
+                                                    <option value="{!type.value}">{!type.name}</option>
+                                                </aura:iteration>
+                                            </lightning:select>
+                                        </div>
+                                    </td>
+                                    <td data-label="Account Access">
+                                        <div class="hide-label slds-truncate" title="Account Access">
+                                            <lightning:select disabled="true" value="{!item.AccountAccessLevel}" variant="label-hidden"    >
+                                                <option value="Edit">Read/Write</option>
+                                            </lightning:select>
+                                        </div>
+                                    </td>
+                                    <td data-label="Case Access">
+                                        <div class="hide-label slds-truncate" title="Case Access">
+                                            <lightning:select  disabled="true" value="{!item.CaseAccessLevel}" variant ="label-hidden"     >
+                                                <option value="Edit">Read/Write</option>
+                                            </lightning:select>
+                                        </div>
+                                    </td>
+                                    <td data-label="Opportunity Access">
+                                        <div class="hide-label slds-truncate" title="Opportunity Access">
+                                            <lightning:select  disabled="true" value="{!item.OpportunityAccessLevel}"  variant="label-hidden"  >
+                                                <option value="Edit">Read/Write</option>
+                                                <option value="Read">Read Only</option>
+                                                <option value="None">Private</option>
+                                            </lightning:select>
+                                        </div>
+                                    </td>
+                                    <td data-label="Remove">
+                                        <div class="slds-truncate" title="Remove">
+                                            <lightning:buttonIcon   value="{!item.Id}" iconName="utility:delete"  variant="border-filled" alternativeText="Remove" title="Remove" onclick="{!c.deleteMemberRow}" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <footer class="slds-modal__footer">
+                <lightning:button variant="brand-outline" value="Remove_Memeber" label="Cancel" title="Cancel" onclick="{! c.closePopup }"/>
+                <lightning:button variant="brand" value="Remove_Memeber"  label="Save" title="Save" onclick="{! c.deleteMembers }" />
+            </footer>
+        </c:Modal>
+    </aura:if>
+    
+    
+    <!--list-->
+    <aura:if isTrue="{!v.loadView}">
+        <c:RelatedList  inlineDetals="True" sobjectName="AccountTeamMember"    icon="standard:team_member" header="{!'Account Team ('+v.teamMemberList.length+')'}" recordViewList="{!v.teamMemberViewList}" recordActions="[{value:'Add_Memeber',name:'Add Team Members'},{value:'Remove_Memeber',name:'Remove Team Members'}]">
+        </c:RelatedList>
+    </aura:if>
+</aura:component>

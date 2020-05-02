@@ -1,6 +1,6 @@
 <aura:tokens>
     
     <aura:token name="noAccessColor" value="#e69631"/>
-
-	
+    
+    
 </aura:tokens>

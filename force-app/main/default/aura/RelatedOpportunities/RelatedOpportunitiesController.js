@@ -60,6 +60,7 @@
                 componentDef:"c:RelatedListItem",
                 attributes: {
                     tileclass:"slds-box",
+                    sobjectName:"Opportunity",
                     recordList:viewAllListData,
                     viewLength:viewAllListData.length
                 }

@@ -112,3 +112,23 @@ sfdx force:source:convert -d metadata
 sfdx force:mdapi:deploy -d metadata  
 ### Check Status
 sfdx force:mdapi:deploy:report 
+
+
+
+
+### Change Log
+##  02-05-2020
+#### Aura
+RelatedOpportunitys
+RelatedAttachments
+DefaultTokans
+RelatedListItem
+
+#### Apex
+SchemaUtility
+
+### New
+#### Aura
+RelatedAccountTeamMembers
+#### Apex
+RealtedAccountTeamController

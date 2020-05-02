@@ -15,7 +15,8 @@
                     tileclass:"slds-box",
                     recordList:viewAllListData,
                     viewLength:viewAllListData.length,
-                    inlineDetals:true
+                    inlineDetals:true,
+                    sobjectName:"ContentDocument"
                 }
             }
             const compReference = {

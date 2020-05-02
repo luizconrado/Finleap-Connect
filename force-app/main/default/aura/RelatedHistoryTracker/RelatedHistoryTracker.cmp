@@ -1,0 +1,29 @@
+<aura:component controller="RelatedHistoryController" implements="flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName" access="global" >
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <lightning:navigation aura:id="navService"/>
+    <aura:handler name="RelatedList_viewAll" event="c:RelatedListEvent" action="{!c.viewAllInvoked}"/>
+
+    
+    <!--data attribute-->
+    <aura:attribute name="historyList"  type="List" />
+    <aura:attribute name="historyViewList" type="List" />
+    
+    <!--load attributs-->
+    <aura:attribute name="isMobile" type="boolean" default="false" access="private"/>
+    <aura:attribute name="loadView" type="boolean" default="false" />    
+    <aura:attribute name="isViewAll" type="boolean" default="false" />
+    
+    
+    <!--popups-->
+    <aura:if isTrue="{!v.isViewAll}"> 
+        <c:Modal header="{!'Field History ('+v.historyList.length+')'}" open="{!v.isViewAll}" >
+            <c:RelatedListItem    sobjectName="User"    recordList="{!v.historyList}" tileclass="slds-box" viewLength="{!v.historyList.length}"></c:RelatedListItem>
+        </c:Modal>
+    </aura:if>
+    
+    <!--list-->
+    <aura:if isTrue="{!v.loadView}">
+        <c:RelatedList sobjectName="User"  icon="standard:today" header="{!'Field History ('+v.historyViewList.length+')'}" recordViewList="{!v.historyViewList}">
+        </c:RelatedList>
+    </aura:if>
+</aura:component>
