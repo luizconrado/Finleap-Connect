@@ -14,6 +14,7 @@
             let status=response.getState();
             if (status === "SUCCESS"){
                 let data = response.getReturnValue();
+                //sort reocrds based on team role
                 data=_self.sortList(data);
 
                 component.set('v.orignalTeamMemberList',data);
@@ -52,6 +53,7 @@
                     value:"",
                     name:""
                 });
+                //creating key value pair for team roles
                 Object.keys(data).forEach(function(key){
                     rolesValue.push({
                         value:key,
@@ -62,7 +64,31 @@
             }
         });
     },
+    setAccess:function(component){
+        const _self=this;
+        //check access of user based on Account_Team_Configuration__c custom setting
+        _self.callApex(component,"getAccessConfig",function(response){
+            let status=response.getState();
+            if (status === "SUCCESS"){
+                let data = response.getReturnValue();
+                if(data.Read__c){
+                    //get memebers
+                    _self.getMemebers(component);
+                }
+               if(data.Write__c){
+                    //setting add and remove options
+                    _self.setActions(component);
+                }
+             }
+        });
+    },
+    setActions:function(component){
+      const actions=[{value:'Add_Memeber',name:'Add Team Members'},
+                     {value:'Remove_Memeber',name:'Remove Team Members'}];
+        component.set('v.recordActions',actions)
+    },
     setNewMemberList:function(component){
+        //setting empty 3 rows
         let newTeamMemberList=[];
         newTeamMemberList.push({
             index:'1',
@@ -134,28 +160,17 @@
         toastEvent.fire();
     },
     sortList:function(list){
-        const companyOrder={
-            'Finleap':9,
-            'FLC':8
-        }
-        const roleOrder={
-            'Account Manager':1,
-            'Business Development':2,
-            'Solution Engineer':3,
-            'Integration Manager':4,
-            'Customer Success Manager':5,
-            'Business Unit Owner':6,
-            'Vertical GM':7,
-            'Executive Sponsor':8,
-            'MD Responsible':9
-        }
+       	//obtaining order specified in label based on role and comapny  
+        const companyOrder=JSON.parse($A.get("$Label.c.Priority_Order_By_Company"));
+        const roleOrder=JSON.parse($A.get("$Label.c.Priority_Order_By_Role"));
+       
         list.forEach(function(member){
-          
             let roleList=member.TeamMemberRole.split('-');
             let companyPosition=companyOrder[roleList[0].trim()]||0;
             let rolePosition=roleOrder[roleList[1].trim()]||0;
-            member.position=parseInt(companyPosition+''+rolePosition)
+            member.position=parseInt(rolePosition+''+companyPosition)
         })
+        //sort by decending
         return list.sort(function(a,b){
             return b.position- a.position;
         });

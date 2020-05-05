@@ -2,13 +2,13 @@
 	doInit : function(component, event, helper) {
         const isMobile= $A.get("$Browser.formFactor")==='PHONE';
         component.set('v.isMobile',isMobile);
+        component.set('v.isLoading',true);
         helper.callApex(component,"fetchRecordHistory",function(response){
             let status=response.getState();
             if (status === "SUCCESS"){
                 let data = response.getReturnValue();
                 data=helper.getViewList(data)
-                console.log('data',data)
-                component.set('v.historyList',data)
+                 component.set('v.historyList',data)
                 component.set('v.historyViewList',data.slice(0,3));
                 component.set('v.loadView',true)
                 
@@ -22,12 +22,13 @@
                 });
                 toastEvent.fire();
             }
+            component.set('v.isLoading',false);
         },{
             "recordId" : component.get("v.recordId"),
             "objectName": component.get("v.sObjectName")
         })
 	},
-     viewAllInvoked:function(component){
+    viewAllInvoked:function(component){
         //show view all popup
         const isMobile=component.get('v.isMobile');
         if(isMobile){
@@ -37,10 +38,9 @@
                 componentDef:"c:RelatedListItem",
                 attributes: {
                     tileclass:"slds-box",
-                    sobjectName:"User",
+                    sobjectName:"Field_History_Tracker__c",
                     recordList:viewAllListData,
                     viewLength:viewAllListData.length,
-                    inlineDetals:true
                 }
             }
             const compReference = {
@@ -49,7 +49,7 @@
                     componentName: 'c__Modal',
                 },
                 state: {
-                    "c__header":'Field History ('+viewAllListData.length+')',
+                    "c__header":'Field/Related List History ('+viewAllListData.length+')',
                     "c__def":JSON.stringify(relatedList.componentDef),
                     "c__att":JSON.stringify(relatedList.attributes),
                     "c__recordId":component.get('v.recordId')

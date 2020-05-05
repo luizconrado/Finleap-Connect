@@ -128,17 +128,21 @@ RelatedListItem
 
 #### Apex
 SchemaUtility
+OpportunityTriggerHandler
+AccountTriggerHandler
+ContentDocumentHandlerTest
+SchemaUtilityTest
 
 ### New
 #### Aura
 RelatedAccountTeamMembers
 RelatedHistoryTracker
 #### Apex
-RealtedAccountTeamController
+RelatedAccountTeamController
 RelatedHistoryController
 TrackHistory
-SchemaUtilityTest
-AccountTriggerHandler
+TrackHistoryTest
+RelatedAccountTeamControllerTest
 
 #### Custom Setting
 Account_Team_Configuration__c

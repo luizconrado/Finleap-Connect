@@ -1,0 +1,6 @@
+<aura:documentation>
+	<aura:description>Documentation</aura:description>
+	<aura:example name="File_Type_Option__mdt" ref="RelatedAttachments" label="File Type Option	">
+		user File_Type_Option__mdt custom metadata to configure picklist values based on recordtype of object
+	</aura:example>
+</aura:documentation>

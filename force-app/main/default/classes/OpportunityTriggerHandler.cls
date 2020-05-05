@@ -1,7 +1,7 @@
 public class OpportunityTriggerHandler extends Triggerhandler {
     
     public OpportunityTriggerHandler() {
-        this.setMaxLoopCount(5);
+        this.setMaxLoopCount(10);
     }
     
     public override void beforeupdate(){
@@ -18,6 +18,12 @@ public class OpportunityTriggerHandler extends Triggerhandler {
         if(opportunityOwnerChanged.size()>0) setTeamMembers(opportunityOwnerChanged);
         
     }
+    
+    public override void afterupdate(){
+        List<Opportunity> newOpportunityList=(List<Opportunity>) Trigger.new;
+        Map<Id,Opportunity> oldOpportunityMap=(Map<Id,Opportunity>) Trigger.oldMap;
+        TrackHistory.track('Opportunity', newOpportunityList, oldOpportunityMap);
+    }
       
     private static void setTeamMembers(List<Opportunity> opportunityOwnerChanged){
         List<OpportunityTeamMember> teamMemebers=[SELECT  TeamMemberRole, OpportunityAccessLevel, UserId, OpportunityId,Title, Name, PhotoUrl 
@@ -25,6 +31,7 @@ public class OpportunityTriggerHandler extends Triggerhandler {
         
         if(teamMemebers.size()>0) insertTeamMemebers(JSON.serialize(teamMemebers));
     }
+    
     @future
     private static void insertTeamMemebers(String teamJson){
         List<OpportunityTeamMember> teamMemebers=( List<OpportunityTeamMember>) JSON.deserialize(teamJson,  List<OpportunityTeamMember>.class);

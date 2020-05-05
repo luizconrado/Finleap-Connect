@@ -20,7 +20,7 @@
     <aura:attribute name="teamMemberList" type="List" />
     <aura:attribute name="teamMemberViewList" type="List" />
     <aura:attribute name="teamRoleOptions" type="List" />
-    
+    <aura:attribute name="recordActions" type="List" />
     <aura:attribute name="newTeamMemberList" type="List" />
     <aura:attribute name="deleteTeamMemberList" type="List" />
     <aura:attribute name="copyTeamMemberList" type="List" />
@@ -77,6 +77,7 @@
                                         <div class="slds-form-element">
                                             <div class="hide-label  slds-form-element__control">
                                                 <aura:if isTrue="{!empty(item.userId)}">
+                                                    <!--user not selected markup-->
                                                    <lightning:input onchange="{! c.searchUser }" name="{!item.index}" varient="label-hidden" type="search" />
                                                     <aura:if isTrue="{!v.currentUserIndex==item.index}">
                                                         <ul class="slds-listbox slds-listbox_vertical" role="presentation">
@@ -92,6 +93,7 @@
                                                             </ul>
                                                     </aura:if>
                                                     <aura:set attribute="else">
+                                                        <!--user selected markup-->
                                                         <div class="slds-combobox_container slds-has-selection">
                                                             <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
                                                                 <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_left-right" role="none">
@@ -266,7 +268,7 @@
     
     <!--list-->
     <aura:if isTrue="{!v.loadView}">
-        <c:RelatedList  inlineDetals="True" sobjectName="AccountTeamMember"    icon="standard:team_member" header="{!'Account Team ('+v.teamMemberList.length+')'}" recordViewList="{!v.teamMemberViewList}" recordActions="[{value:'Add_Memeber',name:'Add Team Members'},{value:'Remove_Memeber',name:'Remove Team Members'}]">
+        <c:RelatedList  inlineDetals="True" sobjectName="AccountTeamMember"    icon="standard:team_member" header="{!'Account Team ('+v.teamMemberList.length+')'}" recordViewList="{!v.teamMemberViewList}" recordActions="{!v.recordActions}">
         </c:RelatedList>
     </aura:if>
 </aura:component>

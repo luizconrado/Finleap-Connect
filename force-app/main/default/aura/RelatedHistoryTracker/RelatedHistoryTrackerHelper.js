@@ -7,7 +7,7 @@
         action.setCallback(this,callback);
         $A.enqueueAction(action);
     },
-     getViewList:function(files){
+    getViewList:function(files){
          const _self=this;
          let displayList=[];
          //creates view object list
@@ -15,15 +15,16 @@
              let fileObj={};
              fileObj.access=true;
              fileObj.Id=file.Id;
-             fileObj.header=file.CreatedBy.Name;
-             fileObj.field1Label='Field';
-             fileObj.field1Value=file.Field_Label__c;
-             fileObj.field2Label='Modified Date';
-             fileObj.field2Value=_self.parseDate(file.CreatedDate)
-             fileObj.field3Label='New Value';
+             fileObj.header=file.Field_Label__c;
+             fileObj.field1Label='User:';
+             fileObj.field1Value=file.CreatedBy.Name;
+             fileObj.field2Label='Original Value/Operation:';
+             fileObj.field2Value=file.Old_Value__c;
+             fileObj.field3Label='New Value/Operation:';
              fileObj.field3Value=file.New_Value__c;
-             fileObj.field4Label='Old Value';
-             fileObj.field4Value=file.Old_Value__c;
+             fileObj.field4Label='On Date:';
+             fileObj.field4Value=_self.parseDate(file.CreatedDate)
+           
              displayList.push(fileObj);
          });
          return displayList;

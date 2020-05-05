@@ -22,8 +22,7 @@
   </types>
   <types>
     <name>Flow</name>
-    <members>Opp_Compliance_Check</members>
-    <members>Opp_Won_Cancelled_Lost_Warning</members>
+    <members>*</members>
   </types>
   <types>
     <name>CustomLabels</name>

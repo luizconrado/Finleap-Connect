@@ -1,0 +1,7 @@
+<aura:documentation>
+	<aura:description>Documentation</aura:description>
+	<aura:example name="Filed_History_Tracker__mdt" ref="RelatedHisotryTracker" label="Filed History Tracker">
+		Use Filed_History_Tracker__mdt custom metadata to configure  fields that needs to be tracked of object
+        and add Tracker.track() to afterupdate of any trigger
+    </aura:example>
+</aura:documentation>

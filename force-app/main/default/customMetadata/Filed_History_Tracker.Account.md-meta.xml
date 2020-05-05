@@ -3,7 +3,7 @@
     <label>Account</label>
     <protected>false</protected>
     <values>
-        <field>Field_Names__c</field>
+        <field>Fields__c</field>
         <value xsi:type="xsd:string">Name,Country__c</value>
     </values>
 </CustomMetadata>

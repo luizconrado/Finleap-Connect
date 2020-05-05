@@ -2,12 +2,13 @@
 	doInit : function(component, event, helper) {
         const isMobile= $A.get("$Browser.formFactor")==='PHONE';
         component.set('v.isMobile',isMobile);
-        //get memebers
-        helper.getMemebers(component);
         //get roles
         helper.getMemeberRoles(component);
         //set new list
         helper.setNewMemberList(component);
+        //get access
+        helper.setAccess(component);
+        
         
 	},
     viewAllInvoked:function(component){
@@ -59,11 +60,10 @@
     closePopup:function(component,event,helper){
         //close popup
         let action=event.getSource().get('v.value')
-        console.log('action',action)
-
+    	//reset variables
         if(action=='Add_Memeber'){
             component.set('v.isAddMemeber',false)
-
+			helper.setNewMemberList(component);
         }
         else if(action=='Remove_Memeber'){
             component.set('v.orignalTeamMemberList',component.get('v.copyTeamMemberList'));
@@ -123,7 +123,7 @@
     },
     
     deleteMemberRow:function(component,event,helper){
-        //remove user row from list
+        //remove user row from list and add to delete list
         let index=event.getSource().get('v.value');
         let orignalTeamMemberList=component.get('v.orignalTeamMemberList');
         let deleteTeamMemberList=component.get('v.deleteTeamMemberList');
@@ -148,7 +148,7 @@
                 return member;
             }
         }).map(function(member){
-            return {
+            let obj= {
                 UserId:member.userId,
                 TeamMemberRole:member.role,
                 AccountAccessLevel:member.accountAccess,
@@ -157,6 +157,10 @@
                 AccountId :accountId,
                 Creation_Type__c :'Manual'
             }
+            obj.User={};
+            obj.User.Name=member.userName;
+            obj.User.Id=member.userId;
+            return obj;
         });
         if(insertList.length>0){
             component.set('v.isLoading',true)
@@ -179,7 +183,8 @@
                 component.set('v.isAddMemeber',false);
                 component.set('v.isLoading',false)
             },{
-                teamMemberList:JSON.stringify(insertList)
+                teamMemberList:JSON.stringify(insertList),
+                accountId:component.get('v.recordId')
             });
         }
     },
@@ -205,10 +210,12 @@
             component.set('v.isLoading',false)
             component.set('v.isRemoveMemeber',false)
         },{
-            teamMembers:deleteTeamMemberList
+            teamMembers:deleteTeamMemberList,
+            accountId:component.get('v.recordId')
         });
     },
     searchUser:function(component,event,helper){
+        
         let value=event.getSource().get('v.value')
         let index=event.getSource().get("v.name");
         
