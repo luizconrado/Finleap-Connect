@@ -117,12 +117,14 @@ sfdx force:mdapi:deploy:report
 
 
 ### Change Log
-##  02-05-2020
+##  02-05-2020,05-05-2020
 #### Aura
 RelatedOpportunitys
 RelatedAttachments
 DefaultTokans
 RelatedListItem
+
+
 
 #### Apex
 SchemaUtility
@@ -130,5 +132,19 @@ SchemaUtility
 ### New
 #### Aura
 RelatedAccountTeamMembers
+RelatedHistoryTracker
 #### Apex
 RealtedAccountTeamController
+RelatedHistoryController
+TrackHistory
+SchemaUtilityTest
+AccountTriggerHandler
+
+#### Custom Setting
+Account_Team_Configuration__c
+#### Custom Metadata
+Filed_History_Tracker__mdt
+
+#### Custom label
+Priority_Order_By_Role	
+Priority_Order_By_Company	
