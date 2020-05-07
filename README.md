@@ -127,12 +127,15 @@ RelatedListItem
 
 
 #### Apex
+AccountTrigger
+OpportunityTrigger
 SchemaUtility
 OpportunityTriggerHandler
 AccountTriggerHandler
 ContentDocumentHandlerTest
 SchemaUtilityTest
-
+ConstantTest
+Constant
 ### New
 #### Aura
 RelatedAccountTeamMembers
@@ -143,6 +146,7 @@ RelatedHistoryController
 TrackHistory
 TrackHistoryTest
 RelatedAccountTeamControllerTest
+RelatedHistoryControllerTest
 
 #### Custom Setting
 Account_Team_Configuration__c
@@ -152,3 +156,12 @@ Filed_History_Tracker__mdt
 #### Custom label
 Priority_Order_By_Role	
 Priority_Order_By_Company	
+
+
+
+## Conifguration
+Account Layout	
+Standard View Opportunity Record Page
+
+## Delete
+Opp Set Sub Type						
