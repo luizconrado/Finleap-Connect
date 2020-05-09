@@ -26,6 +26,20 @@ public inherited  sharing class SchemaUtility {
         return '';
     }
     
+    public static List<Schema.RecordTypeInfo> getAllRecordTypesOfObject(Final String objectAPIName){
+        Schema.DescribeSObjectResult sobjectResult = Schema.getGlobalDescribe().get(objectAPIName).getDescribe();
+        List<Schema.RecordTypeInfo> returnValue=new List<Schema.RecordTypeInfo>();
+        if(sobjectResult!=null){
+            List<Schema.RecordTypeInfo> recordTypeInfo = sobjectResult.getRecordTypeInfos();
+            for(Schema.RecordTypeInfo info : recordTypeInfo){
+                if(info.isAvailable()==true){
+                    returnValue.add(info);
+                }
+            }    
+        }
+        return returnValue;
+    }
+    
     public static FieldSet[] getFieldSetMembers(String objectName , String fieldSetName){
         List<FieldSet> wrapperList = new List<FieldSet>();
         Schema.SObjectType sObj = Schema.getGlobalDescribe().get(objectName);

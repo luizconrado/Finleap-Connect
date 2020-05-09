@@ -1,0 +1,65 @@
+<aura:component controller="MassCreateOpportunityController" implements="force:lightningQuickActionWithoutHeader,force:hasRecordId" >
+    <aura:html tag="style">
+        .cuf-content {
+        padding: 0 0rem !important;
+        }
+        .slds-p-around--medium {
+        padding: 0rem !important;
+        }       
+        .slds-modal__content{
+        overflow-y:auto !important;
+        height:unset !important;
+        max-height:unset !important;
+        }
+    </aura:html>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="recordTypes" type="List"/> 
+    <aura:attribute name="selectedRecordType" type="String" default=""/>
+    <aura:attribute name="isLoading" type="boolean" default="false"/>
+    <aura:attribute name="noPermission" type="boolean" default="false"/>
+
+    <aura:attribute name="isDefaultExists" type="boolean" default="false"/>
+    
+    <aura:attribute name="warningMessage" type="String" default=""/>
+    
+    
+    <section >
+        <div class="modal-header slds-modal__header slds-size_1-of-1">
+            <h4 class="title slds-text-heading--medium" >Mass Create Opportunities</h4>
+        </div>
+        <div class="slds-grid slds-grid_vertical add-padding slds-modal__content slds-align_absolute-center slds-p-around--small  slds-is-relative">
+            
+            <aura:if isTrue="{!v.isLoading}">
+                <lightning:spinner alternativeText="Loading" size="medium" />
+            </aura:if>
+            <div class="slds-col">
+                <lightning:radioGroup name="RecordTypes"
+                                      label="Select a record type."
+                                      options="{! v.recordTypes }"
+                                      value="{! v.selectedRecordType }"
+                                      type="radio"
+                                      disabled="{!v.isDefaultExists}"
+                                      required="true"/>
+            </div>
+            <div class="full-width  slds-col">
+                <aura:if isTrue="{!v.isDefaultExists}">
+                    <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_info" role="alert">
+                        <h2>
+                           {!v.warningMessage}
+                        </h2>
+                    </div>
+                </aura:if>
+            </div>
+        </div>   
+        <div class="modal-footer slds-modal__footer slds-size_1-of-1">
+            
+            <lightning:button label="Cancel" title="Cancel" onclick="{! c.cancel }"/>
+            
+            <lightning:button disabled="{!or(v.isLoading,v.noPermission)}" variant="brand" label="Create" title="Create" onclick="{! c.createOpp }" />
+            
+            
+        </div>
+        
+    </section>
+</aura:component>

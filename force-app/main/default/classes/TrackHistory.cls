@@ -1,6 +1,9 @@
 public inherited sharing class TrackHistory {
-    
-    public static void track(String objectName,List<sObject> newRecords,Map<id,sObject> oldRecords){
+    @future
+    public static void track(String objectName,String newRecordsListJSON,string oldRecordsMapJSON){
+        System.debug('TrackHistory=>track');
+        List<sObject> newRecords=(List<sObject>)JSON.deserialize(newRecordsListJSON, List<sObject>.class);
+        Map<id,sObject> oldRecords=(Map<id,sObject>)JSON.deserialize(oldRecordsMapJSON, Map<id,sObject>.class);
         List<String> fields=getFieldsToTrack(objectName);
         if(fields.size()==0) return;
         List<Field_History_Tracker__c> toInsertRecords=new List<Field_History_Tracker__c>();
@@ -23,6 +26,7 @@ public inherited sharing class TrackHistory {
                     change.New_Value__c=String.valueOf(record.get(field));
                     change.Record_Name__c=String.valueOf(record.get('Name'));
                     change.Relation__c='On Record';
+                    change.RecordTypeId=Constant.TRACK_FIELD_CHANGE_RECORDTYPE_ID;
                     toInsertRecords.add(change);
                 }
             }

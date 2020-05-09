@@ -98,6 +98,23 @@ Finleap connect Org
                     1.Page layout
                     2.field
                     3.path 
+    -09-05-2020 : Adding Mass Create Opportunity quick action on campain layout
+                    Metadata Affected
+                    1.pagelyout
+                    2.apex
+                    3.aura component
+    -09-05-2020 : Adding custom component to add account team member on account record page
+                    Metadata Affected
+                    1.pagalyout
+                    2.flexi page
+                    3.aura component
+                    4.page layout
+                    5.custom settings
+    -09-05-2020 : Adding Field history tracker and code to track hostory changes
+                    Metadta Affected
+                    1.trigger
+                    2.apex
+                    3.custom metadata
 
 
 
@@ -113,55 +130,3 @@ sfdx force:mdapi:deploy -d metadata
 ### Check Status
 sfdx force:mdapi:deploy:report 
 
-
-
-
-### Change Log
-##  02-05-2020,05-05-2020
-#### Aura
-RelatedOpportunitys
-RelatedAttachments
-DefaultTokans
-RelatedListItem
-
-
-
-#### Apex
-AccountTrigger
-OpportunityTrigger
-SchemaUtility
-OpportunityTriggerHandler
-AccountTriggerHandler
-ContentDocumentHandlerTest
-SchemaUtilityTest
-ConstantTest
-Constant
-### New
-#### Aura
-RelatedAccountTeamMembers
-RelatedHistoryTracker
-#### Apex
-RelatedAccountTeamController
-RelatedHistoryController
-TrackHistory
-TrackHistoryTest
-RelatedAccountTeamControllerTest
-RelatedHistoryControllerTest
-
-#### Custom Setting
-Account_Team_Configuration__c
-#### Custom Metadata
-Filed_History_Tracker__mdt
-
-#### Custom label
-Priority_Order_By_Role	
-Priority_Order_By_Company	
-
-
-
-## Conifguration
-Account Layout	
-Standard View Opportunity Record Page
-
-## Delete
-Opp Set Sub Type						

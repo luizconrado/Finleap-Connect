@@ -43,4 +43,13 @@ public class SchemaUtilityTest {
         Map<String,PicklistEntry[]>  piklist=SchemaUtility.getObjectPicklistFileds('Account');
         System.assert(piklist.containsKey('Type'));
     }
+    
+    @isTest
+    static void getAllRecordTypesOfObjectTest(){
+        User u=TestDataFactory.getCommunicationsUser(true);
+        System.runAs(u){
+        	SchemaUtility.getAllRecordTypesOfObject('Opportunity');    
+        }
+        
+    }
 }

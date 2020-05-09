@@ -10,6 +10,7 @@ public class ConstantTest {
         System.assert(!String.isEmpty(Constant.ACCOUNT_STANDARD_RECORDTYPE_ID));
         System.assert(!String.isEmpty(Constant.COMMUNICATION_PROFILE_ID));
         System.assert(!String.isEmpty(Constant.FINLEAP_STANDARD_PROFILE_ID));
+        System.assert(!String.isEmpty(Constant.TRACK_FIELD_CHANGE_RECORDTYPE_ID));
         
             
     }

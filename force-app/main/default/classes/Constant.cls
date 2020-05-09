@@ -4,6 +4,11 @@ public inherited  sharing class Constant {
         if(OPPORTUNITY_INVESTMENT_IN_FINLEAP_RECORDTYPE_ID == null) OPPORTUNITY_INVESTMENT_IN_FINLEAP_RECORDTYPE_ID=SchemaUtility.getRecordTypeId('Finleap_Investment_in_Finleap_Group','Opportunity');
         return OPPORTUNITY_INVESTMENT_IN_FINLEAP_RECORDTYPE_ID;
     }}
+    public static final string OPPORTUNITY_SALES_FOR_VENTURE_RECORDTYPE_ID{private set;get{
+        if(OPPORTUNITY_SALES_FOR_VENTURE_RECORDTYPE_ID == null) OPPORTUNITY_SALES_FOR_VENTURE_RECORDTYPE_ID=SchemaUtility.getRecordTypeId('Finleap_Sales_for_Ventures','Opportunity');
+        return OPPORTUNITY_SALES_FOR_VENTURE_RECORDTYPE_ID;
+    }}
+    
     public static final string OPPORTUNITY_ECOSYSTEM_RECORDTYPE_ID{private set;get{
         if(OPPORTUNITY_ECOSYSTEM_RECORDTYPE_ID == null) OPPORTUNITY_ECOSYSTEM_RECORDTYPE_ID=SchemaUtility.getRecordTypeId('Finleap_Ecosystem_Development','Opportunity');
         return OPPORTUNITY_ECOSYSTEM_RECORDTYPE_ID;
@@ -21,6 +26,11 @@ public inherited  sharing class Constant {
     public static final string ACCOUNT_STANDARD_RECORDTYPE_ID{private set;get{
         if(ACCOUNT_STANDARD_RECORDTYPE_ID==null) ACCOUNT_STANDARD_RECORDTYPE_ID=SchemaUtility.getRecordTypeId('Standard_Partner_Account','Account');
         return ACCOUNT_STANDARD_RECORDTYPE_ID;
+    }}
+    //Track Object
+    public static final string TRACK_FIELD_CHANGE_RECORDTYPE_ID{private set;get{
+        if(TRACK_FIELD_CHANGE_RECORDTYPE_ID==null)TRACK_FIELD_CHANGE_RECORDTYPE_ID=SchemaUtility.getRecordTypeId('Field_History','Field_History_Tracker__c');
+        return TRACK_FIELD_CHANGE_RECORDTYPE_ID;
     }}
     //Profile
     public static final string COMMUNICATION_PROFILE_ID{private set;get{

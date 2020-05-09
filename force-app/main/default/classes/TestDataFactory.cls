@@ -19,11 +19,18 @@ public class TestDataFactory {
     public static Contact getStandardContact(Final String accountId,Final Boolean isInsert){
         return getContact(Constant.CONTACT_STANDARD_RECORDTYPE_ID,accountId,isInsert);
     }
+    
     public static Opportunity getFinleapInvestmentOpportunity(Final String accountId,Final Boolean isInsert){
         return getOpportunity(Constant.OPPORTUNITY_INVESTMENT_IN_FINLEAP_RECORDTYPE_ID,accountId,isInsert);
     }
+    public static Opportunity getFinleapSalesOpportunity(Final String accountId,Final Boolean isInsert){
+        return getOpportunity(Constant.OPPORTUNITY_SALES_FOR_VENTURE_RECORDTYPE_ID,accountId,isInsert);
+    }
     public static Opportunity getFinleapEcosystemOpportunity(Final String accountId,Final Boolean isInsert){
         return getOpportunity(Constant.OPPORTUNITY_ECOSYSTEM_RECORDTYPE_ID,accountId,isInsert);
+    }
+    public static void addOpportunityToContact(String oppId,String contactId){
+        getOpportunityContactRole(contactId,oppId,true);
     }
     public static void setOpportunityTeamMemeber(String UserId,String OpportunityId){
         OpportunityTeamMember otm=new OpportunityTeamMember();
@@ -34,6 +41,7 @@ public class TestDataFactory {
      	insert otm;   
      
     }
+    
     public static User getCommunicationsUser(Final Boolean isInsert){
         return getUser(Constant.COMMUNICATION_PROFILE_ID,isInsert);
     }
@@ -41,9 +49,6 @@ public class TestDataFactory {
         return getUser(Constant.FINLEAP_STANDARD_PROFILE_ID,isInsert);
     }
    
-    public static void addOpportunityToContact(String oppId,String contactId){
-        getOpportunityContactRole(contactId,oppId,true);
-    }
     
     public static ContentDocumentLink setContentDocumentLink(String ContentDocumentId,String recordId,boolean isInsert){
         ContentDocumentLink cdl=new ContentDocumentLink();
@@ -64,7 +69,27 @@ public class TestDataFactory {
         if(isInsert) insert cv;
         return cv;
     }
-    
+ 
+    public static Campaign getCampaing(Boolean isInsert){
+        Campaign campaign=new Campaign();
+        campaign.Name=Randomutility.getString(10);
+        campaign.Code_Name__c=Randomutility.getString(4);
+        campaign.IsActive=true;
+        campaign.Status='Planned';
+        campaign.StartDate=Date.today();
+        campaign.EndDate=Date.today()+10;
+        campaign.Type='Emails & Calls';
+        if(isInsert)
+            insert campaign;
+        return campaign;
+    }
+    public static void addCampaingMember(String campaignId,String contactId){
+        CampaignMember member=new CampaignMember();
+        member.CampaignId=campaignId;
+        member.ContactId=contactId;
+        member.Status='Sent';
+        insert member;
+    }
     
     //Helpers
     private static User getUser(final Id profileId,Final Boolean isInsert) {

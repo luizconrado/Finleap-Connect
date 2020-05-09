@@ -52,6 +52,7 @@ public without sharing class RelatedAccountTeamController {
             change.New_Value__c='Deleted';
             change.Relation__c='Child Object';
             change.Record_Name__c=(accountList.size()>0)?accountList.get(0).Name:'Account';
+            change.recordTypeId=Constant.TRACK_FIELD_CHANGE_RECORDTYPE_ID;
             toInsertRecords.add(change);
         }
         if(toInsertRecords.size()>0) insert toInsertRecords;
@@ -81,6 +82,7 @@ public without sharing class RelatedAccountTeamController {
             change.Relation__c='Child Object';
             change.New_Value__c=member.User.Name;
             change.Record_Name__c=(accountList.size()>0)?accountList.get(0).Name:'Account';
+            change.recordTypeId=Constant.TRACK_FIELD_CHANGE_RECORDTYPE_ID;
             toInsertRecords.add(change);
         }
         if(toInsertRecords.size()>0) insert toInsertRecords;

@@ -112,7 +112,6 @@
             <controllingFieldValue>Completed</controllingFieldValue>
             <controllingFieldValue>Signed</controllingFieldValue>
             <controllingFieldValue>Closed Won - Funnelled</controllingFieldValue>
-            <controllingFieldValue>Confirmed</controllingFieldValue>
             <controllingFieldValue>Closed Won</controllingFieldValue>
             <controllingFieldValue>Cancelled</controllingFieldValue>
             <valueName>Completed</valueName>
@@ -120,13 +119,11 @@
         <valueSettings>
             <controllingFieldValue>Negotiation</controllingFieldValue>
             <controllingFieldValue>Due Diligence</controllingFieldValue>
-            <controllingFieldValue>Negotiate</controllingFieldValue>
             <valueName>Awaiting ISHA Negotiation</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Negotiation</controllingFieldValue>
-            <controllingFieldValue>Negotiate</controllingFieldValue>
-            <controllingFieldValue>Confirmed</controllingFieldValue>
+            <controllingFieldValue>Signed</controllingFieldValue>
             <valueName>Awaiting ISHA to be Signed</valueName>
         </valueSettings>
         <valueSettings>
@@ -138,7 +135,6 @@
             <controllingFieldValue>Engage</controllingFieldValue>
             <controllingFieldValue>Convince</controllingFieldValue>
             <controllingFieldValue>Offer</controllingFieldValue>
-            <controllingFieldValue>Negotiate</controllingFieldValue>
             <valueName>Proceed to the next stage</valueName>
         </valueSettings>
         <valueSettings>
@@ -198,7 +194,7 @@
             <valueName>Awaiting Follow up after Fact Sheet</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Confirmed</controllingFieldValue>
+            <controllingFieldValue>Signed</controllingFieldValue>
             <valueName>Awaiting Deal Closure</valueName>
         </valueSettings>
     </valueSet>

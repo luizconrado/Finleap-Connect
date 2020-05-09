@@ -3330,7 +3330,7 @@
         </processMetadataValues>
         <name>formula_11_myRule_10_9280251908</name>
         <dataType>String</dataType>
-        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c }</expression>
+        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c}</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
@@ -3341,7 +3341,7 @@
         </processMetadataValues>
         <name>formula_14_myRule_13_0996302159</name>
         <dataType>String</dataType>
-        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c }</expression>
+        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c}</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
@@ -3352,7 +3352,7 @@
         </processMetadataValues>
         <name>formula_17_myRule_16_7625525776</name>
         <dataType>String</dataType>
-        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c }</expression>
+        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c}</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
@@ -3363,7 +3363,7 @@
         </processMetadataValues>
         <name>formula_20_myRule_19_3601853739</name>
         <dataType>String</dataType>
-        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c }</expression>
+        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c}</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
@@ -3374,7 +3374,7 @@
         </processMetadataValues>
         <name>formula_23_myRule_22_5535807661</name>
         <dataType>String</dataType>
-        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c }</expression>
+        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c}</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
@@ -3385,7 +3385,7 @@
         </processMetadataValues>
         <name>formula_26_myRule_25_8901810469</name>
         <dataType>String</dataType>
-        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c }</expression>
+        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c}</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
@@ -3396,7 +3396,7 @@
         </processMetadataValues>
         <name>formula_29_myRule_28_8009561540</name>
         <dataType>String</dataType>
-        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c }</expression>
+        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c}</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
@@ -3407,7 +3407,7 @@
         </processMetadataValues>
         <name>formula_2_myRule_1_0094594299</name>
         <dataType>String</dataType>
-        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c }</expression>
+        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c}</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
@@ -3418,7 +3418,7 @@
         </processMetadataValues>
         <name>formula_32_myRule_31_2085102077</name>
         <dataType>String</dataType>
-        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c }</expression>
+        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c}</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
@@ -3429,7 +3429,7 @@
         </processMetadataValues>
         <name>formula_35_myRule_34_8440650737</name>
         <dataType>String</dataType>
-        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c }</expression>
+        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c}</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
@@ -3440,7 +3440,7 @@
         </processMetadataValues>
         <name>formula_38_myRule_37_1308141533</name>
         <dataType>String</dataType>
-        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c }</expression>
+        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c}</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
@@ -3451,7 +3451,7 @@
         </processMetadataValues>
         <name>formula_41_myRule_40_5063054859</name>
         <dataType>String</dataType>
-        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c }</expression>
+        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c}</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
@@ -3462,7 +3462,7 @@
         </processMetadataValues>
         <name>formula_44_myRule_43_2905418907</name>
         <dataType>String</dataType>
-        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c }</expression>
+        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c}</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
@@ -3473,7 +3473,7 @@
         </processMetadataValues>
         <name>formula_47_myRule_46_5753104013</name>
         <dataType>String</dataType>
-        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c }</expression>
+        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c}</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
@@ -3484,7 +3484,7 @@
         </processMetadataValues>
         <name>formula_50_myRule_49_4516327445</name>
         <dataType>String</dataType>
-        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c }</expression>
+        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c}</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
@@ -3495,7 +3495,7 @@
         </processMetadataValues>
         <name>formula_53_myRule_52_8059002537</name>
         <dataType>String</dataType>
-        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c }</expression>
+        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c}</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
@@ -3506,7 +3506,7 @@
         </processMetadataValues>
         <name>formula_56_myRule_55_6788445536</name>
         <dataType>String</dataType>
-        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c }</expression>
+        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c}</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
@@ -3517,7 +3517,7 @@
         </processMetadataValues>
         <name>formula_59_myRule_58_8304980494</name>
         <dataType>String</dataType>
-        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c }</expression>
+        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c}</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
@@ -3528,7 +3528,7 @@
         </processMetadataValues>
         <name>formula_5_myRule_4_3965288414</name>
         <dataType>String</dataType>
-        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c }</expression>
+        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c}</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
@@ -3539,7 +3539,7 @@
         </processMetadataValues>
         <name>formula_62_myRule_61_2114986777</name>
         <dataType>String</dataType>
-        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c }</expression>
+        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c}</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
@@ -3550,7 +3550,7 @@
         </processMetadataValues>
         <name>formula_65_myRule_64_3037740757</name>
         <dataType>String</dataType>
-        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c }</expression>
+        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c}</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
@@ -3561,7 +3561,7 @@
         </processMetadataValues>
         <name>formula_68_myRule_67_5382590482</name>
         <dataType>String</dataType>
-        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c }</expression>
+        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c}</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
@@ -3572,7 +3572,7 @@
         </processMetadataValues>
         <name>formula_71_myRule_70_9054814420</name>
         <dataType>String</dataType>
-        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c }</expression>
+        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c}</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
@@ -3583,7 +3583,7 @@
         </processMetadataValues>
         <name>formula_8_myRule_7_9525430898</name>
         <dataType>String</dataType>
-        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c }</expression>
+        <expression>{!$CustomMetadata.Constant__mdt.FinleapBuildInvestment_RecordTypeId.value__c}</expression>
     </formulas>
     <interviewLabel>Opp_Build_Investment_Set_Sub_Stage-1_InterviewLabel</interviewLabel>
     <label>Opp Build Investment Set Sub Stage</label>
@@ -5533,7 +5533,7 @@
         <object>Opportunity</object>
     </recordUpdates>
     <startElementReference>myDecision</startElementReference>
-    <status>Draft</status>
+    <status>Active</status>
     <variables>
         <name>myVariable_current</name>
         <dataType>SObject</dataType>
