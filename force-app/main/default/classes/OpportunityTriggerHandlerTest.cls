@@ -20,4 +20,17 @@ public class OpportunityTriggerHandlerTest {
             Test.stopTest();
         }
     }
+    
+    
+    @isTest
+    static void setCampaingNameUpdateTest(){
+        Account a=TestDataFactory.getStandardAccount(true);
+        Contact c=TestDataFactory.getStandardContact(a.Id,true);
+        Campaign camp=TestDataFactory.getCampaing(true);
+        Opportunity o=TestDataFactory.getFinleapInvestmentOpportunity(a.Id,true);
+        o.CampaignId=camp.Id;
+        update o;
+        o=[SELECT id,Primary_Campaign_Name__c FROM Opportunity LIMIT 1];
+        System.assertEquals(camp.Name, o.Primary_Campaign_Name__c);
+    }
 }

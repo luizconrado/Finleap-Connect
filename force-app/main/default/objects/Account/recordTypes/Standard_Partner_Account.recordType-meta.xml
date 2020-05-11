@@ -78,6 +78,10 @@
     <picklistValues>
         <picklist>Industry</picklist>
         <values>
+            <fullName>Asset Management</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Banks</fullName>
             <default>false</default>
         </values>
@@ -94,7 +98,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Energy</fullName>
+            <fullName>Fintech</fullName>
             <default>false</default>
         </values>
         <values>
@@ -110,7 +114,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Materials</fullName>
+            <fullName>Insurance</fullName>
             <default>false</default>
         </values>
         <values>
@@ -127,6 +131,10 @@
         </values>
         <values>
             <fullName>Utilities</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Venture capital and Private Equity</fullName>
             <default>false</default>
         </values>
     </picklistValues>

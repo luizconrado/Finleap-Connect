@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Opportunity</label>
+    <protected>false</protected>
+    <values>
+        <field>Fields__c</field>
+        <value xsi:type="xsd:string">Sub_Stage__c,Investor_Type__c,Min_Ticket_Size__c,Max_Ticket_Size__c,Fact_Sheet_Sent__c,Fact_Sheet_Follow_Up__c,Short_Deck_Sent__c,Intro_Meeting_Scheduled__c,Intro_Call_Scheduled__c,NDA_Signed__c,Extended_Deck_Sent__c,Extended_Deck_Follow_Up__c,DD_Light_Access_Granted__c,DD_Light_Follow_Up__c,Term_Sheet_Signed__c,DD_Confirmatory_Access_Granted__c,DD_Confirmatory_Follow_Up__c,Q_A_Answered__c,Mgmt_Meeting_Scheduled__c,ISHA_Negotiation_Start_Date__c,ISHA_Negotiation_Signed_Date__c</value>
+    </values>
+</CustomMetadata>

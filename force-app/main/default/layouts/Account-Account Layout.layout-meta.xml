@@ -151,11 +151,11 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Maximum_Ticket__c</field>
+                <field>Minimum_Ticket__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Minimum_Ticket__c</field>
+                <field>Maximum_Ticket__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -419,11 +419,6 @@
             </layoutItem>
         </relatedContentItems>
     </relatedContent>
-    <relatedLists>
-        <fields>MEMBER_NAME</fields>
-        <fields>TEAM_MEMBER_ROLE</fields>
-        <relatedList>RelatedAccountSalesTeam</relatedList>
-    </relatedLists>
     <relatedLists>
         <fields>FULL_NAME</fields>
         <fields>CONTACT.EMAIL</fields>

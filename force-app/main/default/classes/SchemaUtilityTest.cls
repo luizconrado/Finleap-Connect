@@ -27,4 +27,29 @@ public class SchemaUtilityTest {
         System.assertNotEquals(0,fieldDetails.size());
             
     }
+    @isTest 
+    static void getSobjectTypeTest(){
+        DescribeSobjectResult schema=SchemaUtility.getSobjectType('Account');
+        System.assertEquals('Account', schema.getLabel());
+    }
+    @isTest
+    static void getAllObjectFieldsTest(){
+        DescribeSobjectResult account=SchemaUtility.getSobjectType('Account');
+        Map<String,DescribeFieldResult> schema=SchemaUtility.getAllObjectFields(account);
+        System.assertEquals('Account Name', schema.get('Name').getLabel());
+    }
+    @isTest
+    static void getObjectPicklistFiledsTest(){
+        Map<String,PicklistEntry[]>  piklist=SchemaUtility.getObjectPicklistFileds('Account');
+        System.assert(piklist.containsKey('Type'));
+    }
+    
+    @isTest
+    static void getAllRecordTypesOfObjectTest(){
+        User u=TestDataFactory.getCommunicationsUser(true);
+        System.runAs(u){
+        	SchemaUtility.getAllRecordTypesOfObject('Opportunity');    
+        }
+        
+    }
 }

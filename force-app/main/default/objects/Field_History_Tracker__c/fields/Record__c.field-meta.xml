@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Record__c</fullName>
+    <externalId>false</externalId>
+    <formula>HYPERLINK(&#39;/lightning/r/&#39;+ Object__c +&#39;/&#39;+Record_Id__c+&#39;/view&#39;,  Record_Name__c )</formula>
+    <label>Record</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

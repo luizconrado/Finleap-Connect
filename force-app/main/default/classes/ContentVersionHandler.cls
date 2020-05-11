@@ -17,7 +17,7 @@ public class ContentVersionHandler  extends Triggerhandler {
         for(ContentVersion cv:cvs){
             contentDocumentIds.add(cv.ContentDocumentId);
         }
-        if(contentDocumentIds.size()>0) updateUploadFeild(contentDocumentIds);
+        if(contentDocumentIds.size()>0) updateUploadField(contentDocumentIds);
         
         //Retriving entitys to which attachment is linked and filtering based on specifed object mentiond in label
         List<ContentDocumentLink> links=[SELECT LinkedEntity.Type,ContentDocumentId, Id FROM ContentDocumentLink where ContentDocumentId IN:contentDocumentIds  ];
@@ -38,7 +38,7 @@ public class ContentVersionHandler  extends Triggerhandler {
     }
     
     @future
-    private static void updateUploadFeild(List<Id> contentDocumentIds){
+    private static void updateUploadField(List<Id> contentDocumentIds){
         List<Id> updateSuccessFiles=new List<Id>();
 
         List<ContentVersion> cvs=[SElect id,Upload__c,ContentDocumentId FROM ContentVersion WHERE contentDocumentId IN:contentDocumentIds];

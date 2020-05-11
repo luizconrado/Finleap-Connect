@@ -26,6 +26,20 @@ public inherited  sharing class SchemaUtility {
         return '';
     }
     
+    public static List<Schema.RecordTypeInfo> getAllRecordTypesOfObject(Final String objectAPIName){
+        Schema.DescribeSObjectResult sobjectResult = Schema.getGlobalDescribe().get(objectAPIName).getDescribe();
+        List<Schema.RecordTypeInfo> returnValue=new List<Schema.RecordTypeInfo>();
+        if(sobjectResult!=null){
+            List<Schema.RecordTypeInfo> recordTypeInfo = sobjectResult.getRecordTypeInfos();
+            for(Schema.RecordTypeInfo info : recordTypeInfo){
+                if(info.isAvailable()==true){
+                    returnValue.add(info);
+                }
+            }    
+        }
+        return returnValue;
+    }
+    
     public static FieldSet[] getFieldSetMembers(String objectName , String fieldSetName){
         List<FieldSet> wrapperList = new List<FieldSet>();
         Schema.SObjectType sObj = Schema.getGlobalDescribe().get(objectName);
@@ -45,6 +59,33 @@ public inherited  sharing class SchemaUtility {
         }
         
         return wrapperList;
+    }
+    
+    public static Map<String,PicklistEntry[]> getObjectPicklistFileds(String objectAPIName){
+        Schema.DescribeSObjectResult sObjectName = Schema.getGlobalDescribe().get(objectAPIName).getDescribe();
+        Map<String,PicklistEntry[]> picklistValues=new Map<String,PicklistEntry[]>();
+        for (SObjectField f : sObjectName.fields.getMap().values()) {
+            DescribeFieldResult field = f.getDescribe();
+            if(field.getType()===Schema.DisplayType.Picklist){
+                picklistValues.put(field.getName(),field.getPicklistValues());
+            }
+        }
+        return picklistValues;
+    }
+    
+    public static Map<String,DescribeFieldResult> getAllObjectFields(DescribeSObjectResult sObjectName){
+        Map<String,DescribeFieldResult> listOfObjectFields=new Map<String,DescribeFieldResult>();
+        
+        for (SObjectField f : sObjectName.fields.getMap().values()) {
+            DescribeFieldResult field = f.getDescribe();
+            listOfObjectFields.put(field.getName(),field);
+        }   
+        return listOfObjectFields; 
+    }
+   
+    public static DescribeSobjectResult getSobjectType(String objectApiName){
+        Schema.DescribeSobjectResult[] results = Schema.describeSObjects(new String[] { objectApiName });
+        return results[0];
     }
 
 }

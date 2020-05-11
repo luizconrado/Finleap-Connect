@@ -157,6 +157,9 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <componentInstances>
+            <componentName>RelatedAccountTeamMembers</componentName>
+        </componentInstances>
+        <componentInstances>
             <componentInstanceProperties>
                 <name>relatedListComponentOverride</name>
                 <value>NONE</value>

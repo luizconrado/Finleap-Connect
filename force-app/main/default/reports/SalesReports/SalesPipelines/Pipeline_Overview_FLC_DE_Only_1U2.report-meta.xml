@@ -105,6 +105,13 @@
             <operator>equals</operator>
             <value>0</value>
         </criteriaItems>
+        <criteriaItems>
+            <column>User.Finleap_Country__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>DE</value>
+        </criteriaItems>
     </filter>
     <format>Tabular</format>
     <name>Pipeline Overview - FLC DE Only</name>

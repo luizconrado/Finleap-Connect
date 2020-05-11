@@ -42,6 +42,14 @@ Finleap connect Org
     c.custom metadata
     d.flexi page
 9. Path Guidence for all respective record type
+10. User Can Mass Create opportunity from campaing 
+    a.apex
+    b.quickaction
+    c.aura
+11. Filed history of record can be tracked using custom object Hitroy Tracker
+    a.apex
+    b.trigger
+    c.custom object
 
 # Change Log
     - 14-04-2020 :  Adding Record Type filter to all opportunity validation rules
@@ -98,6 +106,9 @@ Finleap connect Org
                     1.Page layout
                     2.field
                     3.path 
+    -11-05-2020 : Adding Mass Opportuntiy create button on campaing object
+    -11-05-2020 : Adding History Tracking code and object
+    -11-05-2020 : Adding process builder to update sub stage of opportunity
 
 
 

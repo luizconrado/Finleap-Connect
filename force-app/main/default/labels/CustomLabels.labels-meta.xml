@@ -140,6 +140,22 @@ system.administrator@finleap.com</value>
         <value>September</value>
     </labels>
     <labels>
+        <fullName>Priority_Order_By_Company</fullName>
+        <categories>RelatedList</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Priority Order By Company</shortDescription>
+        <value>{ &quot;Finleap&quot;:&quot;9&quot;, &quot;FLC&quot;:&quot;8&quot; }</value>
+    </labels>
+    <labels>
+        <fullName>Priority_Order_By_Role</fullName>
+        <categories>RelatedList</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Priority Order By Role</shortDescription>
+        <value>{ &quot;Account Manager&quot;:&quot;1&quot;, &quot;Business Development&quot;:&quot;2&quot;, &quot;Solution Engineer&quot;:&quot;3&quot;, &quot;Integration Manager&quot;:&quot;4&quot;, &quot;Customer Success Manager&quot;:&quot;5&quot;, &quot;Business Unit Owner&quot;:&quot;6&quot;, &quot;Vertical GM&quot;:&quot;7&quot;, &quot;Executive Sponsor&quot;:&quot;8&quot;, &quot;MD Responsible&quot;:&quot;9&quot; }</value>
+    </labels>
+    <labels>
         <fullName>Restricted_Edit_Upload_Files_Objects</fullName>
         <categories>Related List</categories>
         <language>en_US</language>
