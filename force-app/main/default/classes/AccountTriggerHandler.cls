@@ -23,8 +23,12 @@ public class AccountTriggerHandler extends Triggerhandler {
         List<Account> newAccountList=(List<Account>) Trigger.new;
         Map<Id,Account> oldAccountMap=(Map<Id,Account>) Trigger.oldMap;
         
-        //track record changes
-        TrackHistory.track('Account', JSON.serialize(newAccountList),JSON.serialize(oldAccountMap));
+         
+        if(!System.Label.Track_History_Exclusion.contains(Userinfo.getUserEmail())){
+            //track record changes
+            TrackHistory.track('Account', JSON.serialize(newAccountList),JSON.serialize(oldAccountMap));    
+        }
+        
     }
     
     private static void setTeamMembers(List<Account> accountOwnerChanged){

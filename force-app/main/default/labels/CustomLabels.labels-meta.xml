@@ -164,6 +164,15 @@ system.administrator@finleap.com</value>
         <value>Account,Opportunity,Contract,Campaign,Contact</value>
     </labels>
     <labels>
+        <fullName>Track_History_Exclusion</fullName>
+        <categories>AdminExclusion</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Track History Exclusion</shortDescription>
+        <value>system.administrator@finreach.com
+system.administrator@finleap.com</value>
+    </labels>
+    <labels>
         <fullName>Upcoming_Overdue</fullName>
         <categories>Activity Timeline</categories>
         <language>en_US</language>
