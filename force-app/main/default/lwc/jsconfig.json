@@ -1,7 +1,14 @@
 {
     "compilerOptions": {
         "baseUrl": ".",
-        "paths": {},
+        "paths": {
+            "c/vega": [
+                "vega/vega.js"
+            ],
+            "c/Vega": [
+                "Vega/Vega.js"
+            ]
+        },
         "experimentalDecorators": true
     },
     "include": [
