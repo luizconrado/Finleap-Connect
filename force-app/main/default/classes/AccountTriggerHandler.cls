@@ -25,6 +25,7 @@ public class AccountTriggerHandler extends Triggerhandler {
         
         //track record changes
         TrackHistory.track('Account', JSON.serialize(newAccountList),JSON.serialize(oldAccountMap));
+        //TrackHistory.publishChanges('Account', newAccountList,oldAccountMap);
     }
     
     private static void setTeamMembers(List<Account> accountOwnerChanged){

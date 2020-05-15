@@ -57,6 +57,14 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>LogUsageController</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LogUsageControllerTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>MassCreateOpportunityController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -130,6 +138,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TrackHistoryTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TrackingEventsHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -224,11 +236,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>File_Type_Option__mdt.Types__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Filed_History_Tracker__mdt.Fields__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -369,10 +376,11 @@
         <recordType>Field_History_Tracker__c.Field_History</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>File_Type_Option__mdt-File Type Option Layout</layout>
+        <layout>Field_History_Tracker__c-Field History Tracker Layout</layout>
+        <recordType>Field_History_Tracker__c.Usage_Tracker</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Filed_History_Tracker__mdt-Filed History Tracker Layout</layout>
+        <layout>File_Type_Option__mdt-File Type Option Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Lead-Lead Layout</layout>
@@ -436,6 +444,11 @@
     <recordTypeVisibilities>
         <default>true</default>
         <recordType>Field_History_Tracker__c.Field_History</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Field_History_Tracker__c.Usage_Tracker</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>

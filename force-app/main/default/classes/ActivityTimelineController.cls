@@ -119,6 +119,7 @@ public with sharing class ActivityTimelineController {
             lstActivityGroups.add(activityGroup);
         }
         
+         
         return lstActivityGroups;
     }    
     

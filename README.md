@@ -130,3 +130,32 @@ sfdx force:mdapi:deploy -d metadata
 ### Check Status
 sfdx force:mdapi:deploy:report 
 
+# Changes
+Usage_Tracker -> Record Type
+
+Filed History Tracker Layout-> Page Layout
+Usage History Tracker -> Page Layout
+
+Constant -> Apex
+LogUsageController -> Apex
+LogUsageControllerTest -> Apex
+TrackHistory->Apex
+TrackingEventsHandler->Apex
+
+
+Log_Usage -> Aura
+
+TrackingEventsTrigger-> Trigger
+
+History_Tracker__mdt-> Custom Metadata
+
+Account -> History Custom Metadta
+Opportuntiy -> History Custom Metadata
+
+Track_Fields->Custom Fields
+Track_Usage->Custom Fields
+New_Value->Custom Field
+Old_Value->Custom Field
+
+Field Changes -> List View
+Usage_History -> List View
