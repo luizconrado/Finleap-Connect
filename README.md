@@ -135,27 +135,41 @@ Usage_Tracker -> Record Type
 
 Filed History Tracker Layout-> Page Layout
 Usage History Tracker -> Page Layout
+Constant -> Page Layout
+
 
 Constant -> Apex
 LogUsageController -> Apex
 LogUsageControllerTest -> Apex
 TrackHistory->Apex
 TrackingEventsHandler->Apex
-
+ContactTriggerHandler->Apex
+OpportunityTriggerHandler->Apex
+AccountTriggerHandler-> Apex
+TrackHistoryTest->Test
+ContactTriggerHandlerTest ->Test
 
 Log_Usage -> Aura
 
 TrackingEventsTrigger-> Trigger
+ContactTrigger->Trigger
 
 History_Tracker__mdt-> Custom Metadata
 
+Opportunity Alert Filters - > Constant Custom Metadata
 Account -> History Custom Metadta
 Opportuntiy -> History Custom Metadata
+Contact -> History Custom Metadata
+ContactTrigger->Trigger Setting Custom Metadata
 
 Track_Fields->Custom Fields
 Track_Usage->Custom Fields
 New_Value->Custom Field
 Old_Value->Custom Field
+Description->Custom Filed
+User__c->Custom Field
+
+
 
 Field Changes -> List View
 Usage_History -> List View
