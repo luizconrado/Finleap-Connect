@@ -4,6 +4,9 @@
         "paths": {
             "c/vega": [
                 "vega/vega.js"
+            ],
+            "c/chart": [
+                "chart/chart.js"
             ]
         },
         "experimentalDecorators": true
