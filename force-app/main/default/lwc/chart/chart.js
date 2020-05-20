@@ -4,9 +4,12 @@ import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
 import chartjs from '@salesforce/resourceUrl/charjs';
 import myActivitys from '@salesforce/apex/VegaController.myactivitys'
 export default class Chart extends LightningElement {
-    CHART;
+    STACKCHART;
+    RADARCHART;
 
     values;
+    values2;
+
     taskList;
     eventList;
     allaccounts;
@@ -24,9 +27,10 @@ export default class Chart extends LightningElement {
     industryFilter = '';
     ratingFilter = '';
 
+    radarMaxValue = 0;
 
     connectedCallback() {
-        let month = new Array();
+        let month = [];
         month[0] = "January";
         month[1] = "February";
         month[2] = "March";
@@ -46,37 +50,52 @@ export default class Chart extends LightningElement {
     loadData() {
         myActivitys()
             .then(result => {
-                console.log(Chart, 'result', result)
+                console.log('result', result)
 
-
+                //combain types
                 const taskList = result.Task;
+                taskList.forEach(t => {
+                    if (!t.Type) {
+                        t.Type = t.TaskSubtype;
+                    }
+                })
                 const eventList = result.Event;
-                const accountList = result.Account;
+                eventList.forEach(e => {
+                    if (!e.Type) {
+                        e.Type = e.EventSubtype;
+                    }
+                })
 
-                this.parseEventValues(eventList);
-                this.parseTaskValues(taskList);
-                this.parseAccountValues(accountList);
-
-
-                console.log('industryValues', this.industryValues)
-                console.log('ratingValues', this.ratingValues)
-                console.log('taskValues', this.taskValues)
-                console.log('eventValues', this.eventValues)
-
-
-                let taskGroup = this.parseTaskGroup(taskList);
-                console.log('taskGroup', taskGroup)
-
-                let eventGroup = this.parseEventGroup(eventList);
-                console.log('eventGroup', eventGroup)
-
-                let values = this.parseChartData(taskGroup, eventGroup)
-                console.log('values', values);
-
-                this.values = values;
                 this.taskList = taskList;
                 this.eventList = eventList;
+
+
+                //get filter picklist vlaues
+                this.eventValues = this.parseValues(eventList);
+                this.eventValues.push({
+                    label: 'None',
+                    value: 'None'
+                })
+                this.taskValues = this.parseValues(taskList);
+                this.taskValues.push({
+                    label: 'None',
+                    value: 'None'
+                })
+
+                const accountList = result.Account;
+                this.parseAccountValues(accountList);
+
+                //Group activity by month
+                let taskGroup = this.praseGroups(taskList);
+                let eventGroup = this.praseGroups(eventList);
+
+
+
+                //create chart data
+                this.values = this.parseChartData(taskGroup, eventGroup);
+                this.values2 = this.parseChartDataRadar(taskGroup, eventGroup);
                 this.loadChart();
+                this.loadRadarChart();
 
             }).catch(error => {
 
@@ -95,7 +114,6 @@ export default class Chart extends LightningElement {
             const ctx = canvas.getContext('2d');
 
 
-            console.log('container', ctx)
             const dataset = {
                 type: 'bar',
                 data: this.values,
@@ -114,81 +132,8 @@ export default class Chart extends LightningElement {
                     }
                 }
             }
-
-            let temp = {
-                type: 'bar',
-                data: {
-                    labels: ['Standing costs', 'Running costs'], // responsible for how many bars are gonna show on the chart
-                    // create 12 datasets, since we have 12 items
-                    // data[0] = labels[0] (data for first bar - 'Standing costs') | data[1] = labels[1] (data for second bar - 'Running costs')
-                    // put 0, if there is no data for the particular bar
-                    datasets: [{
-                        label: 'Washing and cleaning',
-                        data: [0, 8],
-                        backgroundColor: '#22aa99'
-                    }, {
-                        label: 'Traffic tickets',
-                        data: [0, 2],
-                        backgroundColor: '#994499'
-                    }, {
-                        label: 'Tolls',
-                        data: [0, 1],
-                        backgroundColor: '#316395'
-                    }, {
-                        label: 'Parking',
-                        data: [5, 2],
-                        backgroundColor: '#b82e2e'
-                    }, {
-                        label: 'Car tax',
-                        data: [0, 1],
-                        backgroundColor: '#66aa00'
-                    }, {
-                        label: 'Repairs and improvements',
-                        data: [0, 2],
-                        backgroundColor: '#dd4477'
-                    }, {
-                        label: 'Maintenance',
-                        data: [6, 1],
-                        backgroundColor: '#0099c6'
-                    }, {
-                        label: 'Inspection',
-                        data: [0, 2],
-                        backgroundColor: '#990099'
-                    }, {
-                        label: 'Loan interest',
-                        data: [0, 3],
-                        backgroundColor: '#109618'
-                    }, {
-                        label: 'Depreciation of the vehicle',
-                        data: [0, 2],
-                        backgroundColor: '#109618'
-                    }, {
-                        label: 'Fuel',
-                        data: [0, 1],
-                        backgroundColor: '#dc3912'
-                    }, {
-                        label: 'Insurance and Breakdown cover',
-                        data: [4, 0],
-                        backgroundColor: '#3366cc'
-                    }]
-                },
-                options: {
-                    responsive: false,
-                    legend: {
-                        position: 'right' // place legend on the right side of chart
-                    },
-                    scales: {
-                        xAxes: [{
-                            stacked: true // this should be set to make the bars stacked
-                        }],
-                        yAxes: [{
-                            stacked: true // this also..
-                        }]
-                    }
-                }
-            }
             let chart = new window.Chart(ctx, dataset);
-            this.CHART = chart;
+            this.STACKCHART = chart;
             this.template.querySelector('div.chart').appendChild(canvas);
 
         }
@@ -196,58 +141,120 @@ export default class Chart extends LightningElement {
             console.error(e);
         }
     }
-    //process data
-    parseChartData(taskGroup, eventGroup) {
-        let values = {};
-        let labels = [];
-        let datasets = [];
+    loadRadarChart(spec) {
+        try {
+            // disable Chart.js CSS injection
+            //window.Chart.platform.disableCSSInjection = true;
 
-        labels.push(...Object.keys(taskGroup))
-        labels.push(...Object.keys(eventGroup))
-        labels = [...new Set(labels)];
+            const canvas = document.createElement('canvas');
+            //canvas.style.height = '50%';
+            //canvas.style.width = '50%';
+
+            const ctx = canvas.getContext('2d');
 
 
-        this.taskValues.forEach(type => {
-            let dataCount = [];
-            for (let date of labels) {
-                const templist = taskGroup[date];
-                if (templist) {
-                    let tempCount = templist.reduce((sum, item) => {
-                        return (item.TaskSubtype === type.value || item.Type === type.value) ? sum + 1 : sum
-                    }, 0);
-                    dataCount.push(tempCount);
-                }
-                else {
-                    dataCount.push(0);
+            const dataset = {
+                type: 'radar',
+                data: this.values2,
+                options: {
+                    responsive: true,
+                    legend: {
+                        position: 'right' // place legend on the right side of chart
+                    },
+                    scale: {
+                        ticks: {
+                            beginAtZero: true,
+                            min: 0,
+                            max: this.radarMaxValue,
+                            stepSize: 20
+                        }
+                    }
                 }
             }
-            datasets.push({
-                label: type.value,
-                backgroundColor: this.getBgColor(),
-                data: dataCount
-            })
-        })
+
+            let chart = new window.Chart(ctx, dataset);
+            this.RADARCHART = chart;
+            this.template.querySelector('div.radar').appendChild(canvas);
+
+        }
+        catch (e) {
+            console.error(e);
+        }
+    }
+
+    parseChartDataRadar(taskGroup, eventGroup) {
+        this.radarMaxValue = 0;
+        let values = {};
+        let labels = this.industryValues.map(i => i.value);
+        let datasets = [];
+
+        //get all tasks
+        let taskList = Object.values(taskGroup).flat(Infinity);
+        // get all events
+        let eventList = Object.values(eventGroup).flat(Infinity);
+
+        this.taskValues.forEach(type => {
+            if (type.value !== 'None') {
+                let industryData = [];
+                for (let industry of labels) {
+                    //get accountId of all industry
+                    const industryAccountId = this.filterIndustryType(industry);
+                    //get all task of cusrent type
+                    const taskTypeList = this.filterTypes(taskList, type.value);
+                    //get all industry tasks 
+                    const industryTasks = taskTypeList.filter(t => industryAccountId.includes(t.WhatId))
+                    industryData.push(industryTasks.length);
+                    if (this.radarMaxValue < industryTasks.length) {
+                        this.radarMaxValue = industryTasks.length+10;
+                    }
+
+                }
+
+                let t = industryData.reduce((a, b) => a + b, 0);
+                if (t > 0) {
+                    datasets.push({
+                        label: type.value,
+                        backgroundColor: "transparent",
+                        borderColor: this.getBgColor(),
+                        data: industryData,
+                        fill: false
+                    })
+                }
+
+            }
+        });
+
+
 
 
         this.eventValues.forEach(type => {
-            let dataCount = [];
-            for (let date of labels) {
-                const templist = eventGroup[date];
-                if (templist) {
-                    let tempCount = templist.reduce((sum, item) => {
-                        return (item.EventSubtype === type.value || item.Type === type.value) ? sum + 1 : sum
-                    }, 0);
-                    dataCount.push(tempCount);
+            if (type.value !== 'None') {
+                let industryData = [];
+                for (let industry of labels) {
+                    //get accountId of all industry
+                    const industryAccountId = this.filterIndustryType(industry);
+                    //get all task of cusrent type
+                    const eventTypeList = this.filterTypes(eventList, type.value);
+                    //get all industry tasks 
+                    const industryevents = eventTypeList.filter(t => industryAccountId.includes(t.WhatId))
+                    industryData.push(industryevents.length);
+                    if (this.radarMaxValue < industryevents.length) {
+                        this.radarMaxValue = industryevents.length+10;
+                    }
                 }
-                else {
-                    dataCount.push(0);
+                let t = industryData.reduce((a, b) => a + b, 0);
+                if (t > 0) {
+                    datasets.push({
+                        label: type.value,
+                        backgroundColor: "transparent",
+                        borderColor: this.getBgColor(),
+                        data: industryData,
+                        fill: false
+                    })
                 }
+
             }
-            datasets.push({
-                label: type.value,
-                backgroundColor: this.getBgColor(),
-                data: dataCount
-            })
+
         })
 
         values.labels = labels;
@@ -256,8 +263,82 @@ export default class Chart extends LightningElement {
 
         return values;
     }
-    parseTaskGroup(taskList) {
-        let taskGroup = taskList.reduce((r, a) => {
+    //process data
+    parseChartData(taskGroup, eventGroup) {
+
+
+        let values = {};
+        let labels = [];
+        let datasets = [];
+
+        labels.push(...Object.keys(taskGroup))
+        labels.push(...Object.keys(eventGroup))
+        labels = [...new Set(labels)];
+
+        this.taskValues.forEach(type => {
+            if (type.value !== 'None') {
+                let dataCount = [];
+                for (let date of labels) {
+                    const templist = taskGroup[date];
+                    if (templist) {
+                        let tempCount = templist.reduce((sum, item) => {
+                            return (item.Type === type.value) ? sum + 1 : sum
+                        }, 0);
+                        dataCount.push(tempCount);
+                    }
+                    else {
+                        dataCount.push(0);
+                    }
+                }
+
+                let t = dataCount.reduce((a, b) => a + b, 0);
+                if (t > 0) {
+                    datasets.push({
+                        label: type.value,
+                        backgroundColor: this.getBgColor(),
+                        data: dataCount
+                    })
+                }
+            }
+
+        })
+
+
+        this.eventValues.forEach(type => {
+            if (type.value !== 'None') {
+                let dataCount = [];
+                for (let date of labels) {
+                    const templist = eventGroup[date];
+                    if (templist) {
+                        let tempCount = templist.reduce((sum, item) => {
+                            return (item.Type === type.value) ? sum + 1 : sum
+                        }, 0);
+                        dataCount.push(tempCount);
+                    }
+                    else {
+                        dataCount.push(0);
+                    }
+                }
+                let t = dataCount.reduce((a, b) => a + b, 0);
+                if (t > 0) {
+                    datasets.push({
+                        label: type.value,
+                        backgroundColor: this.getBgColor(),
+                        data: dataCount
+                    })
+                }
+            }
+        })
+
+        values.labels = labels;
+        values.datasets = datasets;
+
+
+        return values;
+    }
+
+    praseGroups(list) {
+        return list.reduce((r, a) => {
             let tempMonth = this.getMonthFromDate(a.ActivityDate);
             if (this.monthFilter === tempMonth) {
                 r[a.ActivityDate] = [...r[a.ActivityDate] || [], a];
@@ -267,54 +348,36 @@ export default class Chart extends LightningElement {
             }
             return r;
         }, {});
-        return taskGroup;
     }
-    parseEventGroup(eventList) {
-        let eventGroup = eventList.reduce((r, a) => {
-            let tempMonth = this.getMonthFromDate(a.ActivityDate);
-            if (this.monthFilter === tempMonth) {
-                r[a.ActivityDate] = [...r[a.ActivityDate] || [], a];
-            }
-            else if (!this.monthFilter) {
-                r[tempMonth] = [...r[tempMonth] || [], a];
-            }
-            return r;
-        }, {});
-        return eventGroup;
-    }
+
     //filters
     onMonthFilter(event) {
         const monthFilter = event.target.value;
         this.monthFilter = monthFilter;
-        console.log('monthFilter', monthFilter)
         this.filterData();
     }
 
     onEventFilter(event) {
         const eventType = event.target.value;
         this.eventFilter = eventType;
-        console.log('eventFilter', eventType)
 
         this.filterData();
     }
     onTaskFilter(event) {
         const taskType = event.target.value;
         this.taskFilter = taskType;
-        console.log('taskFilter', taskType)
 
         this.filterData();
     }
     onIndustryFilter(event) {
         const industryType = event.target.value;
         this.industryFilter = industryType;
-        console.log('industryFilter', industryType)
 
         this.filterData();
     }
     onRatingFilter(event) {
         const ratingType = event.target.value;
         this.ratingFilter = ratingType;
-        console.log('ratingFilter', ratingType)
 
         this.filterData();
     }
@@ -323,9 +386,6 @@ export default class Chart extends LightningElement {
         let eventList = this.eventList
         let taskList = this.taskList;
         let accountIds = []
-        let iTaskList = []
-        let rTaskList = []
-        let rEventList = []
         if (this.ratingFilter) {
             const accountIndIdList = this.filterRatingType(this.ratingFilter)
             accountIds.push(...new Set(accountIndIdList))
@@ -338,30 +398,32 @@ export default class Chart extends LightningElement {
             eventList = eventList.filter(e => accountIds.includes(e.WhatId))
             taskList = taskList.filter(t => accountIds.includes(t.WhatId))
         }
+
         if (this.eventFilter)
-            eventList = this.filterEventTypes(this.eventList, this.eventFilter);
+            eventList = this.filterTypes(eventList, this.eventFilter);
 
 
         if (this.taskFilter)
-            taskList = this.filterTaskTypes(this.taskList, this.taskFilter);
+            taskList = this.filterTypes(taskList, this.taskFilter);
 
-        let taskGroup = this.parseTaskGroup(taskList);
-        let eventGroup = this.parseEventGroup(eventList);
+        let taskGroup = this.praseGroups(taskList);
+        let eventGroup = this.praseGroups(eventList);
 
         let values = this.parseChartData(taskGroup, eventGroup)
-        console.log('values', values)
+        let values2 = this.parseChartDataRadar(taskGroup, eventGroup)
 
-        console.log('CHART', this.CHART)
-        console.log('CHART', this.CHART.data)
-        this.CHART.data = values;
-        this.CHART.update();
+        this.STACKCHART.data = values;
+        this.STACKCHART.update();
+        this.RADARCHART.data = values2;
+        this.RADARCHART.options.scale.ticks.max = this.radarMaxValue;
+        this.RADARCHART.update();
 
 
     }
     //utility
     getMonthFromDate(date) {
         let d = new Date(date);
-        let month = new Array();
+        let month = [];
         month[0] = "January";
         month[1] = "February";
         month[2] = "March";
@@ -380,15 +442,11 @@ export default class Chart extends LightningElement {
         let x = Math.floor(Math.random() * 256);
         let y = Math.floor(Math.random() * 256);
         let z = Math.floor(Math.random() * 256);
-        let bgColor = "rgb(" + x + "," + y + "," + z + ")";
-        return bgColor;
+        return "rgb(" + x + "," + y + "," + z + ")";
     }
 
-    filterEventTypes(eventList, option) {
-        return eventList.filter(e => e.EventSubtype === option || e.Type === option);
-    }
-    filterTaskTypes(taskList, option) {
-        return taskList.filter(e => e.TaskSubtype === option || e.Type === option);
+    filterTypes(list, option) {
+        return list.filter(e => e.Type === option);
     }
 
     filterIndustryType(option) {
@@ -399,44 +457,11 @@ export default class Chart extends LightningElement {
     }
 
     //helper to extrack filter values
-    parseEventValues(Event) {
-        const eventList = Event;
-        let tempEventTypes = [];
-        const eventSubType = eventList
-            .map(e => (e.EventSubtype) ? { label: e.EventSubtype, value: e.EventSubtype } : undefined)
+    parseValues(list) {
+        return list.map(e => (e.Type) ? { label: e.Type, value: e.Type } : undefined)
             .filter(e => e !== undefined)
             .reduce((unique, item) => unique.find(e => e.label === item.label) ? unique : [...unique, item], []);
 
-
-        const eventType = eventList
-            .map(e => (e.Type) ? { label: e.Type, value: e.Type } : undefined)
-            .filter(e => e !== undefined)
-            .reduce((unique, item) => unique.find(e => e.label === item.label) ? unique : [...unique, item], []);
-
-        tempEventTypes.push(...eventSubType);
-        tempEventTypes.push(...eventType);
-
-        const eventTypes = tempEventTypes.reduce((unique, item) => unique.find(t => t.label === item.label) ? unique : [...unique, item], []);
-        this.eventValues = eventTypes;
-    }
-    parseTaskValues(Task) {
-        const taskList = Task;
-        let tempTaskTypes = [];
-        const taskSubType = taskList
-            .map(t => (t.TaskSubtype) ? { label: t.TaskSubtype, value: t.TaskSubtype } : undefined)
-            .filter(t => t !== undefined)
-            .reduce((unique, item) => unique.find(t => t.label === item.label) ? unique : [...unique, item], []);
-
-        const taskType = taskList
-            .map(t => (t.Type) ? { label: t.Type, value: t.Type } : undefined)
-            .filter(t => t !== undefined)
-            .reduce((unique, item) => unique.find(t => t.label === item.label) ? unique : [...unique, item], []);
-
-        tempTaskTypes.push(...taskType);
-        tempTaskTypes.push(...taskSubType);
-
-        const taskTypes = tempTaskTypes.reduce((unique, item) => unique.find(t => t.label === item.label) ? unique : [...unique, item], []);
-        this.taskValues = taskTypes;
     }
     parseAccountValues(Account) {
         //parsing account
@@ -461,6 +486,7 @@ export default class Chart extends LightningElement {
             .map(a => (a.Finleap_Rating__c) ? { label: a.Finleap_Rating__c, value: a.Finleap_Rating__c } : undefined)
             .filter(a => a !== undefined)
             .reduce((unique, item) => unique.find(a => a.label === item.label) ? unique : [...unique, item], []);
+
         ratingList.push(...finleapRatingList)
 
 
