@@ -3,7 +3,6 @@
     <fullName>Finleap_Build_Project</fullName>
     <active>true</active>
     <businessProcess>Finleap Sales</businessProcess>
-    <description>Finleap Build Project</description>
     <label>Finleap Build Project</label>
     <picklistValues>
         <picklist>ForecastCategoryName</picklist>
@@ -44,6 +43,10 @@
         </values>
         <values>
             <fullName>Customer Event</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ecosystem Development</fullName>
             <default>false</default>
         </values>
         <values>

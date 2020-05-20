@@ -3,7 +3,6 @@
     <fullName>Finleap_Connect_Standard_Sales</fullName>
     <active>true</active>
     <businessProcess>Finleap Connect Sales Process</businessProcess>
-    <description>Finleap Connect Standard Sales</description>
     <label>Finleap Connect Standard Sales</label>
     <picklistValues>
         <picklist>ForecastCategoryName</picklist>
@@ -44,6 +43,10 @@
         </values>
         <values>
             <fullName>Customer Event</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ecosystem Development</fullName>
             <default>false</default>
         </values>
         <values>

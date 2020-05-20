@@ -3,7 +3,6 @@
     <fullName>Finleap_Investment_in_Venture</fullName>
     <active>true</active>
     <businessProcess>Finleap Investments</businessProcess>
-    <description>Finleap Investment in Venture</description>
     <label>Finleap Investment in Venture</label>
     <picklistValues>
         <picklist>ForecastCategoryName</picklist>
@@ -44,6 +43,10 @@
         </values>
         <values>
             <fullName>Customer Event</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ecosystem Development</fullName>
             <default>false</default>
         </values>
         <values>

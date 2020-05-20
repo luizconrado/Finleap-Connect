@@ -14,6 +14,7 @@
 	</types>
 	<types>
 		<members>Campaign.Code_Name__c</members>
+		<members>Constant__mdt.Description__c</members>
 		<members>Constant__mdt.value__c</members>
 		<members>ContentVersion.Type__c</members>
 		<members>ContentVersion.Upload__c</members>
@@ -27,10 +28,13 @@
 		<members>Field_History_Tracker__c.Record_Name__c</members>
 		<members>Field_History_Tracker__c.Record__c</members>
 		<members>Field_History_Tracker__c.Relation__c</members>
+		<members>Field_History_Tracker__c.User__c</members>
 		<members>File_Type_Option__mdt.Object_Name__c</members>
 		<members>File_Type_Option__mdt.Record_Type_Name__c</members>
 		<members>File_Type_Option__mdt.Types__c</members>
-		<members>Filed_History_Tracker__mdt.Fields__c</members>
+		<members>History_Tracker__mdt.Fields__c</members>
+		<members>History_Tracker__mdt.Track_Fields__c</members>
+		<members>History_Tracker__mdt.Track_Usage__c</members>
 		<members>Opportunity.DD_Confirmatory_Access_Granted__c</members>
 		<members>Opportunity.DD_Confirmatory_Follow_Up__c</members>
 		<members>Opportunity.DD_Light_Access_Granted__c</members>
@@ -53,6 +57,13 @@
 		<members>Opportunity.Short_Deck_Sent__c</members>
 		<members>Opportunity.Sub_Stage__c</members>
 		<members>Opportunity.Term_Sheet_Signed__c</members>
+		<members>Tracking_Events__e.Field__c</members>
+		<members>Tracking_Events__e.New_Value__c</members>
+		<members>Tracking_Events__e.Object__c</members>
+		<members>Tracking_Events__e.Old_Value__c</members>
+		<members>Tracking_Events__e.Record_Id__c</members>
+		<members>Tracking_Events__e.Record_Name__c</members>
+		<members>Tracking_Events__e.User_Id__c</members>
 		<members>Trigger_Setting__mdt.Active__c</members>
 		<name>CustomField</name>
 	</types>
@@ -69,7 +80,8 @@
 		<members>Constant__mdt</members>
 		<members>Field_History_Tracker__c</members>
 		<members>File_Type_Option__mdt</members>
-		<members>Filed_History_Tracker__mdt</members>
+		<members>History_Tracker__mdt</members>
+		<members>Tracking_Events__e</members>
 		<name>CustomObject</name>
 	</types>
 	<types>
@@ -94,15 +106,15 @@
 	</types>
 	<types>
 		<members>Account-Account Layout</members>
-		<members>AccountTeamMember-Account Team Member Layout</members>
 		<members>Campaign-Campaign Layout</members>
-		<members>Case-Case Layout</members>
 		<members>Constant__mdt-Constant Layout</members>
 		<members>Contact-Contact Layout</members>
 		<members>Contract-Contract Layout</members>
 		<members>Event-Event Layout</members>
+		<members>Field_History_Tracker__c-Field History Tracker Layout</members>
+		<members>Field_History_Tracker__c-Usage History Tracker</members>
 		<members>File_Type_Option__mdt-File Type Option Layout</members>
-		<members>Lead-Lead Layout</members>
+		<members>History_Tracker__mdt-Filed History Tracker Layout</members>
 		<members>Opportunity-Build Investment Opportunity</members>
 		<members>Opportunity-Build Project Opportunity</members>
 		<members>Opportunity-Ecosystem Development Opportunity</members>
@@ -114,13 +126,14 @@
 		<members>OpportunityContactRole-Opportunity Contact Role Layout</members>
 		<members>OpportunityLineItem-Opportunity Product Layout</members>
 		<members>OpportunityTeamMember-Opportunity Team Member Layout</members>
-		<members>Task-Task Layout</members>
 		<members>Trigger_Setting__mdt-Trigger Setting Layout</members>
-		<members>User-User Layout</members>
 		<name>Layout</name>
 	</types>
 	<types>
 		<members>Field_History_Tracker__c.All</members>
+		<members>Field_History_Tracker__c.Field_Changes</members>
+		<members>Field_History_Tracker__c.Usage_History</members>
+		<members>History_Tracker__mdt.All</members>
 		<name>ListView</name>
 	</types>
 	<types>
@@ -153,6 +166,7 @@
 		<members>Contact.Standard_Contact</members>
 		<members>Contract.Standard_Contract</members>
 		<members>Field_History_Tracker__c.Field_History</members>
+		<members>Field_History_Tracker__c.Usage_Tracker</members>
 		<members>Opportunity.Finleap_Build_Investment</members>
 		<members>Opportunity.Finleap_Build_Project</members>
 		<members>Opportunity.Finleap_Connect_Standard_Sales</members>

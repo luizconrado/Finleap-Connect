@@ -50,6 +50,9 @@ Finleap connect Org
     a.apex
     b.trigger
     c.custom object
+12. User Record view can be tracked using component Log_Usage
+    a.apex
+    b.aura
 
 # Change Log
     - 14-04-2020 :  Adding Record Type filter to all opportunity validation rules
@@ -109,6 +112,8 @@ Finleap connect Org
     -11-05-2020 : Adding Mass Opportuntiy create button on campaing object
     -11-05-2020 : Adding History Tracking code and object
     -11-05-2020 : Adding process builder to update sub stage of opportunity
+    -20-05-2020 : Adding Platform Event to capture logs
+    -20-05-2020 : Addling Log component to capture user activity
 
 
 

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Account</label>
+    <protected>false</protected>
+    <values>
+        <field>Fields__c</field>
+        <value xsi:type="xsd:string">AnnualRevenue,BillingAddress,BillingCity,BillingCountry,BillingGeocodeAccuracy,BillingLatitude,BillingLongitude,BillingPostalCode,BillingState,BillingStreet,Company_Size_Employees__c,Company_Size_Revenue__c,Country__c,Customer_Category__c,Customer_Type__c,Description,Ecosystem_Investment_Interest__c,Finleap_Rating__c,FinreachAccID__c,Geographical_Focus__c,Industry,InfinitecAccID__c,Invested_in_the_Ecosystem__c,Is_Test__c,LastActivityDate,LastModifiedById,LastModifiedDate,LastReferencedDate,LastViewedDate,Legacy_Salesforce_ID__c,Legal_Form__c,License_Details__c,License__c,LinkedIn_Webpage__c,Maximum_Ticket__c,Minimum_Ticket__c,Name,No_of_All_Opportunities__c,No_Opportunities_Cancelled__c,No_Opportunities_in_Pipeline__c,No_Opportunities_Won__c,NumberOfEmployees,OwnerId,ParentId,Phone,Preferred_Investment_Stages__c,Rating,RecordTypeId,Relationship_Status_for_Investment__c,Sectors_Legacy__c,Sector_of_Investment_Details__c,Sector_of_Investment__c,Strategic_Customer_Type__c,Strategic_Customer__c,Sub_Industry__c,Type,Website</value>
+    </values>
+    <values>
+        <field>Track_Fields__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Track_Usage__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+</CustomMetadata>

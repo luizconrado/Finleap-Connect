@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Opportunity</label>
+    <protected>false</protected>
+    <values>
+        <field>Fields__c</field>
+        <value xsi:type="xsd:string">AccountId,Actual_Cancellation_Date__c,Actual_Close_Date__c,Actual_Close_Won_Date__c,Amount,CampaignId,CloseDate,ContactId,ContractId,Contract_End_Date__c,DD_Confirmatory_Access_Granted__c,DD_Confirmatory_Follow_Up__c,DD_Light_Access_Granted__c,DD_Light_Follow_Up__c,Discovery_Completed__c,ExpectedRevenue,Expected_average_Volume__c,Extended_Deck_Follow_Up__c,Extended_Deck_Sent__c,Fact_Sheet_Follow_Up__c,Fact_Sheet_Sent__c,FastBill_Customer_ID__c,Finleap_Company__c,FinreachOppID__c,HasOpenActivity,HasOpportunityLineItem,HasOverdueTask,InfinitecOppID__c,Intro_Call_Scheduled__c,Intro_Meeting_Scheduled__c,Investor_Type__c,IsClosed,ISHA_Negotiation_Signed_Date__c,ISHA_Negotiation_Start_Date__c,IsWon,Is_Test__c,KYC_Check_Status__c,KYC_Form_Filled_Out__c,KYC_Form__c,LastActivityDate,LastModifiedById,LastModifiedDate,LastReferencedDate,LastViewedDate,Legacy_Salesforce_ID__c,Limited_Access_Name__c,Loss_Reason_Detail__c,Loss_Reason__c,Max_Ticket_Size__c,Mgmt_Meeting_Scheduled__c,Min_Ticket_Size__c,MRR_Monthly_Recurring_Revenue__c,Name,NDA_Signed__c,NextStep,OTR_One_Time_Revenue__c,Overall_Deal_Size__c,OwnerId,Partnership_Model__c,Partner_Interaction_Purpose__c,Pitch_Deck_Received__c,Pricebook2Id,Primary_Campaign_Name__c,Priority__c,Probability,Product_Category__c,Product_Vertical__c,Product__c,Q_A_Answered__c,RecordTypeId,Regulatory_Status__c,Revenue_Start_Date__c,Short_Deck_Sent__c,StageName,Sub_Product__c,Sub_Stage__c,Target_Countries__c,Tech_Owner__c,Tech_Stage__c,Tech_Status_Description__c,Tech_Status__c,Term_Sheet_Signed__c,Type,Use_Case_Description__c</value>
+    </values>
+    <values>
+        <field>Track_Fields__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Track_Usage__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+</CustomMetadata>

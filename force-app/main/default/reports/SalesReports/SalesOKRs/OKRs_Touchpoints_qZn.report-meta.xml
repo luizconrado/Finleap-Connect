@@ -25,7 +25,7 @@
         <field>EVENT_SUBTYPE</field>
     </columns>
     <filter>
-        <booleanFilter>1 AND 2 AND (3 OR 4)</booleanFilter>
+        <booleanFilter>1 AND 2 AND (3 OR 4) AND 5</booleanFilter>
         <criteriaItems>
             <column>Activity.Compay_Assigned_To__c</column>
             <columnToColumn>false</columnToColumn>
@@ -53,6 +53,13 @@
             <isUnlocked>true</isUnlocked>
             <operator>startsWith</operator>
             <value>Email</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>ASSIGNED</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>contains</operator>
+            <value>Christian,Chris,Cedric,FLorian,CLaudia,Julia,Oleksiy,Fabian,Joohee</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>
