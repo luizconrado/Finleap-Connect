@@ -33,8 +33,9 @@ public class OpportunityTriggerHandler extends Triggerhandler {
     public override void afterupdate(){
         List<Opportunity> newOpportunityList=(List<Opportunity>) Trigger.new;
         Map<Id,Opportunity> oldOpportunityMap=(Map<Id,Opportunity>) Trigger.oldMap;
-         //track changes
-        TrackHistory.track('Opportunity', JSON.serialize(newOpportunityList), JSON.serialize(oldOpportunityMap));
+        //track changes
+        if(!System.Label.Track_History_Exclusion.contains(Userinfo.getUserEmail()))
+        TrackHistory.publishChanges('Opportunity', newOpportunityList, oldOpportunityMap);
     }
     
     private static void setCampaingName(Map<String,List<String>> opportunityAndCampaingMap,Map<Id,Opportunity> newOpportunityMap){

@@ -41,5 +41,17 @@
                 }))
             }
         });
+    },
+    getErrorMessage:function(error){
+        try{
+            if(error && error.fieldErrors && error.fieldErrors.CampaignId[0] && error.fieldErrors.CampaignId[0].message){
+                return  error.fieldErrors.CampaignId[0].message      
+            }    
+        }
+        catch(err) {
+            return "Please contact system admin if problem presists."; 
+        }
+         
     }
+    
 })

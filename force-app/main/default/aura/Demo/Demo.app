@@ -1,3 +1,3 @@
 <aura:application extends="force:slds">
-    <c:vega/>
+    <c:chart/>
 </aura:application>

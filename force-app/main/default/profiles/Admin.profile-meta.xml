@@ -41,6 +41,14 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ContactTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ContactTriggerHandlerTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ContentDocumentHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -152,11 +160,20 @@
         <apexClass>TriggerHandlerTest</apexClass>
         <enabled>false</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>VegaController</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
     <custom>false</custom>
     <fieldPermissions>
         <editable>true</editable>
         <field>Campaign.Code_Name__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Constant__mdt.Description__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -221,6 +238,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Field_History_Tracker__c.Relation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Field_History_Tracker__c.User__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -374,10 +396,6 @@
     <layoutAssignments>
         <layout>Field_History_Tracker__c-Field History Tracker Layout</layout>
         <recordType>Field_History_Tracker__c.Field_History</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Field_History_Tracker__c-Field History Tracker Layout</layout>
-        <recordType>Field_History_Tracker__c.Usage_Tracker</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>File_Type_Option__mdt-File Type Option Layout</layout>
