@@ -129,3 +129,7 @@ sfdx force:source:convert -d metadata
 sfdx force:mdapi:deploy -d metadata  
 ### Check Status
 sfdx force:mdapi:deploy:report 
+
+
+### Log out
+sfdx force:auth:logout --targetusername FINLEAPDEV
