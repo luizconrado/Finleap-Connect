@@ -39,12 +39,8 @@
             }
             else if(status==='ERROR'){
                 let errors = response.getError();
-                if (errors && errors[0]){
-                    errors=helper.getErrorMessage(errors[0]);
-                }   
-                else {
-                  errors="Unknown error";  
-                } 
+                if (errors && errors[0] && errors[0].message)   errors=errors[0].message;
+                else errors="Unknown error";
                 let toastEvent = $A.get("e.force:showToast");
                 toastEvent.setParams({
                     "title":'Opportunity Creation Failed',

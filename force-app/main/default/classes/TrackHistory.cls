@@ -66,8 +66,8 @@ public inherited sharing class TrackHistory {
             change.New_Value__c=event.New_Value__c;
             change.Record_Name__c=event.Record_Name__c;
             change.User__c=event.User_Id__c;
-            if(objectDescriptionMap.containsKey(event.Object__c)) change.Object_Label__c=objectDescriptionMap.get(event.Object__c).getLabel();
-            if(objectFieldsMap.containsKey(event.Object__c)) change.Field_Label__c=objectFieldsMap.get(event.Object__c).get(event.Field__c).getLabel();
+            if(objectDescriptionMap.containsKey(event.Object__c)) change.Field_Label__c=objectDescriptionMap.get(event.Object__c).getLabel();
+            if(objectFieldsMap.containsKey(event.Object__c)) change.Object_Label__c=objectFieldsMap.get(event.Object__c).get(event.Field__c).getLabel();
             toInsertRecords.add(change);
         }
         if(toInsertRecords.size()>0) insert toInsertRecords;
@@ -112,7 +112,6 @@ public inherited sharing class TrackHistory {
         String name='Name';
         if(objectName=='Task' || objectName=='Event' ) name='Subject';
         if(objectName=='Case') name='CaseNumber';
-        if(objectName=='Contact') name='LastName';
         return name;
     }
 

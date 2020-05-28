@@ -132,4 +132,4 @@ sfdx force:mdapi:deploy:report
 
 
 ### Log out
-sfdx force:auth:logout --targetusername FINLEAPDEV
+sfdx force:auth:logout --targetusername FINLEAPDEVis
