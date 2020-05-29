@@ -1,0 +1,8 @@
+.THIS .hide-label .slds-form-element__label {
+      display : none;
+      visibility : hidden;
+}
+
+.THIS .set-min-height{
+    min-height:25rem;
+}
