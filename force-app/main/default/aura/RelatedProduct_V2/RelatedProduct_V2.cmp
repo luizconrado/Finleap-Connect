@@ -199,7 +199,7 @@
                                             </aura:if>
                                         </tr>
                                     </aura:iteration>
-                                </tbody>
+                                 </tbody>
                             </table>
                         </div>
                     </aura:if>

@@ -2,8 +2,6 @@
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     <aura:handler name="RelatedList_viewAll" event="c:RelatedListEvent" action="{!c.viewAllInvoked}"/>
     <aura:handler name="RelatedList_menuAction" event="c:RelatedListEvent" action="{!c.actionInvoked}"/>
-   
-   
     
     <force:recordData aura:id="recordLoader"
                       recordId="{!v.recordId}"
@@ -13,221 +11,309 @@
                       />
     <!--ui attributes-->
     <aura:attribute name="isMobile" type="boolean" default="false" access="private"/>
-    <aura:attribute name="loadView" type="boolean" default="false" />    
     <aura:attribute name="isViewAll" type="boolean" default="false" />  
     
     <aura:attribute name="isAddProduct" type="boolean" default="false" />  
-    <aura:attribute name="isLoading" type="boolean" default="false" />  
     <aura:attribute name="isEditProduct" type="boolean" default="false" />  
     
+    <aura:attribute name="loadView" type="boolean" default="false" />    
+    <aura:attribute name="isLoading" type="boolean" default="false" />  
+    
+    <aura:attribute name="currentStep" type="string" default="1" />  
+    
+    
     <!--data attribute-->
-    <aura:attribute name="productList" type="List"  />  
-    <aura:attribute name="productViewList" type="List"  />  
-    <aura:attribute name="newProductList" type="List"  />  
-    
     <aura:attribute name="oppRecord" type="Object"/>
-    <aura:attribute name="recordLoadError" type="String"/>
-
+    
+    <aura:attribute name="relatedProductList" type="List"  description="view all list view products" />  
+    <aura:attribute name="relatedProductViewList" type="List" description="ui list view products" />
+    
+    <aura:attribute name="allSystemProductsList" type="List" />
+    <aura:attribute name="allSelectedProductsList" type="List" />
+    
+    
+    
+    <aura:attribute name="linkedProductsOrignal" type="string" />
+    <aura:attribute name="linkedProductsList" type="List" />
+    <aura:attribute name="linkedDeleteProductsList" type="List" default="[]" />
+    
+    <aura:attribute name="newProductsList" type="List" />
+    
     <!--helper variables-->
-    <aura:attribute name="currentProductIndex" type="Integer"  />  
-    <aura:attribute name="systemProductList" type="List"  />  
-    <aura:attribute name="orignalProductsList" type="List"  />  
-    <aura:attribute name="copyProductsList" type="List"  />  
-	<aura:attribute name="deleteProductsList" type="List"  />  
+    <aura:attribute name="recordLoadError" type="String"/>
+    <aura:attribute name="systemProductColums" type="List" />
+    <aura:attribute name="selectedProductsIdList" type="List"  />
+    <aura:attribute name="searchText" type="String"/>
     
-    
+    <aura:attribute name="isShowAllProducts" type="Boolean" default="false" />
+    <aura:attribute name="bucketLimit" type="integer" default="4"  />
     <!--popups-->
     <aura:if isTrue="{!v.isViewAll}"> 
-        <c:Modal header="{!'All Products ('+v.productList.length+')'}" open="{!v.isViewAll}" >
-            <c:RelatedListItem sobjectName="OpportunityLineItem"   recordList="{!v.productList}" tileclass="slds-box" viewLength="{!v.productList.length}"></c:RelatedListItem>
+        <c:Modal header="{!'All Products ('+v.relatedProductList.length+')'}" open="{!v.isViewAll}" >
+            <c:RelatedListItem sobjectName="OpportunityLineItem"   recordList="{!v.relatedProductList}" tileclass="slds-box" viewLength="{!v.relatedProductList.length}"></c:RelatedListItem>
         </c:Modal>
     </aura:if>
+    
     <aura:if isTrue="{!v.isAddProduct}">
         <c:Modal isLarge="true" header="Add Products" open="{!v.isAddProduct}" showFooter="false">
-            <div class="slds-modal__content slds-is-relative " id="modal-content-id-1">
-               
+            <div class="slds-modal__content slds-is-relative slds-grid slds-grid_vertical" id="modal-add-product">
                 <aura:if isTrue="{!v.isLoading}">
                     <lightning:spinner alternativeText="Loading" size="medium" />
                 </aura:if>
-                <table class="slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered">
-                    <thead>
-                        <tr class="slds-line-height_reset">
-                            <th class="" scope="col">
-                                <div class="slds-truncate" title="Product Name"><abbr class="slds-required" title="required">* </abbr>Product Name</div>
-                            </th>
-                            <th class="" scope="col">
-                                <div class="slds-truncate" title="Base Price"><abbr class="slds-required" title="required">* </abbr>Base Price</div>
-                            </th>
-                            <th class="" scope="col">
-                                <div class="slds-truncate" title="Base Limit"><abbr class="slds-required" title="required">* </abbr>Base Limit</div>
-                            </th>
-                            <th class="" scope="col">
-                                <div class="slds-truncate" title="Excess Usage Price"><abbr class="slds-required" title="required">* </abbr>Excess Usage Price</div>
-                            </th>
-                            <th class="" scope="col">
-                                <div class="slds-truncate" title="Remove"></div>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <aura:iteration items="{!v.newProductList}" var="item">
-                            <tr class="slds-hint-parent">
-                                
-                                <td data-label="Product Name">
-                                    <div class="slds-truncate" title="Product">
-                                        <div class="slds-form-element">
-                                            <div class="hide-label  slds-form-element__control">
-                                                <aura:if isTrue="{!empty(item.productId)}">
-                                                    <!-- not selected markup-->
-                                                    <lightning:input onchange="{! c.onSearchProduct }" name="{!item.index}" varient="label-hidden" type="search" />
-                                                    <aura:if isTrue="{!v.currentProductIndex==item.index}">
-                                                        <ul class="slds-listbox slds-listbox_vertical" role="presentation">
-                                                            <aura:iteration items="{!v.systemProductList}" var="product">
-                                                                <li data-productId="{!product.Id}" data-index="{!item.index}" data-prodName="{!product.Name}" onclick="{!c.onProductSelect}" role="presentation" class="slds-listbox__item">
-                                                                    <div aria-selected="true" id="{!product.Id}" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta slds-has-focus" role="option" tabindex="0">
-                                                                        <span class="slds-media__body">
-                                                                            <span class="slds-listbox__option-text slds-listbox__option-text_entity">{!product.Name}</span>
-                                                                        </span>
-                                                                    </div>
-                                                                </li>
-                                                            </aura:iteration>
-                                                        </ul>
-                                                    </aura:if>
-                                                    <aura:set attribute="else">
-                                                        <!--product selected markup-->
-                                                        <div class="slds-combobox_container slds-has-selection">
-                                                            <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
-                                                                <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_left-right" role="none">
-                                                                    <span class="slds-icon_container slds-icon-standard-account slds-combobox__input-entity-icon" title="Product">
-                                                                        <lightning:icon iconName="standard:product" size="small" alternativeText="Product" title="Product" />
-                                                                        <span class="slds-assistive-text">Product</span>
-                                                                    </span>
-                                                                    <input type="text" class="slds-input slds-combobox__input slds-combobox__input-value" id="{!item.productId}" aria-controls="{!item.index}" 
-                                                                           autoComplete="off" role="textbox"  readonly="true" value="{!item.productName}" />
-                                                                    <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" title="Remove selected product"   data-index="{!item.index}" onclick="{!c.onProductremove}">
-                                                                        X
-                                                                        <span class="slds-assistive-text">Remove selected product</span>
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </aura:set>
-                                                </aura:if>
+                <div class="slds-col slds-p-around_small">
+                    <lightning:progressIndicator currentStep="{!v.currentStep}" type="base" hasError="false" variant="base">
+                        <lightning:progressStep label="Select Product" value="1" id="1" onclick="{!c.step1}"/>
+                        <lightning:progressStep label="Define Price" value="2" id="2" onclick="{!c.step2}"/>
+                    </lightning:progressIndicator>
+                </div>
+                <aura:if isTrue="{!v.currentStep=='1'}">
+                    <div class="set-min-height slds-col slds-grid slds-grid_vertical slds-nowrap">
+                        <div class="slds-p-vertical_x-small slds-p-horizontal_large slds-shrink-none slds-theme_shade">
+                            <div class="slds-form-element ">
+                                <label class="slds-form-element__label slds-assistive-text"
+                                       for="combobox-unique-id-22">Search</label>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-combobox_container">
+                                        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"
+                                             aria-expanded="false" aria-haspopup="listbox" role="combobox">
+                                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                                                 role="none">
+                                                <lightning:input value="{!v.searchText}" onchange="{! c.onSearchProduct }" varient="label-hidden" type="search" />
+                                                
                                             </div>
                                         </div>
+                                        
                                     </div>
-                                </td>   
-                                <td data-label="Base Price">
-                                    <div class="hide-label slds-truncate" title="Base Price">
-                                        <lightning:input varient="label-hidden" type="number" name="Base_Price"   value="{!item.baseprice}"/>
+                                </div>
+                            </div>
+                            <div class="slds-form-element ">
+                                <label class="slds-form-element__label slds-assistive-text"
+                                       for="show-all-product-toggle">Show All Products in search</label>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-combobox_container">
+                                        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"
+                                             aria-expanded="false" aria-haspopup="listbox" role="combobox">
+                                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                                                 role="none">
+                                                <lightning:input varient="lable-hidden" type="checkbox" label="Show All Products" name="show_all_products" aura:id="show-all-product-toggle" onchange="{!c.onShowAllToggle}" checked="{!v.isShowAllProducts}"/>
+                                                
+                                            </div>
+                                        </div>
+                                        
                                     </div>
-                                </td>
-                                <td data-label="Base Limit">
-                                    <div class="hide-label slds-truncate" title="Base Limit">
-                                        <lightning:input  varient="label-hidden" type="number" name="Base_Limit"   value="{!item.baselimit}"/>
-
-                                    </div>
-                                </td>
-                                <td data-label="Excess Usage Price">
-                                    <div class="hide-label slds-truncate" title="Excess Usage Price">
-                                        <lightning:input  varient="label-hidden" type="number" name="Excess_Usage_Price"  value="{!item.exsessprice}"/>
-                                    </div>
-                                </td>
-                                <td data-label="Remove">
-                                    <div class="slds-truncate" title="Remove">
-                                        <lightning:buttonIcon   value="{!item.index}" iconName="utility:delete"  variant="border-filled" alternativeText="Remove" title="Remove" onclick="{!c.removeNewRow}" />
-                                    </div>
-                                </td>
-                            </tr>
-                        </aura:iteration>
-                    </tbody>
-                </table>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-text-title slds-m-top_x-small" aria-live="polite">{!v.allSelectedProductsList.length} Item(s) Selected</div>
+                        </div>
+                        <lightning:datatable
+                                             columns="{! v.systemProductColums }"
+                                             data="{! v.allSystemProductsList }"
+                                             keyField="Id"
+                                             onrowselection="{! c.onProductSeletion }"
+                                             selectedRows="{! v.selectedProductsIdList }"/>
+                    </div>
+                    
+                </aura:if>
+                <aura:if isTrue="{!v.currentStep=='2'}">
+                    <div class="set-min-height">
+                        <table class=" slds-table slds-table_bordered slds-table_edit slds-table_fixed-layout  slds-tree slds-table_tree"
+                               role="treegrid">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th   class="set-name-width slds-p-left_small set-table-header-height" aria-label="Product Name"  scope="col">
+                                        <div class="slds-p-left_small slds-truncate" title="Product Name">
+                                            <abbr class="slds-required" title="required">* </abbr>
+                                            Product Name
+                                        </div>
+                                    </th>
+                                    <th class="set-table-header-height"  aria-label="Base/Excess Price" scope="col">
+                                        <div class="slds-truncate" title="Base/Excess Price">
+                                            <abbr class="slds-required" title="required">* </abbr>
+                                            Base/Excess Price
+                                        </div>
+                                    </th>
+                                    <th class="set-table-header-height"  aria-label="Base/Excess Limit" scope="col">
+                                        <div class="slds-truncate" title="Base/Excess Limit">
+                                            <abbr class="slds-required" title="required">* </abbr>
+                                            Base/Excess Limit
+                                        </div>
+                                    </th>
+                                    <th class="align-text-center set-table-header-height"  aria-label="Action" scope="col">
+                                        <div class="slds-truncate" title="Action">
+                                            Actions
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <aura:iteration items="{!v.newProductsList}" var="parent">
+                                    <tr aria-expanded="{!parent.isExpanded}" aria-level="1"  aria-selected="false" class="slds-hint-parent parent-row-highlight">
+                                        <th class="slds-tree__item" data-label="Product Name" scope="row">
+                                            <aura:if isTrue="{!parent.children.length>0}">
+                                                <lightning:buttonIcon name="new_expand_colapse" value="{!parent.index}" onclick="{!c.onBucketAction}"  iconName="utility:chevronright" size="small" variant="bare"  alternativeText="Expand" title="Expand" />
+                                            </aura:if>
+                                            <div class="set-name-width slds-p-left_small slds-truncate hide-label" title="{!parent.name}">
+                                                <lightning:input varient="label-hidden" name="{!parent.name}"  readonly="true"  value="{!parent.name}"  />
+                                            </div>
+                                        </th>
+                                        <td data-label="Base/Excess Price" class="slds-text-align_right" role="gridcell">
+                                            <div class="hide-label slds-truncate" title="Base/Excess Price">
+                                                <lightning:input varient="label-hidden" type="number" name="Base_Price" value="{!parent.baseprice}" />
+                                            </div>
+                                        </td>
+                                        <td data-label="Base/Excess Limit" role="gridcell">
+                                            <div class="hide-label slds-truncate" title="Base/Excess Limit">
+                                                <lightning:input  varient="label-hidden" type="number" name="Base_Limit" value="{!parent.baselimit}"/>
+                                            </div>
+                                        </td>
+                                        <td data-label="Action" class="align-text-center" role="gridcell">
+                                            <aura:if isTrue="{! parent.children.length lt v.bucketLimit}">
+                                                <lightning:buttonIcon name="add_new_child" value="{!parent.index}" iconName="utility:add" variant="border-filled" alternativeText="Add Bucket" title="Add Bucket" onclick="{!c.onBucketAction}"/>
+                                                <aura:set attribute="else">
+                                                    Bucket Limit Reached
+                                                </aura:set>
+                                            </aura:if>    
+                                        </td>
+                                    </tr>
+                                    <aura:if isTrue="{!parent.isExpanded}">
+                                        <aura:iteration items="{!parent.children}" var="child">
+                                            <tr aria-level="2"  aria-selected="false" class="slds-hint-parent">
+                                                <th class="slds-tree__item" data-label="Product Name" scope="row">
+                                                    <div class="set-name-width level-2-td slds-truncate hide-label" title="{!child.name}">
+                                                        <lightning:input varient="label-hidden" name="{!child.name}"  readonly="true"  value="{!child.name}"  />
+                                                    </div>
+                                                </th>
+                                                <td data-label="Base/Excess Price" class="slds-text-align_right" role="gridcell">
+                                                    <div class="hide-label slds-truncate" title="Base/Excess Price">
+                                                        <lightning:input varient="label-hidden" type="number" name="Excess_Price"  value="{!child.excessprice}" />
+                                                    </div>
+                                                </td>
+                                                <td data-label="Base/Excess Limit" role="gridcell">
+                                                    <div class="hide-label slds-truncate" title="Base/Excess Limit">
+                                                        <lightning:input varient="label-hidden" type="number" name="Excess_Limit" value="{!child.excesslimit}"/>
+                                                    </div>
+                                                </td>
+                                                <td class="align-text-center" data-label="Action" role="gridcell">
+                                                    <aura:if isTrue="{! parent.children.length== child.bucket}">
+                                                        <lightning:buttonIcon name="remove_new_child" value="{!parent.index}"  onclick="{!c.onBucketAction}" iconName="utility:dash" variant="border-filled" alternativeText="Remove Bucket" title="Remove Bucket"/>
+                                                    </aura:if>
+                                                </td>
+                                            </tr>
+                                        </aura:iteration>
+                                    </aura:if>
+                                </aura:iteration>
+                            </tbody>
+                        </table>
+                    </div>
+                </aura:if>
             </div>
             <footer class="slds-modal__footer">
-                <lightning:button value="Add_Memeber" label="Add Row" title="Add Row" onclick="{!c.addNewRow}"/>
                 <lightning:button variant="brand-outline" value="Add_Product" label="Cancel" title="Cancel" onclick="{! c.closePopup }"/>
-                <lightning:button variant="brand" value="Add_Product" label="Save" title="Save" onclick="{!c.onSaveProduct}"/>
+                <aura:if isTrue="{!v.currentStep=='2'}">
+                    <lightning:button variant="brand-outline" value="Add_Product" label="Back" title="Back" onclick="{! c.step1 }"/>
+                </aura:if>
+                <lightning:button variant="brand" value="Add_Product" label="{!v.currentStep=='2'?'Save':'Next'}" title="{!v.currentStep=='2'?'Save':'Next'}" onclick="{!c.onSaveProduct}"/>
             </footer>
         </c:Modal>
     </aura:if>
     <aura:if isTrue="{!v.isEditProduct}">
         <c:Modal isLarge="true" header="Edit Products" open="{!v.isEditProduct}" showFooter="false">
-            <div class="slds-modal__content slds-is-relative " id="modal-content-id-1">
-               
+            <div class="slds-modal__content slds-is-relative " id="modal-edit-product">
                 <aura:if isTrue="{!v.isLoading}">
                     <lightning:spinner alternativeText="Loading" size="medium" />
                 </aura:if>
-                <table class="slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered">
-                    <thead>
-                        <tr class="slds-line-height_reset">
-                            <th class="" scope="col">
-                                <div class="slds-truncate" title="Product Name"><abbr class="slds-required" title="required">* </abbr>Product Name</div>
-                            </th>
-                            <th class="" scope="col">
-                                <div class="slds-truncate" title="Base Price"><abbr class="slds-required" title="required">* </abbr>Base Price</div>
-                            </th>
-                            <th class="" scope="col">
-                                <div class="slds-truncate" title="Base Limit"><abbr class="slds-required" title="required">* </abbr>Base Limit</div>
-                            </th>
-                            <th class="" scope="col">
-                                <div class="slds-truncate" title="Excess Usage Price"><abbr class="slds-required" title="required">* </abbr>Excess Usage Price</div>
-                            </th>
-                            <th class="" scope="col">
-                                <div class="slds-truncate" title="Remove"></div>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <aura:iteration items="{!v.copyProductsList}" var="item">
-                            <tr class="slds-hint-parent">
-                                
-                                <td data-label="Product Name">
-                                    <div class="slds-truncate" title="Product">
-                                        <div class="slds-form-element">
-                                            <div class="hide-label  slds-form-element__control">
-                                                <!--product selected markup-->
-                                                <div class="slds-combobox_container slds-has-selection">
-                                                    <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
-                                                        <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_left-right" role="none">
-                                                            <span class="slds-icon_container slds-icon-standard-account slds-combobox__input-entity-icon" title="Product">
-                                                                <lightning:icon iconName="standard:product" size="small" alternativeText="Product" title="Product" />
-                                                                <span class="slds-assistive-text">Product</span>
-                                                            </span>
-                                                            <input type="text" class="slds-input slds-combobox__input slds-combobox__input-value" id="{!item.productId}" aria-controls="{!item.index}" 
-                                                                   autoComplete="off" role="textbox"  readonly="true" value="{!item.productName}" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                
+                <div class="set-min-height">
+                        <table class=" slds-table slds-table_bordered slds-table_edit slds-table_fixed-layout  slds-tree slds-table_tree"
+                               role="treegrid">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th   class="set-name-width slds-p-left_small set-table-header-height" aria-label="Product Name"  scope="col">
+                                        <div class="slds-p-left_small slds-truncate" title="Product Name">
+                                            <abbr class="slds-required" title="required">* </abbr>
+                                            Product Name
                                         </div>
-                                    </div>
-                                </td>   
-                                <td data-label="Base Price">
-                                    <div class="hide-label slds-truncate" title="Base Price">
-                                        <lightning:input varient="label-hidden" type="number" name="Base_Price"   value="{!item.baseprice}"/>
-                                    </div>
-                                </td>
-                                <td data-label="Base Limit">
-                                    <div class="hide-label slds-truncate" title="Base Limit">
-                                        <lightning:input  varient="label-hidden" type="number" name="Base_Limit"   value="{!item.baselimit}"/>
-
-                                    </div>
-                                </td>
-                                <td data-label="Excess Usage Price">
-                                    <div class="hide-label slds-truncate" title="Excess Usage Price">
-                                        <lightning:input  varient="label-hidden" type="number" name="Excess_Usage_Price"  value="{!item.exsessprice}"/>
-                                    </div>
-                                </td>
-                                <td data-label="Remove">
-                                    <div class="slds-truncate" title="Remove">
-                                        <lightning:buttonIcon value="{!item.index}" iconName="utility:delete"  variant="border-filled" alternativeText="Remove" title="Remove" onclick="{!c.removeRow}" />
-                                    </div>
-                                </td>
-                            </tr>
-                        </aura:iteration>
-                    </tbody>
-                </table>
+                                    </th>
+                                    <th class="set-table-header-height"  aria-label="Base/Excess Price" scope="col">
+                                        <div class="slds-truncate" title="Base/Excess Price">
+                                            <abbr class="slds-required" title="required">* </abbr>
+                                            Base/Excess Price
+                                        </div>
+                                    </th>
+                                    <th class="set-table-header-height"  aria-label="Base/Excess Limit" scope="col">
+                                        <div class="slds-truncate" title="Base/Excess Limit">
+                                            <abbr class="slds-required" title="required">* </abbr>
+                                            Base/Excess Limit
+                                        </div>
+                                    </th>
+                                    <th class="align-text-center set-table-header-height"  aria-label="Action" scope="col">
+                                        <div class="slds-truncate" title="Action">
+                                            Actions
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <aura:iteration items="{!v.linkedProductsList}" var="parent">
+                                    <tr aria-expanded="{!parent.isExpanded}" aria-level="1"  aria-selected="false" class="slds-hint-parent parent-row-highlight">
+                                        <th class="slds-tree__item" data-label="Product Name" scope="row">
+                                            <aura:if isTrue="{!parent.children.length>0}">
+                                                <lightning:buttonIcon name="edit_expand_colapse" value="{!parent.index}" onclick="{!c.onBucketAction}"  iconName="utility:chevronright" size="small" variant="bare"  alternativeText="Expand" title="Expand" />
+                                            </aura:if>
+                                            <div class="set-name-width slds-p-left_small slds-truncate hide-label" title="{!parent.name}">
+                                                <lightning:input varient="label-hidden" name="{!parent.name}"  readonly="true"  value="{!parent.name}"  />
+                                            </div>
+                                        </th>
+                                        <td data-label="Base/Excess Price" class="slds-text-align_right" role="gridcell">
+                                            <div class="hide-label slds-truncate" title="Base/Excess Price">
+                                                <lightning:input varient="label-hidden" type="number" name="Base_Price" value="{!parent.baseprice}" />
+                                            </div>
+                                        </td>
+                                        <td data-label="Base/Excess Limit" role="gridcell">
+                                            <div class="hide-label slds-truncate" title="Base/Excess Limit">
+                                                <lightning:input  varient="label-hidden" type="number" name="Base_Limit" value="{!parent.baselimit}"/>
+                                            </div>
+                                        </td>
+                                        <td data-label="Action" class="align-text-center" role="gridcell">
+                                            <lightning:buttonIcon name="edit_remove_parent" onclick="{!c.onBucketAction}" value="{!parent.index}" iconName="utility:delete" variant="border-filled" alternativeText="Add Product" title="Remove Product"/>
+                                            <aura:if isTrue="{!parent.children.length lt v.bucketLimit}">
+                                                <lightning:buttonIcon name="edit_add_child" onclick="{!c.onBucketAction}" value="{!parent.index}" iconName="utility:add" variant="border-filled" alternativeText="Add Bucket" title="Add Bucket"/>
+                                            </aura:if>    
+                                        </td>
+                                    </tr>
+                                    <aura:if isTrue="{!parent.isExpanded}">
+                                        <aura:iteration items="{!parent.children}" var="child">
+                                            <tr aria-level="2"  aria-selected="false" class="slds-hint-parent">
+                                                <th class="slds-tree__item" data-label="Product Name" scope="row">
+                                                    <div class="set-name-width  level-2-td slds-truncate hide-label" title="{!child.name}">
+                                                        <lightning:input varient="label-hidden" name="{!child.name}"  readonly="true"  value="{!child.name}"  />
+                                                    </div>
+                                                </th>
+                                                <td data-label="Base/Excess Price" class="slds-text-align_right" role="gridcell">
+                                                    <div class="hide-label slds-truncate" title="Base/Excess Price">
+                                                        <lightning:input varient="label-hidden" type="number" name="Excess_Price"  value="{!child.excessprice}" />
+                                                    </div>
+                                                </td>
+                                                <td data-label="Base/Excess Limit" role="gridcell">
+                                                    <div class="hide-label slds-truncate" title="Base/Excess Limit">
+                                                        <lightning:input varient="label-hidden" type="number" name="Excess_Limit" value="{!child.excesslimit}"/>
+                                                    </div>
+                                                </td>
+                                                <td class="align-text-center" data-label="Action" role="gridcell">
+                                                    <aura:if isTrue="{! parent.children.length== child.bucket}">
+                                                        <lightning:buttonIcon name="edit_remove_child" onclick="{!c.onBucketAction}" value="{!parent.index}" iconName="utility:dash" variant="border-filled" alternativeText="Remove Bucket" title="Remove Bucket"/>
+                                                    </aura:if>
+                                                </td>
+                                            </tr>
+                                        </aura:iteration>
+                                    </aura:if>
+                                </aura:iteration>
+                            </tbody>
+                        </table>
+                    </div>
             </div>
+          
             <footer class="slds-modal__footer">
                 <lightning:button variant="brand-outline" value="Edit_Product" label="Cancel" title="Cancel" onclick="{! c.closePopup }"/>
                 <lightning:button variant="brand" value="Edit_Product" label="Update" title="Update" onclick="{!c.onUpdateProduct}"/>
@@ -237,9 +323,12 @@
     
     <!--list-->
     <aura:if isTrue="{!v.loadView}">
-        <c:RelatedList icon="standard:product" sobjectName="OpportunityLineItem"   header="{!'Products ('+v.productList.length+')'}" recordViewList="{!v.productViewList}" recordActions="[{value:'add_product',name:'Add Product'},{value:'edit_product',name:'Edit/Remove Product'}]">
+        <c:RelatedList icon="standard:product" sobjectName="OpportunityLineItem"   header="{!'Products ('+v.relatedProductList.length+')'}" recordViewList="{!v.relatedProductViewList}" recordActions="[{value:'add_product',name:'Add Product'},{value:'edit_product',name:'Edit/Remove Product'}]">
+            <aura:if isTrue="{!v.isLoading}">
+                <lightning:spinner alternativeText="Loading" size="medium" />
+            </aura:if>
         </c:RelatedList>
     </aura:if>
     
-
+    
 </aura:component>

@@ -284,7 +284,7 @@
     },
     step2:function(component,event,helper){
        component.set('v.currentStep','2');
-    },
+    }, 
     onProductSeletion:function(component,event,helper){
         let selectedRows = event.getParam('selectedRows');
         console.log('selectedRows',selectedRows);

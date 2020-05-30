@@ -1,16 +1,22 @@
 ({
 	doInit : function(component, event, helper) {
-        
+        component.set('v.systemProductColums',[
+            {label: 'Product Name', fieldName: 'Name', type: 'text'},
+            {label: 'Product Code', fieldName: 'ProductCode', type: 'text'},
+            {label: 'Product Family', fieldName: 'Family', type: 'text'},
+            {label: 'Available In Countries', fieldName: 'Countries_Covered__c', type: 'text'}
+        ]);
+        component.set('v.bucketLimit',helper.BUCKET_LIMIT);
         const isMobile= $A.get("$Browser.formFactor")==='PHONE';
         component.set('v.isMobile',isMobile);
-        helper.setNewMemberList(component);
-        helper.getAllProducts(component);
+        helper.getAllRelatedProducts(component);
 	},
+    //Popup Methods
     viewAllInvoked:function(component){
         const isMobile=component.get('v.isMobile');
         if(isMobile){
             //if in mobile context opening modal as refrence
-           const viewAllListData=component.get('v.productList');
+           const viewAllListData=component.get('v.relatedProductList');
             const relatedList={
                 componentDef:"c:RelatedListItem",
                 attributes: {
@@ -45,7 +51,7 @@
         action=action.option;
         if(action=='add_product'){
             component.set('v.isAddProduct',true)
-            
+            helper.searchProducts(component,'');
         }
         else if(action=='edit_product'){
             component.set('v.isEditProduct',true)
@@ -53,213 +59,128 @@
         
         
     },
-    //Add popup helper
     closePopup:function(component,event,helper){
         //close popup
         let action=event.getSource().get('v.value')
-    	//reset variables
+        //reset variables
         if(action=='Add_Product'){
-            component.set('v.isAddProduct',false)
-			helper.setNewMemberList(component);
-        }
-        else if(action=='Edit_Product'){
-            component.set('v.orignalProductsList',component.get('v.copyProductsList'));
-            component.set('v.deleteProductsList',[]);
-            component.set('v.isEditProduct',false);
-        }
-    },
-    addNewRow:function(component,event,helper){
-        //add blank row to list
-        let newProductList=component.get('v.newProductList');
-        newProductList=helper.resetIndex(newProductList);
-        newProductList.push({
-            index:newProductList.length+1,
-            productId:'',
-            productName:'',
-            baseprice:'',
-            exsessprice:'',
-            baselimit:''
-        })
-        component.set('v.newProductList',newProductList);
-        
-    },
-    onProductSelect:function(component,event,helper){
-        //set selected user to new row
-        let dataset =event.currentTarget.dataset;
-        const index=dataset.index;
-        const productId=dataset.productid;
-        const prodName=dataset.prodname;
-        let newProductList=component.get('v.newProductList');
-        newProductList=helper.setProduct(newProductList,index,productId,prodName);
-        component.set('v.newProductList',newProductList);
-        component.set('v.systemProductList',[]);
-        component.set('v.currentProductIndex',-1)
-        
-    },
-    removeNewRow:function(component,event,helper){
-        //remove blank row from list
-        let index=event.getSource().get('v.value');
-        let newProductList=component.get('v.newProductList');
-        let filteredProductList=newProductList.filter(function(item){
-            if(item.index!=index){
-                return item;
-            }
-        });
-        filteredProductList=helper.resetIndex(filteredProductList);
-        component.set('v.newProductList',filteredProductList);
-    },
-    onProductremove:function(component,event,helper){
-        
-        let dataset =event.currentTarget.dataset;
-        const index=dataset.index;
-       
-        let newProductList=component.get('v.newProductList');
-        newProductList=helper.setProduct(newProductList,index,'','');
-        component.set('v.newProductList',newProductList);
-        component.set('v.systemProductList',[]);
-        component.set('v.currentProductIndex',-1);
-    },
-    //remove popup helper
-    removeRow:function(component,event,helper){
-        //remove blank row from list
-        let index=event.getSource().get('v.value');
-        let copyProductsList=component.get('v.copyProductsList');
-        let deleteProductsList=component.get('v.deleteProductsList')
-        let filteredProductList=copyProductsList.filter(function(item){
-            if(item.index!=index){
-                return item;
-            }
-            if(item.index==index){
-                deleteProductsList.push(item);
-            }
-        });
-        filteredProductList=helper.resetIndex(filteredProductList);
-        component.set('v.copyProductsList',filteredProductList);
-        component.set('v.deleteProductsList',deleteProductsList);
-
-    },
-    //service call
-    onSearchProduct:function(component,event,helper){
-        let value=event.getSource().get('v.value')
-        let index=event.getSource().get("v.name");
-        if(value.trim().length>2){
-            let oppData=component.get('v.oppRecord');
-            helper.callApex(component,'searchProduct',function(response){
-                let status=response.getState();
-                if (status === "SUCCESS"){
-                    let data = response.getReturnValue();
-                    console.log('data',data)
-                    component.set('v.systemProductList',data)
-                    component.set('v.currentProductIndex',index)
-                }
-            },{
-                productName:value.trim(),
-                targetCountrie:oppData.Target_Countries__c
-            })
+            helper.closeAddPorduct(component)
             
         }
-        else{
-            component.set('v.systemProductList',[])
-            component.set('v.currentProductIndex',-1)
+        else if(action=='Edit_Product'){
+            helper.closeUpdatePorduct(component)
+        }
+    },
+    //Add Product  Methods
+    onShowAllToggle:function(component,event,helper){
+        let searchText=component.get('v.searchText');
+         component.set('v.isLoading',true)
+		helper.searchProducts(component,searchText)
+        
+    },
+    step1:function(component,event,helper){
+       helper.navigate(component,'1');
+    },
+    step2:function(component,event,helper){
+        helper.navigate(component,'2');
+    },
+    onSearchProduct:function(component,event,helper){
+        let value=event.getSource().get('v.value')
+        if(value.trim().length>2){
+            component.set('v.isLoading',true)
+            helper.closeAddProduct(component,value);
+        }
+        if(value.trim()==0){
+            component.set('v.isLoading',true)
+            helper.searchProducts(component,'');
+        }
+    },
+    onProductSeletion:function(component,event,helper){
+        let selectedRows = event.getParam('selectedRows');
+        component.set('v.allSelectedProductsList',selectedRows);
+        component.set('v.selectedProductsIdList',helper.getSelectedProductIds(selectedRows));
+    },
+    onBucketAction:function(component,event,helper){
+        let index=event.getSource().get('v.value');
+        let type=event.getSource().get('v.name');
+        if(type==='add_new_child' || type=='remove_new_child' || type=='new_expand_colapse'){
+            let newProductsList=component.get('v.newProductsList');
+            component.set('v.newProductsList',helper.processProductData(newProductsList,type,index,component));
+        }
+        else if(type=='edit_remove_parent' || type=='edit_add_child' || type=='edit_remove_child' || type=='edit_expand_colapse'){
+            let linkedProductsList=component.get('v.linkedProductsList');
+            component.set('v.linkedProductsList',helper.processProductData(linkedProductsList,type,index,component));
         }
     },
     onSaveProduct:function(component,event,helper){
-        const productList=component.get('v.newProductList');
-        const oppId=component.get('v.recordId');
-        let newProductList=[];
-        let stop=false;
-        productList.forEach(function(prod){
-            if(!prod.productId && !prod.exsessprice && !prod.baseprice && !prod.baselimit){
-                
-            }
-            else if(!prod.exsessprice || !prod.baseprice || !prod.baselimit){
-                if(prod.productName){
-                    helper.showToast('warning','Value Missing','Please Check price and limit values');
-                    stop=true;
-                    return;
-                }
-                
-            }
-            else if(prod.productId && prod.exsessprice && prod.baseprice && prod.baselimit){
-                newProductList.push({
-                    Excess_Price__c:prod.exsessprice,
-                    Base_Limit__c:prod.baseprice,
-                    Product2Id:prod.productId,
-                    OpportunityId:oppId,
-                    Quantity:1,
-                    UnitPrice:prod.baseprice,
-                    Name:prod.productName
+        let currentStep=component.get('v.currentStep');  
+        if(currentStep=='1'){
+            helper.navigate(component,'2');
+        }
+        else if(currentStep == '2'){
+            let newProductsList=component.get('v.newProductsList');
+            let oppLineItemRecords=helper.processOpportunityLineItemrecord(newProductsList,component.get('v.recordId'),'new');
+            if(oppLineItemRecords){
+                component.set('v.isLoading',true)
+                helper.callApex(component,'insertOpportuntiyLineItems',function(response){
+                    let status=response.getState();
+                    if (status === "SUCCESS"){
+                        helper.showToast('success',"Insert Successful!","Products added successfully.");
+                        helper.getAllRelatedProducts(component);
+                        helper.closeAddProduct(component)
+
+                    }
+                    else{
+                        let errors = response.getError();
+                        let message="";
+                        if (errors && errors[0]) {
+                            message = helper.getError(errors[0]);
+                        }
+                        
+                        helper.showToast('error',"Insert Error!",message);
+                        component.set('v.isLoading',false)
+                        helper.closeAddProduct(component)
+
+                    }
+                    
+                },{
+                    opportunityLineItemJSON:JSON.stringify(oppLineItemRecords)
                 });
             }
-        });
-        if(stop)return;
-        component.set('v.isLoading',true)
-        helper.callApex(component,'attachProductsToOpportuntiy',function(response){
-            let status=response.getState();
-            if (status === "SUCCESS"){
-                helper.showToast('success',"Insert Successful!","Products added successfully.");
-                helper.setNewMemberList(component);
-                helper.getAllProducts(component);
-            }
-            else{
-                let errors = response.getError();
-                let message="";
-                if (errors && errors[0]) {
-                    message = helper.getError(errors[0]);
-                }
-                
-                helper.showToast('error',"Insert Error!",message);
-                component.set('v.isLoading',false)
-            }
-          
-            component.set('v.isAddProduct',false)
-        },{
-            opportunityLineItemJSON:JSON.stringify(newProductList)
-        });
-       	
+           
+        }
     },
+    //Edit Product Methids
     onUpdateProduct:function(component,event,helper){
-        const copyProductsList=component.get('v.copyProductsList');
-        const deleteProductsList=component.get('v.deleteProductsList');
-        const oppId=component.get('v.recordId');
-        const updateProductList=copyProductsList.map(function(prod){
-            return {
-                Excess_Price__c:prod.exsessprice,
-                Base_Limit__c:prod.baselimit,
-                UnitPrice:prod.baseprice,
-                Id:prod.index
-            }
-        });
-        const deleteProdList=deleteProductsList.map(function(prod){
-            return {
-                Id:prod.index
-            }
-        });
-     
-        component.set('v.isLoading',true)
-        helper.callApex(component,'updateProductsAttached',function(response){
-            let status=response.getState();
-            if (status === "SUCCESS"){
-                helper.showToast('success',"Update Successful!","Products Updated/Deleted successfully.");
-                helper.setNewMemberList(component);
-                helper.getAllProducts(component);
-            }
-            else{
-                let errors = response.getError();
-                let message="";
-                if (errors && errors[0]) {
-                    message = helper.getError(errors[0]);
+        let linkedProductsList=component.get('v.linkedProductsList');
+        let oppLineItemRecords=helper.processOpportunityLineItemrecord(linkedProductsList,component.get('v.recordId'),'edit');
+        let linkedDeleteProductsList=component.get('v.linkedDeleteProductsList')
+        if(oppLineItemRecords){
+            component.set('v.isLoading',true)
+            helper.callApex(component,'updateOpportuntiyLineItems',function(response){
+                let status=response.getState();
+                if (status === "SUCCESS"){
+                    helper.showToast('success',"Update Successful!","Products Updated/Deleted successfully.");
+                    helper.getAllRelatedProducts(component);
+                    helper.closeUpdatePorduct(component)
                 }
-                
-                helper.showToast('error',"Update Error!",message);
-                component.set('v.isLoading',false)
-            }
+                else{
+                    let errors = response.getError();
+                    console.log('errors',errors)
+                    let message="";
+                    if (errors && errors[0]) {
+                        message = helper.getError(errors[0]);
+                    }
+                    helper.showToast('error',"Update Error!",message);
+                    helper.closeUpdatePorduct(component)
+                }
+            },{
+                updateList:JSON.stringify(oppLineItemRecords),
+                deleteList:JSON.stringify(linkedDeleteProductsList)
+            });
             
-            component.set('v.isEditProduct',false)            
-        },{
-            updateList:JSON.stringify(updateProductList),
-            deleteList:JSON.stringify(deleteProdList)
-        });
-       	
+        }
     }
+    
+    
 })
