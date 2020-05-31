@@ -1,0 +1,52 @@
+<template>
+    <lightning-layout>
+        <lightning-layout-item size="2" padding="around-small">
+            <nav class="slds-card slds-nav-vertical" aria-label="Sub page">
+                <div class="slds-nav-vertical__section">
+                    <h2 id="entity-header" class="slds-nav-vertical__title">Reports</h2>
+                    <ul aria-describedby="entity-header">
+                        <li class="slds-nav-vertical__item slds-is-active">
+                            <a href="javascript:void(0);" class="slds-nav-vertical__action"
+                                aria-current="true">Usage</a>
+                        </li>
+                        <li class="slds-nav-vertical__item">
+                            <a href="javascript:void(0);" class="slds-nav-vertical__action">
+                                Changes</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </lightning-layout-item>
+        <lightning-layout-item size="10" padding="around-small">
+            <lightning-layout vertical-align="  " multiple-rows="true" class="x-large">
+                <lightning-layout-item size="12" padding="around-small" class="slds-card ">
+                    <div class="slds-grid">
+                        <div class="slds-col slds-form-element">
+                            <label class="slds-form-element__label" for="Filter">Filter</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-select_container">
+                                    <select class="slds-select" id="industryValues">
+                                        <option value="">All</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" padding="around-small" class="white-background">
+                    <div class="slds-grid">
+                        <div class="slds-col slds-size_1-of-1">
+                            <div class="chart slds-m-around_medium" lwc:dom="manual"></div>
+                        </div>
+                    </div>
+                    <div class="slds-grid">
+                        <div class="slds-col slds-size_1-of-1">
+                            <div class="radar slds-m-around_medium" lwc:dom="manual"></div>
+                        </div>
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

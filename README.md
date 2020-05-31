@@ -133,3 +133,6 @@ sfdx force:mdapi:deploy:report
 
 ### Log out
 sfdx force:auth:logout --targetusername FINLEAPDEVis
+
+## SFDX:Plugin SFDMU commapand
+sfdx sfdmu:move --sourceusername syed.furcan@extern.finleap.com  --targetusername syed.furcan@extern.finleap.com.partial 

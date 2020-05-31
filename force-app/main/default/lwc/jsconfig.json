@@ -7,6 +7,12 @@
             ],
             "c/chart": [
                 "chart/chart.js"
+            ],
+            "c/usageDashboard": [
+                "usageDashboard/usageDashboard.js"
+            ],
+            "c/UsageDashboard": [
+                "UsageDashboard/UsageDashboard.js"
             ]
         },
         "experimentalDecorators": true

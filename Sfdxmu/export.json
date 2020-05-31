@@ -1,0 +1,24 @@
+{
+    "pollingIntervalMs": 2000,
+    "bulkThreshold": 200,
+    "apiVersion": "48.0",
+    "orgs": [
+        {
+            "name": "syed.furcan@extern.finleap.com",
+            "instanceUrl": "https://finleap-connect.my.salesforce.com",
+            "accessToken": "00D2o000000t0Hc!ARoAQLo7s7Ua4goTs.f2qLPj3qE38GS6uez1IFtaXOWDqC_c0nIfh_MvIGjJ5gweU9gc_W9ERC5Vv_4_jafH0Wo2u8fMvO28"
+        },
+        {
+            "name": "syed.furcan@extern.finleap.com.partial",
+            "instanceUrl": "https://finleap-connect--partial.my.salesforce.com",
+            "accessToken": "00D9E0000002EsU!AREAQJKAV5i5POzPSGbSyn2HQZdUtAV5rpWXKnGYcDYPpnQe1.OpWCWdK59NLSdt14U0vzW9Mx30wT.nJAdUhGM0SwEWVC1L"
+        }
+    ],
+    "objects": [
+        {
+            "query": "SELECT Id,RecordTypeId,Field__c,Field_Label__c,New_Value__c,Object__c,Object_Label__c,Old_Value__c,Record__c,Record_Id__c,Record_Name__c,Relation__c,User__c FROM Field_History_Tracker__c",
+            "operation": "Insert",
+            "allRecords": true
+        }
+    ]
+}
