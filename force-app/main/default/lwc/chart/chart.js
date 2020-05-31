@@ -205,7 +205,7 @@ export default class Chart extends LightningElement {
                     const industryTasks = taskTypeList.filter(t => industryAccountId.includes(t.WhatId))
                     industryData.push(industryTasks.length);
                     if (this.radarMaxValue < industryTasks.length) {
-                        this.radarMaxValue = industryTasks.length+10;
+                        this.radarMaxValue = industryTasks.length + 10;
                     }
 
                 }
@@ -239,7 +239,7 @@ export default class Chart extends LightningElement {
                     const industryevents = eventTypeList.filter(t => industryAccountId.includes(t.WhatId))
                     industryData.push(industryevents.length);
                     if (this.radarMaxValue < industryevents.length) {
-                        this.radarMaxValue = industryevents.length+10;
+                        this.radarMaxValue = industryevents.length + 10;
                     }
                 }
                 let t = industryData.reduce((a, b) => a + b, 0);
@@ -496,6 +496,13 @@ export default class Chart extends LightningElement {
     }
 
 
-
+={
+    type: "line",
+        data: {
+        labels: [],
+            datasets: [],
+                options: []
+    }
+}
 
 }

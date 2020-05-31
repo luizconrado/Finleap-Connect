@@ -7,11 +7,7 @@
                     <ul aria-describedby="entity-header">
                         <li class="slds-nav-vertical__item slds-is-active">
                             <a href="javascript:void(0);" class="slds-nav-vertical__action"
-                                aria-current="true">Usage</a>
-                        </li>
-                        <li class="slds-nav-vertical__item">
-                            <a href="javascript:void(0);" class="slds-nav-vertical__action">
-                                Changes</a>
+                                aria-current="true">Tracking</a>
                         </li>
                     </ul>
                 </div>
@@ -22,11 +18,14 @@
                 <lightning-layout-item size="12" padding="around-small" class="slds-card ">
                     <div class="slds-grid">
                         <div class="slds-col slds-form-element">
-                            <label class="slds-form-element__label" for="Filter">Filter</label>
+                            <label class="slds-form-element__label" for="monthValues">Filter Month</label>
                             <div class="slds-form-element__control">
                                 <div class="slds-select_container">
-                                    <select class="slds-select" id="industryValues">
+                                    <select onchange={onMonthFilter} class="slds-select" id="monthValues">
                                         <option value="">All</option>
+                                        <template for:each={monthValues} for:item="itm">
+                                            <option key={itm} value={itm}>{itm}</option>
+                                        </template>
                                     </select>
                                 </div>
                             </div>
@@ -37,12 +36,7 @@
                 <lightning-layout-item size="12" padding="around-small" class="white-background">
                     <div class="slds-grid">
                         <div class="slds-col slds-size_1-of-1">
-                            <div class="chart slds-m-around_medium" lwc:dom="manual"></div>
-                        </div>
-                    </div>
-                    <div class="slds-grid">
-                        <div class="slds-col slds-size_1-of-1">
-                            <div class="radar slds-m-around_medium" lwc:dom="manual"></div>
+                            <div class="lineChart slds-m-around_medium" lwc:dom="manual"></div>
                         </div>
                     </div>
                 </lightning-layout-item>
