@@ -2,17 +2,14 @@
     "compilerOptions": {
         "baseUrl": ".",
         "paths": {
-            "c/vega": [
-                "vega/vega.js"
-            ],
             "c/chart": [
                 "chart/chart.js"
             ],
             "c/usageDashboard": [
                 "usageDashboard/usageDashboard.js"
             ],
-            "c/UsageDashboard": [
-                "UsageDashboard/UsageDashboard.js"
+            "c/vega": [
+                "vega/vega.js"
             ]
         },
         "experimentalDecorators": true

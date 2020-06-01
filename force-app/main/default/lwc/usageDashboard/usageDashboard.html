@@ -3,11 +3,35 @@
         <lightning-layout-item size="2" padding="around-small">
             <nav class="slds-card slds-nav-vertical" aria-label="Sub page">
                 <div class="slds-nav-vertical__section">
-                    <h2 id="entity-header" class="slds-nav-vertical__title">Reports</h2>
+                    <h2 id="entity-header" class="slds-nav-vertical__title">Filters</h2>
                     <ul aria-describedby="entity-header">
                         <li class="slds-nav-vertical__item slds-is-active">
-                            <a href="javascript:void(0);" class="slds-nav-vertical__action"
-                                aria-current="true">Tracking</a>
+                            <div class="slds-col slds-form-element">
+                                <label class="slds-form-element__label" for="monthValues">Filter Month</label>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-select_container">
+                                        <select onchange={onMonthFilter} class="slds-select" id="monthValues">
+                                            <option value="">All</option>
+                                            <template for:each={monthValues} for:item="itm">
+                                                <option key={itm} value={itm}>{itm}</option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-form-element">
+                                <label class="slds-form-element__label" for="userValues">Filter User</label>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-select_container">
+                                        <select onchange={onUserFilter} class="slds-select" id="userValues">
+                                            <option value="">All</option>
+                                            <template for:each={userValues} for:item="itm">
+                                                <option key={itm.value} value={itm.value}>{itm.label}</option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -15,28 +39,13 @@
         </lightning-layout-item>
         <lightning-layout-item size="10" padding="around-small">
             <lightning-layout vertical-align="  " multiple-rows="true" class="x-large">
-                <lightning-layout-item size="12" padding="around-small" class="slds-card ">
-                    <div class="slds-grid">
-                        <div class="slds-col slds-form-element">
-                            <label class="slds-form-element__label" for="monthValues">Filter Month</label>
-                            <div class="slds-form-element__control">
-                                <div class="slds-select_container">
-                                    <select onchange={onMonthFilter} class="slds-select" id="monthValues">
-                                        <option value="">All</option>
-                                        <template for:each={monthValues} for:item="itm">
-                                            <option key={itm} value={itm}>{itm}</option>
-                                        </template>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </lightning-layout-item>
                 <lightning-layout-item size="12" padding="around-small" class="white-background">
-                    <div class="slds-grid">
+                    <div class="slds-grid slds-grid_vertical">
                         <div class="slds-col slds-size_1-of-1">
                             <div class="lineChart slds-m-around_medium" lwc:dom="manual"></div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1">
+                            <div class="bubbleChart slds-m-around_medium" lwc:dom="manual"></div>
                         </div>
                     </div>
                 </lightning-layout-item>
