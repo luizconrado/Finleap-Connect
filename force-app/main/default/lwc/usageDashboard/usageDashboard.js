@@ -1,6 +1,9 @@
 import { LightningElement, wire } from 'lwc';
 import allRecords from '@salesforce/apex/UsageDashboardController.fetchAllTrackingRecords';
 import chartjs from '@salesforce/resourceUrl/charjs';
+import charjs_treemap from '@salesforce/resourceUrl/charjs_treemap';
+
+
 import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
 
 
@@ -17,6 +20,8 @@ export default class UsageDashboard extends LightningElement {
     //charts
     lineChart;
     bubbleChart;
+    usageTreeChart;
+    changesTreeChart;
     //records
     changeRecords;
     usageRecords;
@@ -41,7 +46,12 @@ export default class UsageDashboard extends LightningElement {
     connectedCallback() {
         this.usageColor = this.getBgColor();
         this.changesColor = this.getBgColor();
-        loadScript(this, chartjs);
+
+        Promise.all([
+            loadScript(this, chartjs),
+            loadScript(this, charjs_treemap)
+        ]);
+
     }
     process() {
         let changeTrackingRecords = this.records.filter(r => r.RecordType.Name === 'Field History');
@@ -51,6 +61,7 @@ export default class UsageDashboard extends LightningElement {
         this.setupFilters(usageTrackingRecords, changeTrackingRecords)
         this.preapreLineChart(usageTrackingRecords, changeTrackingRecords, 'new');
         this.pepareBubbleChart(usageTrackingRecords, changeTrackingRecords, 'new');
+        this.prepareTreeChart(usageTrackingRecords, changeTrackingRecords, 'new');
     }
 
     //Point size Chart
@@ -59,10 +70,15 @@ export default class UsageDashboard extends LightningElement {
 
         let usageDataset = this.getBubbleChartDataset(usageTrackingRecords, 'usage')
         let changeDataset = this.getBubbleChartDataset(changeTrackingRecords, 'changes');
+        let [max, min] = this.getMinAndMax([...usageDataset[0], ...changeDataset[0]]);
         let data = {
             labels: [...usageDataset[1], ...changeDataset[0]],
             datasets: [...usageDataset[0], ...changeDataset[0]]
         }
+        data.datasets.forEach(data => {
+            data.data[0].r = this.scale(data.data[0].r, max, min);
+        });
+
         let bubbleChartJSON = {
             type: 'bubble',
             data: data,
@@ -72,7 +88,7 @@ export default class UsageDashboard extends LightningElement {
                 stacked: false,
                 title: {
                     display: true,
-                    text: 'User Usage and Changes'
+                    text: 'Record Views and Changes By User'
                 },
                 scales: {
                     yAxes: [{
@@ -90,6 +106,21 @@ export default class UsageDashboard extends LightningElement {
                 },
                 legend: {
                     display: false
+                },
+                tooltips: {
+                    callbacks: {
+                        title: function (item, data) {
+                            return data.datasets[item[0].datasetIndex].label;
+                        },
+                        label: function (item, data) {
+
+                            let dataset = data.datasets[item.datasetIndex];
+                            let dataItem = dataset.data;
+                            let obj = dataItem[0];
+
+                            return dataset.label + ' : ' + obj.y
+                        }
+                    }
                 }
 
             }
@@ -125,7 +156,7 @@ export default class UsageDashboard extends LightningElement {
                                 data: [{
                                     x: this.getNumberFromMonth(label),
                                     y: records.length,
-                                    r: records.length / 10
+                                    r: records.length,
                                 }]
                             })
                         }
@@ -154,7 +185,7 @@ export default class UsageDashboard extends LightningElement {
                                 data: [{
                                     x: label,
                                     y: records.length,
-                                    r: records.length / 10
+                                    r: records.length,
                                 }],
                                 backgroundColor: color,
                                 borderColor: color,
@@ -202,7 +233,7 @@ export default class UsageDashboard extends LightningElement {
                 stacked: false,
                 title: {
                     display: true,
-                    text: 'Record Usage and Changes'
+                    text: 'Record Views and Changes Timeline'
                 }
 
             }
@@ -256,13 +287,128 @@ export default class UsageDashboard extends LightningElement {
             }
         }
         lineChartDataset.push({
-            label: (type == 'usage') ? 'Usage' : 'Changes',
+            label: (type == 'usage') ? 'Views' : 'Changes',
             data: recordCount,
             borderColor: (type == 'usage') ? this.usageColor : this.changesColor,
             fill: false
         })
 
         return [lineChartDataset, (!this.filterdByMonth) ? months : labels];
+    }
+
+    //treemap chart
+    prepareTreeChart(usageTrackingRecords, changeTrackingRecords, type) {
+        let usage = this.getTreeChartDataset(usageTrackingRecords, 'usage');
+        let change = this.getTreeChartDataset(changeTrackingRecords, 'change');
+
+
+        let usageTreeChartJSON = {
+            type: "treemap",
+            data: {
+                datasets: [{
+                    tree: usage,
+                    key: "num",
+                    groups: ['tag'],
+                    spacing: 0.5,
+                    borderWidth: 1.5,
+                    fontColor: "black",
+                    borderColor: this.usageColor
+                }]
+            },
+            options: {
+                maintainAspectRatio: true,
+                legend: { display: false },
+                tooltips: {
+                    callbacks: {
+                        title: function (item, data) {
+                            return data.datasets[item[0].datasetIndex].tag;
+                        },
+                        label: function (item, data) {
+                            let dataset = data.datasets[item.datasetIndex];
+                            let dataItem = dataset.data[item.index];
+                            let obj = dataItem._data;
+
+                            return obj.tag + ' : ' + obj.num
+                        }
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Record Views  By Concentration'
+                }
+            }
+        }
+        let changeTreeChartJSON = {
+            type: "treemap",
+            data: {
+                datasets: [{
+                    tree: change,
+                    key: "num",
+                    groups: ['tag'],
+                    spacing: 0.5,
+                    borderWidth: 1.5,
+                    fontColor: "black",
+                    borderColor: this.changesColor
+                }]
+            },
+            options: {
+                maintainAspectRatio: true,
+                legend: { display: false },
+                tooltips: {
+                    callbacks: {
+                        title: function (item, data) {
+                            return data.datasets[item[0].datasetIndex].tag;
+                        },
+                        label: function (item, data) {
+                            let dataset = data.datasets[item.datasetIndex];
+                            let dataItem = dataset.data[item.index];
+                            let obj = dataItem._data;
+
+                            return obj.tag + ' : ' + obj.num
+                        }
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Record Changes By Concentration'
+                }
+            }
+        }
+        if (type == 'new') {
+
+            this.usageTreeChart = this.createChart('treeUsageChart', usageTreeChartJSON);
+            this.changesTreeChart = this.createChart('treeChangeChart', changeTreeChartJSON);
+        }
+        else if (type == 'update') {
+            this.usageTreeChart.data.datasets[0].tree = usage;
+            this.usageTreeChart.update();
+            this.changesTreeChart.data.datasets[0].tree = change;
+            this.changesTreeChart.update();
+        }
+
+    }
+
+    getTreeChartDataset(trackingRecords, type) {
+        let groupByDates = this.groupByDates(trackingRecords);
+        let groupByRecord = this.groupByRecord(Object.values(groupByDates).flat(Infinity));
+        let treeChartDataset = [];
+        for (let recordId of Object.keys(groupByRecord)) {
+            let records = groupByRecord[recordId]
+            if (this.filterdByUser) {
+                records = this.filterRecordByUserId(records);
+            }
+            if (records && records.length > 0) {
+                treeChartDataset.push({
+                    tag: records[0].Record_Name__c,
+                    num: records.length
+                });
+            }
+        }
+
+
+
+        return treeChartDataset;
+
     }
 
     //filters
@@ -303,6 +449,7 @@ export default class UsageDashboard extends LightningElement {
     processFilters() {
         this.preapreLineChart(this.usageRecords, this.changeRecords, 'update');
         this.pepareBubbleChart(this.usageRecords, this.changeRecords, 'update');
+        this.prepareTreeChart(this.usageRecords, this.changeRecords, 'update');
     }
 
     //utility
@@ -337,6 +484,13 @@ export default class UsageDashboard extends LightningElement {
             return r;
         }, {});
     }
+    groupByRecord(list) {
+        return list.reduce((r, a) => {
+            let tempRecord = a.Record_Id__c || 'None';
+            r[tempRecord] = [...r[tempRecord] || [], a]
+            return r;
+        }, {});
+    }
     createChart(divClass, dataset) {
         try {
             // disable Chart.js CSS injection
@@ -365,8 +519,21 @@ export default class UsageDashboard extends LightningElement {
     filterRecordByUserId(list) {
         return list.filter(r => r.User__c == this.filterdByUser);
     }
+    scale(value, max, min) {
 
-
-
-
+        let from = [min, max];
+        let to = [1, 100];
+        let scale = (to[1] - to[0]) / (from[1] - from[0]);
+        let capped = Math.min(from[1], Math.max(from[0], value)) - from[0];
+        return ~~(capped * scale + to[0]);
+    }
+    getMinAndMax(list) {
+        let nums = list.map(l => l.data[0].r);
+        return [Math.max(...nums), Math.min(...nums)];
+    }
 }
+
+
+
+
+
