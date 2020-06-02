@@ -53,6 +53,10 @@ Finleap connect Org
 12. User Record view can be tracked using component Log_Usage
     a.apex
     b.aura
+13. History Tracking Dasboard shows overview of org 
+    a.apex
+    b.lwc
+    c.static resource
 
 # Change Log
     - 14-04-2020 :  Adding Record Type filter to all opportunity validation rules
@@ -114,6 +118,7 @@ Finleap connect Org
     -11-05-2020 : Adding process builder to update sub stage of opportunity
     -20-05-2020 : Adding Platform Event to capture logs
     -20-05-2020 : Addling Log component to capture user activity
+    -03-06-2020 : Adding Usage Tracking Dashboard 
 
 
 

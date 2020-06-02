@@ -1,7 +1,11 @@
 {
     "compilerOptions": {
         "baseUrl": ".",
-        "paths": {},
+        "paths": {
+            "c/usageDashboard": [
+                "usageDashboard/usageDashboard.js"
+            ]
+        },
         "experimentalDecorators": true
     },
     "include": [

@@ -1,0 +1,116 @@
+<template>
+    <lightning-tabset variant="scoped">
+        <lightning-tab label="Usage Tracking">
+            <lightning-layout>
+                <lightning-layout-item size="2" padding="around-small">
+                    <nav class="slds-card slds-nav-vertical" aria-label="Sub page">
+                        <div class="slds-nav-vertical__section">
+                            <h2 id="entity-header" class="slds-nav-vertical__title">Filters</h2>
+                            <ul aria-describedby="entity-header">
+                                <li class="filter-margin slds-nav-vertical__item">
+                                    <div class="slds-col slds-form-element">
+                                        <label class="slds-form-element__label" for="monthValues">Filter Month</label>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-select_container">
+                                                <select onchange={onMonthFilter} class="slds-select" id="monthValues">
+                                                    <option value="">All</option>
+                                                    <template for:each={monthValues} for:item="itm">
+                                                        <option key={itm} value={itm}>{itm}</option>
+                                                    </template>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="filter-margin slds-nav-vertical__item">
+                                    <div class="slds-col slds-form-element">
+                                        <label class="slds-form-element__label" for="userProfile">Filter Profile</label>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-select_container">
+                                                <select onchange={onProfileFilter} class="slds-select" id="userProfile">
+                                                    <option value="">All</option>
+                                                    <template for:each={profileValues} for:item="itm">
+                                                        <option key={itm.value} value={itm.value}>{itm.label}</option>
+                                                    </template>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="filter-margin slds-nav-vertical__item">
+                                    <div class="slds-col slds-form-element">
+                                        <label class="slds-form-element__label" for="userValues">Filter User</label>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-select_container">
+                                                <select onchange={onUserFilter} class="slds-select" id="userValues">
+                                                    <option value="">All</option>
+                                                    <template for:each={userValues} for:item="itm">
+                                                        <option if:true={itm.isVisible} key={itm.value}
+                                                            value={itm.value}>{itm.label}</option>
+                                                    </template>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </lightning-layout-item>
+                <lightning-layout-item size="10" padding="around-small">
+                    <lightning-layout vertical-align="  " multiple-rows="true" class="x-large">
+                        <lightning-layout-item size="12" padding="around-small" class="white-background">
+                            <div class="slds-grid slds-grid_vertical">
+                                <div class="slds-col slds-size_1-of-1">
+                                    <div class="slds-float_right">
+                                        <lightning-button variant={monthButtonVarient} label="Month View"
+                                            title="Month View" onclick={onMonthView} class="slds-m-left_x-small">
+                                        </lightning-button>
+                                        <lightning-button variant={weekButtonVarient} label="Week View"
+                                            title="Week View" onclick={onWeekiew} class="slds-m-left_x-small">
+                                        </lightning-button>
+                                    </div>
+                                    <div class="lineChart slds-m-around_medium" lwc:dom="manual"></div>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1">
+                                    <div class="bubbleChart slds-m-around_medium" lwc:dom="manual"></div>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1 slds-grid slds-grid_vertical">
+                                    <div>
+                                        <div class="slds-col slds-form-element slds-float_right">
+                                            <label class="slds-form-element__label" for="fillterCount">Filter
+                                                Count</label>
+                                            <div class="slds-form-element__control">
+                                                <div class="slds-select_container">
+                                                    <select onchange={onCountFilter} class="slds-select"
+                                                        id="fillterCount">
+                                                        <option value="">All</option>
+                                                        <template for:each={countValues} for:item="itm">
+                                                            <option key={itm} value={itm}>{itm}</option>
+                                                        </template>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-grid">
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <div class="treeUsageChart slds-m-around_medium" lwc:dom="manual"></div>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <div class="treeChangeChart slds-m-around_medium" lwc:dom="manual"></div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </lightning-layout-item>
+            </lightning-layout>
+        </lightning-tab>
+    </lightning-tabset>
+
+</template>
