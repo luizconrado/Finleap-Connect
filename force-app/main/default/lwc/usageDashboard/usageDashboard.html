@@ -45,7 +45,8 @@
                                                 <select onchange={onUserFilter} class="slds-select" id="userValues">
                                                     <option value="">All</option>
                                                     <template for:each={userValues} for:item="itm">
-                                                        <option key={itm.value} value={itm.value}>{itm.label}</option>
+                                                        <option if:true={itm.isVisible} key={itm.value}
+                                                            value={itm.value}>{itm.label}</option>
                                                     </template>
                                                 </select>
                                             </div>

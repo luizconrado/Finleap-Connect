@@ -490,7 +490,9 @@ export default class UsageDashboard extends LightningElement {
             .map(r => {
                 return {
                     label: (r.User__r) ? r.User__r.Name : '',
-                    value: (r.User__c) ? r.User__c : ''
+                    value: (r.User__c) ? r.User__c : '',
+                    profileId: (r.User__c) ? r.User__r.ProfileId : '',
+                    isVisible: true
                 }
             })
             .reduce((unique, item) => unique.find(e => e.label === item.label) ? unique : [...unique, item], []);
@@ -498,7 +500,9 @@ export default class UsageDashboard extends LightningElement {
             .map(r => {
                 return {
                     label: (r.User__r) ? r.User__r.Name : '',
-                    value: (r.User__c) ? r.User__c : ''
+                    value: (r.User__c) ? r.User__c : '',
+                    profileId: (r.User__c) ? r.User__r.ProfileId : '',
+                    isVisible: true
                 }
             })
             .reduce((unique, item) => unique.find(e => e.label === item.label) ? unique : [...unique, item], []);
@@ -543,6 +547,7 @@ export default class UsageDashboard extends LightningElement {
     onProfileFilter(event) {
         const userId = event.target.value;
         this.filterdByProfile = userId;
+        this.processValues();
         this.processFilters();
     }
 
@@ -550,6 +555,28 @@ export default class UsageDashboard extends LightningElement {
         this.preapreLineChart(this.usageRecords, this.changeRecords, 'update');
         this.pepareBubbleChart(this.usageRecords, this.changeRecords, 'update');
         this.prepareTreeChart(this.usageRecords, this.changeRecords, 'update');
+    }
+    processValues() {
+        if (this.filterdByProfile) {
+            this.userValues = this.userValues.map(value => {
+                if (value.profileId == this.filterdByProfile) {
+                    value.isVisible = true;
+                }
+                else {
+                    value.isVisible = false;
+                }
+
+                return value;
+            })
+        }
+        else {
+            this.userValues = this.userValues.map(value => {
+
+                value.isVisible = true;
+
+                return value;
+            })
+        }
     }
 
     //views
@@ -669,9 +696,7 @@ export default class UsageDashboard extends LightningElement {
         let nums = list.map(l => l.data[0].r);
         return [Math.max(...nums), Math.min(...nums)];
     }
-    getMinAndMaxFromArray(list) {
-        return [Math.max(...list), Math.min(...list)];
-    }
+
 
 }
 
