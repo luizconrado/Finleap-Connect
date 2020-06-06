@@ -1,0 +1,137 @@
+<aura:component >
+    
+    <aura:attribute name="product" type="Object"/>
+    <aura:attribute name="bucketLimit" type="integer" default="4"  />
+    <aura:attribute name="type" type="string"  />
+    <aura:attribute name="linkedDeleteProductsList" type="List" default="[]" />
+    
+    <aura:attribute name="isDelete" type="Boolean" default="false"  />
+    
+    <div class="slds-p-left_x-large slds-p-right_x-large slds-expression">
+        <div class="slds-m-left_xxx-small  slds-m-right_small  slds-expression__option slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-2 slds-m-right_small slds-form-element slds-form-element_readonly">
+                <span class="slds-form-element__label">Product</span>
+                <div class="slds-form-element__control">
+                    <div class="slds-form-element__static">{!v.product.name}</div>
+                </div>
+                
+            </div>
+            <div class="slds-col slds-size_1-of-2 slds-form-element slds-form-element_readonly">
+                <span class="slds-form-element__label">Family</span>
+                <div class="slds-form-element__control">
+                    <div class="slds-form-element__static">{!v.product.prodFamily}</div>
+                </div>
+            </div>
+        </div>
+        <ul>
+            <li class="slds-expression__group">
+                <ul>
+                    <aura:if isTrue="{!v.isDelete}">
+                        <li class="slds-expression__row_group">
+                            <fieldset>
+                                <div class=" slds-grid slds-gutters_xx-small">
+                                    <div class="slds-col slds-size_1-of-1">
+                                        <div class="slds-form-element">
+                                            Marked to delete.
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+                            </fieldset>
+                        </li>
+                    </aura:if>
+                    <aura:if isTrue="{!!v.isDelete}">
+                        <li class="slds-expression__row_group">
+                            <fieldset>
+                                <legend class="bucket-width slds-expression__legend">
+                                    <span>Base</span>
+                                    <span class="slds-assistive-text">Base</span>
+                                </legend>
+                                <div class=" slds-grid slds-gutters_xx-small">
+                                    <div class="slds-col slds-size_3-of-8">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label" for="form-element-Base-Price">Base Price</label>
+                                            <div class="hide-label slds-form-element__control">
+                                                <lightning:input  id="form-element-Base-Price" value="{!v.product.baseprice}" formatter="currency" varient="label-hidden" type="number" name="Base_Price" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-size_2-of-8">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label" for="form-element-Setup">Setup Price</label>
+                                            <div class="hide-label slds-form-element__control">
+                                                <lightning:input  id="form-element-Setup"  value="{!v.product.baseSetup}" formatter="currency" varient="label-hidden" type="number" name="Setup_Price" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-size_2-of-8">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label" for="form-element-Base-Usage">Base Usage</label>
+                                            <div class="hide-label slds-form-element__control">
+                                                <lightning:input  id="form-element-Base-Usage" value="{!v.product.baselimit}" varient="label-hidden" type="number" name="Base_Usage" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-8 ">
+                                        <span class="slds-form-element__label">&nbsp;</span>
+                                        <div class="slds-form-element__control">
+                                            <aura:if isTrue="{!v.type=='edit'}">
+                                                <lightning:buttonIcon name="edit_remove_parent" onclick="{!c.onBucketAction}" value="{!v.product.index}" iconName="utility:delete" variant="border-filled" alternativeText="Remove Product" title="Remove Product"/>
+                                                
+                                            </aura:if>
+                                            <aura:if isTrue="{!v.product.children.length lt v.bucketLimit}">
+                                                <lightning:buttonIcon name="add_new_child" value="{!v.product.index}" iconName="utility:add" variant="border-filled" alternativeText="Add Bucket" title="Add Bucket" onclick="{!c.onBucketAction}"/>
+                                                <aura:set attribute="else">
+                                                    Limit Reached
+                                                </aura:set>
+                                            </aura:if> 
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </li>
+                        <aura:iteration items="{!v.product.children}" var="child">
+                            <li class="slds-expression__row_group">
+                                <fieldset>
+                                    <legend class="bucket-width   slds-expression__legend">
+                                        <span>{!child.name}</span>
+                                        <span class="slds-assistive-text">{!child.name}</span>
+                                    </legend>
+                                    <div class="slds-grid slds-gutters_xx-small">
+                                        <div class="slds-col slds-size_3-of-8">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label" for="form-element-excess-Price">Per Usage Price</label>
+                                                <div class="hide-label slds-form-element__control">
+                                                    <lightning:input  id="form-element-excess-Price" value="{!child.excessprice}" formatter="currency" varient="label-hidden" type="number" name="Child_Price" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-col slds-size_4-of-8">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label" for="form-element-Limit-Usage">Usage Limit </label>
+                                                <div class="hide-label slds-form-element__control">
+                                                    <lightning:input  id="form-element-Limit-Usage" value="{!child.excesslimit}" varient="label-hidden" type="number" name="Child_Usage" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-8">
+                                            <aura:if isTrue="{! v.product.children.length== child.bucket}">
+                                                <span class="slds-form-element__label">&nbsp;</span>
+                                                <div class="slds-form-element__control">
+                                                    <lightning:buttonIcon  name="remove_new_child" value="{!v.product.index}"  onclick="{!c.onBucketAction}" iconName="utility:dash" variant="border-filled" alternativeText="Remove Bucket" title="Remove Bucket"/>
+                                                </div>
+                                            </aura:if> 
+                                            
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </li> 
+                        </aura:iteration>
+                    </aura:if>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    
+</aura:component>

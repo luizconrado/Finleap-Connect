@@ -20,6 +20,7 @@
     <aura:attribute name="isLoading" type="boolean" default="false" />  
     
     <aura:attribute name="currentStep" type="string" default="1" />  
+    <aura:attribute name="currentSubStep" type="Integer" default="0" /> 
     
     
     <!--data attribute-->
@@ -60,12 +61,6 @@
                 <aura:if isTrue="{!v.isLoading}">
                     <lightning:spinner alternativeText="Loading" size="medium" />
                 </aura:if>
-                <div class="slds-col slds-p-around_small">
-                    <lightning:progressIndicator currentStep="{!v.currentStep}" type="base" hasError="false" variant="base">
-                        <lightning:progressStep label="Select Product" value="1" id="1" onclick="{!c.step1}"/>
-                        <lightning:progressStep label="Define Price" value="2" id="2" onclick="{!c.step2}"/>
-                    </lightning:progressIndicator>
-                </div>
                 <aura:if isTrue="{!v.currentStep=='1'}">
                     <div class="set-min-height slds-col slds-grid slds-grid_vertical slds-nowrap">
                         <div class="slds-p-vertical_x-small slds-p-horizontal_large slds-shrink-none slds-theme_shade">
@@ -117,94 +112,35 @@
                 </aura:if>
                 <aura:if isTrue="{!v.currentStep=='2'}">
                     <div class="set-min-height">
-                        <table class=" slds-table slds-table_bordered slds-table_edit slds-table_fixed-layout  slds-tree slds-table_tree"
-                               role="treegrid">
-                            <thead>
-                                <tr class="slds-line-height_reset">
-                                    <th   class="set-name-width slds-p-left_small set-table-header-height" aria-label="Product Name"  scope="col">
-                                        <div class="slds-p-left_small slds-truncate" title="Product Name">
-                                            <abbr class="slds-required" title="required">* </abbr>
-                                            Product Name
-                                        </div>
-                                    </th>
-                                    <th class="set-table-header-height"  aria-label="Base/Excess Price" scope="col">
-                                        <div class="slds-truncate" title="Base/Excess Price">
-                                            <abbr class="slds-required" title="required">* </abbr>
-                                            Base/Excess Price
-                                        </div>
-                                    </th>
-                                    <th class="set-table-header-height"  aria-label="Base/Excess Limit" scope="col">
-                                        <div class="slds-truncate" title="Base/Excess Limit">
-                                            <abbr class="slds-required" title="required">* </abbr>
-                                            Base/Excess Limit
-                                        </div>
-                                    </th>
-                                    <th class="align-text-center set-table-header-height"  aria-label="Action" scope="col">
-                                        <div class="slds-truncate" title="Action">
-                                            Actions
-                                        </div>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <aura:iteration items="{!v.newProductsList}" var="parent">
-                                    <tr aria-expanded="{!parent.isExpanded}" aria-level="1"  aria-selected="false" class="slds-hint-parent parent-row-highlight">
-                                        <th class="slds-tree__item" data-label="Product Name" scope="row">
-                                            <aura:if isTrue="{!parent.children.length>0}">
-                                                <lightning:buttonIcon name="new_expand_colapse" value="{!parent.index}" onclick="{!c.onBucketAction}"  iconName="utility:chevronright" size="small" variant="bare"  alternativeText="Expand" title="Expand" />
-                                            </aura:if>
-                                            <div class="set-name-width slds-p-left_small slds-truncate hide-label" title="{!parent.name}">
-                                                <lightning:input varient="label-hidden" name="{!parent.name}"  readonly="true"  value="{!parent.name}"  />
-                                            </div>
-                                        </th>
-                                        <td data-label="Base/Excess Price" class="slds-text-align_right" role="gridcell">
-                                            <div class="hide-label slds-truncate" title="Base/Excess Price">
-                                                <lightning:input varient="label-hidden" type="number" name="Base_Price" value="{!parent.baseprice}" />
-                                            </div>
-                                        </td>
-                                        <td data-label="Base/Excess Limit" role="gridcell">
-                                            <div class="hide-label slds-truncate" title="Base/Excess Limit">
-                                                <lightning:input  varient="label-hidden" type="number" name="Base_Limit" value="{!parent.baselimit}"/>
-                                            </div>
-                                        </td>
-                                        <td data-label="Action" class="align-text-center" role="gridcell">
-                                            <aura:if isTrue="{! parent.children.length lt v.bucketLimit}">
-                                                <lightning:buttonIcon name="add_new_child" value="{!parent.index}" iconName="utility:add" variant="border-filled" alternativeText="Add Bucket" title="Add Bucket" onclick="{!c.onBucketAction}"/>
-                                                <aura:set attribute="else">
-                                                    Bucket Limit Reached
-                                                </aura:set>
-                                            </aura:if>    
-                                        </td>
-                                    </tr>
-                                    <aura:if isTrue="{!parent.isExpanded}">
-                                        <aura:iteration items="{!parent.children}" var="child">
-                                            <tr aria-level="2"  aria-selected="false" class="slds-hint-parent">
-                                                <th class="slds-tree__item" data-label="Product Name" scope="row">
-                                                    <div class="set-name-width level-2-td slds-truncate hide-label" title="{!child.name}">
-                                                        <lightning:input varient="label-hidden" name="{!child.name}"  readonly="true"  value="{!child.name}"  />
-                                                    </div>
-                                                </th>
-                                                <td data-label="Base/Excess Price" class="slds-text-align_right" role="gridcell">
-                                                    <div class="hide-label slds-truncate" title="Base/Excess Price">
-                                                        <lightning:input varient="label-hidden" type="number" name="Excess_Price"  value="{!child.excessprice}" />
-                                                    </div>
-                                                </td>
-                                                <td data-label="Base/Excess Limit" role="gridcell">
-                                                    <div class="hide-label slds-truncate" title="Base/Excess Limit">
-                                                        <lightning:input varient="label-hidden" type="number" name="Excess_Limit" value="{!child.excesslimit}"/>
-                                                    </div>
-                                                </td>
-                                                <td class="align-text-center" data-label="Action" role="gridcell">
-                                                    <aura:if isTrue="{! parent.children.length== child.bucket}">
-                                                        <lightning:buttonIcon name="remove_new_child" value="{!parent.index}"  onclick="{!c.onBucketAction}" iconName="utility:dash" variant="border-filled" alternativeText="Remove Bucket" title="Remove Bucket"/>
-                                                    </aura:if>
-                                                </td>
-                                            </tr>
-                                        </aura:iteration>
-                                    </aura:if>
-                                </aura:iteration>
-                            </tbody>
-                        </table>
+                        <div class="slds-col slds-p-around_small">
+                            <aura:if isTrue="{!v.newProductsList.length>1}">
+                                <div class="slds-grid slds-gutters">
+                                    <div class="slds-col ">
+                                        <lightning:progressIndicator currentStep="{!v.currentSubStep}" type="base" hasError="false" variant="base">
+                                            <aura:iteration items="{!v.newProductsList}" var="parent">
+                                                <lightning:progressStep label="{!parent.name}" value="{!parent.index}" id="{!parent.index}"/>
+                                             </aura:iteration>
+                                        </lightning:progressIndicator>
+                                    </div>
+                                    <div class="slds-col slds-grow-none">
+                                        <lightning:buttonIcon iconName="utility:back"  variant="border-filled" alternativeText="Back" title="Back" value="Add_Product_back" onclick="{! c.changeSubStep }"/>
+                                        <lightning:buttonIcon iconName="utility:forward"  variant="border-filled" alternativeText="Next" title="Next" value="Add_Product_next" onclick="{! c.changeSubStep }"/>
+										<!--
+                                        <lightning:button variant="brand-outline" value="Add_Product_back" name="Add_Product_back" label="Back" title="Back" onclick="{! c.changeSubStep }"/>
+                                        <lightning:button variant="brand-outline" value="Add_Product_next" name="Add_Product_next" label="Next" title="Next" onclick="{! c.changeSubStep }"/>
+                                        -->
+                                    </div>
+                                </div>
+                                
+                            </aura:if>
+                        </div>
+                        <aura:iteration items="{!v.newProductsList}" var="parent">
+                            <aura:if isTrue="{!parent.index==v.currentSubStep}">
+                                <c:ProductDetails type="new"  bucketLimit="{!v.bucketLimit}" product="{!parent}"/>
+                            </aura:if>
+                           
+                        </aura:iteration>
+                   
                     </div>
                 </aura:if>
             </div>
@@ -213,7 +149,7 @@
                 <aura:if isTrue="{!v.currentStep=='2'}">
                     <lightning:button variant="brand-outline" value="Add_Product" label="Back" title="Back" onclick="{! c.step1 }"/>
                 </aura:if>
-                <lightning:button variant="brand" value="Add_Product" label="{!v.currentStep=='2'?'Save':'Next'}" title="{!v.currentStep=='2'?'Save':'Next'}" onclick="{!c.onSaveProduct}"/>
+                <lightning:button variant="brand" disabled="{!v.allSelectedProductsList.length==0}" value="Add_Product" label="{!v.currentStep=='2'?'Save':'Next'}" title="{!v.currentStep=='2'?'Save':'Next'}" onclick="{!c.onSaveProduct}"/>
             </footer>
         </c:Modal>
     </aura:if>
@@ -225,93 +161,34 @@
                 </aura:if>
                 
                 <div class="set-min-height">
-                        <table class=" slds-table slds-table_bordered slds-table_edit slds-table_fixed-layout  slds-tree slds-table_tree"
-                               role="treegrid">
-                            <thead>
-                                <tr class="slds-line-height_reset">
-                                    <th   class="set-name-width slds-p-left_small set-table-header-height" aria-label="Product Name"  scope="col">
-                                        <div class="slds-p-left_small slds-truncate" title="Product Name">
-                                            <abbr class="slds-required" title="required">* </abbr>
-                                            Product Name
-                                        </div>
-                                    </th>
-                                    <th class="set-table-header-height"  aria-label="Base/Excess Price" scope="col">
-                                        <div class="slds-truncate" title="Base/Excess Price">
-                                            <abbr class="slds-required" title="required">* </abbr>
-                                            Base/Excess Price
-                                        </div>
-                                    </th>
-                                    <th class="set-table-header-height"  aria-label="Base/Excess Limit" scope="col">
-                                        <div class="slds-truncate" title="Base/Excess Limit">
-                                            <abbr class="slds-required" title="required">* </abbr>
-                                            Base/Excess Limit
-                                        </div>
-                                    </th>
-                                    <th class="align-text-center set-table-header-height"  aria-label="Action" scope="col">
-                                        <div class="slds-truncate" title="Action">
-                                            Actions
-                                        </div>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <aura:iteration items="{!v.linkedProductsList}" var="parent">
-                                    <tr aria-expanded="{!parent.isExpanded}" aria-level="1"  aria-selected="false" class="slds-hint-parent parent-row-highlight">
-                                        <th class="slds-tree__item" data-label="Product Name" scope="row">
-                                            <aura:if isTrue="{!parent.children.length>0}">
-                                                <lightning:buttonIcon name="edit_expand_colapse" value="{!parent.index}" onclick="{!c.onBucketAction}"  iconName="utility:chevronright" size="small" variant="bare"  alternativeText="Expand" title="Expand" />
-                                            </aura:if>
-                                            <div class="set-name-width slds-p-left_small slds-truncate hide-label" title="{!parent.name}">
-                                                <lightning:input varient="label-hidden" name="{!parent.name}"  readonly="true"  value="{!parent.name}"  />
-                                            </div>
-                                        </th>
-                                        <td data-label="Base/Excess Price" class="slds-text-align_right" role="gridcell">
-                                            <div class="hide-label slds-truncate" title="Base/Excess Price">
-                                                <lightning:input varient="label-hidden" type="number" name="Base_Price" value="{!parent.baseprice}" />
-                                            </div>
-                                        </td>
-                                        <td data-label="Base/Excess Limit" role="gridcell">
-                                            <div class="hide-label slds-truncate" title="Base/Excess Limit">
-                                                <lightning:input  varient="label-hidden" type="number" name="Base_Limit" value="{!parent.baselimit}"/>
-                                            </div>
-                                        </td>
-                                        <td data-label="Action" class="align-text-center" role="gridcell">
-                                            <lightning:buttonIcon name="edit_remove_parent" onclick="{!c.onBucketAction}" value="{!parent.index}" iconName="utility:delete" variant="border-filled" alternativeText="Add Product" title="Remove Product"/>
-                                            <aura:if isTrue="{!parent.children.length lt v.bucketLimit}">
-                                                <lightning:buttonIcon name="edit_add_child" onclick="{!c.onBucketAction}" value="{!parent.index}" iconName="utility:add" variant="border-filled" alternativeText="Add Bucket" title="Add Bucket"/>
-                                            </aura:if>    
-                                        </td>
-                                    </tr>
-                                    <aura:if isTrue="{!parent.isExpanded}">
-                                        <aura:iteration items="{!parent.children}" var="child">
-                                            <tr aria-level="2"  aria-selected="false" class="slds-hint-parent">
-                                                <th class="slds-tree__item" data-label="Product Name" scope="row">
-                                                    <div class="set-name-width  level-2-td slds-truncate hide-label" title="{!child.name}">
-                                                        <lightning:input varient="label-hidden" name="{!child.name}"  readonly="true"  value="{!child.name}"  />
-                                                    </div>
-                                                </th>
-                                                <td data-label="Base/Excess Price" class="slds-text-align_right" role="gridcell">
-                                                    <div class="hide-label slds-truncate" title="Base/Excess Price">
-                                                        <lightning:input varient="label-hidden" type="number" name="Excess_Price"  value="{!child.excessprice}" />
-                                                    </div>
-                                                </td>
-                                                <td data-label="Base/Excess Limit" role="gridcell">
-                                                    <div class="hide-label slds-truncate" title="Base/Excess Limit">
-                                                        <lightning:input varient="label-hidden" type="number" name="Excess_Limit" value="{!child.excesslimit}"/>
-                                                    </div>
-                                                </td>
-                                                <td class="align-text-center" data-label="Action" role="gridcell">
-                                                    <aura:if isTrue="{! parent.children.length== child.bucket}">
-                                                        <lightning:buttonIcon name="edit_remove_child" onclick="{!c.onBucketAction}" value="{!parent.index}" iconName="utility:dash" variant="border-filled" alternativeText="Remove Bucket" title="Remove Bucket"/>
-                                                    </aura:if>
-                                                </td>
-                                            </tr>
+                    <div class="slds-col slds-p-around_small">
+                        <aura:if isTrue="{!v.linkedProductsList.length>1}">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col ">
+                                    <lightning:progressIndicator currentStep="{!v.currentSubStep}" type="base" hasError="false" variant="base">
+                                        <aura:iteration items="{!v.linkedProductsList}" var="parent">
+                                            <lightning:progressStep label="{!parent.name}" value="{!parent.index}" id="{!parent.index}"/>
                                         </aura:iteration>
-                                    </aura:if>
-                                </aura:iteration>
-                            </tbody>
-                        </table>
+                                    </lightning:progressIndicator>
+                                </div>
+                                <div class="slds-col slds-grow-none">
+                                    <lightning:button variant="brand-outline" value="Edit_Product_back" name="Edit_Product_back" label="Back" title="Back" onclick="{! c.changeSubStep }"/>
+                                    <lightning:button variant="brand-outline" value="Edit_Product_next" name="Edit_Product_next" label="Next" title="Next" onclick="{! c.changeSubStep }"/>
+                                    
+                                </div>
+                            </div>
+                            
+                        </aura:if>
                     </div>
+                    <aura:iteration items="{!v.linkedProductsList}" var="parent">
+                        <aura:if isTrue="{!parent.index==v.currentSubStep}">
+                            <c:ProductDetails linkedDeleteProductsList="{!v.linkedDeleteProductsList}" type="edit" bucketLimit="{!v.bucketLimit}" product="{!parent}"/>
+                        </aura:if>
+                        
+                    </aura:iteration>
+                    
+                  
+                </div>
             </div>
           
             <footer class="slds-modal__footer">

@@ -4,6 +4,10 @@ public inherited  sharing class Constant {
     
     
    	//Opportunity
+   	    public static final string OPPORTUNITY_FINLEAP_CONNECT_RECORDTYPE_ID{private set;get{
+        if(OPPORTUNITY_FINLEAP_CONNECT_RECORDTYPE_ID == null) OPPORTUNITY_FINLEAP_CONNECT_RECORDTYPE_ID=SchemaUtility.getRecordTypeId('Finleap_Connect_Standard_Sales','Opportunity');
+        return OPPORTUNITY_FINLEAP_CONNECT_RECORDTYPE_ID;
+    }}
     public static final string OPPORTUNITY_INVESTMENT_IN_FINLEAP_RECORDTYPE_ID{private set;get{
         if(OPPORTUNITY_INVESTMENT_IN_FINLEAP_RECORDTYPE_ID == null) OPPORTUNITY_INVESTMENT_IN_FINLEAP_RECORDTYPE_ID=SchemaUtility.getRecordTypeId('Finleap_Investment_in_Finleap_Group','Opportunity');
         return OPPORTUNITY_INVESTMENT_IN_FINLEAP_RECORDTYPE_ID;

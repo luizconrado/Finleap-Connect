@@ -50,6 +50,7 @@
         let action=event.getParam('data');
         action=action.option;
         if(action=='add_product'){
+            component.set('v.isLoading',true)
             component.set('v.isAddProduct',true)
             helper.searchProducts(component,'');
         }
@@ -64,7 +65,7 @@
         let action=event.getSource().get('v.value')
         //reset variables
         if(action=='Add_Product'){
-            helper.closeAddPorduct(component)
+            helper.closeAddProduct(component)
             
         }
         else if(action=='Edit_Product'){
@@ -83,6 +84,34 @@
     },
     step2:function(component,event,helper){
         helper.navigate(component,'2');
+    },
+    changeSubStep:function(component,event,helper){
+        let status=event.getSource().get("v.value");
+        let currentSubStep=component.get("v.currentSubStep");
+        let newProductsList=component.get("v.newProductsList")
+        let linkedProductsList=component.get("v.linkedProductsList");
+        if(status=='Add_Product_back'){
+            if(currentSubStep!=0){
+                currentSubStep = currentSubStep-1;
+            }
+        }
+        else if(status=='Add_Product_next'){
+            if(currentSubStep!=newProductsList.length-1){
+                currentSubStep = currentSubStep+1;
+            }
+        }
+        else if(status=='Edit_Product_back'){
+            if(currentSubStep!=0){
+                currentSubStep = currentSubStep-1;
+            }
+        }
+        else if(status=='Edit_Product_next'){
+            if(currentSubStep!=linkedProductsList.length-1){
+                currentSubStep = currentSubStep+1;
+            }      
+        }
+        component.set("v.currentSubStep",currentSubStep);
+    
     },
     onSearchProduct:function(component,event,helper){
         let value=event.getSource().get('v.value')
@@ -128,10 +157,11 @@
                         helper.showToast('success',"Insert Successful!","Products added successfully.");
                         helper.getAllRelatedProducts(component);
                         helper.closeAddProduct(component)
-
+						$A.get('e.force:refreshView').fire();
                     }
                     else{
                         let errors = response.getError();
+                        console.error(errors);
                         let message="";
                         if (errors && errors[0]) {
                             message = helper.getError(errors[0]);
@@ -155,6 +185,7 @@
         let linkedProductsList=component.get('v.linkedProductsList');
         let oppLineItemRecords=helper.processOpportunityLineItemrecord(linkedProductsList,component.get('v.recordId'),'edit');
         let linkedDeleteProductsList=component.get('v.linkedDeleteProductsList')
+        console.log('linkedDeleteProductsList',linkedDeleteProductsList)
         if(oppLineItemRecords){
             component.set('v.isLoading',true)
             helper.callApex(component,'updateOpportuntiyLineItems',function(response){
@@ -162,7 +193,8 @@
                 if (status === "SUCCESS"){
                     helper.showToast('success',"Update Successful!","Products Updated/Deleted successfully.");
                     helper.getAllRelatedProducts(component);
-                    helper.closeUpdatePorduct(component)
+                    helper.closeUpdatePorduct(component);
+                    $A.get('e.force:refreshView').fire();
                 }
                 else{
                     let errors = response.getError();
@@ -180,7 +212,8 @@
             });
             
         }
-    }
+    },
+   
     
     
 })

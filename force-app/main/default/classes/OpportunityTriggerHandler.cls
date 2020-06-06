@@ -6,6 +6,9 @@ public class OpportunityTriggerHandler extends Triggerhandler {
     
     public override void beforeupdate(){
         List<Opportunity> opportunityOwnerChanged=new List<Opportunity>();
+        List<Opportunity> opportunityApproved=new List<Opportunity>();
+
+        
 		Map<String,List<String>> campaingAndOpportunity=new Map<String,List<String>>();
         
         Map<Id,Opportunity> newOpportunityMap=(Map<Id,Opportunity>) Trigger.newMap;
@@ -22,17 +25,44 @@ public class OpportunityTriggerHandler extends Triggerhandler {
                 }
                 campaingAndOpportunity.get(o.CampaignId).add(o.Id);
             }
+            //filtering all opportuntiys whose approver ids are changed
+            if((o.Compliance_Approved_User_Id__c!=oldOpportunityMap.get(o.Id).Compliance_Approved_User_Id__c) 
+               || (o.Finance_Approved_User_Id__c!=oldOpportunityMap.get(o.Id).Finance_Approved_User_Id__c)){
+				opportunityApproved.add(o);                
+            } 
+            
         }
+        
+        
         //set campaing name if campaing is associated
         if(campaingAndOpportunity.size()>0) setCampaingName(campaingAndOpportunity,newOpportunityMap);
         //preserve team members if owner changed
         if(opportunityOwnerChanged.size()>0) setTeamMembers(opportunityOwnerChanged);
+        
+        if(opportunityApproved.size()>0) setApproverUsers(opportunityApproved);
         
     }
     
     public override void afterupdate(){
         List<Opportunity> newOpportunityList=(List<Opportunity>) Trigger.new;
         Map<Id,Opportunity> oldOpportunityMap=(Map<Id,Opportunity>) Trigger.oldMap;
+        
+        List<Opportunity> finleapConnectApprovedOpportuntiyList=new List<Opportunity>();
+        
+        for(Opportunity o:newOpportunityList){
+            if(o.RecordTypeId==Constant.OPPORTUNITY_FINLEAP_CONNECT_RECORDTYPE_ID){
+                if(o.StageName=='Closed Won' 
+                   && oldOpportunityMap.get(o.Id).StageName!=o.StageName 
+                   && o.Compliance_Approved_Date__c!=null 
+                   && o.Finance_Approved_Date__c!=null
+                   && o.ContractId!=null ){
+                    finleapConnectApprovedOpportuntiyList.add(o);
+                }
+            }
+        }
+        
+        if(finleapConnectApprovedOpportuntiyList.size()>0) createProductInstanceInContract(finleapConnectApprovedOpportuntiyList);
+        
         //track changes
         if(!System.Label.Track_History_Exclusion.contains(Userinfo.getUserEmail()))
         TrackHistory.publishChanges('Opportunity', newOpportunityList, oldOpportunityMap);
@@ -51,6 +81,59 @@ public class OpportunityTriggerHandler extends Triggerhandler {
                                                   FROM OpportunityTeamMember WHERE OpportunityId IN: opportunityOwnerChanged];
         
         if(teamMemebers.size()>0) insertTeamMemebers(JSON.serialize(teamMemebers));
+    }
+    
+    private static void setApproverUsers(List<Opportunity> opportunityApproved){
+        for(Opportunity o:opportunityApproved){
+            o.Finance_Approved_User__c=o.Finance_Approved_User_Id__c;
+            o.Compliance_Approved_User__c=o.Compliance_Approved_User_Id__c;
+        }
+    }
+    
+    private static void createProductInstanceInContract(List<Opportunity> finleapConnectApprovedOpportuntiyList){
+        List<Product_Instance__c> toInsert=new List<Product_Instance__c>();
+        List<OpportunityLineItem> opportunityLineItemList=[SELECT Id,Product2Id,Product2.Name,OpportunityId,Opportunity.ContractId,UnitPrice,One_Time_Setup_Price__c,Base_Limit__c,
+                                                           Excess_Limit_Bucket_1__c,Excess_Limit_Bucket_2__c,Excess_Limit_Bucket_3__c,Excess_Limit_Bucket_4__c,Excess_Limit_Bucket_5__c,
+                                                           Excess_Price_Bucket_1__c,Excess_Price_Bucket_2__c,Excess_Price_Bucket_3__c,Excess_Price_Bucket_4__c,Excess_Price_Bucket_5__c
+                                                           FROM OpportunityLineItem 
+                                                           WHERE OpportunityId IN:finleapConnectApprovedOpportuntiyList];
+        List<Product_Instance__c> prodInstaceList=[SELECT id,Product__c,Opportunity__c
+                                                  FROM Product_Instance__c
+                                                  WHERE Opportunity__c  IN:finleapConnectApprovedOpportuntiyList];
+        Map<String,List<String>> oppAndProdInstaceMap=new  Map<String,List<String>>();
+        for(Product_Instance__c pi:prodInstaceList){
+            if(!oppAndProdInstaceMap.containsKey(pi.Opportunity__c)){
+                oppAndProdInstaceMap.put(pi.Opportunity__c,new List<String>());
+            }
+            oppAndProdInstaceMap.get(pi.Opportunity__c).add(pi.Product__c);
+        }
+        for(OpportunityLineItem oli:opportunityLineItemList){
+            if(!(oppAndProdInstaceMap.containskey(oli.OpportunityId) 
+                && oppAndProdInstaceMap.get(oli.OpportunityId).indexOf(oli.Product2Id)>-1)){
+                    Product_Instance__c x=new Product_Instance__c();
+                    x.Name=oli.Product2.Name;
+                    x.Contract__c=oli.Opportunity.ContractId;
+                    x.Base_Limit__c=oli.Base_Limit__c;
+                    x.Base_Price__c=oli.UnitPrice;
+                    x.Product__c=oli.Product2Id;
+                    x.Status__c='Active';
+                    x.Opportunity__c=oli.OpportunityId;
+                    x.One_Time_Setup_Price__c=oli.One_Time_Setup_Price__c;
+                    x.Excess_Limit_Bucket_1__c=oli.Excess_Limit_Bucket_1__c;
+                    x.Excess_Limit_Bucket_2__c=oli.Excess_Limit_Bucket_2__c;
+                    x.Excess_Limit_Bucket_3__c=oli.Excess_Limit_Bucket_3__c;
+                    x.Excess_Limit_Bucket_4__c=oli.Excess_Limit_Bucket_4__c;
+                    x.Excess_Limit_Bucket_5__c=oli.Excess_Limit_Bucket_5__c;
+                    x.Excess_Price_Bucket_1__c=oli.Excess_Price_Bucket_1__c;
+                    x.Excess_Price_Bucket_2__c=oli.Excess_Price_Bucket_2__c;
+                    x.Excess_Price_Bucket_3__c=oli.Excess_Price_Bucket_3__c;
+                    x.Excess_Price_Bucket_4__c=oli.Excess_Price_Bucket_4__c;
+                    x.Excess_Price_Bucket_5__c=oli.Excess_Price_Bucket_5__c;
+                    toInsert.add(x);
+                }
+        }
+        insert toInsert;
+        
     }
     
     @future

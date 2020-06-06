@@ -5,16 +5,38 @@
                 <lightning-layout-item size="2" padding="around-small">
                     <nav class="slds-card slds-nav-vertical" aria-label="Sub page">
                         <div class="slds-nav-vertical__section">
-                            <h2 id="entity-header" class="slds-nav-vertical__title">Filters</h2>
+                            <h2 id="entity-header" class="slds-nav-vertical__title">Filters
+                                <lightning-button-icon icon-name="utility:refresh" alternative-text="Add user"
+                                    class="slds-m-left_xx-small" variant="bare" title="Reset" onclick={onResetFilters}>
+                                </lightning-button-icon>
+
+                            </h2>
                             <ul aria-describedby="entity-header">
                                 <li class="filter-margin slds-nav-vertical__item">
                                     <div class="slds-col slds-form-element">
-                                        <label class="slds-form-element__label" for="monthValues">Filter Month</label>
+                                        <label class="slds-form-element__label" for="periodStart">Filter Period
+                                            Start</label>
                                         <div class="slds-form-element__control">
                                             <div class="slds-select_container">
-                                                <select onchange={onMonthFilter} class="slds-select" id="monthValues">
-                                                    <option value="">All</option>
-                                                    <template for:each={monthValues} for:item="itm">
+                                                <select onchange={onPeriodStartFilter} class="slds-select periodStart"
+                                                    id="periodStart">
+                                                    <template for:each={periodStart} for:item="itm">
+                                                        <option key={itm} value={itm}>{itm}</option>
+                                                    </template>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="filter-margin slds-nav-vertical__item">
+                                    <div class="slds-col slds-form-element">
+                                        <label class="slds-form-element__label" for="periodEnd">Filter Period
+                                            End</label>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-select_container">
+                                                <select onchange={onPeriodEndFilter} class="slds-select periodEnd"
+                                                    id="periodEnd">
+                                                    <template for:each={periodEnd} for:item="itm">
                                                         <option key={itm} value={itm}>{itm}</option>
                                                     </template>
                                                 </select>
@@ -27,7 +49,8 @@
                                         <label class="slds-form-element__label" for="userProfile">Filter Profile</label>
                                         <div class="slds-form-element__control">
                                             <div class="slds-select_container">
-                                                <select onchange={onProfileFilter} class="slds-select" id="userProfile">
+                                                <select onchange={onProfileFilter} class="slds-select userProfile"
+                                                    id="userProfile">
                                                     <option value="">All</option>
                                                     <template for:each={profileValues} for:item="itm">
                                                         <option key={itm.value} value={itm.value}>{itm.label}</option>
@@ -42,7 +65,8 @@
                                         <label class="slds-form-element__label" for="userValues">Filter User</label>
                                         <div class="slds-form-element__control">
                                             <div class="slds-select_container">
-                                                <select onchange={onUserFilter} class="slds-select" id="userValues">
+                                                <select onchange={onUserFilter} class="slds-select userValues"
+                                                    id="userValues">
                                                     <option value="">All</option>
                                                     <template for:each={userValues} for:item="itm">
                                                         <option if:true={itm.isVisible} key={itm.value}
@@ -105,7 +129,9 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <div class="slds-is-relative" if:true={loading}>
+                                <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+                            </div>
                         </lightning-layout-item>
                     </lightning-layout>
                 </lightning-layout-item>

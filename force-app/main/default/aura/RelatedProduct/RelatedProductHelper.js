@@ -1,6 +1,6 @@
 ({
     //utill
-    BUCKET_LIMIT:4,
+    BUCKET_LIMIT:5,
     showToast:function(type,title,message){
         const toastEvent = $A.get("e.force:showToast");
         toastEvent.setParams({
@@ -14,11 +14,14 @@
         if (error && error.fieldErrors && error.fieldErrors.PricebookEntryId[0] && error.fieldErrors.PricebookEntryId[0].message){
             return error.fieldErrors.PricebookEntryId[0].message;
         }
-        if(error.message){
+        if(error && error.message){
             return error.message;
         }
-        if(error.pageErrors && error.pageErrors[0] && error.pageErrors[0].message){
+        if(error && error.pageErrors && error.pageErrors[0] && error.pageErrors[0].message){
             return error.pageErrors[0].message
+        }
+        if(error && error.fieldErrors && error.fieldErrors.Product__c[0] && error.fieldErrors.Product__c[0].message){
+            return  error.fieldErrors.Product__c[0].message;
         }
         return 'Please contact your system admin if problem continues.';
     },
@@ -89,9 +92,12 @@
             obj.prodId=prod.Product2Id;
             obj.index=index;
             obj.id=prod.Id;
+            obj.oppid=prod.OpportunityId;
             obj.name=prod.Product2.Name;
+            obj.prodFamily=prod.Product2.Family;
             obj.baseprice=prod.UnitPrice;
             obj.baselimit=prod.Base_Limit__c;
+            obj.baseSetup=prod.One_Time_Setup_Price__c;
             obj.children=[];
             const limit=_self.BUCKET_LIMIT+1;
             for(let i=1;i<limit;i++){
@@ -101,7 +107,7 @@
                     childObj.prodId=prod.Product2Id;
                     childObj.index=index+'_'+i;
                     childObj.id=prod.Id;
-                    childObj.name=prod.Product2.Name +' '+ 'Bucket '+i;
+                    childObj.name='Stuffe '+i;
                     childObj.excessprice=prod['Excess_Price_Bucket_'+i+'__c'];
                     childObj.excesslimit=prod['Excess_Limit_Bucket_'+i+'__c'];
                     obj.children.push(childObj);
@@ -122,6 +128,8 @@
             obj.prodId=prod.Id;
             obj.index=index;
             obj.name=prod.Name;
+            obj.prodFamily=prod.Family;
+            obj.baseSetup=0;
             obj.baseprice=0;
             obj.baselimit=0;
             obj.children=[];
@@ -180,7 +188,7 @@
                             childObj.bucket=i;
                             childObj.prodId=prod.prodId;
                             childObj.index=prod.index+'_'+i;
-                            childObj.name=prod.name +' '+ 'Bucket '+i;
+                            childObj.name='Stuffe '+i;
                             childObj.excessprice=0;
                             childObj.excesslimit=0;
                             prod.children.push(childObj)        
@@ -192,7 +200,7 @@
                         childObj.bucket=i;
                         childObj.prodId=prod.prodId;
                         childObj.index=prod.index+'_'+i;
-                        childObj.name=prod.name +' '+ 'Bucket '+i;
+                        childObj.name='Stuffe '+i;
                         childObj.excessprice=0;
                         childObj.id=prod.id;
                         childObj.excesslimit=0;
@@ -213,13 +221,20 @@
             recordObj.OpportunityId=oppId;
             recordObj.Name=prod.name;
             recordObj.Id=prod.id;
+            
             if(!(prod.baseprice && prod.baselimit)){
                 error=true;
                 helper.showToast('warrning','Missing Values','Check Price and Range for '+prod.name);
                 return;
             }
+             if(!(prod.baseSetup)){
+                error=true;
+                helper.showToast('warrning','Missing Values','Check Setup Price for '+prod.name);
+                return;
+            }
             recordObj.UnitPrice=prod.baseprice;
             recordObj.Base_Limit__c=prod.baselimit;
+            recordObj.One_Time_Setup_Price__c=prod.baseSetup;
             recordObj.Quantity=1;
             prod.children.forEach(function(bucket){
                 if(!(bucket.excesslimit && bucket.excessprice)){
@@ -269,6 +284,7 @@
                 });
                 if(temp.length>0){
                     newProd.baseprice=temp[0].baseprice;
+                    newProd.baseSetup=temp[0].baseSetup;
                     newProd.baselimit=temp[0].baselimit;
                     newProd.children=temp[0].children;
                     if(newProd.children.length>0){
@@ -317,12 +333,15 @@
         component.set('v.currentStep',"1")
         component.set('v.allSelectedProductsList',[]);
         component.set('v.selectedProductsIdList',[]);
+        component.set('v.newProductsList',[]);
+        component.set('v.currentSubStep',0)
     },
     closeUpdatePorduct:function(component){
         component.set('v.isEditProduct',false);
         let data=component.get('v.linkedProductsOrignal');
         component.set('v.linkedProductsList',JSON.parse(data));
         component.set('v.linkedDeleteProductsList',[])
+        component.set('v.currentSubStep',0)
     },
     
     

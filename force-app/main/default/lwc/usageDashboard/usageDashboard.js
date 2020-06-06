@@ -1,27 +1,38 @@
 import { LightningElement, wire } from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
+
 import allRecords from '@salesforce/apex/UsageDashboardController.fetchAllTrackingRecords';
 import chartjs from '@salesforce/resourceUrl/charjs';
 import charjs_treemap from '@salesforce/resourceUrl/charjs_treemap';
 
-
-import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
-
-
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const days = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"];
 const weeks = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52"];
+const weekDays = ["Sundays", "Monday", "Tuesday", "Wednesdays", "Thursdays", "Fridays", "Saturdays"]
 export default class UsageDashboard extends LightningElement {
     //https://finleap-connect--partial.lightning.force.com/lightning/n/Usage_Dashboard
+    //days
+    month_year = [];
+    year_month_day = [];
+    week_year = [];
+    day_week = [];
     //filter values
     monthValues = months
+    periodStart;
+    periodEnd;
     userValues;
     profileValues;
     countValues = [];
     //filters
-    filterdByMonth;
+    filterdByMonth = false;
+    filterdByWeek = false;
     filterdByUser;
     filterdByProfile;
     filterByCount;
+
+    filterByPeriodStart;
+    filterByPeriodEnd;
     //charts
     lineChart;
     bubbleChart;
@@ -41,6 +52,8 @@ export default class UsageDashboard extends LightningElement {
     monthButtonVarient = 'neutral';
     weekButtonVarient = 'brand-outline';
 
+    loading = true;
+
     @wire(allRecords)
     wiredRecords({ error, data }) {
         if (data) {
@@ -54,7 +67,21 @@ export default class UsageDashboard extends LightningElement {
         }
     }
 
+
     connectedCallback() {
+        let d = new Date();
+        let year = d.getFullYear();
+        for (let monthName of months) {
+            this.month_year.push(monthName + '-' + year);
+        }
+        for (let weekNumber of weeks) {
+            this.week_year.push(weekNumber + '-' + year);
+        }
+        this.periodStart = this.week_year;
+        this.periodEnd = this.week_year.slice(0).reverse();
+        this.filterByPeriodStart = 1;
+        this.filterByPeriodEnd = this.week_year.length;
+
         this.usageColor = 'rgb(144,173,165)';
         this.changesColor = 'rgb(79,112,165)';
 
@@ -69,10 +96,13 @@ export default class UsageDashboard extends LightningElement {
         let usageTrackingRecords = this.records.filter(r => r.RecordType.Name === 'Usage Tracker');
         this.changeRecords = changeTrackingRecords;
         this.usageRecords = usageTrackingRecords;
+        let changeGroup = this.groupByDateRange(this.changeRecords);
+        let usageGroup = this.groupByDateRange(this.usageRecords);
         this.setupFilters(usageTrackingRecords, changeTrackingRecords)
-        this.preapreLineChart(usageTrackingRecords, changeTrackingRecords, 'new');
-        this.pepareBubbleChart(usageTrackingRecords, changeTrackingRecords, 'new');
-        this.prepareTreeChart(usageTrackingRecords, changeTrackingRecords, 'new');
+        this.preapreLineChart(usageGroup, changeGroup, 'new');
+        this.pepareBubbleChart(usageGroup, changeGroup, 'new');
+        this.prepareTreeChart(usageGroup, changeGroup, 'new');
+        this.loading = false;
     }
 
     //Point size Chart
@@ -142,8 +172,11 @@ export default class UsageDashboard extends LightningElement {
         }
     }
     getBubbleChartDataset(usageTrackingRecords, changeTrackingRecords) {
-        let usageByUsers = this.groupByUsers(usageTrackingRecords);
-        let changesByUsers = this.groupByUsers(changeTrackingRecords);
+        let usageGroupByDates = usageTrackingRecords;
+        let changeGroupByDates = changeTrackingRecords;
+
+        let usageByUsers = this.groupByUsers(Object.values(usageGroupByDates).flat(Infinity));
+        let changesByUsers = this.groupByUsers(Object.values(changeGroupByDates).flat(Infinity));
         let lineChartDataset = [];
         let edits = [];
         let views = [];
@@ -252,22 +285,12 @@ export default class UsageDashboard extends LightningElement {
     preapreLineChart(usageTrackingRecords, changeTrackingRecords, type) {
         let usage = this.getLineChartDataset(usageTrackingRecords, 'usage');
         let change = this.getLineChartDataset(changeTrackingRecords, 'changes');
-        let labels = [];
-        labels = [...usage[1]];
-        labels = [...change[1]];
-        labels = [...new Set(labels)];
+        let labels = [...usage[1]];
         let lineChartDataset = [];
         lineChartDataset.push(...usage[0]);
         lineChartDataset.push(...change[0]);
 
 
-        if (this.filterdByMonth) {
-            labels = labels.sort(function (a, b) {
-                a = new Date(b);
-                b = new Date(a);
-                return a > b ? -1 : a < b ? 1 : 0;
-            });
-        }
 
         let data = {
             labels: labels,
@@ -298,51 +321,27 @@ export default class UsageDashboard extends LightningElement {
     }
 
     getLineChartDataset(trackingRecords, type) {
-        let groupByDates = this.groupByDates(trackingRecords);
-        let labels = days;
+        let groupByDates = trackingRecords;
+        let labels = this.getLabel();
         let lineChartDataset = [];
         let recordCount = [];
-        let viewLable = this.isWeek ? weeks : months;
-        if (!this.filterdByMonth) {
-            for (let label of viewLable) {
-                if (groupByDates[label] && groupByDates[label].length > 0) {
-                    let records = groupByDates[label];
-                    if (this.filterdByProfile) {
-                        records = this.filterRecordByProfileId(records);
-                    }
-                    if (this.filterdByUser) {
-                        records = this.filterRecordByUserId(records);
-                    }
+        for (let key of labels) {
+            if (groupByDates[key] && groupByDates[key].length > 0) {
+                let records = groupByDates[key];
+                if (this.filterdByProfile) {
+                    records = this.filterRecordByProfileId(records);
+                }
+                if (this.filterdByUser) {
+                    records = this.filterRecordByUserId(records);
+                }
 
-                    recordCount.push(records.length);
-                }
-                else {
-                    recordCount.push(0);
-                }
+                recordCount.push(records.length);
+            }
+            else {
+                recordCount.push(0);
             }
         }
-        else {
-            labels = labels.sort(function (a, b) {
-                b = new Date(a);
-                a = new Date(b);
-                return a > b ? -1 : a < b ? 1 : 0;
-            });
-            for (let label of labels) {
-                if (groupByDates[label] && groupByDates[label].length > 0) {
-                    let records = groupByDates[label];
-                    if (this.filterdByProfile) {
-                        records = this.filterRecordByProfileId(records);
-                    }
-                    if (this.filterdByUser) {
-                        records = this.filterRecordByUserId(records);
-                    }
-                    recordCount.push(records.length);
-                }
-                else {
-                    recordCount.push(0);
-                }
-            }
-        }
+
         lineChartDataset.push({
             label: (type == 'usage') ? 'Views' : 'Changes',
             data: recordCount,
@@ -350,7 +349,7 @@ export default class UsageDashboard extends LightningElement {
             fill: false
         })
 
-        return [lineChartDataset, (!this.filterdByMonth) ? viewLable : labels];
+        return [lineChartDataset, labels];
     }
 
     //treemap chart
@@ -448,8 +447,7 @@ export default class UsageDashboard extends LightningElement {
     }
 
     getTreeChartDataset(trackingRecords, type) {
-        let groupByDates = this.groupByDates(trackingRecords);
-        let groupByRecord = this.groupByRecord(Object.values(groupByDates).flat(Infinity));
+        let groupByRecord = this.groupByRecord(Object.values(trackingRecords).flat(Infinity));
         let treeChartDataset = [];
         for (let recordId of Object.keys(groupByRecord)) {
             let records = groupByRecord[recordId]
@@ -532,11 +530,61 @@ export default class UsageDashboard extends LightningElement {
         this.userValues = userNames;
     }
 
-    onMonthFilter(event) {
-        const month = event.target.value;
-        this.filterdByMonth = month;
+    onPeriodStartFilter(event) {
+        const start = event.target.value;
+        const count = (this.isWeek) ? this.week_year.indexOf(start) + 1 : this.month_year.indexOf(start) + 1;
+        if (count > this.filterByPeriodEnd) {
+            console.log('start cannot be greater then end')
+            this.showNotification('Invalid Start Period', 'Start cannot be greater then End', 'warning');
+            return;
+        }
+        if (!this.isWeek && this.filterByPeriodEnd == count) {
+            //filter by month
+            this.filterdByMonth = true;
+
+            this.prepareMonthDays(count);
+        }
+        else if (this.isWeek && this.filterByPeriodEnd == count) {
+            //filter by week
+            this.filterdByWeek = true;
+            this.prepareWeekDays(count);
+        }
+        else {
+            this.filterdByMonth = false;
+            this.filterdByWeek = false;
+        }
+        this.filterByPeriodStart = count;
         this.processFilters();
+
+
     }
+    onPeriodEndFilter(event) {
+        const end = event.target.value;
+        const count = (this.isWeek) ? this.week_year.indexOf(end) + 1 : this.month_year.indexOf(end) + 1;
+        if (count < this.filterByPeriodStart) {
+            this.showNotification('Invalid End Period', 'End cannot be greater then Start', 'warning');
+            return;
+        }
+        if (!this.isWeek && this.filterByPeriodStart == count) {
+            //filter by month
+            this.filterdByMonth = true;
+            this.prepareMonthDays(count);
+        }
+        else if (this.isWeek && this.filterByPeriodStart == count) {
+            //filter by week
+            this.filterdByWeek = true;
+            this.prepareWeekDays(count);
+        }
+        else {
+            this.filterdByMonth = false;
+            this.filterdByWeek = false;
+        }
+        this.filterByPeriodEnd = count;
+
+        this.processFilters();
+
+    }
+
 
     onUserFilter(event) {
         const userId = event.target.value;
@@ -551,10 +599,28 @@ export default class UsageDashboard extends LightningElement {
         this.processFilters();
     }
 
+    onResetFilters() {
+        this.template.querySelector('select.periodStart').value = (this.isWeek) ? this.week_year[0] : this.month_year[0];
+        this.template.querySelector('select.periodEnd').value = (this.isWeek) ? this.week_year[51] : this.month_year[11];
+        this.template.querySelector('select.userProfile').value = '';
+        this.template.querySelector('select.userValues').value = '';
+
+        this.filterdByMonth = false;
+        this.filterdByWeek = false;
+        this.filterdByUser = '';
+        this.filterdByProfile = '';
+        this.filterByPeriodStart = 1;
+        this.filterByPeriodEnd = (this.isWeek) ? 52 : 12;
+        this.processValues();
+        this.processFilters();
+    }
+
     processFilters() {
-        this.preapreLineChart(this.usageRecords, this.changeRecords, 'update');
-        this.pepareBubbleChart(this.usageRecords, this.changeRecords, 'update');
-        this.prepareTreeChart(this.usageRecords, this.changeRecords, 'update');
+        let changeGroup = this.groupByDateRange(this.changeRecords);
+        let usageGroup = this.groupByDateRange(this.usageRecords);
+        this.preapreLineChart(usageGroup, changeGroup, 'update');
+        this.pepareBubbleChart(usageGroup, changeGroup, 'update');
+        this.prepareTreeChart(usageGroup, changeGroup, 'update');
     }
     processValues() {
         if (this.filterdByProfile) {
@@ -579,23 +645,43 @@ export default class UsageDashboard extends LightningElement {
         }
     }
 
+
+
     //views
     onMonthView() {
         this.isWeek = false;
+        this.filterdByMonth = false;
+        this.filterdByWeek = false;
         this.monthButtonVarient = 'brand-outline';
         this.weekButtonVarient = 'neutral';
-        this.preapreLineChart(this.usageRecords, this.changeRecords, 'update');
+        this.periodStart = this.month_year;
+        this.periodEnd = this.month_year.slice(0).reverse();
+        this.filterByPeriodStart = 1;
+        this.filterByPeriodEnd = this.month_year.length;
+        let changeGroup = this.groupByDateRange(this.changeRecords);
+        let usageGroup = this.groupByDateRange(this.usageRecords);
+        this.preapreLineChart(usageGroup, changeGroup, 'update');
     }
     onWeekiew() {
         this.isWeek = true;
+        this.filterdByMonth = false;
+        this.filterdByWeek = false;
         this.weekButtonVarient = 'brand-outline';
         this.monthButtonVarient = 'neutral';
-        this.preapreLineChart(this.usageRecords, this.changeRecords, 'update');
+        this.periodStart = this.week_year;
+        this.periodEnd = this.week_year.slice(0).reverse();
+        this.filterByPeriodStart = 1;
+        this.filterByPeriodEnd = this.week_year.length;
+        let changeGroup = this.groupByDateRange(this.changeRecords);
+        let usageGroup = this.groupByDateRange(this.usageRecords);
+        this.preapreLineChart(usageGroup, changeGroup, 'update');
     }
     onCountFilter(event) {
         const count = event.target.value;
         this.filterByCount = count;
-        this.prepareTreeChart(this.usageRecords, this.changeRecords, 'update');
+        let changeGroup = this.groupByDateRange(this.changeRecords);
+        let usageGroup = this.groupByDateRange(this.usageRecords);
+        this.prepareTreeChart(usageGroup, changeGroup, 'update');
     }
 
     //utility
@@ -621,19 +707,52 @@ export default class UsageDashboard extends LightningElement {
     getNumberFromMonth(month) {
         return months.indexOf(month);
     }
-    groupByDates(list) {
+
+    groupByDateRange(list) {
+
+
+        let isMonthFilter = this.filterdByMonth;
+        let isWeekView = this.isWeek;
+        let startCount = this.filterByPeriodStart;
+        let endCount = this.filterByPeriodEnd;
         return list.reduce((r, a) => {
-            let tempMonth = this.getMonthFromDate(a.CreatedDate);
+            let d = new Date(a.CreatedDate);
+            let tempYear = d.getFullYear();
+            let tempMonth = d.getMonth() + 1;
+            let tempDay = d.getDate();
+            let tempMonthName = this.getMonthFromDate(a.CreatedDate);
             let tempWeek = this.getWeekFromDate(a.CreatedDate);
-            let tempDate = this.getDateFromMonth(a.CreatedDate);
-            if (this.filterdByMonth === tempMonth) {
-                r[tempDate] = [...r[tempDate] || [], a];
+            let dateString = tempYear + '-' + tempMonth + '-' + tempDay;
+            let weekString = tempWeek + '-' + tempYear;
+            let weekDayString = weekDays[d.getDay()] + '-' + tempWeek;
+            let tempYearString = tempMonthName + '-' + tempYear;
+
+            if (isMonthFilter) {
+                if (startCount === tempMonth) {
+                    r[dateString] = [...r[dateString] || [], a];
+                }
             }
-            else if (!this.filterdByMonth) {
-                r[(this.isWeek ? tempWeek : tempMonth)] = [...r[(this.isWeek ? tempWeek : tempMonth)] || [], a];
+            else if (isWeekView) {
+                if (this.filterdByWeek) {
+                    if (startCount === tempWeek) {
+                        r[weekDayString] = [...r[weekDayString] || [], a];
+                    }
+                }
+                else if (tempWeek >= startCount && tempWeek <= endCount) {
+                    r[weekString] = [...r[weekString] || [], a];
+                }
             }
+            else {
+                if (tempMonth >= startCount && tempMonth <= endCount) {
+                    r[tempYearString] = [...r[tempYearString] || [], a];
+                }
+            }
+
             return r;
         }, {});
+
+
+
     }
     groupByUsers(list) {
         return list.reduce((r, a) => {
@@ -695,6 +814,50 @@ export default class UsageDashboard extends LightningElement {
     getMinAndMax(list) {
         let nums = list.map(l => l.data[0].r);
         return [Math.max(...nums), Math.min(...nums)];
+    }
+    prepareMonthDays(month) {
+        let d = new Date();
+        let year = d.getFullYear();
+        this.year_month_day = [];
+        for (let dayNumber of days) {
+            this.year_month_day.push(year + '-' + month + '-' + dayNumber);
+        }
+    }
+    prepareWeekDays(week) {
+        this.day_week = [];
+        for (let dayName of weekDays) {
+            this.day_week.push(dayName + '-' + week);
+        }
+
+
+
+    }
+    getLabel() {
+        let startCount = this.filterByPeriodStart;
+        let endCount = this.filterByPeriodEnd;
+        if (this.filterdByMonth) {
+            return this.year_month_day;
+            //month filter
+        }
+        else if (this.filterdByWeek) {
+            return this.day_week;
+        }
+        else if (this.isWeek) {
+            return this.week_year.slice(startCount - 1, endCount);
+            //week view
+        }
+        else {
+            return this.month_year.slice(startCount - 1, endCount);
+            //year view
+        }
+    }
+    showNotification(title, msg, varient) {
+        const evt = new ShowToastEvent({
+            title: title,
+            message: msg,
+            variant: varient
+        });
+        this.dispatchEvent(evt);
     }
 
 

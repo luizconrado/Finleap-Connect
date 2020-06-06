@@ -1,0 +1,132 @@
+<aura:component controller="OpportuntiyContractController" implements="force:lightningQuickActionWithoutHeader,force:hasRecordId" >
+    <aura:html tag="style">
+        .cuf-content {
+        padding: 0 0rem !important;
+        }
+        .slds-p-around--medium {
+        padding: 0rem !important;
+        }       
+        .slds-modal__content{
+        height:unset !important;
+        max-height:unset !important;
+        }
+    </aura:html>
+    
+    <aura:attribute name="opportuntiyRecord" type="Object"/>
+    <aura:attribute name="recordLoadError" type="String"/>
+    <aura:attribute name="loader" type="Boolean" default="false"/>
+
+    
+    <force:recordData aura:id="recordLoader"
+                      recordId="{!v.recordId}"
+                      fields="Id,AccountId,Revenue_Start_Date__c,ContractId"
+                      targetFields="{!v.opportuntiyRecord}"
+                      targetError="{!v.recordLoadError}"
+                      />
+    
+    
+    <div class="modal-header slds-modal__header slds-size_1-of-1">
+        <h4 class="title slds-text-heading--medium" >Create Contract</h4>
+    </div>
+    
+    <aura:if isTrue="{!v.opportuntiyRecord}">
+        <aura:if isTrue="{!!v.opportuntiyRecord.ContractId}">
+            <lightning:recordEditForm onsubmit="{!c.onsubmit}" onsuccess="{!c.onContractCreated}" recordId="{!v.opportuntiyRecord.ContractId}" objectApiName="Contract">
+                <lightning:messages />
+                
+                <div class="slds-modal__content slds-p-around--x-small  slds-is-relative" aura:id="modalbody" id="modalbody">
+                    <aura:if isTrue="{!v.loader}">
+                        <lightning:spinner alternativeText="Loading" size="medium" />
+                    </aura:if>
+                    <form class="slds-form--stacked">
+                        <div class="slds-grid slds-grid_vertical">
+                            <div class="slds-col slds-grid">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning:outputfield fieldName="ContractNumber"/>
+                                </div>
+                                <div class="slds-col  slds-size_1-of-2">
+                                    <lightning:inputField fieldName="AccountId" value="{!v.opportuntiyRecord.AccountId}"/>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-grid">
+                                <div class="slds-col  slds-size_1-of-2">
+                                    <lightning:inputField fieldName="StartDate" value="{!v.opportuntiyRecord.Revenue_Start_Date__c}"/>
+                                    
+                                </div>
+                                <div class="slds-col  slds-size_1-of-2">
+                                    <lightning:inputField fieldName="Status" value="Draft"/>
+                                    
+                                </div>
+                            </div>
+                            <div class="slds-col slds-grid">
+                                <div class="slds-col  slds-size_1-of-2">
+                                    
+                                    <lightning:inputField  fieldName="Pricebook2Id" value="01s2o000001mlygAAA"/>
+                                    
+                                </div>
+                                <div class="slds-col  slds-size_1-of-2">
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </form> 
+                </div>  
+                
+                <!-- MODAL FOOTER -->
+                <div class="modal-footer slds-modal__footer slds-size_1-of-1">
+                        <lightning:button class="slds-m-top_small" variant="brand-outline"  name="Cancel" label="Cancel"  onclick="{!c.onClose}"/>
+
+                        <lightning:button class="slds-m-top_small" variant="brand" type="submit" name="Create" label="Create" />
+                        
+                   
+                </div>
+            </lightning:recordEditForm>
+            <aura:set attribute="else">
+                  <lightning:recordEditForm onsuccess="{!c.onContractCreated}" recordId="{!v.opportuntiyRecord.ContractId}" objectApiName="Contract">
+                <lightning:messages />
+                
+                <div class="slds-modal__content slds-p-around--x-small slds-is-relative" aura:id="modalbody" id="modalbody">
+                    <form class="slds-form--stacked">
+                        <div class="slds-grid slds-grid_vertical">
+                            <div class="slds-col slds-grid">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning:outputfield fieldName="ContractNumber"/>
+                                </div>
+                                <div class="slds-col  slds-size_1-of-2">
+                                    <lightning:outputfield fieldName="AccountId" value="{!v.opportuntiyRecord.AccountId}"/>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-grid">
+                                <div class="slds-col  slds-size_1-of-2">
+                                    <lightning:outputfield fieldName="StartDate" value="{!v.opportuntiyRecord.Revenue_Start_Date__c}"/>
+                                    
+                                </div>
+                                <div class="slds-col  slds-size_1-of-2">
+                                    <lightning:outputfield fieldName="Status" value="Draft"/>
+                                    
+                                </div>
+                            </div>
+                            <div class="slds-col slds-grid">
+                                <div class="slds-col  slds-size_1-of-2">
+                                    
+                                    <lightning:outputfield  fieldName="Pricebook2Id" value="01s2o000001mlygAAA"/>
+                                    
+                                </div>
+                                <div class="slds-col  slds-size_1-of-2">
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </form> 
+                </div>  
+                
+                <!-- MODAL FOOTER -->
+                <div class="modal-footer slds-modal__footer slds-size_1-of-1">
+                        <lightning:button class="slds-m-top_small" variant="brand-outline"  name="Cancel" label="Cancel"  onclick="{!c.onClose}"/>
+                </div>
+            </lightning:recordEditForm>
+        
+            </aura:set>
+        </aura:if>
+    </aura:if>
+</aura:component>

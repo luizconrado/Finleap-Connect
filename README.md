@@ -136,3 +136,27 @@ sfdx force:auth:logout --targetusername FINLEAPDEVis
 
 ## SFDX:Plugin SFDMU commapand
 sfdx sfdmu:move --sourceusername syed.furcan@extern.finleap.com  --targetusername syed.furcan@extern.finleap.com.partial 
+
+
+
+# Apex
+Constant
+OpportunityTriggerHandler
+OpportuntiyApprovalStatusController
+
+# Fields
+1. in opportuntiy line item
+2. in opportnunty
+
+# Aura
+Alert Component
+Related Product
+Product Detauls
+
+# Approval Process
+Opportuty apporval process
+
+# Custom object
+
+Product Instance
+Product Usage
