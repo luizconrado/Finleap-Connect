@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Qualifying_Stage_Probablity</fullName>
+    <active>true</active>
+    <description>Opportunity in Qualifying should have not more then 0 probability</description>
+    <errorConditionFormula>AND(
+ ISPICKVAL(StageName, &quot;Qualifying&quot;), 
+ Probability != 0 ,
+ NOT(CONTAINS($Label.Users_Exclusion,$User.Username)),
+RecordTypeId == $CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c
+)</errorConditionFormula>
+    <errorDisplayField>Probability</errorDisplayField>
+    <errorMessage>Opportunities in qualifying stage must have probability as 0</errorMessage>
+</ValidationRule>

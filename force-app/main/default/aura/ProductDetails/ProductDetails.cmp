@@ -58,17 +58,17 @@
                                     </div>
                                     <div class="slds-col slds-size_2-of-8">
                                         <div class="slds-form-element">
-                                            <label class="slds-form-element__label" for="form-element-Setup">Setup Price</label>
+                                            <label class="slds-form-element__label" for="form-element-Base-Usage">Base Usage</label>
                                             <div class="hide-label slds-form-element__control">
-                                                <lightning:input  id="form-element-Setup"  value="{!v.product.baseSetup}" formatter="currency" varient="label-hidden" type="number" name="Setup_Price" />
+                                                <lightning:input  id="form-element-Base-Usage" value="{!v.product.baselimit}" varient="label-hidden" type="number" name="Base_Usage" />
                                             </div>
                                         </div>
                                     </div>
                                     <div class="slds-col slds-size_2-of-8">
                                         <div class="slds-form-element">
-                                            <label class="slds-form-element__label" for="form-element-Base-Usage">Base Usage</label>
+                                            <label class="slds-form-element__label" for="form-element-Setup">Setup Price</label>
                                             <div class="hide-label slds-form-element__control">
-                                                <lightning:input  id="form-element-Base-Usage" value="{!v.product.baselimit}" varient="label-hidden" type="number" name="Base_Usage" />
+                                                <lightning:input  id="form-element-Setup"  value="{!v.product.baseSetup}" formatter="currency" varient="label-hidden" type="number" name="Setup_Price" />
                                             </div>
                                         </div>
                                     </div>

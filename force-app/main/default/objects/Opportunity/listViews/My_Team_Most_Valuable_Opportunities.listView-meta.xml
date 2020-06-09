@@ -9,7 +9,7 @@
     <columns>OPPORTUNITY.AMOUNT</columns>
     <columns>OPPORTUNITY.EXP_AMOUNT</columns>
     <columns>OPPORTUNITY.LAST_ACTIVITY</columns>
-    <filterScope>Team</filterScope>
+    <filterScope>SalesTeam</filterScope>
     <filters>
         <field>OPPORTUNITY.STAGE_NAME</field>
         <operation>equals</operation>

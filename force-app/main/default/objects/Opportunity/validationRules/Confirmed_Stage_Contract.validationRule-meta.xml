@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Confirmed_Stage_Contract</fullName>
+    <active>true</active>
+    <description>contract validation before moving to Confirmed stage</description>
+    <errorConditionFormula>AND(
+ ISPICKVAL(StageName, &quot;Confirmed&quot;), 
+  OR( ISNULL( ContractId ) ,ISBLANK(ContractId ))   ,
+ NOT(CONTAINS($Label.Users_Exclusion,$User.Username)),
+RecordTypeId == $CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c
+
+)</errorConditionFormula>
+    <errorDisplayField>ContractId</errorDisplayField>
+    <errorMessage>Contract must be created before moving to confirmed stage</errorMessage>
+</ValidationRule>

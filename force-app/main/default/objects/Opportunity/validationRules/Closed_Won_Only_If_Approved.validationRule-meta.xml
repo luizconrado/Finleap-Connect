@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Closed_Won_Only_If_Approved</fullName>
+    <active>true</active>
+    <description>An Opportunity can only be Closed won if approved</description>
+    <errorConditionFormula>AND(
+ ISPICKVAL(StageName, &quot;Closed Won&quot;),  
+ OR(ISBLANK(Finance_Approved_Date__c),ISBLANK(Finance_Approved_User_Id__c),ISBLANK(Compliance_Approved_Date__c),ISBLANK(Compliance_Approved_User_Id__c)),
+  NOT(CONTAINS($Label.Users_Exclusion,$User.Username)),
+ RecordTypeId == $CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c 
+)</errorConditionFormula>
+    <errorDisplayField>StageName</errorDisplayField>
+    <errorMessage>Opportunities can be Closed Won. Only if it is approved</errorMessage>
+</ValidationRule>

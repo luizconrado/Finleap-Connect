@@ -49,19 +49,43 @@ public class OpportunityTriggerHandler extends Triggerhandler {
         
         List<Opportunity> finleapConnectApprovedOpportuntiyList=new List<Opportunity>();
         
+        Map<String,String> contractIdAndStage=new Map<String,String>();
+        
+        
         for(Opportunity o:newOpportunityList){
             if(o.RecordTypeId==Constant.OPPORTUNITY_FINLEAP_CONNECT_RECORDTYPE_ID){
+                //check if opportuntiy is approved and update contract stage to approved and create product instance
                 if(o.StageName=='Closed Won' 
                    && oldOpportunityMap.get(o.Id).StageName!=o.StageName 
                    && o.Compliance_Approved_Date__c!=null 
                    && o.Finance_Approved_Date__c!=null
                    && o.ContractId!=null ){
-                    finleapConnectApprovedOpportuntiyList.add(o);
+                   	   finleapConnectApprovedOpportuntiyList.add(o);
+                       contractIdAndStage.put(o.ContractId,'Activated');
+                }
+                //update contract stage to in approval if first stage of apporval is accepted
+                else if(o.StageName=='Confirmed' 
+                   && oldOpportunityMap.get(o.Id).StageName==o.StageName 
+                   && oldOpportunityMap.get(o.Id).Compliance_Approved_Date__c!=o.Compliance_Approved_Date__c
+                   && o.Compliance_Approved_Date__c!=null 
+                   && o.ContractId!=null ){
+                       finleapConnectApprovedOpportuntiyList.add(o);
+                       contractIdAndStage.put(o.ContractId,'In Approval Process');
+                }
+                //update contract stage to draft if approval process is rejected
+                else if(o.StageName=='Confirmed' 
+                   && oldOpportunityMap.get(o.Id).StageName==o.StageName 
+                   && oldOpportunityMap.get(o.Id).Compliance_Approved_Date__c!=o.Compliance_Approved_Date__c
+                   && o.Compliance_Approved_Date__c==null 
+                   && o.ContractId!=null ){
+                       finleapConnectApprovedOpportuntiyList.add(o);
+                       contractIdAndStage.put(o.ContractId,'Draft');
                 }
             }
         }
         
         if(finleapConnectApprovedOpportuntiyList.size()>0) createProductInstanceInContract(finleapConnectApprovedOpportuntiyList);
+        if(contractIdAndStage.size()>0) updateContractStage(contractIdAndStage);
         
         //track changes
         if(!System.Label.Track_History_Exclusion.contains(Userinfo.getUserEmail()))
@@ -134,6 +158,13 @@ public class OpportunityTriggerHandler extends Triggerhandler {
         }
         insert toInsert;
         
+    }
+    private static void updateContractStage(Map<String,String> contractIdAndStageMap){
+        List<Contract> toUpdateContracts=new List<Contract>();
+        for(String contractId:contractIdAndStageMap.keySet()){
+            toUpdateContracts.add(new Contract(Id=contractId,Status=contractIdAndStageMap.get(contractId)));
+        }
+        if (toUpdateContracts.size()>0) update toUpdateContracts;
     }
     
     @future

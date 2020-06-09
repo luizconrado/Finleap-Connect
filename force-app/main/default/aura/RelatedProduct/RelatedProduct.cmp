@@ -123,12 +123,8 @@
                                         </lightning:progressIndicator>
                                     </div>
                                     <div class="slds-col slds-grow-none">
-                                        <lightning:buttonIcon iconName="utility:back"  variant="border-filled" alternativeText="Back" title="Back" value="Add_Product_back" onclick="{! c.changeSubStep }"/>
-                                        <lightning:buttonIcon iconName="utility:forward"  variant="border-filled" alternativeText="Next" title="Next" value="Add_Product_next" onclick="{! c.changeSubStep }"/>
-										<!--
                                         <lightning:button variant="brand-outline" value="Add_Product_back" name="Add_Product_back" label="Back" title="Back" onclick="{! c.changeSubStep }"/>
                                         <lightning:button variant="brand-outline" value="Add_Product_next" name="Add_Product_next" label="Next" title="Next" onclick="{! c.changeSubStep }"/>
-                                        -->
                                     </div>
                                 </div>
                                 
@@ -147,7 +143,7 @@
             <footer class="slds-modal__footer">
                 <lightning:button variant="brand-outline" value="Add_Product" label="Cancel" title="Cancel" onclick="{! c.closePopup }"/>
                 <aura:if isTrue="{!v.currentStep=='2'}">
-                    <lightning:button variant="brand-outline" value="Add_Product" label="Back" title="Back" onclick="{! c.step1 }"/>
+                    <lightning:button variant="brand-outline" value="Add_Product" label="Return To Product Selection" title="Return To Product Selection" onclick="{! c.step1 }"/>
                 </aura:if>
                 <lightning:button variant="brand" disabled="{!v.allSelectedProductsList.length==0}" value="Add_Product" label="{!v.currentStep=='2'?'Save':'Next'}" title="{!v.currentStep=='2'?'Save':'Next'}" onclick="{!c.onSaveProduct}"/>
             </footer>
