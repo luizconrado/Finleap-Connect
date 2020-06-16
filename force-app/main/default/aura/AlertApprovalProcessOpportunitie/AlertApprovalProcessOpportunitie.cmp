@@ -1,4 +1,4 @@
-<aura:component controller="OpportuntiyApprovalStatusController" implements="flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+<aura:component controller="AlertController" implements="flexipage:availableForRecordHome,force:hasRecordId" access="global" >
     
     <aura:handler name='change' value='{!v.oppRecord}' action='{!c.getStatus}' />
     

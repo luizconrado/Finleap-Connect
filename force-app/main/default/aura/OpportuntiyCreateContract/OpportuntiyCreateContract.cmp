@@ -102,7 +102,7 @@
                                             <div class="slds-form-element">
                                                 <label class="slds-form-element__label" for="form-element-Base-Usage">Contract Number</label>
                                                 <div class="hide-label slds-form-element__control">
-                                                    <a href="{!'/lightning/r/Contract/'+v.opportuntiyRecord.Contract.ContractNumber+'/view'}">{!v.opportuntiyRecord.Contract.ContractNumber}</a>
+                                                    <a href="{!'/lightning/r/Contract/'+v.opportuntiyRecord.ContractId+'/view'}">{!v.opportuntiyRecord.Contract.ContractNumber}</a>
                                                 </div>
                                             </div>
                                         </aura:if>

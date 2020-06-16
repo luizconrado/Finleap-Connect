@@ -1,4 +1,4 @@
-<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName" controller="AlertShowInProgressController" access="global" >
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName" controller="AlertController" access="global" >
     
     <aura:attribute name="OpportunityRecord" type="Object"/>
     <aura:attribute name="recordLoadError" type="String"/>

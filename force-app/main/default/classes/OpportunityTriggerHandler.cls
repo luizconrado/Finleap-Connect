@@ -116,7 +116,7 @@ public class OpportunityTriggerHandler extends Triggerhandler {
     
     private static void createProductInstanceInContract(List<Opportunity> finleapConnectApprovedOpportuntiyList){
         List<Product_Instance__c> toInsert=new List<Product_Instance__c>();
-        List<OpportunityLineItem> opportunityLineItemList=[SELECT Id,Product2Id,Product2.Name,OpportunityId,Opportunity.ContractId,UnitPrice,One_Time_Setup_Price__c,Base_Limit__c,
+        List<OpportunityLineItem> opportunityLineItemList=[SELECT Id,Percentage_Per_Usage__c,Pricing_Type__c,Product2Id,Product2.Name,OpportunityId,Opportunity.ContractId,UnitPrice,One_Time_Setup_Price__c,Base_Limit__c,
                                                            Excess_Limit_Bucket_1__c,Excess_Limit_Bucket_2__c,Excess_Limit_Bucket_3__c,Excess_Limit_Bucket_4__c,Excess_Limit_Bucket_5__c,
                                                            Excess_Price_Bucket_1__c,Excess_Price_Bucket_2__c,Excess_Price_Bucket_3__c,Excess_Price_Bucket_4__c,Excess_Price_Bucket_5__c
                                                            FROM OpportunityLineItem 
@@ -136,6 +136,8 @@ public class OpportunityTriggerHandler extends Triggerhandler {
                 && oppAndProdInstaceMap.get(oli.OpportunityId).indexOf(oli.Product2Id)>-1)){
                     Product_Instance__c x=new Product_Instance__c();
                     x.Name=oli.Product2.Name;
+                    x.Percentage_Per_Usage__c=oli.Percentage_Per_Usage__c;
+                    x.Pricing_Type__c=oli.Pricing_Type__c;
                     x.Contract__c=oli.Opportunity.ContractId;
                     x.Base_Limit__c=oli.Base_Limit__c;
                     x.Base_Price__c=oli.UnitPrice;

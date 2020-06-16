@@ -1,7 +1,7 @@
 ({
 	getStatus : function(component, event, helper) {
         let oppRecord=component.get('v.oppRecord');
-        if(oppRecord.StageName=='Negotiate' || oppRecord.StageName=='Closed Won'){
+        if(oppRecord.StageName=='Confirmed' || oppRecord.StageName=='Closed Won'){
             helper.callApex(component,"getApprovalProcessStatus",function(response){
                 let status=response.getState();
                 if (status === "SUCCESS"){

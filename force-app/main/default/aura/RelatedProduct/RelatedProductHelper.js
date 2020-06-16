@@ -66,6 +66,7 @@
             let status=response.getState();
             if (status === "SUCCESS"){
                 let data = response.getReturnValue();
+                console.log('data',data);
                 let selectedProd=component.get('v.allSelectedProductsList');
                 if(!isShowAll){
                     let linkedProductsList=component.get('v.linkedProductsList')
@@ -89,13 +90,14 @@
         prodList.forEach(function(prod,index){
             let obj={};
             obj.isExpanded=true;
+            obj.type=prod.Pricing_Type__c;
             obj.prodId=prod.Product2Id;
             obj.index=index;
             obj.id=prod.Id;
             obj.oppid=prod.OpportunityId;
             obj.name=prod.Product2.Name;
             obj.prodFamily=prod.Product2.Family;
-            obj.baseprice=prod.UnitPrice;
+            obj.baseprice=(prod.Pricing_Type__c=='Usage')?prod.UnitPrice:prod.Percentage_Per_Usage__c;
             obj.baselimit=prod.Base_Limit__c;
             obj.baseSetup=prod.One_Time_Setup_Price__c;
             obj.children=[];
@@ -129,6 +131,7 @@
             obj.index=index;
             obj.name=prod.Name;
             obj.prodFamily=prod.Family;
+            obj.type=prod.Pricing_Type__c;
             obj.baseSetup=0;
             obj.baseprice=0;
             obj.baselimit=0;
@@ -222,24 +225,36 @@
             recordObj.Name=prod.name;
             recordObj.Id=prod.id;
             
-            if(!(prod.baseprice && prod.baselimit)){
+            if(!prod.baseprice){
                 error=true;
-                helper.showToast('warrning','Missing Values','Check Price and Range for '+prod.name);
+                helper.showToast('warrning','Missing Values','Check Price for '+prod.name);
                 return;
             }
-             if(!(prod.baseSetup)){
+            else if(!prod.baselimit && prod.type=='Usage'){
+                error=true;
+                helper.showToast('warrning','Missing Values','Check Limit for '+prod.name);
+                return;
+            }
+            else if(!(prod.baseSetup)){
                 error=true;
                 helper.showToast('warrning','Missing Values','Check Setup Price for '+prod.name);
                 return;
             }
-            recordObj.UnitPrice=prod.baseprice;
+            recordObj.Pricing_Type__c=prod.type;
+            if(prod.type=='Usage'){
+                recordObj.UnitPrice=prod.baseprice;
+            }
+            else{
+                recordObj.UnitPrice=0;
+                recordObj.Percentage_Per_Usage__c=prod.baseprice;
+            }
             recordObj.Base_Limit__c=prod.baselimit;
             recordObj.One_Time_Setup_Price__c=prod.baseSetup;
             recordObj.Quantity=1;
             prod.children.forEach(function(bucket){
                 if(!(bucket.excesslimit && bucket.excessprice)){
                     error=true;
-                    helper.showToast('warrning','Missing Values','Check Price and Range for '+bucket.name);
+                    helper.showToast('warrning','Missing Values','Check Price and Range for '+prod.name+' - '+bucket.name);
                     return;
                 }
                 

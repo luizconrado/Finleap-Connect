@@ -2,7 +2,7 @@ public with sharing class RelatedProductController {
     
     @AuraEnabled
     public static List<OpportunityLineItem> getRelatedProducts(String recordId){
-        return [SELECT Id,Product2Id,Product2.Name,Product2.Family,ProductCode, Name,OpportunityId, UnitPrice,Base_Limit__c,
+        return [SELECT Id,Percentage_Per_Usage__c,Product2Id,Product2.Name,Product2.Family,ProductCode, Name,OpportunityId, UnitPrice,Base_Limit__c,Pricing_Type__c,
                 Excess_Limit_Bucket_1__c,Excess_Limit_Bucket_2__c,Excess_Limit_Bucket_3__c,Excess_Limit_Bucket_4__c,Excess_Limit_Bucket_5__c,
                 Excess_Price_Bucket_1__c,Excess_Price_Bucket_2__c,Excess_Price_Bucket_3__c,Excess_Price_Bucket_4__c,Excess_Price_Bucket_5__c,
                 One_Time_Setup_Price__c
@@ -14,17 +14,18 @@ public with sharing class RelatedProductController {
     public static List<Product2> fetchProducts(String productName,String targetCountries,Boolean showAll){
         List<Product2> allProducts=new List<Product2>();
         if(String.isNotEmpty(productName)) productName='%'+productName+'%';
-        String productQuery='SELECT Id, Name, ProductCode, Description, Family, Countries_Covered__c FROM Product2 ';
+        String productQuery='SELECT Id,Pricing_Type__c,Name, ProductCode, Description, Family, Countries_Covered__c FROM Product2 ';
         productQuery +=' WHERE isActive=true';
         if(String.isNotEmpty(productName)){
             productQuery += ' AND Name LIKE:productName ';
         }
         if(String.isNotEmpty(targetCountries) && showAll==false){
-            productQuery += ' AND Countries_Covered__c includes '+getTargetCountriesQueryList(targetCountries.split(';'))+' ORDER BY Family Asc LIMIT 50';
+            productQuery += ' AND Countries_Covered__c includes '+getTargetCountriesQueryList(targetCountries.split(';'))+' ';
         }
         else if(showAll==false && String.isEmpty(targetCountries)){
            return allProducts;
         }
+        productQuery += ' AND Visibility__c=\'Full\' ORDER BY Family Asc LIMIT 50';
         allProducts = Database.query(productQuery);
         return allProducts;
     }
@@ -63,7 +64,6 @@ public with sharing class RelatedProductController {
         List<Opportunity> opportunityList=[SELECT id,Product__c FROM Opportunity WHERE Id IN:oppAndProductMap.keySet()];
         for(Opportunity o:opportunityList){
             o.Product__c = (o.Product__c!=null)?o.Product__c+';'+String.join(oppAndProductMap.get(o.Id),';'):String.join(oppAndProductMap.get(o.Id),';');
-            System.debug('KING '+o.Product__c);
         }
         
         update opportunityList;
@@ -102,7 +102,6 @@ public with sharing class RelatedProductController {
         }
         
         update opportunityList;
-        System.debug('KING '+oppAndProductMap);
         if(toUpdate.size()>0) update toUpdate;
         if(toDelete.size()>0) delete toDelete;
 

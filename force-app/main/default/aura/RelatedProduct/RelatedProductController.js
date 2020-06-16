@@ -117,7 +117,7 @@
         let value=event.getSource().get('v.value')
         if(value.trim().length>2){
             component.set('v.isLoading',true)
-            helper.closeAddProduct(component,value);
+            helper.searchProducts(component,value);
         }
         if(value.trim()==0){
             component.set('v.isLoading',true)
