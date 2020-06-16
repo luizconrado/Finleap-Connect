@@ -1,0 +1,207 @@
+<template>
+
+
+    <lightning-layout vertical-align="  " multiple-rows="true" class="x-large">
+        <lightning-layout-item size="12" padding="around-small" class="white-background">
+            <div class="slds-is-relative" if:true={loading}>
+                <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+            </div>
+            <div class="slds-grid slds-grid_vertical">
+
+                <div class="slds-col slds-size_1-of-1">
+                    <div class="slds-grid slds-float_left">
+                        <div class="slds-col slds-form-element">
+                            <label class="slds-form-element__label" for="periodStart">Filter Period
+                                Start</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-select_container">
+                                    <select onchange={onPeriodStartFilter} class="slds-select periodStart"
+                                        id="periodStart">
+                                        <template for:each={periodStart} for:item="itm">
+                                            <option key={itm} value={itm}>{itm}</option>
+                                        </template>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-form-element slds-m-left_x-small">
+                            <label class="slds-form-element__label" for="periodEnd">Filter Period
+                                End</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-select_container">
+                                    <select onchange={onPeriodEndFilter} class="slds-select periodEnd" id="periodEnd">
+                                        <template for:each={periodEnd} for:item="itm">
+                                            <option key={itm} value={itm}>{itm}</option>
+                                        </template>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-float_right">
+                        <lightning-button variant={monthButtonVarient} label="Month View" title="Month View"
+                            onclick={onMonthView} class="slds-m-left_x-small">
+                        </lightning-button>
+                        <lightning-button variant={weekButtonVarient} label="Week View" title="Week View"
+                            onclick={onWeekiew} class="slds-m-left_x-small">
+                        </lightning-button>
+                    </div>
+                    <div class="lineChart slds-m-around_medium" lwc:dom="manual"></div>
+                </div>
+                <div class="slds-col slds-size_1-of-1">
+                    <table aria-multiselectable="true"
+                        class="slds-table slds-table_bordered slds-table_fixed-layout slds-tree slds-table_tree"
+                        role="treegrid">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th aria-label="Month Name" aria-sort="none"
+                                    class="slds-p-left_small slds-has-button-menu slds-is-resizable slds-is-sortable"
+                                    scope="col">
+                                    <span class="slds-assistive-text">Sort by: </span>
+                                    <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                        <span class="slds-truncate" title="Month Name">Month Name</span>
+                                    </div>
+                                </th>
+                                <th aria-label="Usage Allowed" aria-sort="none"
+                                    class="slds-has-button-menu slds-is-resizable slds-is-sortable" scope="col">
+                                    <a class="slds-text-link_reset" href="javascript:void(0);" role="button"
+                                        tabindex="-1">
+                                        <span class="slds-assistive-text">Sort by: </span>
+                                        <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                            <span class="slds-truncate" title="Usage Allowed">Usage Allowed</span>
+
+                                        </div>
+                                    </a>
+
+                                </th>
+                                <th aria-label="Price" aria-sort="none"
+                                    class="slds-has-button-menu slds-is-resizable slds-is-sortable" scope="col">
+                                    <a class="slds-text-link_reset" href="javascript:void(0);" role="button"
+                                        tabindex="-1">
+                                        <span class="slds-assistive-text">Sort by: </span>
+                                        <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                            <span class="slds-truncate" title="Price">Price</span>
+                                        </div>
+                                    </a>
+
+                                </th>
+                                <th aria-label="Used" aria-sort="none"
+                                    class="slds-has-button-menu slds-is-resizable slds-is-sortable" scope="col">
+                                    <a class="slds-text-link_reset" href="javascript:void(0);" role="button"
+                                        tabindex="-1">
+                                        <span class="slds-assistive-text">Sort by: </span>
+                                        <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                            <span class="slds-truncate" title="Used">Used</span>
+
+                                        </div>
+                                    </a>
+
+                                </th>
+
+                                <th aria-label="Total Price" aria-sort="none"
+                                    class="slds-has-button-menu slds-is-resizable slds-is-sortable" scope="col">
+                                    <a class="slds-text-link_reset" href="javascript:void(0);" role="button"
+                                        tabindex="-1">
+                                        <span class="slds-assistive-text">Sort by: </span>
+                                        <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                            <span class="slds-truncate" title="Total Price">Total Price</span>
+                                        </div>
+                                    </a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={pricingDetails} for:item="item">
+                                <tr aria-expanded={item.expanded} key={item.month} aria-level="0"
+                                    class="slds-hint-parent">
+                                    <th data-value={item.month} class="slds-tree__item" data-label="Month Name"
+                                        scope="row" onclick={togglePriceTable}>
+
+                                        <button
+                                            class="slds-button slds-button_icon slds-button_icon-x-small slds-m-right_x-small"
+                                            aria-hidden="true" tabindex="-1" title="Collapse Acme Corporation">
+                                            <lightning-icon if:false={item.expanded} size="x-small"
+                                                icon-name="utility:chevronright" alternative-text="chevronright"
+                                                title="chevronright"></lightning-icon>
+                                            <lightning-icon if:true={item.expanded} size="x-small"
+                                                icon-name="utility:chevrondown" alternative-text="chevrondown"
+                                                title="chevrondown"></lightning-icon>
+
+                                        </button>
+                                        <div class="slds-truncate" title={item.month}>
+                                            {item.month}
+                                        </div>
+                                    </th>
+                                    <td data-label="Usage Allowed" role="gridcell">
+                                        <div class="slds-truncate" title="">
+                                        </div>
+                                    </td>
+
+                                    <td data-label="Price" role="gridcell">
+                                        <div class="slds-truncate" title="">
+                                        </div>
+                                    </td>
+                                    <td data-label="Used" role="gridcell">
+                                        <div class="slds-truncate" title="">{item.totalUsage}
+                                        </div>
+                                    </td>
+                                    <td data-label="Total Price" role="gridcell">
+                                        <div class="slds-truncate" title={item.totalPrice}>
+                                            <lightning-input variant="label-hidden" type="number" name="TotalPrice"
+                                                label="" read-only value={item.totalPrice} formatter="currency"
+                                                step="0.01">
+
+                                            </lightning-input>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <template if:true={item.expanded} for:each={item.buckets} for:item="bucket">
+                                    <tr aria-level="3" class="slds-hint-parent" key={bucket.key}>
+
+                                        <th class="slds-tree__item" data-label="Month Name" scope="row">
+                                            <div class="slds-truncate" title={bucket.key}>{bucket.key}</div>
+                                        </th>
+                                        <td data-label="Usage Allowed" role="gridcell">
+                                            <div class="slds-truncate" title={bucket.usageAllowed}>{bucket.usageAllowed}
+                                            </div>
+                                        </td>
+
+                                        <td data-label="Price" role="gridcell">
+                                            <div class="slds-truncate" title={bucket.usagePrice}>
+                                                <lightning-input variant="label-hidden" type="number" name="usagePrice"
+                                                    label="" read-only value={bucket.usagePrice} formatter="currency"
+                                                    step="0.01">
+
+                                                </lightning-input>
+                                            </div>
+                                        </td>
+                                        <td data-label="Used" role="gridcell">
+                                            <div class="slds-truncate" title={bucket.usage}>{bucket.usage}</div>
+                                        </td>
+                                        <td data-label="Total Price" role="gridcell">
+                                            <div class="slds-truncate" title={bucket.price}>
+                                                <lightning-input variant="label-hidden" type="number" name="TotalPrice"
+                                                    label="" read-only value={bucket.price} formatter="currency"
+                                                    step="0.01">
+
+                                                </lightning-input>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </template>
+
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </lightning-layout-item>
+    </lightning-layout>
+
+
+</template>

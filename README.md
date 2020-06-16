@@ -1,6 +1,6 @@
 # Finleap-Connect
 Finleap connect Org
-
+syed.furcan@extern.finleap.com.finleapmig
 # Functionality 
 
 1. Opportunitys are private shared with users based on role and profile

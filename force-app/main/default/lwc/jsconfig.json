@@ -10,6 +10,9 @@
             ],
             "c/vega": [
                 "vega/vega.js"
+            ],
+            "c/productInstanceUsageChart": [
+                "productInstanceUsageChart/productInstanceUsageChart.js"
             ]
         },
         "experimentalDecorators": true
