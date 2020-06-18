@@ -13,6 +13,9 @@
             ],
             "c/productInstanceUsageChart": [
                 "productInstanceUsageChart/productInstanceUsageChart.js"
+            ],
+            "c/loginUsageReport": [
+                "loginUsageReport/loginUsageReport.js"
             ]
         },
         "experimentalDecorators": true

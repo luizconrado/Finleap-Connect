@@ -10,33 +10,17 @@
 
                 <div class="slds-col slds-size_1-of-1">
                     <div class="slds-grid slds-float_left">
-                        <div class="slds-col slds-form-element">
-                            <label class="slds-form-element__label" for="periodStart">Filter Period
-                                Start</label>
-                            <div class="slds-form-element__control">
-                                <div class="slds-select_container">
-                                    <select onchange={onPeriodStartFilter} class="slds-select periodStart"
-                                        id="periodStart">
-                                        <template for:each={periodStart} for:item="itm">
-                                            <option key={itm} value={itm}>{itm}</option>
-                                        </template>
-                                    </select>
-                                </div>
-                            </div>
+                        <div class="slds-col">
+                            <lightning-combobox name="Filter Period Start" label="Filter Period Start"
+                                value={filterByPeriodStart} options={periodStart} onchange={onPeriodStartFilter}>
+                            </lightning-combobox>
                         </div>
-                        <div class="slds-col slds-form-element slds-m-left_x-small">
-                            <label class="slds-form-element__label" for="periodEnd">Filter Period
-                                End</label>
-                            <div class="slds-form-element__control">
-                                <div class="slds-select_container">
-                                    <select onchange={onPeriodEndFilter} class="slds-select periodEnd" id="periodEnd">
-                                        <template for:each={periodEnd} for:item="itm">
-                                            <option key={itm} value={itm}>{itm}</option>
-                                        </template>
-                                    </select>
-                                </div>
-                            </div>
+                        <div class="slds-col">
+                            <lightning-combobox name="Filter Period End" label="Filter Period End"
+                                value={filterByPeriodEnd} options={periodEnd} onchange={onPeriodEndFilter}>
+                            </lightning-combobox>
                         </div>
+
                     </div>
                     <div class="slds-float_right">
                         <lightning-button variant={monthButtonVarient} label="Month View" title="Month View"

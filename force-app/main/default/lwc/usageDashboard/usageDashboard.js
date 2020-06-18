@@ -3,6 +3,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
 
 import allRecords from '@salesforce/apex/UsageDashboardController.fetchAllTrackingRecords';
+
 import chartjs from '@salesforce/resourceUrl/charjs';
 import charjs_treemap from '@salesforce/resourceUrl/charjs_treemap';
 
@@ -44,8 +45,8 @@ export default class UsageDashboard extends LightningElement {
     records;
 
     //colors
-    usageColor;
-    changesColor;
+    usageColor = 'rgb(144,173,165)';
+    changesColor = 'rgb(79,112,165)';;
 
     //toggle
     isWeek = true
@@ -53,11 +54,14 @@ export default class UsageDashboard extends LightningElement {
     weekButtonVarient = 'brand-outline';
 
     loading = true;
-
+    //variables
+    today = new Date();
+    tempStartCount = 0;
+    tempEndCount = 53;
     @wire(allRecords)
     wiredRecords({ error, data }) {
         if (data) {
-            console.log('data', data);
+            console.log('usage data', data);
             this.records = data;
 
             this.process();
@@ -66,36 +70,37 @@ export default class UsageDashboard extends LightningElement {
             console.error(error);
         }
     }
+    processDates() {
+        let pastYear = new Date();
+        pastYear.setMonth(this.today.getMonth() - 12);
+        for (let i = 0, j = 13; i < j; i++) {
+            this.month_year.push(this.getMonthNameFromDate(pastYear) + ' - ' + pastYear.getFullYear());
+            //incement by one month
+            pastYear.setMonth(pastYear.getMonth() + 1);
+        }
+        pastYear.setMonth(this.today.getMonth() - 12);
+        const weekInMilliseconds = 7 * 24 * 60 * 60 * 1000;
+        for (let i = 0, j = 55; i < j; i++) {
+            this.week_year.push(this.getWeekFromDate(pastYear) + ' - ' + pastYear.getFullYear());
+            //incement by one week
+            pastYear.setTime(this.getMonday(pastYear).getTime() + weekInMilliseconds);
+        }
 
+    }
 
     connectedCallback() {
-        let d = new Date();
-        let year = d.getFullYear();
-        for (let monthName of months) {
-            this.month_year.push(monthName + '-' + year);
-        }
-        for (let weekNumber of weeks) {
-            this.week_year.push(weekNumber + '-' + year);
-        }
-        this.periodStart = this.week_year;
-        this.periodEnd = this.week_year.slice(0).reverse();
-        this.filterByPeriodStart = 1;
-        this.filterByPeriodEnd = this.week_year.length;
-
-        this.usageColor = 'rgb(144,173,165)';
-        this.changesColor = 'rgb(79,112,165)';
-
+        this.processDates();
         Promise.all([
             loadScript(this, chartjs),
             loadScript(this, charjs_treemap)
         ]);
-
     }
     process() {
         let changeTrackingRecords = this.records.filter(r => r.RecordType.Name === 'Field History');
         let usageTrackingRecords = this.records.filter(r => r.RecordType.Name === 'Usage Tracker');
         this.changeRecords = changeTrackingRecords;
         this.usageRecords = usageTrackingRecords;
+        this.processDateFilters();
         let changeGroup = this.groupByDateRange(this.changeRecords);
         let usageGroup = this.groupByDateRange(this.usageRecords);
         this.setupFilters(usageTrackingRecords, changeTrackingRecords)
@@ -531,54 +536,59 @@ export default class UsageDashboard extends LightningElement {
     }
 
     onPeriodStartFilter(event) {
-        const start = event.target.value;
-        const count = (this.isWeek) ? this.week_year.indexOf(start) + 1 : this.month_year.indexOf(start) + 1;
+        let count = event.detail.value;
+        if (typeof count === 'string') count = parseInt(count)
         if (count > this.filterByPeriodEnd) {
-            console.log('start cannot be greater then end')
             this.showNotification('Invalid Start Period', 'Start cannot be greater then End', 'warning');
+            this.filterByPeriodStart = this.tempStartCount;
             return;
         }
         if (!this.isWeek && this.filterByPeriodEnd == count) {
             //filter by month
             this.filterdByMonth = true;
+            this.prepareMonthDays(...this.month_year[count].split('-'));
 
-            this.prepareMonthDays(count);
         }
         else if (this.isWeek && this.filterByPeriodEnd == count) {
             //filter by week
             this.filterdByWeek = true;
-            this.prepareWeekDays(count);
+            this.prepareWeekDays(...this.week_year[count].split('-'));
         }
         else {
             this.filterdByMonth = false;
             this.filterdByWeek = false;
         }
         this.filterByPeriodStart = count;
+        this.tempStartCount = count;
+
         this.processFilters();
 
 
     }
     onPeriodEndFilter(event) {
-        const end = event.target.value;
-        const count = (this.isWeek) ? this.week_year.indexOf(end) + 1 : this.month_year.indexOf(end) + 1;
+        let count = event.detail.value;
+        if (typeof count === 'string') count = parseInt(count)
+
         if (count < this.filterByPeriodStart) {
             this.showNotification('Invalid End Period', 'End cannot be greater then Start', 'warning');
+            this.filterByPeriodEnd = this.tempEndCount;
             return;
         }
         if (!this.isWeek && this.filterByPeriodStart == count) {
             //filter by month
             this.filterdByMonth = true;
-            this.prepareMonthDays(count);
+            this.prepareMonthDays(...this.month_year[count].split('-'));
         }
         else if (this.isWeek && this.filterByPeriodStart == count) {
             //filter by week
             this.filterdByWeek = true;
-            this.prepareWeekDays(count);
+            this.prepareWeekDays(...this.week_year[count].split('-'));
         }
         else {
             this.filterdByMonth = false;
             this.filterdByWeek = false;
         }
+        this.tempEndCount = count;
         this.filterByPeriodEnd = count;
 
         this.processFilters();
@@ -600,17 +610,14 @@ export default class UsageDashboard extends LightningElement {
     }
 
     onResetFilters() {
-        this.template.querySelector('select.periodStart').value = (this.isWeek) ? this.week_year[0] : this.month_year[0];
-        this.template.querySelector('select.periodEnd').value = (this.isWeek) ? this.week_year[51] : this.month_year[11];
-        this.template.querySelector('select.userProfile').value = '';
-        this.template.querySelector('select.userValues').value = '';
+
 
         this.filterdByMonth = false;
         this.filterdByWeek = false;
         this.filterdByUser = '';
         this.filterdByProfile = '';
-        this.filterByPeriodStart = 1;
-        this.filterByPeriodEnd = (this.isWeek) ? 52 : 12;
+        this.filterByPeriodStart = 0;
+        this.filterByPeriodEnd = (this.isWeek) ? 53 : 13;
         this.processValues();
         this.processFilters();
     }
@@ -645,7 +652,28 @@ export default class UsageDashboard extends LightningElement {
         }
     }
 
+    processDateFilters() {
+        if (this.isWeek) {
+            let weeks = this.week_year.map((w, i) => {
+                return { label: w, value: i }
+            });
+            this.periodStart = weeks
 
+            this.periodEnd = weeks
+            this.filterByPeriodStart = 54 - 5;
+            this.filterByPeriodEnd = 54;
+
+        }
+        else if (!this.isWeek) {
+            let years = this.month_year.map((y, i) => {
+                return { label: y, value: i }
+            });
+            this.periodStart = years;
+            this.periodEnd = years;
+            this.filterByPeriodStart = 12 - 2;
+            this.filterByPeriodEnd = 12;
+        }
+    }
 
     //views
     onMonthView() {
@@ -654,10 +682,7 @@ export default class UsageDashboard extends LightningElement {
         this.filterdByWeek = false;
         this.monthButtonVarient = 'brand-outline';
         this.weekButtonVarient = 'neutral';
-        this.periodStart = this.month_year;
-        this.periodEnd = this.month_year.slice(0).reverse();
-        this.filterByPeriodStart = 1;
-        this.filterByPeriodEnd = this.month_year.length;
+        this.processDateFilters();
         let changeGroup = this.groupByDateRange(this.changeRecords);
         let usageGroup = this.groupByDateRange(this.usageRecords);
         this.preapreLineChart(usageGroup, changeGroup, 'update');
@@ -668,10 +693,7 @@ export default class UsageDashboard extends LightningElement {
         this.filterdByWeek = false;
         this.weekButtonVarient = 'brand-outline';
         this.monthButtonVarient = 'neutral';
-        this.periodStart = this.week_year;
-        this.periodEnd = this.week_year.slice(0).reverse();
-        this.filterByPeriodStart = 1;
-        this.filterByPeriodEnd = this.week_year.length;
+        this.processDateFilters();
         let changeGroup = this.groupByDateRange(this.changeRecords);
         let usageGroup = this.groupByDateRange(this.usageRecords);
         this.preapreLineChart(usageGroup, changeGroup, 'update');
@@ -685,12 +707,10 @@ export default class UsageDashboard extends LightningElement {
     }
 
     //utility
-    getMonthFromDate(date) {
-        let d = new Date(date);
-        return months[d.getMonth()];
+    getMonthNameFromDate(date) {
+        return months[date.getMonth()];
     }
-    getWeekFromDate(d) {
-        let date = new Date(d);
+    getWeekFromDate(date) {
         date.setHours(0, 0, 0, 0);
         // Thursday in current week decides the year.
         date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
@@ -700,54 +720,63 @@ export default class UsageDashboard extends LightningElement {
         return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000
             - 3 + (week1.getDay() + 6) % 7) / 7);
     }
-    getDateFromMonth(date) {
-        let d = new Date(date);
-        return d.getDate();
-    }
-    getNumberFromMonth(month) {
-        return months.indexOf(month);
-    }
+
 
     groupByDateRange(list) {
-
-
-        let isMonthFilter = this.filterdByMonth;
         let isWeekView = this.isWeek;
         let startCount = this.filterByPeriodStart;
         let endCount = this.filterByPeriodEnd;
+        console.log('groupByDateRange', isWeekView, startCount, endCount)
         return list.reduce((r, a) => {
             let d = new Date(a.CreatedDate);
             let tempYear = d.getFullYear();
-            let tempMonth = d.getMonth() + 1;
-            let tempDay = d.getDate();
-            let tempMonthName = this.getMonthFromDate(a.CreatedDate);
-            let tempWeek = this.getWeekFromDate(a.CreatedDate);
-            let dateString = tempYear + '-' + tempMonth + '-' + tempDay;
-            let weekString = tempWeek + '-' + tempYear;
-            let weekDayString = weekDays[d.getDay()] + '-' + tempWeek;
-            let tempYearString = tempMonthName + '-' + tempYear;
+            let tempMonth = d.getMonth();
+            let tempDate = d.getDay();
 
-            if (isMonthFilter) {
-                if (startCount === tempMonth) {
-                    r[dateString] = [...r[dateString] || [], a];
-                }
-            }
-            else if (isWeekView) {
+
+            let tempDay = d.getDate();
+            let tempMonthName = this.getMonthNameFromDate(d);
+            let tempWeek = this.getWeekFromDate(d);
+
+            let dateString = tempYear + '-' + tempMonthName + '-' + tempDay;
+            let weekDayString = weekDays[tempDate].trim() + '-' + tempWeek;
+
+            let weekString = tempWeek + ' - ' + tempYear;
+            let yearString = tempMonthName + ' - ' + tempYear;
+
+            console.log('redcue', tempWeek, tempMonth)
+
+            if (isWeekView) {
                 if (this.filterdByWeek) {
                     if (startCount === tempWeek) {
+                        //week
                         r[weekDayString] = [...r[weekDayString] || [], a];
                     }
                 }
                 else if (tempWeek >= startCount && tempWeek <= endCount) {
+                    //weeks
+
                     r[weekString] = [...r[weekString] || [], a];
                 }
-            }
-            else {
-                if (tempMonth >= startCount && tempMonth <= endCount) {
-                    r[tempYearString] = [...r[tempYearString] || [], a];
-                }
-            }
 
+            }
+            else if (!isWeekView) {
+                if (this.filterdByMonth) {
+                    if (startCount === tempMonth) {
+                        //month
+
+                        r[dateString] = [...r[dateString] || [], a];
+                    }
+                }
+                else {
+                    if (tempMonth >= startCount && tempMonth <= endCount) {
+                        //year
+
+                        r[yearString] = [...r[yearString] || [], a];
+                    }
+                }
+
+            }
             return r;
         }, {});
 
@@ -815,18 +844,20 @@ export default class UsageDashboard extends LightningElement {
         let nums = list.map(l => l.data[0].r);
         return [Math.max(...nums), Math.min(...nums)];
     }
-    prepareMonthDays(month) {
-        let d = new Date();
-        let year = d.getFullYear();
+    prepareMonthDays(tempMonth, tempYear) {
+        // let dateString = d.getFullYear() + '-' + tempMonth + '-' + d.getDate();
+
         this.year_month_day = [];
         for (let dayNumber of days) {
-            this.year_month_day.push(year + '-' + month + '-' + dayNumber);
+            this.year_month_day.push(tempYear.trim() + '-' + tempMonth.trim() + '-' + dayNumber);
         }
     }
     prepareWeekDays(week) {
+        //let weekDayString = weekDays[d.getDay()] + '-' + tempWeek;
+
         this.day_week = [];
         for (let dayName of weekDays) {
-            this.day_week.push(dayName + '-' + week);
+            this.day_week.push(dayName + '-' + week.trim());
         }
 
 
@@ -843,11 +874,11 @@ export default class UsageDashboard extends LightningElement {
             return this.day_week;
         }
         else if (this.isWeek) {
-            return this.week_year.slice(startCount - 1, endCount);
+            return this.week_year.slice(startCount, endCount + 1);
             //week view
         }
         else {
-            return this.month_year.slice(startCount - 1, endCount);
+            return this.month_year.slice(startCount, endCount + 1);
             //year view
         }
     }
@@ -858,6 +889,11 @@ export default class UsageDashboard extends LightningElement {
             variant: varient
         });
         this.dispatchEvent(evt);
+    }
+    getMonday(d) {
+        var day = d.getDay(),
+            diff = d.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
+        return new Date(d.setDate(diff));
     }
 
 

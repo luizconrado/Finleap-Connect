@@ -13,36 +13,16 @@
                             </h2>
                             <ul aria-describedby="entity-header">
                                 <li class="filter-margin slds-nav-vertical__item">
-                                    <div class="slds-col slds-form-element">
-                                        <label class="slds-form-element__label" for="periodStart">Filter Period
-                                            Start</label>
-                                        <div class="slds-form-element__control">
-                                            <div class="slds-select_container">
-                                                <select onchange={onPeriodStartFilter} class="slds-select periodStart"
-                                                    id="periodStart">
-                                                    <template for:each={periodStart} for:item="itm">
-                                                        <option key={itm} value={itm}>{itm}</option>
-                                                    </template>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <lightning-combobox name="Filter Period Start" label="Filter Period Start"
+                                        value={filterByPeriodStart} options={periodStart}
+                                        onchange={onPeriodStartFilter}>
+                                    </lightning-combobox>
+
                                 </li>
                                 <li class="filter-margin slds-nav-vertical__item">
-                                    <div class="slds-col slds-form-element">
-                                        <label class="slds-form-element__label" for="periodEnd">Filter Period
-                                            End</label>
-                                        <div class="slds-form-element__control">
-                                            <div class="slds-select_container">
-                                                <select onchange={onPeriodEndFilter} class="slds-select periodEnd"
-                                                    id="periodEnd">
-                                                    <template for:each={periodEnd} for:item="itm">
-                                                        <option key={itm} value={itm}>{itm}</option>
-                                                    </template>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <lightning-combobox name="Filter Period End" label="Filter Period End"
+                                        value={filterByPeriodEnd} options={periodEnd} onchange={onPeriodEndFilter}>
+                                    </lightning-combobox>
                                 </li>
                                 <li class="filter-margin slds-nav-vertical__item">
                                     <div class="slds-col slds-form-element">
@@ -136,6 +116,9 @@
                     </lightning-layout>
                 </lightning-layout-item>
             </lightning-layout>
+        </lightning-tab>
+        <lightning-tab label="Login Tracking">
+            <c-login-usage-report></c-login-usage-report>
         </lightning-tab>
     </lightning-tabset>
 

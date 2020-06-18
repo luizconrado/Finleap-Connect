@@ -107,7 +107,7 @@ export default class ProductInstanceUsageChart extends LightningElement {
     scriptLoaded = false;
     recordLoaded = false;
     route() {
-        console.log('route', this.apexLoaded, this.scriptLoaded, this.recordLoaded)
+
         if (this.apexLoaded && this.scriptLoaded && this.recordLoaded) {
             this.process();
         }
@@ -125,9 +125,9 @@ export default class ProductInstanceUsageChart extends LightningElement {
 
     //calculate
     calculatePrice() {
-        let groupByDates = this.groupByMonth(this.data);
+        let groupByDates = this.groupByMonth(this.records);
         const data = this.recordPricingInfo;
-        const label = this.getLabel();
+        const label = this.month_year;
 
         const basePrice = data.fields.Base_Price__c.value;
         const baseUsage = data.fields.Base_Limit__c.value;
@@ -140,128 +140,297 @@ export default class ProductInstanceUsageChart extends LightningElement {
 
 
         const bucketPrice1 = data.fields.Excess_Price_Bucket_1__c.value;
-        const bucketPrice2 = data.fields.Excess_Price_Bucket_1__c.value;
-        const bucketPrice3 = data.fields.Excess_Price_Bucket_1__c.value;
-        const bucketPrice4 = data.fields.Excess_Price_Bucket_1__c.value;
-        const bucketPrice5 = data.fields.Excess_Price_Bucket_1__c.value;
+        const bucketPrice2 = data.fields.Excess_Price_Bucket_2__c.value;
+        const bucketPrice3 = data.fields.Excess_Price_Bucket_3__c.value;
+        const bucketPrice4 = data.fields.Excess_Price_Bucket_4__c.value;
+        const bucketPrice5 = data.fields.Excess_Price_Bucket_5__c.value;
 
-        const type = data.fields.Pricing_Type;
-        const percentage = data.fields.percentage;
-
+        const type = data.fields.Pricing_Type__c.value;
+        const percentage = data.fields.Percentage_Per_Usage__c.value;
+        console.log('groupByDates', groupByDates)
+        console.log('label', percentage, type, label)
         let values = [];
         for (let key of label) {
             if (groupByDates[key] && groupByDates[key].length > 0) {
                 let records = groupByDates[key];
-                let currentMonthUsage = records.reduce((total, currentElement) => {
-                    total += currentElement.Usage_Count__c;
-                    return total;
-                }, 0);
-
-                let usageSplit = this.splitNumberInBuckets(currentMonthUsage, [baseUsage, bucket1, bucket2, bucket3, bucket4, bucket5]);
-                let buckets = [];
-                let extraPrice = 0;
-                //base
-                if (usageSplit[0]) {
-                    buckets.push({
-                        key: 'base',
-                        usage: usageSplit[0],
-                        price: basePrice,
-                        usagePrice: basePrice,
-                        usageAllowed: baseUsage
-                    });
-                    extraPrice = basePrice;
+                if (type === 'Steps')
+                    values.push(this.calculateStepsPricing(key, records, basePrice, baseUsage, bucket1, bucket2, bucket3, bucket4, bucket5, bucketPrice1, bucketPrice2, bucketPrice3, bucketPrice4, bucketPrice5));
+                else if (type === 'Progressive') {
+                    values.push(this.calculateProgressivePricing(key, records, basePrice, baseUsage, bucket1, bucket2, bucket3, bucket4, bucket5, bucketPrice1, bucketPrice2, bucketPrice3, bucketPrice4, bucketPrice5));
                 }
-                //bucket 1
-                if (usageSplit[1]) {
-
-                    buckets.push({
-                        key: 'stuffe 1',
-                        usage: usageSplit[1],
-                        price: usageSplit[1] * bucketPrice1,
-                        usagePrice: bucketPrice1,
-                        usageAllowed: bucket1
-                    });
-                    extraPrice = bucketPrice1;
+                else if (type === 'Packages') {
+                    values.push(this.calculatePackagesPricing(key, records, basePrice, baseUsage, bucket1, bucket2, bucket3, bucket4, bucket5, bucketPrice1, bucketPrice2, bucketPrice3, bucketPrice4, bucketPrice5));
                 }
-                //bucket 2
-                if (usageSplit[2]) {
-
-                    buckets.push({
-                        key: 'stuffe 2',
-                        usage: usageSplit[2],
-                        price: usageSplit[2] * bucketPrice2,
-                        usagePrice: bucketPrice2,
-                        usageAllowed: bucket2
-                    });
-                    extraPrice = bucketPrice2;
-                }
-                //bucket 3
-                if (usageSplit[3]) {
-
-                    buckets.push({
-                        key: 'stuffe 3',
-                        usage: usageSplit[3],
-                        price: usageSplit[3] * bucketPrice3,
-                        usagePrice: bucketPrice3,
-                        usageAllowed: bucket3
-                    });
-                    extraPrice = bucketPrice3;
-                }
-                //bucket 4
-                if (usageSplit[4]) {
-
-                    buckets.push({
-                        key: 'stuffe 4',
-                        usage: usageSplit[4],
-                        price: usageSplit[4] * bucketPrice4,
-                        usagePrice: bucketPrice4,
-                        usageAllowed: bucket4
-                    });
-                    extraPrice = bucketPrice4;
-                }
-                //bucket 5
-                if (usageSplit[5]) {
-
-                    buckets.push({
-                        key: 'stuffe 5',
-                        usage: usageSplit[5],
-                        price: usageSplit[5] * bucketPrice5,
-                        usagePrice: bucketPrice5,
-                        usageAllowed: bucket5
-                    });
-                    extraPrice = bucketPrice5;
-                }
-                //extra
-                if (usageSplit[6]) {
-
-                    buckets.push({
-                        key: 'extra',
-                        usage: usageSplit[6],
-                        price: usageSplit[6] * extraPrice,
-                        usagePrice: extraPrice,
-                        usageAllowed: 'unlimited'
-                    });
-                }
-
-                const currentMonthPrice = buckets.reduce((total, currentValue) => total += currentValue.price, 0);
-
-                values.push({
-                    month: key,
-                    totalUsage: currentMonthUsage,
-                    totalPrice: currentMonthPrice,
-                    buckets: buckets,
-                    expanded: false
-                })
-
 
             }
         }
         console.log('values', values)
         this.pricingDetails = values.reverse();
     }
+    calculatePackagesPricing(monthName, records, basePrice, baseUsage, bucket1, bucket2, bucket3, bucket4, bucket5, bucketPrice1, bucketPrice2, bucketPrice3, bucketPrice4, bucketPrice5) {
+        let currentMonthUsage = records.reduce((total, currentElement) => {
+            total += currentElement.Usage_Count__c;
+            return total;
+        }, 0);
+        let buckets = [];
+        if (currentMonthUsage <= baseUsage) {
+            buckets.push({
+                key: 'base',
+                usage: currentMonthUsage,
+                usagePrice: basePrice,
+                price: basePrice,
+                usageAllowed: baseUsage
+            });
+        }
+        else if (currentMonthUsage <= bucket1) {
+            buckets.push({
+                key: 'stuffe 1',
+                usage: currentMonthUsage,
+                usagePrice: bucket1,
+                price: bucketPrice1,
+                usageAllowed: bucket1
+            });
+        }
+        else if (currentMonthUsage <= bucket2) {
+            buckets.push({
+                key: 'stuffe 2',
+                usage: currentMonthUsage,
+                usagePrice: bucket2,
+                price: bucketPrice2,
+                usageAllowed: bucket2
+            });
+        }
+        else if (currentMonthUsage <= bucket3) {
+            buckets.push({
+                key: 'stuffe 3',
+                usage: currentMonthUsage,
+                usagePrice: bucket3,
+                price: bucketPrice3,
+                usageAllowed: bucket3
+            });
+        }
+        else if (currentMonthUsage <= bucket4) {
+            buckets.push({
+                key: 'stuffe 4',
+                usage: currentMonthUsage,
+                usagePrice: bucket4,
+                price: bucketPrice4,
+                usageAllowed: bucket4
+            });
+        }
+        else if (currentMonthUsage <= bucket5) {
+            buckets.push({
+                key: 'stuffe 5',
+                usage: currentMonthUsage,
+                usagePrice: bucket5,
+                price: bucketPrice5,
+                usageAllowed: bucket5
+            });
+        }
+        else {
+            buckets.push({
+                key: 'extra',
+                usage: currentMonthUsage,
+                price: bucketPrice5,
+                usagePrice: bucket5,
+                usageAllowed: 'unlimited'
+            });
+        }
+        const currentMonthPrice = buckets.reduce((total, currentValue) => total += currentValue.price, 0);
+
+        return {
+            month: monthName,
+            totalUsage: currentMonthUsage,
+            totalPrice: currentMonthPrice,
+            buckets: buckets,
+            expanded: false
+        }
+    }
+    calculateProgressivePricing(monthName, records, basePrice, baseUsage, bucket1, bucket2, bucket3, bucket4, bucket5, bucketPrice1, bucketPrice2, bucketPrice3, bucketPrice4, bucketPrice5) {
+        let currentMonthUsage = records.reduce((total, currentElement) => {
+            total += currentElement.Usage_Count__c;
+            return total;
+        }, 0);
+        let buckets = [];
+        if (currentMonthUsage <= baseUsage) {
+            buckets.push({
+                key: 'base',
+                usage: currentMonthUsage,
+                usagePrice: basePrice,
+                price: currentMonthUsage * basePrice,
+                usageAllowed: baseUsage
+            });
+        }
+        else if (currentMonthUsage <= bucket1) {
+            buckets.push({
+                key: 'stuffe 1',
+                usage: currentMonthUsage,
+                usagePrice: bucket1,
+                price: currentMonthUsage * bucketPrice1,
+                usageAllowed: bucket1
+            });
+        }
+        else if (currentMonthUsage <= bucket2) {
+            buckets.push({
+                key: 'stuffe 2',
+                usage: currentMonthUsage,
+                usagePrice: bucket2,
+                price: currentMonthUsage * bucketPrice2,
+                usageAllowed: bucket2
+            });
+        }
+        else if (currentMonthUsage <= bucket3) {
+            buckets.push({
+                key: 'stuffe 3',
+                usage: currentMonthUsage,
+                usagePrice: bucket3,
+                price: currentMonthUsage * bucketPrice3,
+                usageAllowed: bucket3
+            });
+        }
+        else if (currentMonthUsage <= bucket4) {
+            buckets.push({
+                key: 'stuffe 4',
+                usage: currentMonthUsage,
+                usagePrice: bucket4,
+                price: currentMonthUsage * bucketPrice4,
+                usageAllowed: bucket4
+            });
+        }
+        else if (currentMonthUsage <= bucket5) {
+            buckets.push({
+                key: 'stuffe 5',
+                usage: currentMonthUsage,
+                usagePrice: bucket5,
+                price: currentMonthUsage * bucketPrice5,
+                usageAllowed: bucket5
+            });
+        }
+        else {
+            buckets.push({
+                key: 'extra',
+                usage: currentMonthUsage,
+                price: currentMonthUsage * bucketPrice5,
+                usagePrice: bucket5,
+                usageAllowed: 'unlimited'
+            });
+        }
+        const currentMonthPrice = buckets.reduce((total, currentValue) => total += currentValue.price, 0);
+
+        return {
+            month: monthName,
+            totalUsage: currentMonthUsage,
+            totalPrice: currentMonthPrice,
+            buckets: buckets,
+            expanded: false
+        }
+    }
+    calculateStepsPricing(monthName, records, basePrice, baseUsage, bucket1, bucket2, bucket3, bucket4, bucket5, bucketPrice1, bucketPrice2, bucketPrice3, bucketPrice4, bucketPrice5) {
+        let currentMonthUsage = records.reduce((total, currentElement) => {
+            total += currentElement.Usage_Count__c;
+            return total;
+        }, 0);
+
+        let usageSplit = this.splitNumberInBuckets(currentMonthUsage, [baseUsage, bucket1, bucket2, bucket3, bucket4, bucket5]);
+        let buckets = [];
+        let extraPrice = 0;
+        //base
+        if (usageSplit[0]) {
+            buckets.push({
+                key: 'base',
+                usage: usageSplit[0],
+                price: basePrice,
+                usagePrice: basePrice,
+                usageAllowed: baseUsage
+            });
+            extraPrice = basePrice;
+        }
+        //bucket 1
+        if (usageSplit[1]) {
+
+            buckets.push({
+                key: 'stuffe 1',
+                usage: usageSplit[1],
+                price: usageSplit[1] * bucketPrice1,
+                usagePrice: bucketPrice1,
+                usageAllowed: bucket1
+            });
+            extraPrice = bucketPrice1;
+        }
+        //bucket 2
+        if (usageSplit[2]) {
+
+            buckets.push({
+                key: 'stuffe 2',
+                usage: usageSplit[2],
+                price: usageSplit[2] * bucketPrice2,
+                usagePrice: bucketPrice2,
+                usageAllowed: bucket2
+            });
+            extraPrice = bucketPrice2;
+        }
+        //bucket 3
+        if (usageSplit[3]) {
+
+            buckets.push({
+                key: 'stuffe 3',
+                usage: usageSplit[3],
+                price: usageSplit[3] * bucketPrice3,
+                usagePrice: bucketPrice3,
+                usageAllowed: bucket3
+            });
+            extraPrice = bucketPrice3;
+        }
+        //bucket 4
+        if (usageSplit[4]) {
+
+            buckets.push({
+                key: 'stuffe 4',
+                usage: usageSplit[4],
+                price: usageSplit[4] * bucketPrice4,
+                usagePrice: bucketPrice4,
+                usageAllowed: bucket4
+            });
+            extraPrice = bucketPrice4;
+        }
+        //bucket 5
+        if (usageSplit[5]) {
+
+            buckets.push({
+                key: 'stuffe 5',
+                usage: usageSplit[5],
+                price: usageSplit[5] * bucketPrice5,
+                usagePrice: bucketPrice5,
+                usageAllowed: bucket5
+            });
+            extraPrice = bucketPrice5;
+        }
+        //extra
+        if (usageSplit[6]) {
+
+            buckets.push({
+                key: 'extra',
+                usage: usageSplit[6],
+                price: usageSplit[6] * extraPrice,
+                usagePrice: extraPrice,
+                usageAllowed: 'unlimited'
+            });
+        }
+
+        const currentMonthPrice = buckets.reduce((total, currentValue) => total += currentValue.price, 0);
+
+        return {
+            month: monthName,
+            totalUsage: currentMonthUsage,
+            totalPrice: currentMonthPrice,
+            buckets: buckets,
+            expanded: false
+        }
+    }
 
     //Line chart
     preapreLineChart(records, type) {
+
         let usage = this.getLineChartDataset(records);
 
         let labels = [...usage[1]];
@@ -302,7 +471,7 @@ export default class ProductInstanceUsageChart extends LightningElement {
         for (let key of labels) {
             if (groupByDates[key] && groupByDates[key].length > 0) {
                 let records = groupByDates[key];
-                recordCount.push(records.length);
+                recordCount.push(records.reduce((t, a) => t += a.Usage_Count__c, 0));
             }
             else {
                 recordCount.push(0);
@@ -338,15 +507,28 @@ export default class ProductInstanceUsageChart extends LightningElement {
     }
     processFilters() {
         if (this.isWeekView) {
-            this.periodStart = this.week_year;
-            this.periodEnd = this.week_year.slice(0).reverse();
+            let weeks = this.week_year.map((w, i) => {
+                return { label: w, value: i }
+            });
+            this.periodStart = weeks
+
+            this.periodEnd = weeks
+
+            this.setDateFilterDefaults(0, 54);
 
         }
         else if (!this.isWeekView) {
-            this.periodStart = this.month_year;
-            this.periodEnd = this.month_year.slice(0).reverse();
-
+            let years = this.month_year.map((y, i) => {
+                return { label: y, value: i }
+            });
+            this.periodStart = years;
+            this.periodEnd = years;
+            this.setDateFilterDefaults(0, 12);
         }
+    }
+    setDateFilterDefaults(startValue, endValue) {
+        this.filterByPeriodStart = startValue;
+        this.filterByPeriodEnd = endValue;
     }
 
     //group
@@ -357,7 +539,6 @@ export default class ProductInstanceUsageChart extends LightningElement {
         return list.reduce((r, a) => {
             let d = new Date(a.Usage_Period__c);
             let tempYear = d.getFullYear();
-            let tempMonth = d.getMonth() + 1;
             let tempDay = d.getDate();
             let tempDate = d.getDay();
 
@@ -371,8 +552,8 @@ export default class ProductInstanceUsageChart extends LightningElement {
             let yearString = tempMonthName + ' - ' + tempYear;
 
 
-            let tempMonthCount = this.month_year.indexOf(yearString) + 1;
-            let tempWeekCount = this.week_year.indexOf(weekString) + 1;
+            let tempMonthCount = this.month_year.indexOf(yearString);
+            let tempWeekCount = this.week_year.indexOf(weekString);
 
             if (isWeekView) {
                 if (this.filterdByWeek) {
@@ -427,24 +608,23 @@ export default class ProductInstanceUsageChart extends LightningElement {
     }
     //filter
     onPeriodStartFilter(event) {
-        const start = event.target.value;
-        const count = (this.isWeekView) ? this.week_year.indexOf(start) + 1 : this.month_year.indexOf(start) + 1;
+        let count = event.detail.value;
+        if (typeof count === 'string') count = parseInt(count)
         if (count > this.filterByPeriodEnd) {
             this.showNotification('Invalid Start Period', 'Start cannot be greater then End', 'warning');
-            const prevValue = (this.isWeekView) ? this.week_year[start - 1] : this.month_year[start - 1];
-            this.template.querySelector('select.periodStart').value = prevValue;
+            this.filterByPeriodStart = this.filterByPeriodStart;
             return;
         }
         if (!this.isWeekView && this.filterByPeriodEnd == count) {
             //filter by month
             this.filterdByMonth = true;
 
-            this.prepareMonthDays(...start.split('-'));
+            this.prepareMonthDays(...this.month_year[count].split('-'));
         }
         else if (this.isWeekView && this.filterByPeriodEnd == count) {
             //filter by week
             this.filterdByWeek = true;
-            this.prepareWeekDays(...start.split('-'));
+            this.prepareWeekDays(...this.week_year[count].split('-'));
         }
         else {
             this.filterdByMonth = false;
@@ -452,25 +632,27 @@ export default class ProductInstanceUsageChart extends LightningElement {
         }
         this.filterByPeriodStart = count;
         this.filterChart();
+
     }
     onPeriodEndFilter(event) {
-        const end = event.target.value;
-        const count = (this.isWeekView) ? this.week_year.indexOf(end) + 1 : this.month_year.indexOf(end) + 1;
+        let count = event.detail.value;
+        if (typeof count === 'string') count = parseInt(count)
+
+        // const count = (this.isWeekView) ? this.week_year.indexOf(end) + 1 : this.month_year.indexOf(end) + 1;
         if (count < this.filterByPeriodStart) {
             this.showNotification('Invalid End Period', 'End cannot be greater then Start', 'warning');
-            const prevValue = (this.isWeekView) ? this.week_year[end - 1] : this.month_year[end - 1];
-            this.template.querySelector('select.periodEnd').value = prevValue;
+            this.filterByPeriodEnd = this.filterByPeriodEnd
             return;
         }
         if (!this.isWeekView && this.filterByPeriodStart == count) {
             //filter by month
             this.filterdByMonth = true;
-            this.prepareMonthDays(...end.split('-'));
+            this.prepareMonthDays(...this.month_year[count].split('-'));
         }
         else if (this.isWeekView && this.filterByPeriodStart == count) {
             //filter by week
             this.filterdByWeek = true;
-            this.prepareWeekDays(...end.split('-'));
+            this.prepareWeekDays(...this.week_year[count].split('-'));
         }
         else {
             this.filterdByMonth = false;
@@ -478,6 +660,7 @@ export default class ProductInstanceUsageChart extends LightningElement {
         }
         this.filterByPeriodEnd = count;
         this.filterChart();
+
     }
 
     filterChart() {
@@ -547,13 +730,13 @@ export default class ProductInstanceUsageChart extends LightningElement {
             if (this.filterdByWeek) {
                 return this.day_week;
             }
-            return this.week_year.slice(startCount - 1, endCount);;
+            return this.week_year.slice(startCount, endCount + 1);
         }
         else if (!isWeekView) {
             if (this.filterdByMonth) {
                 return this.year_month_day
             }
-            return this.month_year.slice(startCount - 1, endCount);;
+            return this.month_year.slice(startCount, endCount + 1);
         }
     }
     createChart(divClass, dataset) {
