@@ -58,6 +58,8 @@ export default class UsageDashboard extends LightningElement {
     today = new Date();
     tempStartCount = 0;
     tempEndCount = 53;
+    totalUsage = 0;
+    totalChanges = 0;
     @wire(allRecords)
     wiredRecords({ error, data }) {
         if (data) {
@@ -80,7 +82,7 @@ export default class UsageDashboard extends LightningElement {
         }
         pastYear.setMonth(this.today.getMonth() - 12);
         const weekInMilliseconds = 7 * 24 * 60 * 60 * 1000;
-        for (let i = 0, j = 55; i < j; i++) {
+        for (let i = 0, j = 53; i < j; i++) {
             this.week_year.push(this.getWeekFromDate(pastYear) + ' - ' + pastYear.getFullYear());
             //incement by one week
             pastYear.setTime(this.getMonday(pastYear).getTime() + weekInMilliseconds);
@@ -330,6 +332,7 @@ export default class UsageDashboard extends LightningElement {
         let labels = this.getLabel();
         let lineChartDataset = [];
         let recordCount = [];
+        let count = 0;
         for (let key of labels) {
             if (groupByDates[key] && groupByDates[key].length > 0) {
                 let records = groupByDates[key];
@@ -339,14 +342,19 @@ export default class UsageDashboard extends LightningElement {
                 if (this.filterdByUser) {
                     records = this.filterRecordByUserId(records);
                 }
-
+                count += records.length;
                 recordCount.push(records.length);
             }
             else {
                 recordCount.push(0);
             }
         }
-
+        if (type === 'usage') {
+            this.totalUsage = count;
+        }
+        else if (type === 'changes') {
+            this.totalChanges = count;
+        }
         lineChartDataset.push({
             label: (type == 'usage') ? 'Views' : 'Changes',
             data: recordCount,
@@ -611,15 +619,17 @@ export default class UsageDashboard extends LightningElement {
 
     onResetFilters() {
 
-
-        this.filterdByMonth = false;
-        this.filterdByWeek = false;
         this.filterdByUser = '';
         this.filterdByProfile = '';
-        this.filterByPeriodStart = 0;
-        this.filterByPeriodEnd = (this.isWeek) ? 53 : 13;
+        this.template.querySelector('select.userProfile').value = '';
+        this.template.querySelector('select.userValues').value = '';
         this.processValues();
-        this.processFilters();
+        if (this.isWeek) {
+            this.onWeekiew();
+        }
+        else {
+            this.onMonthView();
+        }
     }
 
     processFilters() {
@@ -660,32 +670,36 @@ export default class UsageDashboard extends LightningElement {
             this.periodStart = weeks
 
             this.periodEnd = weeks
-            this.filterByPeriodStart = 54 - 5;
-            this.filterByPeriodEnd = 54;
+            this.filterByPeriodStart = 52 - 5;
+            this.filterByPeriodEnd = 52;
 
         }
         else if (!this.isWeek) {
             let years = this.month_year.map((y, i) => {
                 return { label: y, value: i }
             });
+            this.prepareMonthDays(...this.month_year[12].split('-'));
+            this.filterByPeriodStart = 12;
+            this.filterByPeriodEnd = 12;
+            this.filterdByMonth = true;
+
             this.periodStart = years;
             this.periodEnd = years;
-            this.filterByPeriodStart = 12 - 2;
-            this.filterByPeriodEnd = 12;
+
+
+
         }
     }
 
     //views
     onMonthView() {
         this.isWeek = false;
-        this.filterdByMonth = false;
+        this.filterdByMonth = true;
         this.filterdByWeek = false;
         this.monthButtonVarient = 'brand-outline';
         this.weekButtonVarient = 'neutral';
         this.processDateFilters();
-        let changeGroup = this.groupByDateRange(this.changeRecords);
-        let usageGroup = this.groupByDateRange(this.usageRecords);
-        this.preapreLineChart(usageGroup, changeGroup, 'update');
+        this.processFilters();
     }
     onWeekiew() {
         this.isWeek = true;
@@ -694,9 +708,7 @@ export default class UsageDashboard extends LightningElement {
         this.weekButtonVarient = 'brand-outline';
         this.monthButtonVarient = 'neutral';
         this.processDateFilters();
-        let changeGroup = this.groupByDateRange(this.changeRecords);
-        let usageGroup = this.groupByDateRange(this.usageRecords);
-        this.preapreLineChart(usageGroup, changeGroup, 'update');
+        this.processFilters();
     }
     onCountFilter(event) {
         const count = event.target.value;
@@ -726,15 +738,12 @@ export default class UsageDashboard extends LightningElement {
         let isWeekView = this.isWeek;
         let startCount = this.filterByPeriodStart;
         let endCount = this.filterByPeriodEnd;
-        console.log('groupByDateRange', isWeekView, startCount, endCount)
         return list.reduce((r, a) => {
             let d = new Date(a.CreatedDate);
             let tempYear = d.getFullYear();
-            let tempMonth = d.getMonth();
+            let tempDay = d.getDate();
             let tempDate = d.getDay();
 
-
-            let tempDay = d.getDate();
             let tempMonthName = this.getMonthNameFromDate(d);
             let tempWeek = this.getWeekFromDate(d);
 
@@ -744,16 +753,18 @@ export default class UsageDashboard extends LightningElement {
             let weekString = tempWeek + ' - ' + tempYear;
             let yearString = tempMonthName + ' - ' + tempYear;
 
-            console.log('redcue', tempWeek, tempMonth)
+
+            let tempMonthCount = this.month_year.indexOf(yearString);
+            let tempWeekCount = this.week_year.indexOf(weekString);
 
             if (isWeekView) {
                 if (this.filterdByWeek) {
-                    if (startCount === tempWeek) {
+                    if (startCount === tempWeekCount) {
                         //week
                         r[weekDayString] = [...r[weekDayString] || [], a];
                     }
                 }
-                else if (tempWeek >= startCount && tempWeek <= endCount) {
+                else if (tempWeekCount >= startCount && tempWeekCount <= endCount) {
                     //weeks
 
                     r[weekString] = [...r[weekString] || [], a];
@@ -762,14 +773,14 @@ export default class UsageDashboard extends LightningElement {
             }
             else if (!isWeekView) {
                 if (this.filterdByMonth) {
-                    if (startCount === tempMonth) {
+                    if (startCount === tempMonthCount) {
                         //month
 
                         r[dateString] = [...r[dateString] || [], a];
                     }
                 }
                 else {
-                    if (tempMonth >= startCount && tempMonth <= endCount) {
+                    if (tempMonthCount >= startCount && tempMonthCount <= endCount) {
                         //year
 
                         r[yearString] = [...r[yearString] || [], a];

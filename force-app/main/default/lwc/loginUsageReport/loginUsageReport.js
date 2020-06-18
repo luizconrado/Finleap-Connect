@@ -37,8 +37,8 @@ export default class LoginUsageReport extends LightningElement {
     //charts
     lineChart;
     bubbleChart;
-    usageTreeChart;
-    changesTreeChart;
+    pieTreeChart;
+
     //records
     loginRecords;
     userRecords;
@@ -55,7 +55,8 @@ export default class LoginUsageReport extends LightningElement {
     //variables
     today = new Date();
     tempStartCount = 0;
-    tempEndCount = 53;
+    tempEndCount = 52;
+    totalLogins = 0;
     connectedCallback() {
         this.processDates();
         Promise.all([
@@ -63,7 +64,7 @@ export default class LoginUsageReport extends LightningElement {
             loadScript(this, charjs_treemap)
         ]);
         allLoginRecords().then(result => {
-            console.log(result)
+            console.log('login data', result)
             this.loginRecords = result.Logins
             this.userRecords = result.Users;
 
@@ -75,15 +76,15 @@ export default class LoginUsageReport extends LightningElement {
     }
     processDates() {
         let pastYear = new Date();
-        pastYear.setMonth(this.today.getMonth() - 6);
+        pastYear.setMonth(this.today.getMonth() - 12);
         for (let i = 0, j = 13; i < j; i++) {
             this.month_year.push(this.getMonthNameFromDate(pastYear) + ' - ' + pastYear.getFullYear());
             //incement by one month
             pastYear.setMonth(pastYear.getMonth() + 1);
         }
-        pastYear.setMonth(this.today.getMonth() - 6);
+        pastYear.setMonth(this.today.getMonth() - 12);
         const weekInMilliseconds = 7 * 24 * 60 * 60 * 1000;
-        for (let i = 0, j = 55; i < j; i++) {
+        for (let i = 0, j = 53; i < j; i++) {
             this.week_year.push(this.getWeekFromDate(pastYear) + ' - ' + pastYear.getFullYear());
             //incement by one week
             pastYear.setTime(this.getMonday(pastYear).getTime() + weekInMilliseconds);
@@ -94,10 +95,11 @@ export default class LoginUsageReport extends LightningElement {
         this.processDateFilters();
         this.setUserDetails();
         this.setupFilters();
-        console.log('this.loginRecords', this.loginRecords)
         let data = this.groupByDateRange(this.loginRecords);
-        console.log('login data', data)
         this.preapreLineChart(data, 'new');
+        this.prepareTreeChart(data, 'new');
+        this.preparePieChart(data, 'new');
+        this.loading = false;
     }
 
     //Line chart
@@ -121,7 +123,7 @@ export default class LoginUsageReport extends LightningElement {
                 stacked: false,
                 title: {
                     display: true,
-                    text: 'Record Views and Changes Timeline'
+                    text: 'User Logins '
                 }
 
             }
@@ -140,6 +142,7 @@ export default class LoginUsageReport extends LightningElement {
         let labels = this.getLabel();
         let lineChartDataset = [];
         let recordCount = [];
+        let count = 0;
         for (let key of labels) {
             if (groupByDates[key] && groupByDates[key].length > 0) {
                 let records = groupByDates[key];
@@ -151,12 +154,13 @@ export default class LoginUsageReport extends LightningElement {
                 }
 
                 recordCount.push(records.length);
+                count += records.length;
             }
             else {
                 recordCount.push(0);
             }
         }
-
+        this.totalLogins = count;
         lineChartDataset.push({
             label: 'Logins',
             data: recordCount,
@@ -166,7 +170,296 @@ export default class LoginUsageReport extends LightningElement {
 
         return [lineChartDataset, labels];
     }
+    //treemap chart
+    prepareTreeChart(loginRecords, type) {
+        let usage = this.getTreeChartDataset(loginRecords, 'usage');
+        if (this.countValues.length < 1) {
+            let range = [...new Set(usage.map(r => r.num))];
+            this.countValues = range.sort((a, b) => a - b);
+        }
+        let usageTreeChartJSON = {
+            type: "treemap",
+            data: {
+                datasets: [{
+                    tree: usage,
+                    key: "num",
+                    groups: ['tag'],
+                    spacing: 0.5,
+                    borderWidth: 1.5,
+                    fontColor: "black",
+                    borderColor: this.usageColor
+                }]
+            },
+            options: {
+                maintainAspectRatio: true,
+                legend: { display: false },
+                tooltips: {
+                    callbacks: {
+                        title: function (item, data) {
+                            return data.datasets[item[0].datasetIndex].tag;
+                        },
+                        label: function (item, data) {
+                            let dataset = data.datasets[item.datasetIndex];
+                            let dataItem = dataset.data[item.index];
+                            let obj = dataItem._data;
 
+                            return obj.tag + ' : ' + obj.num
+                        }
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'User Login  By Concentration'
+                }
+            }
+        }
+        if (type == 'new') {
+            this.usageTreeChart = this.createChart('treeUsageChart', usageTreeChartJSON);
+        }
+        else if (type == 'update') {
+            this.usageTreeChart.data.datasets[0].tree = usage;
+            this.usageTreeChart.update();
+        }
+
+    }
+
+    getTreeChartDataset(usageRcords, type) {
+        let groupByRecord = this.groupByUser(Object.values(usageRcords).flat(Infinity));
+
+        let treeChartDataset = [];
+        for (let recordId of Object.keys(groupByRecord)) {
+            let records = groupByRecord[recordId]
+            if (this.filterdByProfile) {
+                records = this.filterRecordByProfileId(records);
+            }
+            if (this.filterdByUser) {
+                records = this.filterRecordByUserId(records);
+            }
+            if (this.filterByCount) {
+                if (records && this.filterByCount <= records.length)
+                    treeChartDataset.push({
+                        tag: (records[0].User) ? records[0].User.Name : records[0].UserId,
+                        num: records.length
+                    });
+            }
+            else {
+                if (records && records.length > 0) {
+                    treeChartDataset.push({
+                        tag: (records[0].User) ? records[0].User.Name : records[0].UserId,
+                        num: records.length
+                    });
+                }
+            }
+
+        }
+
+
+
+        return treeChartDataset;
+
+    }
+
+    //pie chart
+    preparePieChart(loginRecords, type) {
+        let data = this.groupByBrowser(Object.values(loginRecords).flat(Infinity));
+        let labels = []
+        let values = [];
+        let color = [];
+        for (let key of Object.keys(data)) {
+            let records = data[key]
+            if (records.length > 0) {
+                if (this.filterdByProfile) {
+                    records = this.filterRecordByProfileId(records);
+                }
+                if (this.filterdByUser) {
+                    records = this.filterRecordByUserId(records);
+                }
+
+                labels.push(key);
+                values.push(records.length);
+                color.push(this.getBgColor());
+            }
+
+        }
+
+        let dataset = [{
+            label: "Logins by browser type.",
+            backgroundColor: color,
+            data: values
+        }]
+        let chartDatadata = {
+            labels: labels,
+            datasets: dataset
+        }
+        let pieChartJSON = {
+            type: 'pie',
+            data: chartDatadata,
+            options: {
+                title: {
+                    display: true,
+                    text: 'Browser usage'
+                }
+            }
+        }
+        if (type == 'new') {
+            this.pieTreeChart = this.createChart('pieUsageChart', pieChartJSON);
+        }
+        else if (type == 'update') {
+            this.pieTreeChart.data = chartDatadata;
+            this.pieTreeChart.update();
+        }
+    }
+
+    //filter
+    onPeriodStartFilter(event) {
+        let count = event.detail.value;
+        if (typeof count === 'string') count = parseInt(count)
+        if (count > this.filterByPeriodEnd) {
+            this.showNotification('Invalid Start Period', 'Start cannot be greater then End', 'warning');
+            this.filterByPeriodStart = this.tempStartCount;
+            return;
+        }
+        if (!this.isWeek && this.filterByPeriodEnd == count) {
+            //filter by month
+            this.filterdByMonth = true;
+            this.prepareMonthDays(...this.month_year[count].split('-'));
+
+        }
+        else if (this.isWeek && this.filterByPeriodEnd == count) {
+            //filter by week
+            this.filterdByWeek = true;
+            this.prepareWeekDays(...this.week_year[count].split('-'));
+        }
+        else {
+            this.filterdByMonth = false;
+            this.filterdByWeek = false;
+        }
+        this.filterByPeriodStart = count;
+        this.tempStartCount = count;
+
+        this.processFilters();
+
+
+    }
+    onPeriodEndFilter(event) {
+        let count = event.detail.value;
+        if (typeof count === 'string') count = parseInt(count)
+
+        if (count < this.filterByPeriodStart) {
+            this.showNotification('Invalid End Period', 'End cannot be greater then Start', 'warning');
+            this.filterByPeriodEnd = this.tempEndCount;
+            return;
+        }
+        if (!this.isWeek && this.filterByPeriodStart == count) {
+            //filter by month
+            this.filterdByMonth = true;
+            this.prepareMonthDays(...this.month_year[count].split('-'));
+        }
+        else if (this.isWeek && this.filterByPeriodStart == count) {
+            //filter by week
+            this.filterdByWeek = true;
+            this.prepareWeekDays(...this.week_year[count].split('-'));
+        }
+        else {
+            this.filterdByMonth = false;
+            this.filterdByWeek = false;
+        }
+        this.tempEndCount = count;
+        this.filterByPeriodEnd = count;
+
+        this.processFilters();
+
+    }
+    onUserFilter(event) {
+        const userId = event.target.value;
+        this.filterdByUser = userId;
+        this.processFilters();
+    }
+    onCountFilter(event) {
+        const count = event.target.value;
+        this.filterByCount = count;
+        let data = this.groupByDateRange(this.loginRecords);
+        this.prepareTreeChart(data, 'update');
+    }
+    onProfileFilter(event) {
+        const userId = event.target.value;
+        this.filterdByProfile = userId;
+        this.processValues();
+        this.processFilters();
+    }
+    onUserFilter(event) {
+        const userId = event.target.value;
+        this.filterdByUser = userId;
+        this.processFilters();
+    }
+
+
+    processFilters() {
+        let data = this.groupByDateRange(this.loginRecords);
+        this.preapreLineChart(data, 'update');
+        this.prepareTreeChart(data, 'update');
+        this.preparePieChart(data, 'update');
+    }
+    onResetFilters() {
+        this.filterdByUser = '';
+        this.filterdByProfile = '';
+        this.template.querySelector('select.userProfile').value = '';
+        this.template.querySelector('select.userValues').value = '';
+        this.processValues();
+        if (this.isWeek) {
+            this.onWeekiew();
+        }
+        else {
+            this.onMonthView();
+        }
+
+
+
+    }
+    processValues() {
+        if (this.filterdByProfile) {
+            this.userValues = this.userValues.map(value => {
+                if (value.profileId == this.filterdByProfile) {
+                    value.isVisible = true;
+                }
+                else {
+                    value.isVisible = false;
+                }
+
+                return value;
+            })
+        }
+        else {
+            this.userValues = this.userValues.map(value => {
+
+                value.isVisible = true;
+
+                return value;
+            })
+        }
+    }
+
+
+    //views
+    onMonthView() {
+        this.isWeek = false;
+        this.filterdByMonth = true;
+        this.filterdByWeek = false;
+        this.monthButtonVarient = 'brand-outline';
+        this.weekButtonVarient = 'neutral';
+        this.processDateFilters();
+        let data = this.groupByDateRange(this.loginRecords);
+        this.processFilters();
+    }
+    onWeekiew() {
+        this.isWeek = true;
+        this.filterdByMonth = false;
+        this.filterdByWeek = false;
+        this.weekButtonVarient = 'brand-outline';
+        this.monthButtonVarient = 'neutral';
+        this.processDateFilters();
+        this.processFilters();
+    }
     //group utility
     groupByDateRange(list) {
         let isWeekView = this.isWeek;
@@ -189,15 +482,17 @@ export default class LoginUsageReport extends LightningElement {
 
 
 
+            let tempMonthCount = this.month_year.indexOf(yearString);
+            let tempWeekCount = this.week_year.indexOf(weekString);
 
             if (isWeekView) {
                 if (this.filterdByWeek) {
-                    if (startCount === tempWeek) {
+                    if (startCount === tempWeekCount) {
                         //week
                         r[weekDayString] = [...r[weekDayString] || [], a];
                     }
                 }
-                else if (tempWeek >= startCount && tempWeek <= endCount) {
+                else if (tempWeekCount >= startCount && tempWeekCount <= endCount) {
                     //weeks
 
                     r[weekString] = [...r[weekString] || [], a];
@@ -206,14 +501,14 @@ export default class LoginUsageReport extends LightningElement {
             }
             else if (!isWeekView) {
                 if (this.filterdByMonth) {
-                    if (startCount === tempMonth) {
+                    if (startCount === tempMonthCount) {
                         //month
 
                         r[dateString] = [...r[dateString] || [], a];
                     }
                 }
                 else {
-                    if (tempMonth >= startCount && tempMonth <= endCount) {
+                    if (tempMonthCount >= startCount && tempMonthCount <= endCount) {
                         //year
 
                         r[yearString] = [...r[yearString] || [], a];
@@ -229,15 +524,30 @@ export default class LoginUsageReport extends LightningElement {
             r[a.Id] = [...r[a.Id] || [], a];
             return r;
         }, {});
-        console.log('userMap', userMap)
         this.loginRecords = this.loginRecords.map(u => {
 
-            if (userMap[u.UserId]) {
-                u.User = userMap[u.UserId];
+            if (userMap[u.UserId] && userMap[u.UserId].length > 0) {
+                let userDetails = userMap[u.UserId][0];
+                u.User = userDetails;
+                u.ProfileId = userDetails.ProfileId;
             }
 
             return u;
         })
+    }
+    groupByUser(list) {
+        return list.reduce((r, a) => {
+            r[a.UserId] = [...r[a.UserId] || [], a]
+            return r;
+        }, {});
+    }
+    groupByBrowser(list) {
+        return list.reduce((r, a) => {
+            let key = a.Browser;
+            if (key == 'Unknown') key = a.LoginType;
+            r[key] = [...r[key] || [], a]
+            return r;
+        }, {});
     }
     //fillter utility
     setupFilters() {
@@ -245,7 +555,7 @@ export default class LoginUsageReport extends LightningElement {
             .map(r => {
                 return {
                     label: (r.Name) ? r.Name : '',
-                    value: (r.Name) ? r.Name : '',
+                    value: (r.Id) ? r.Id : '',
                     profileId: (r.ProfileId) ? r.ProfileId : '',
                     isVisible: true
                 }
@@ -264,7 +574,12 @@ export default class LoginUsageReport extends LightningElement {
         this.profileValues = profilesNames;
         this.userValues = userNames;
     }
-
+    filterRecordByUserId(list) {
+        return list.filter(r => r.UserId == this.filterdByUser);
+    }
+    filterRecordByProfileId(list) {
+        return list.filter(r => r.ProfileId == this.filterdByProfile);
+    }
     // Dates utility
     getMonthNameFromDate(date) {
         return months[date.getMonth()];
@@ -292,8 +607,8 @@ export default class LoginUsageReport extends LightningElement {
             this.periodStart = weeks
 
             this.periodEnd = weeks
-            this.filterByPeriodStart = 26 - 5;
-            this.filterByPeriodEnd = 26;
+            this.filterByPeriodStart = 47;
+            this.filterByPeriodEnd = 52;
 
         }
         else if (!this.isWeek) {
@@ -302,9 +617,30 @@ export default class LoginUsageReport extends LightningElement {
             });
             this.periodStart = years;
             this.periodEnd = years;
-            this.filterByPeriodStart = 6 - 2;
-            this.filterByPeriodEnd = 6;
+            this.filterByPeriodStart = 12;
+            this.filterByPeriodEnd = 12;
+            this.filterdByMonth = true;
+            this.prepareMonthDays(...this.month_year[12].split('-'));
         }
+    }
+    prepareMonthDays(tempMonth, tempYear) {
+        // let dateString = d.getFullYear() + '-' + tempMonth + '-' + d.getDate();
+
+        this.year_month_day = [];
+        for (let dayNumber of days) {
+            this.year_month_day.push(tempYear.trim() + '-' + tempMonth.trim() + '-' + dayNumber);
+        }
+    }
+    prepareWeekDays(week) {
+        //let weekDayString = weekDays[d.getDay()] + '-' + tempWeek;
+
+        this.day_week = [];
+        for (let dayName of weekDays) {
+            this.day_week.push(dayName + '-' + week.trim());
+        }
+
+
+
     }
     //chart utility
     createChart(divClass, dataset) {
@@ -352,5 +688,11 @@ export default class LoginUsageReport extends LightningElement {
             variant: varient
         });
         this.dispatchEvent(evt);
+    }
+    getBgColor() {
+        let x = Math.floor(Math.random() * 256);
+        let y = Math.floor(Math.random() * 256);
+        let z = Math.floor(Math.random() * 256);
+        return "rgb(" + x + "," + y + "," + z + ")";
     }
 }

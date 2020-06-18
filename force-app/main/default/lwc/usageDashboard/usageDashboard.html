@@ -65,21 +65,40 @@
                     <lightning-layout vertical-align="  " multiple-rows="true" class="x-large">
                         <lightning-layout-item size="12" padding="around-small" class="white-background">
                             <div class="slds-grid slds-grid_vertical">
-                                <div class="slds-col slds-size_1-of-1">
-                                    <div class="slds-float_right">
-                                        <lightning-button variant={monthButtonVarient} label="Month View"
-                                            title="Month View" onclick={onMonthView} class="slds-m-left_x-small">
-                                        </lightning-button>
-                                        <lightning-button variant={weekButtonVarient} label="Week View"
-                                            title="Week View" onclick={onWeekiew} class="slds-m-left_x-small">
-                                        </lightning-button>
+                                <div class="slds-col slds-grid ">
+                                    <div class="slds-col slds-grid slds-size_1-of-2">
+                                        <div class="slds-col  slds-grow-none">
+                                            <lightning-input type="text" label="Total Views" value={totalUsage}
+                                                readonly>
+                                            </lightning-input>
+                                        </div>
+                                        <div class="slds-col  slds-grow-none">
+                                            <lightning-input type="text" label="Total Changes" value={totalChanges}
+                                                readonly>
+                                            </lightning-input>
+                                        </div>
                                     </div>
+                                    <div class="slds-col slds-grid_align-end slds-grid slds-size_1-of-2">
+                                        <div class="slds-col">
+                                            <lightning-button variant={monthButtonVarient} label="Month View"
+                                                title="Month View" onclick={onMonthView} class="slds-m-left_x-small">
+                                            </lightning-button>
+                                        </div>
+                                        <div class="slds-col">
+                                            <lightning-button variant={weekButtonVarient} label="Week View"
+                                                title="Week View" onclick={onWeekiew} class="slds-m-left_x-small">
+                                            </lightning-button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="slds-col">
                                     <div class="lineChart slds-m-around_medium" lwc:dom="manual"></div>
                                 </div>
-                                <div class="slds-col slds-size_1-of-1">
+                                <div class="slds-col ">
                                     <div class="bubbleChart slds-m-around_medium" lwc:dom="manual"></div>
                                 </div>
-                                <div class="slds-col slds-size_1-of-1 slds-grid slds-grid_vertical">
+                                <div class="slds-col  slds-grid slds-grid_vertical">
                                     <div>
                                         <div class="slds-col slds-form-element slds-float_right">
                                             <label class="slds-form-element__label" for="fillterCount">Filter
