@@ -60,7 +60,9 @@
         <lightning-layout-item size="10" padding="around-small">
             <lightning-layout vertical-align="  " multiple-rows="true" class="x-large">
                 <lightning-layout-item size="12" padding="around-small" class="white-background">
-                    <div class="slds-grid slds-grid_vertical">
+                    <div class="slds-grid slds-is-relative slds-grid_vertical">
+                        <lightning-spinner if:true={loading} alternative-text="Loading" size="large">
+                        </lightning-spinner>
                         <div class="slds-col">
 
                             <div class="slds-float_left">
@@ -72,7 +74,7 @@
                                     onclick={onMonthView} class="slds-m-left_x-small">
                                 </lightning-button>
                                 <lightning-button variant={weekButtonVarient} label="Week View" title="Week View"
-                                    onclick={onWeekiew} class="slds-m-left_x-small">
+                                    onclick={onWeekView} class="slds-m-left_x-small">
                                 </lightning-button>
                             </div>
                             <div class="lineChart slds-m-around_medium" lwc:dom="manual"></div>
@@ -106,9 +108,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="slds-is-relative" if:true={loading}>
-                        <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
-                    </div>
+
                 </lightning-layout-item>
             </lightning-layout>
         </lightning-layout-item>

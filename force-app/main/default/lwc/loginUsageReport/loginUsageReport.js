@@ -12,98 +12,105 @@ const days = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13
 const weeks = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52"];
 const weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 export default class LoginUsageReport extends LightningElement {
-    //https://finleap-connect--partial.lightning.force.com/lightning/n/Usage_Dashboard
-    //days
-    month_year = [];
-    year_month_day = [];
-    week_year = [];
-    day_week = [];
     //filter values
-    monthValues = months
-    periodStart;
-    periodEnd;
-    userValues;
-    profileValues;
+    periodStart
+    periodEnd
+    profileValues = [];
+    userValues = [];
     countValues = [];
-    //filters
+    //filter variables
+    filterByPeriodStart
+    filterByPeriodEnd
+    filterByCount
+    filterdByProfile
+    filterdByUser
     filterdByMonth = false;
     filterdByWeek = false;
-    filterdByUser;
-    filterdByProfile;
-    filterByCount;
-
-    filterByPeriodStart;
-    filterByPeriodEnd;
-    //charts
-    lineChart;
-    bubbleChart;
-    pieTreeChart;
-
     //records
-    loginRecords;
-    userRecords;
-    //colors
-    usageColor = 'rgb(144,173,165)';
-    changesColor = 'rgb(79,112,165)';;
-
-    //toggle
-    isWeek = true
+    records
+    loginRecords
+    userRecords
+    //ui variables
+    totalLogins
     monthButtonVarient = 'neutral';
     weekButtonVarient = 'brand-outline';
-
-    loading = true;
-    //variables
+    isWeek = true;
+    usageColor = 'rgb(144,173,165)';
+    changesColor = 'rgb(79,112,165)';
+    loading = false;
+    //date variables
     today = new Date();
-    tempStartCount = 0;
-    tempEndCount = 52;
-    totalLogins = 0;
+    month_year = [];
+    month_year_apex = [];
+    week_year = [];
+    week_year_apex = [];
+    year_month_day;
+    day_week;
+    //charts
+    lineChart
+    usageTreeChart
+    pieTreeChart
+    //init
     connectedCallback() {
-        this.processDates();
         Promise.all([
             loadScript(this, chartjs),
             loadScript(this, charjs_treemap)
         ]);
-        allLoginRecords().then(result => {
-            console.log('login data', result)
-            this.loginRecords = result.Logins
-            this.userRecords = result.Users;
+        this.preapreDateValues();
+        this.prepareDateFilterValues();
+        this.fetchData();
+    }
+    fetchData() {
+        this.loading = true;
+        let start;
+        let end;
+        const weekInMilliseconds = 6 * 24 * 60 * 60 * 1000;
+        if (this.isWeek) {
+            let startDate = this.week_year_apex[this.filterByPeriodStart];
+            let endDate = this.week_year_apex[this.filterByPeriodEnd];
+            endDate = new Date(endDate.getTime() + weekInMilliseconds);//increment to week end date
+            start = (startDate.getMonth() + 1) + '/' + startDate.getDate() + '/' + startDate.getFullYear()
+            end = (endDate.getMonth() + 1) + '/' + endDate.getDate() + '/' + endDate.getFullYear()
 
+        }
+        else {
+            let startDate = this.month_year_apex[this.filterByPeriodStart];
+            let endDate = this.month_year_apex[this.filterByPeriodEnd];
+            endDate = new Date(endDate.getFullYear(), endDate.getMonth() + 1, 0);//increment to month end date
+            start = (startDate.getMonth() + 1) + '/' + startDate.getDate() + '/' + startDate.getFullYear()
+            end = (endDate.getMonth() + 1) + '/' + endDate.getDate() + '/' + endDate.getFullYear()
+        }
+        console.log('start', start);
+        console.log('end', end);
+
+        allLoginRecords({
+            startDate: start,
+            endDate: end
+        }).then(data => {
+            console.log('usage data', data);
+            this.records = data;
+            this.loginRecords = data.Logins
+            this.userRecords = data.Users;
             this.process();
         }).catch(error => {
-            console.error(error)
+            console.error(error);
+            this.loading = false;
         });
-
     }
-    processDates() {
-        let pastYear = new Date();
-        pastYear.setMonth(this.today.getMonth() - 12);
-        for (let i = 0, j = 13; i < j; i++) {
-            this.month_year.push(this.getMonthNameFromDate(pastYear) + ' - ' + pastYear.getFullYear());
-            //incement by one month
-            pastYear.setMonth(pastYear.getMonth() + 1);
-        }
-        pastYear.setMonth(this.today.getMonth() - 12);
-        const weekInMilliseconds = 7 * 24 * 60 * 60 * 1000;
-        for (let i = 0, j = 53; i < j; i++) {
-            this.week_year.push(this.getWeekFromDate(pastYear) + ' - ' + pastYear.getFullYear());
-            //incement by one week
-            pastYear.setTime(this.getMonday(pastYear).getTime() + weekInMilliseconds);
-        }
 
-    }
     process() {
-        this.processDateFilters();
         this.setUserDetails();
         this.setupFilters();
         let data = this.groupByDateRange(this.loginRecords);
-        this.preapreLineChart(data, 'new');
-        this.prepareTreeChart(data, 'new');
-        this.preparePieChart(data, 'new');
+        this.preapreLineChart(data);
+        this.prepareTreeChart(data);
+        this.preparePieChart(data);
         this.loading = false;
-    }
 
+    }
+    //chart
     //Line chart
-    preapreLineChart(records, type) {
+    preapreLineChart(records) {
         let usage = this.getLineChartDataset(records, 'usage');
         let labels = usage[1];
         let lineChartDataset = usage[0];
@@ -129,16 +136,17 @@ export default class LoginUsageReport extends LightningElement {
             }
         }
 
-        if (type == 'new') {
-            this.lineChart = this.createChart('lineChart', lineChartJSON);
-        }
-        else if (type == 'update') {
+        if (this.lineChart) {
             this.lineChart.data = data;
             this.lineChart.update();
         }
+        else {
+            this.lineChart = this.createChart('lineChart', lineChartJSON);
+
+        }
     }
 
-    getLineChartDataset(groupByDates, type) {
+    getLineChartDataset(groupByDates) {
         let labels = this.getLabel();
         let lineChartDataset = [];
         let recordCount = [];
@@ -171,7 +179,7 @@ export default class LoginUsageReport extends LightningElement {
         return [lineChartDataset, labels];
     }
     //treemap chart
-    prepareTreeChart(loginRecords, type) {
+    prepareTreeChart(loginRecords) {
         let usage = this.getTreeChartDataset(loginRecords, 'usage');
         if (this.countValues.length < 1) {
             let range = [...new Set(usage.map(r => r.num))];
@@ -213,17 +221,17 @@ export default class LoginUsageReport extends LightningElement {
                 }
             }
         }
-        if (type == 'new') {
-            this.usageTreeChart = this.createChart('treeUsageChart', usageTreeChartJSON);
-        }
-        else if (type == 'update') {
+        if (this.usageTreeChart) {
             this.usageTreeChart.data.datasets[0].tree = usage;
             this.usageTreeChart.update();
+        }
+        else {
+            this.usageTreeChart = this.createChart('treeUsageChart', usageTreeChartJSON);
         }
 
     }
 
-    getTreeChartDataset(usageRcords, type) {
+    getTreeChartDataset(usageRcords) {
         let groupByRecord = this.groupByUser(Object.values(usageRcords).flat(Infinity));
 
         let treeChartDataset = [];
@@ -298,167 +306,162 @@ export default class LoginUsageReport extends LightningElement {
                 title: {
                     display: true,
                     text: 'Browser usage'
+                },
+                legend: {
+                    display: false
                 }
+
             }
         }
-        if (type == 'new') {
-            this.pieTreeChart = this.createChart('pieUsageChart', pieChartJSON);
-        }
-        else if (type == 'update') {
+        if (this.pieTreeChart) {
+
             this.pieTreeChart.data = chartDatadata;
             this.pieTreeChart.update();
         }
-    }
-
-    //filter
-    onPeriodStartFilter(event) {
-        let count = event.detail.value;
-        if (typeof count === 'string') count = parseInt(count)
-        if (count > this.filterByPeriodEnd) {
-            this.showNotification('Invalid Start Period', 'Start cannot be greater then End', 'warning');
-            this.filterByPeriodStart = this.tempStartCount;
-            return;
-        }
-        if (!this.isWeek && this.filterByPeriodEnd == count) {
-            //filter by month
-            this.filterdByMonth = true;
-            this.prepareMonthDays(...this.month_year[count].split('-'));
-
-        }
-        else if (this.isWeek && this.filterByPeriodEnd == count) {
-            //filter by week
-            this.filterdByWeek = true;
-            this.prepareWeekDays(...this.week_year[count].split('-'));
-        }
         else {
-            this.filterdByMonth = false;
-            this.filterdByWeek = false;
+            this.pieTreeChart = this.createChart('pieUsageChart', pieChartJSON);
         }
-        this.filterByPeriodStart = count;
-        this.tempStartCount = count;
-
-        this.processFilters();
-
-
     }
-    onPeriodEndFilter(event) {
-        let count = event.detail.value;
-        if (typeof count === 'string') count = parseInt(count)
 
-        if (count < this.filterByPeriodStart) {
-            this.showNotification('Invalid End Period', 'End cannot be greater then Start', 'warning');
-            this.filterByPeriodEnd = this.tempEndCount;
-            return;
+    //date helper
+    preapreDateValues() {
+        let pastYearMonths = new Date();
+        pastYearMonths.setMonth(this.today.getMonth() - 12);
+        for (let i = 0, j = 13; i < j; i++) {
+            this.month_year.push(this.getMonthNameFromDate(pastYearMonths) + ' - ' + pastYearMonths.getFullYear());
+
+            let firstDay = new Date(pastYearMonths.getFullYear(), pastYearMonths.getMonth(), 1);
+
+            this.month_year_apex.push(firstDay);
+            //incement by one month
+            pastYearMonths.setMonth(pastYearMonths.getMonth() + 1);
         }
-        if (!this.isWeek && this.filterByPeriodStart == count) {
-            //filter by month
-            this.filterdByMonth = true;
-            this.prepareMonthDays(...this.month_year[count].split('-'));
+        let pastYearWeeks = new Date();
+        pastYearWeeks.setMonth(this.today.getMonth() - 12);
+        const weekInMilliseconds = 7 * 24 * 60 * 60 * 1000;
+        for (let i = 0, j = 53; i < j; i++) {
+            this.week_year.push(this.getWeekFromDate(pastYearWeeks) + ' - ' + pastYearWeeks.getFullYear());
+
+            this.week_year_apex.push(this.getMonday(pastYearWeeks));
+            //incement by one week
+            pastYearWeeks.setTime(this.getMonday(pastYearWeeks).getTime() + weekInMilliseconds);
         }
-        else if (this.isWeek && this.filterByPeriodStart == count) {
-            //filter by week
-            this.filterdByWeek = true;
-            this.prepareWeekDays(...this.week_year[count].split('-'));
-        }
-        else {
-            this.filterdByMonth = false;
-            this.filterdByWeek = false;
-        }
-        this.tempEndCount = count;
-        this.filterByPeriodEnd = count;
-
-        this.processFilters();
-
-    }
-    onUserFilter(event) {
-        const userId = event.target.value;
-        this.filterdByUser = userId;
-        this.processFilters();
-    }
-    onCountFilter(event) {
-        const count = event.target.value;
-        this.filterByCount = count;
-        let data = this.groupByDateRange(this.loginRecords);
-        this.prepareTreeChart(data, 'update');
-    }
-    onProfileFilter(event) {
-        const userId = event.target.value;
-        this.filterdByProfile = userId;
-        this.processValues();
-        this.processFilters();
-    }
-    onUserFilter(event) {
-        const userId = event.target.value;
-        this.filterdByUser = userId;
-        this.processFilters();
-    }
+        console.log('this.week_year', this.week_year)
+        console.log('this.month_year', this.month_year)
 
 
-    processFilters() {
-        let data = this.groupByDateRange(this.loginRecords);
-        this.preapreLineChart(data, 'update');
-        this.prepareTreeChart(data, 'update');
-        this.preparePieChart(data, 'update');
     }
-    onResetFilters() {
-        this.filterdByUser = '';
-        this.filterdByProfile = '';
-        this.template.querySelector('select.userProfile').value = '';
-        this.template.querySelector('select.userValues').value = '';
-        this.processValues();
+
+    prepareDateFilterValues() {
         if (this.isWeek) {
-            this.onWeekiew();
+            let weeks = this.week_year.map((w, i) => {
+                return { label: w, value: i }
+            });
+            this.periodStart = weeks
+            this.periodEnd = weeks
+
+            this.filterByPeriodStart = 47;
+            this.filterByPeriodEnd = 52;
+
         }
-        else {
-            this.onMonthView();
+        else if (!this.isWeek) {
+            let years = this.month_year.map((y, i) => {
+                return { label: y, value: i }
+            });
+            this.prepareMonthDays(...this.month_year[12].split('-'));
+            this.periodStart = years;
+            this.periodEnd = years;
+
+            this.filterByPeriodStart = 12;
+            this.filterByPeriodEnd = 12;
+
+
+            this.filterdByMonth = true;
+
         }
-
-
-
     }
-    processValues() {
-        if (this.filterdByProfile) {
-            this.userValues = this.userValues.map(value => {
-                if (value.profileId == this.filterdByProfile) {
-                    value.isVisible = true;
+    prepareMonthDays(tempMonth, tempYear) {
+        // format = d.getFullYear() + '-' + tempMonth + '-' + d.getDate();
+        this.year_month_day = [];
+        for (let dayNumber of days) {
+            this.year_month_day.push(tempYear.trim() + '-' + tempMonth.trim() + '-' + dayNumber);
+        }
+    }
+
+    prepareWeekDays(week) {
+        // format = weekDays[d.getDay()] + '-' + tempWeek;
+        this.day_week = [];
+        for (let dayName of weekDays) {
+            this.day_week.push(dayName + '-' + week.trim());
+        }
+    }
+    getMonthNameFromDate(date) {
+        return months[date.getMonth()];
+    }
+    getWeekFromDate(date) {
+        date.setHours(0, 0, 0, 0);
+        // Thursday in current week decides the year.
+        date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+        // January 4 is always in week 1.
+        var week1 = new Date(date.getFullYear(), 0, 4);
+        // Adjust to Thursday in week 1 and count number of weeks from date to week1.
+        return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000
+            - 3 + (week1.getDay() + 6) % 7) / 7);
+    }
+
+    getMonday(d) {
+        var day = d.getDay(),
+            diff = d.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
+        return new Date(d.setDate(diff));
+    }
+    //record processing helper
+    setUserDetails() {
+        let userMap = this.userRecords.reduce((r, a) => {
+            r[a.Id] = [...r[a.Id] || [], a];
+            return r;
+        }, {});
+        this.loginRecords = this.loginRecords.map(u => {
+
+            if (userMap[u.UserId] && userMap[u.UserId].length > 0) {
+                let userDetails = userMap[u.UserId][0];
+                u.User = userDetails;
+                u.ProfileId = userDetails.ProfileId;
+            }
+
+            return u;
+        })
+    }
+    //filter helper
+    setupFilters() {
+        if (this.profileValues.length > 0 && this.userValues.length > 0) return;
+        let userNames = this.userRecords
+            .map(r => {
+                return {
+                    label: (r.Name) ? r.Name : '',
+                    value: (r.Id) ? r.Id : '',
+                    profileId: (r.ProfileId) ? r.ProfileId : '',
+                    isVisible: true
                 }
-                else {
-                    value.isVisible = false;
-                }
-
-                return value;
             })
-        }
-        else {
-            this.userValues = this.userValues.map(value => {
+            .reduce((unique, item) => unique.find(e => e.label === item.label) ? unique : [...unique, item], []);
 
-                value.isVisible = true;
+        let profilesNames = this.userRecords.map(r => {
+            return {
+                label: (r.Profile) ? r.Profile.Name : '',
+                value: (r.ProfileId) ? r.ProfileId : ''
+            }
+        })
+            .reduce((unique, item) => unique.find(e => e.label === item.label) ? unique : [...unique, item], []);
 
-                return value;
-            })
-        }
+
+        this.profileValues = profilesNames.sort((a, b) => (a.label > b.label) ? 1 : -1);
+        this.userValues = userNames.sort((a, b) => (a.label > b.label) ? 1 : -1);
     }
-
-
-    //views
-    onMonthView() {
-        this.isWeek = false;
-        this.filterdByMonth = true;
-        this.filterdByWeek = false;
-        this.monthButtonVarient = 'brand-outline';
-        this.weekButtonVarient = 'neutral';
-        this.processDateFilters();
-        let data = this.groupByDateRange(this.loginRecords);
-        this.processFilters();
+    filterRecordByUserId(list) {
+        return list.filter(r => r.UserId == this.filterdByUser);
     }
-    onWeekiew() {
-        this.isWeek = true;
-        this.filterdByMonth = false;
-        this.filterdByWeek = false;
-        this.weekButtonVarient = 'brand-outline';
-        this.monthButtonVarient = 'neutral';
-        this.processDateFilters();
-        this.processFilters();
+    filterRecordByProfileId(list) {
+        return list.filter(r => r.ProfileId == this.filterdByProfile);
     }
     //group utility
     groupByDateRange(list) {
@@ -480,8 +483,6 @@ export default class LoginUsageReport extends LightningElement {
             let weekString = tempWeek + ' - ' + tempYear;
             let yearString = tempMonthName + ' - ' + tempYear;
 
-
-
             let tempMonthCount = this.month_year.indexOf(yearString);
             let tempWeekCount = this.week_year.indexOf(weekString);
 
@@ -494,46 +495,25 @@ export default class LoginUsageReport extends LightningElement {
                 }
                 else if (tempWeekCount >= startCount && tempWeekCount <= endCount) {
                     //weeks
-
                     r[weekString] = [...r[weekString] || [], a];
                 }
-
             }
             else if (!isWeekView) {
                 if (this.filterdByMonth) {
                     if (startCount === tempMonthCount) {
                         //month
-
                         r[dateString] = [...r[dateString] || [], a];
                     }
                 }
                 else {
                     if (tempMonthCount >= startCount && tempMonthCount <= endCount) {
                         //year
-
                         r[yearString] = [...r[yearString] || [], a];
                     }
                 }
-
             }
             return r;
         }, {});
-    }
-    setUserDetails() {
-        let userMap = this.userRecords.reduce((r, a) => {
-            r[a.Id] = [...r[a.Id] || [], a];
-            return r;
-        }, {});
-        this.loginRecords = this.loginRecords.map(u => {
-
-            if (userMap[u.UserId] && userMap[u.UserId].length > 0) {
-                let userDetails = userMap[u.UserId][0];
-                u.User = userDetails;
-                u.ProfileId = userDetails.ProfileId;
-            }
-
-            return u;
-        })
     }
     groupByUser(list) {
         return list.reduce((r, a) => {
@@ -549,100 +529,174 @@ export default class LoginUsageReport extends LightningElement {
             return r;
         }, {});
     }
-    //fillter utility
-    setupFilters() {
-        let userNames = this.userRecords
-            .map(r => {
-                return {
-                    label: (r.Name) ? r.Name : '',
-                    value: (r.Id) ? r.Id : '',
-                    profileId: (r.ProfileId) ? r.ProfileId : '',
-                    isVisible: true
-                }
-            })
-            .reduce((unique, item) => unique.find(e => e.label === item.label) ? unique : [...unique, item], []);
-
-        let profilesNames = this.userRecords.map(r => {
-            return {
-                label: (r.Profile) ? r.Profile.Name : '',
-                value: (r.ProfileId) ? r.ProfileId : ''
-            }
-        })
-            .reduce((unique, item) => unique.find(e => e.label === item.label) ? unique : [...unique, item], []);
-
-
-        this.profileValues = profilesNames;
-        this.userValues = userNames;
-    }
-    filterRecordByUserId(list) {
-        return list.filter(r => r.UserId == this.filterdByUser);
-    }
-    filterRecordByProfileId(list) {
-        return list.filter(r => r.ProfileId == this.filterdByProfile);
-    }
-    // Dates utility
-    getMonthNameFromDate(date) {
-        return months[date.getMonth()];
-    }
-    getWeekFromDate(date) {
-        date.setHours(0, 0, 0, 0);
-        // Thursday in current week decides the year.
-        date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
-        // January 4 is always in week 1.
-        var week1 = new Date(date.getFullYear(), 0, 4);
-        // Adjust to Thursday in week 1 and count number of weeks from date to week1.
-        return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000
-            - 3 + (week1.getDay() + 6) % 7) / 7);
-    }
-    getMonday(d) {
-        var day = d.getDay(),
-            diff = d.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
-        return new Date(d.setDate(diff));
-    }
-    processDateFilters() {
-        if (this.isWeek) {
-            let weeks = this.week_year.map((w, i) => {
-                return { label: w, value: i }
-            });
-            this.periodStart = weeks
-
-            this.periodEnd = weeks
-            this.filterByPeriodStart = 47;
-            this.filterByPeriodEnd = 52;
-
+    //filter handlers
+    onPeriodStartFilter(event) {
+        //on change of start filter
+        let count = event.detail.value;
+        if (typeof count === 'string') count = parseInt(count)
+        if (count > this.filterByPeriodEnd) {
+            this.showNotification('Invalid Start Period', 'Start cannot be greater then End', 'warning');
+            this.filterByPeriodStart = this.filterByPeriodEnd - 1;
+            return;
         }
-        else if (!this.isWeek) {
-            let years = this.month_year.map((y, i) => {
-                return { label: y, value: i }
-            });
-            this.periodStart = years;
-            this.periodEnd = years;
-            this.filterByPeriodStart = 12;
-            this.filterByPeriodEnd = 12;
+        if (!this.isWeek && this.filterByPeriodEnd == count) {
+            //filter by month
             this.filterdByMonth = true;
-            this.prepareMonthDays(...this.month_year[12].split('-'));
+            this.prepareMonthDays(...this.month_year[count].split('-'));
+
+        }
+        else if (this.isWeek && this.filterByPeriodEnd == count) {
+            //filter by week
+            this.filterdByWeek = true;
+            this.prepareWeekDays(...this.week_year[count].split('-'));
+        }
+        else {
+            this.filterdByMonth = false;
+            this.filterdByWeek = false;
+        }
+        this.filterByPeriodStart = count;
+        this.fetchData();
+    }
+    onPeriodEndFilter(event) {
+        //on change of end filter
+        let count = event.detail.value;
+        if (typeof count === 'string') count = parseInt(count)
+
+        if (count < this.filterByPeriodStart) {
+            this.showNotification('Invalid End Period', 'End cannot be greater then Start', 'warning');
+            this.filterByPeriodEnd = this.filterByPeriodStart + 1;
+            return;
+        }
+        if (!this.isWeek && this.filterByPeriodStart == count) {
+            //filter by month
+            this.filterdByMonth = true;
+            this.prepareMonthDays(...this.month_year[count].split('-'));
+        }
+        else if (this.isWeek && this.filterByPeriodStart == count) {
+            //filter by week
+            this.filterdByWeek = true;
+            this.prepareWeekDays(...this.week_year[count].split('-'));
+        }
+        else {
+            this.filterdByMonth = false;
+            this.filterdByWeek = false;
+        }
+        this.filterByPeriodEnd = count;
+        this.fetchData()
+    }
+    onProfileFilter(event) {
+        //on change of profile filter
+        const profId = event.target.value;
+        this.filterdByProfile = profId;
+        this.filterdByUser = '';
+        this.process();
+        if (this.filterdByProfile) {
+            this.userValues = this.userValues.map(value => {
+                if (value.profileId == this.filterdByProfile) {
+                    value.isVisible = true;
+                }
+                else {
+                    value.isVisible = false;
+                }
+                return value;
+            })
+        }
+        else {
+            this.userValues = this.userValues.map(value => {
+                value.isVisible = true;
+                return value;
+            })
         }
     }
-    prepareMonthDays(tempMonth, tempYear) {
-        // let dateString = d.getFullYear() + '-' + tempMonth + '-' + d.getDate();
+    onUserFilter(event) {
 
-        this.year_month_day = [];
-        for (let dayNumber of days) {
-            this.year_month_day.push(tempYear.trim() + '-' + tempMonth.trim() + '-' + dayNumber);
-        }
-    }
-    prepareWeekDays(week) {
-        //let weekDayString = weekDays[d.getDay()] + '-' + tempWeek;
-
-        this.day_week = [];
-        for (let dayName of weekDays) {
-            this.day_week.push(dayName + '-' + week.trim());
-        }
-
-
+        //on change of user filter
+        const userId = event.target.value;
+        this.filterdByUser = userId;
+        this.process();
 
     }
-    //chart utility
+    onCountFilter(event) {
+
+        //on change of count filter
+        const count = event.target.value;
+        this.filterByCount = count;
+        this.filterByCount = count;
+        let data = this.groupByDateRange(this.loginRecords);
+        this.prepareTreeChart(data);
+    }
+    //handler
+    onMonthView() {
+        this.isWeek = false;
+        this.filterdByMonth = true;
+        this.filterdByWeek = false;
+        this.monthButtonVarient = 'brand-outline';
+        this.weekButtonVarient = 'neutral';
+        this.prepareDateFilterValues();
+        this.fetchData();
+    }
+    onWeekView() {
+        this.isWeek = true;
+        this.filterdByMonth = false;
+        this.filterdByWeek = false;
+        this.weekButtonVarient = 'brand-outline';
+        this.monthButtonVarient = 'neutral';
+        this.prepareDateFilterValues();
+        this.fetchData();
+    }
+    onResetFilters() {
+        //onclick of reset button
+        this.filterdByUser = '';
+        this.filterdByProfile = '';
+        this.template.querySelector('select.userProfile').value = '';
+        this.template.querySelector('select.userValues').value = '';
+        if (this.filterdByProfile) {
+            this.userValues = this.userValues.map(value => {
+                if (value.profileId == this.filterdByProfile) {
+                    value.isVisible = true;
+                }
+                else {
+                    value.isVisible = false;
+                }
+                return value;
+            })
+        }
+        else {
+            this.userValues = this.userValues.map(value => {
+                value.isVisible = true;
+                return value;
+            })
+        }
+
+        if (this.isWeek) {
+            this.onWeekView();
+        }
+        else {
+            this.onMonthView();
+        }
+    }
+    //utiltiy
+    showNotification(title, msg, varient) {
+        const evt = new ShowToastEvent({
+            title: title,
+            message: msg,
+            variant: varient
+        });
+        this.dispatchEvent(evt);
+    }
+
+    scale(value, max, min) {
+
+        let from = [min - 1, max + 1];
+        let to = [5, 90];
+        let scale = (to[1] - to[0]) / (from[1] - from[0]);
+        let capped = Math.min(from[1], Math.max(from[0], value)) - from[0];
+        return ~~(capped * scale + to[0]);
+    }
+    getMinAndMax(list) {
+        let nums = list.map(l => l.data[0].r);
+        return [Math.max(...nums), Math.min(...nums)];
+    }
     createChart(divClass, dataset) {
         try {
             // disable Chart.js CSS injection
@@ -661,6 +715,12 @@ export default class LoginUsageReport extends LightningElement {
         catch (e) {
             console.error(e);
         }
+    }
+    getBgColor() {
+        let x = Math.floor(Math.random() * 256);
+        let y = Math.floor(Math.random() * 256);
+        let z = Math.floor(Math.random() * 256);
+        return "rgb(" + x + "," + y + "," + z + ")";
     }
     getLabel() {
         let startCount = this.filterByPeriodStart;
@@ -681,18 +741,5 @@ export default class LoginUsageReport extends LightningElement {
             //year view
         }
     }
-    showNotification(title, msg, varient) {
-        const evt = new ShowToastEvent({
-            title: title,
-            message: msg,
-            variant: varient
-        });
-        this.dispatchEvent(evt);
-    }
-    getBgColor() {
-        let x = Math.floor(Math.random() * 256);
-        let y = Math.floor(Math.random() * 256);
-        let z = Math.floor(Math.random() * 256);
-        return "rgb(" + x + "," + y + "," + z + ")";
-    }
+
 }

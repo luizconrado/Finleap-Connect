@@ -4,7 +4,7 @@
     <columns>NAME</columns>
     <columns>Record__c</columns>
     <columns>Object_Label__c</columns>
-    <columns>CREATEDBY_USER</columns>
+    <columns>User__c</columns>
     <columns>CREATED_DATE</columns>
     <filterScope>Everything</filterScope>
     <filters>

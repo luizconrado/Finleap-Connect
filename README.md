@@ -166,3 +166,7 @@ Product Usage
 sfdx force:source:deploy --sourcepath c:\Users\SyedFurqanAhmed\Documents\GitHub\Finleap-Connect\force-app\main\default\lwc\usageDashboard  --json --loglevel fatal -l RunSpecifiedTests -r ConstantTest
 
 sfdx force:source:deploy --sourcepath c:\Users\SyedFurqanAhmed\Documents\GitHub\Finleap-Connect\force-app\main\default\lwc\loginUsageReport  --json --loglevel fatal -l RunSpecifiedTests -r ConstantTest
+
+sfdx deploy:lwc -p "C:/Users/SyedFurqanAhmed/Documents/GitHub/Finleap-Connect/force-app/main/default/lwc/usageDashboard"
+
+syed.furcan@extern.finleap.com.partial 
