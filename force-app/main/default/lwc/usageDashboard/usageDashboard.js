@@ -3,6 +3,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
 
 import allRecords from '@salesforce/apex/UsageDashboardController.fetchAllTrackingRecords';
+import allWeeks from '@salesforce/apex/UsageDashboardController.getPastYearWeeks';
 
 import chartjs from '@salesforce/resourceUrl/charjs';
 import charjs_treemap from '@salesforce/resourceUrl/charjs_treemap';
@@ -56,9 +57,21 @@ export default class UsageDashboard extends LightningElement {
             loadScript(this, charjs_treemap)
         ]);
 
-        this.preapreDateValues();
-        this.prepareDateFilterValues();
-        this.fetchData();
+        this.fetchDates();
+
+    }
+    fetchDates() {
+
+        allWeeks().then(dates => {
+            console.log('dates data', dates);
+            this.preapreDateValues(dates);
+            this.prepareDateFilterValues();
+            this.fetchData();
+        }).catch(error => {
+            console.error(error);
+
+        });
+
     }
 
     fetchData() {
@@ -560,7 +573,7 @@ export default class UsageDashboard extends LightningElement {
 
 
     //date helper
-    preapreDateValues() {
+    preapreDateValues(weeks) {
         let pastYearMonths = new Date();
         pastYearMonths.setMonth(this.today.getMonth() - 12);
         for (let i = 0, j = 13; i < j; i++) {
@@ -572,18 +585,18 @@ export default class UsageDashboard extends LightningElement {
             //incement by one month
             pastYearMonths.setMonth(pastYearMonths.getMonth() + 1);
         }
-        let pastYearWeeks = new Date();
-        pastYearWeeks.setMonth(this.today.getMonth() - 12);
-        const weekInMilliseconds = 7 * 24 * 60 * 60 * 1000;
-        for (let i = 0, j = 53; i < j; i++) {
-            this.week_year.push(this.getWeekFromDate(pastYearWeeks) + ' - ' + pastYearWeeks.getFullYear());
 
-            this.week_year_apex.push(this.getMonday(pastYearWeeks));
-            //incement by one week
-            pastYearWeeks.setTime(this.getMonday(pastYearWeeks).getTime() + weekInMilliseconds);
+        for (let i = 0, j = weeks.length; i < j; i++) {
+            let d = new Date(weeks[i]);
+
+            this.week_year.push(this.getWeekFromDate(d) + ' - ' + d.getFullYear());
+            this.week_year_apex.push(d);
+
+
         }
         console.log('this.week_year', this.week_year)
         console.log('this.month_year', this.month_year)
+
 
 
     }

@@ -1,5 +1,19 @@
 public class UsageDashboardController {
     
+    @AuraEnabled(cacheable=true)
+    public static List<DateTime> getPastYearWeeks(){
+        Date currentDate=Date.today();
+        Date lastyearDate=currentDate.addYears(-1);
+        List<DateTime> weeks=new List<DateTime>();
+        for(Integer i=0;i<53;i++){
+            Date monday=lastyearDate.toStartOfWeek();
+            DateTime  week=DateTime.newInstanceGmt(monday.toStartOfWeek(), Time.NewInstance(12,0,0,0));
+            weeks.add(week);
+            lastyearDate=lastyearDate.addDays(7);
+        }
+        return weeks;
+    }
+    
     @AuraEnabled
     public static List<Field_History_Tracker__c> fetchAllTrackingRecords(String startDate,String endDate){
         List<String> s=startDate.split('/');
