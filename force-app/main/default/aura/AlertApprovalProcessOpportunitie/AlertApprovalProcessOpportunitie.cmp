@@ -1,5 +1,7 @@
 <aura:component controller="AlertController" implements="flexipage:availableForRecordHome,force:hasRecordId" access="global" >
-    
+    <aura:registerEvent name="globalEvent" type="c:GlobalApplicationEvent"
+                        Description="broadcast approval status" />
+
     <aura:handler name='change' value='{!v.oppRecord}' action='{!c.getStatus}' />
     
     <aura:attribute name="oppRecord" type="Object"/>
@@ -10,7 +12,7 @@
                       targetFields="{!v.oppRecord}"
                       targetError="{!v.recordLoadError}"
                       />
-    
+    <aura:handler event="force:refreshView" action="{!c.getStatus}"/>
     
     
 

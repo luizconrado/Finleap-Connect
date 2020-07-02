@@ -3,8 +3,8 @@ public with sharing class RelatedProductController {
     @AuraEnabled
     public static List<OpportunityLineItem> getRelatedProducts(String recordId){
         return [SELECT Id,Percentage_Per_Usage__c,Product2Id,Product2.Name,Product2.Family,ProductCode, Name,OpportunityId, UnitPrice,Base_Limit__c,Pricing_Type__c,
-                Excess_Limit_Bucket_1__c,Excess_Limit_Bucket_2__c,Excess_Limit_Bucket_3__c,Excess_Limit_Bucket_4__c,Excess_Limit_Bucket_5__c,
-                Excess_Price_Bucket_1__c,Excess_Price_Bucket_2__c,Excess_Price_Bucket_3__c,Excess_Price_Bucket_4__c,Excess_Price_Bucket_5__c,
+                Excess_Limit_Tier_1__c,Excess_Limit_Tier_2__c,Excess_Limit_Tier_3__c,Excess_Limit_Tier_4__c,Excess_Limit_Tier_5__c,
+                Excess_Price_Tier_1__c,Excess_Price_Tier_2__c,Excess_Price_Tier_3__c,Excess_Price_Tier_4__c,Excess_Price_Tier_5__c,
                 One_Time_Setup_Price__c
                 FROM OpportunityLineItem 
                 WHERE OpportunityId=:recordId ORDER BY Product2.Family Asc];
@@ -14,7 +14,7 @@ public with sharing class RelatedProductController {
     public static List<Product2> fetchProducts(String productName,String targetCountries,Boolean showAll){
         List<Product2> allProducts=new List<Product2>();
         if(String.isNotEmpty(productName)) productName='%'+productName+'%';
-        String productQuery='SELECT Id,Pricing_Type__c,Name, ProductCode, Description, Family, Countries_Covered__c FROM Product2 ';
+        String productQuery='SELECT Id,Name,Pricing_Type__c, ProductCode, Description, Family, Countries_Covered__c FROM Product2 ';
         productQuery +=' WHERE isActive=true';
         if(String.isNotEmpty(productName)){
             productQuery += ' AND Name LIKE:productName ';
@@ -22,9 +22,7 @@ public with sharing class RelatedProductController {
         if(String.isNotEmpty(targetCountries) && showAll==false){
             productQuery += ' AND Countries_Covered__c includes '+getTargetCountriesQueryList(targetCountries.split(';'))+' ';
         }
-        else if(showAll==false && String.isEmpty(targetCountries)){
-           return allProducts;
-        }
+        else if(showAll==false && String.isEmpty(targetCountries))    return allProducts;
         productQuery += ' AND Visibility__c=\'Full\' ORDER BY Family Asc LIMIT 50';
         allProducts = Database.query(productQuery);
         return allProducts;
@@ -39,17 +37,13 @@ public with sharing class RelatedProductController {
         return temp;
     }
     
-    
-    //TODO
-	@AuraEnabled    
+   @AuraEnabled    
     public static void insertOpportuntiyLineItems(String opportunityLineItemJSON){
         List<OpportunityLineItem> oli=(List<OpportunityLineItem>) JSON.deserialize(opportunityLineItemJSON, List<OpportunityLineItem>.class);
        	Map<String,List<String>> oppAndProductMap=new Map<String,List<String>>();
         List<String> productIds=new List<String>();
         for(OpportunityLineItem o:oli){
             productIds.add(o.Product2Id );
-            
-            
         }
         Map<String,PriceBookEntry> productAndPriceBookMap=getStdPriceBook(productIds);
         for(OpportunityLineItem o:oli){
@@ -69,7 +63,6 @@ public with sharing class RelatedProductController {
         update opportunityList;
         insert oli;
     }
-   
     private static Map<String,PriceBookEntry> getStdPriceBook(List<String> productId) {
 		Map<String,PriceBookEntry> productAndPriceBookMap=new Map<String,PriceBookEntry>();        
         List<PriceBookEntry> pbe= [select Id,Product2Id,Product2.Name,Product2.Family  from PriceBookEntry where Product2Id IN:productId AND PriceBook2.isStandard=true];    
@@ -94,9 +87,7 @@ public with sharing class RelatedProductController {
         for(Opportunity o:opportunityList){
             List<String> allProducts=o.Product__c.split(';');
             for(String prodName:oppAndProductMap.get(o.Id)){
-                if(allProducts.indexOf(prodName)>-1){
-                    allProducts.remove(allProducts.indexOf(prodName));
-                }
+                if(allProducts.indexOf(prodName)>-1) allProducts.remove(allProducts.indexOf(prodName));
             }
             o.Product__c=String.join(allProducts, ';');
         }

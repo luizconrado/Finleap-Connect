@@ -2,7 +2,8 @@
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     <aura:handler name="RelatedList_viewAll" event="c:RelatedListEvent" action="{!c.viewAllInvoked}"/>
     <aura:handler name="RelatedList_menuAction" event="c:RelatedListEvent" action="{!c.actionInvoked}"/>
-    
+
+    <aura:handler event="c:GlobalApplicationEvent"  action="{!c.setProductActions}" />
     <force:recordData aura:id="recordLoader"
                       recordId="{!v.recordId}"
                       fields="Target_Countries__c"
@@ -44,6 +45,8 @@
     <aura:attribute name="recordLoadError" type="String"/>
     <aura:attribute name="systemProductColums" type="List" />
     <aura:attribute name="selectedProductsIdList" type="List"  />
+    <aura:attribute name="productActions" type="List"  />
+
     <aura:attribute name="searchText" type="String"/>
     
     <aura:attribute name="isShowAllProducts" type="Boolean" default="false" />
@@ -141,7 +144,7 @@
                 </aura:if>
             </div>
             <footer class="slds-modal__footer">
-                <lightning:button variant="brand-outline" value="Add_Product" label="Cancel" title="Cancel" onclick="{! c.closePopup }"/>
+                <lightning:button  value="Add_Product" label="Cancel" title="Cancel" onclick="{! c.closePopup }"/>
                 <aura:if isTrue="{!v.currentStep=='2'}">
                     <lightning:button variant="brand-outline" value="Add_Product" label="Return To Product Selection" title="Return To Product Selection" onclick="{! c.step1 }"/>
                 </aura:if>
@@ -196,7 +199,7 @@
     
     <!--list-->
     <aura:if isTrue="{!v.loadView}">
-        <c:RelatedList icon="standard:product" sobjectName="OpportunityLineItem"   header="{!'Products ('+v.relatedProductList.length+')'}" recordViewList="{!v.relatedProductViewList}" recordActions="[{value:'add_product',name:'Add Product'},{value:'edit_product',name:'Edit/Remove Product'}]">
+        <c:RelatedList icon="standard:product" sobjectName="OpportunityLineItem"   header="{!'Products ('+v.relatedProductList.length+')'}" recordViewList="{!v.relatedProductViewList}" recordActions="{!v.productActions}">
             <aura:if isTrue="{!v.isLoading}">
                 <lightning:spinner alternativeText="Loading" size="medium" />
             </aura:if>

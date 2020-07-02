@@ -6,6 +6,7 @@
             {label: 'Product Family', fieldName: 'Family', type: 'text'},
             {label: 'Available In Countries', fieldName: 'Countries_Covered__c', type: 'text'}
         ]);
+        component.set('v.productActions',helper.PRODUCT_ACTIONS);
         component.set('v.bucketLimit',helper.BUCKET_LIMIT);
         const isMobile= $A.get("$Browser.formFactor")==='PHONE';
         component.set('v.isMobile',isMobile);
@@ -72,6 +73,48 @@
             helper.closeUpdatePorduct(component)
         }
     },
+    setProductActions:function(component,event,helper){
+        let fromComponent = event.getParam("fromComponent");
+        let toComponent = event.getParam("toComponent");
+        let data = event.getParam("data");
+        console.log('data',JSON.stringify(data),fromComponent,toComponent)
+        if(toComponent==='All' && fromComponent==='AlertApprovalProcess'){
+            if(data.isInApproval){
+                component.set('v.productActions',[]);
+                
+                
+                let relatedProductList=component.get('v.relatedProductList');
+                relatedProductList.forEach(function(item){
+                   item.access=false;
+                });
+                component.set('v.relatedProductList',relatedProductList);
+                let relatedProductViewList=component.get('v.relatedProductViewList');
+                relatedProductViewList.forEach(function(item){
+                   item.access=false;
+                });
+                component.set('v.relatedProductViewList',relatedProductViewList);
+                
+            }
+            else{
+                
+                let relatedProductList=component.get('v.relatedProductList');
+                relatedProductList.forEach(function(item){
+                    item.access=true;
+                });
+                component.set('v.relatedProductList',relatedProductList);
+                let relatedProductViewList=component.get('v.relatedProductViewList');
+                relatedProductViewList.forEach(function(item){
+                    item.access=true;
+                });
+                component.set('v.relatedProductViewList',relatedProductViewList);
+                
+                component.set('v.productActions',helper.PRODUCT_ACTIONS);
+            }
+        }
+                
+
+    },
+    
     //Add Product  Methods
     onShowAllToggle:function(component,event,helper){
         let searchText=component.get('v.searchText');

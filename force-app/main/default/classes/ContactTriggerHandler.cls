@@ -8,7 +8,7 @@ public class ContactTriggerHandler  extends Triggerhandler {
         Map<Id,Contact> oldContactMap=(Map<Id,Contact>) Trigger.oldMap;
         
         //track record changes
-        if(!System.Label.Track_History_Exclusion.contains(Userinfo.getUserEmail()))
+        if(!System.Label.Track_History_Exclusion.contains(Userinfo.getUserName()))
         TrackHistory.publishChanges('Contact', newContactList,oldContactMap);
     }
 

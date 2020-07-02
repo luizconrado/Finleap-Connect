@@ -20,7 +20,7 @@ public class AlertControllerTest {
             Test.stopTest();
         }
     }
-     @isTest
+    @isTest
     public static void testdiffrentRecord(){
         User u=TestDataFactory.getStandardUser(true);
         System.runAs(u){
@@ -36,5 +36,12 @@ public class AlertControllerTest {
             System.assert(oppList.containsKey('Private'));
             Test.stopTest();
         }
+    }
+    @isTest
+    public static void getApprovalProcessStatusTest(){
+        Test.startTest();
+        Account a=[Select id from Account Limit 1];
+        AlertController.getApprovalProcessStatus(a.Id);
+        Test.stopTest();
     }
 }

@@ -7,12 +7,8 @@ public with sharing class AlertController {
 
     @AuraEnabled 
     public static Boolean getApprovalProcessStatus(String recordId){
-        List<ProcessInstanceWorkitem> aprovalStatus=[SELECT ProcessInstance.STATUS,ActorId FROM ProcessInstanceWorkitem WHERE ProcessInstance.TargetObjectId=:recordId LIMIT 40];
-        if(aprovalStatus.size()>0){
-            if(aprovalStatus.get(0).ProcessInstance.STATUS=='Pending'){
-                return true;
-            }
-        }
+        List<ProcessInstanceWorkitem> aprovalStatus=db.queryProcessIntance(recordId);
+        if(aprovalStatus.size()>0 && aprovalStatus.get(0).ProcessInstance.STATUS=='Pending') return true;
         return false;
         
     }
@@ -63,5 +59,10 @@ public with sharing class AlertController {
             privateQuery+=' AND Id NOT IN: oppList ORDER BY CreatedDate Desc';
             return Database.query(privateQuery);
         }
+        
+        public List<ProcessInstanceWorkitem> queryProcessIntance(String recordId){
+            return [SELECT ProcessInstance.STATUS,ActorId FROM ProcessInstanceWorkitem WHERE ProcessInstance.TargetObjectId=:recordId LIMIT 40];
+        }
+        
     }
 }

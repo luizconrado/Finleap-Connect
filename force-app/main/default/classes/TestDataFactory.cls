@@ -90,6 +90,34 @@ public class TestDataFactory {
         member.Status='Sent';
         insert member;
     }
+
+    public static Product2 getSwitchkitProduct(){
+        return getProduct('Switchkit','WL');
+    }
+    private static Product2 getProduct(String productName,String productFamily){
+        Id pricebookId = Test.getStandardPricebookId();
+        Pricebook2 standardPricebook = new Pricebook2(
+            Id = pricebookId,
+            IsActive = true
+        );
+        Update  standardPricebook;
+        
+        Product2 prod = new Product2(Name = productName,
+                                     Family = productFamily);
+        prod.Countries_Covered__c='DE';
+        prod.Pricing_Type__c='Steps';
+        prod.Visibility__c='Full';
+        prod.IsActive=True;
+        prod.ProductCode=RandomUtility.getString(2);
+        insert prod;
+        
+       
+        PricebookEntry standardPrice = new PricebookEntry(
+            Pricebook2Id = standardPricebook.Id, Product2Id = prod.Id,
+            UnitPrice = RandomUtility.getInteger(100), IsActive = true);
+        insert standardPrice;
+        return prod;
+    }
     
     //Helpers
     private static User getUser(final Id profileId,Final Boolean isInsert) {

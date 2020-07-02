@@ -21,6 +21,15 @@ public class OpportunityTriggerHandlerTest {
         }
     }
     
+    @isTest
+    static void setApproverUsersTest(){
+        Test.startTest();
+        Account a=TestDataFactory.getStandardAccount(true);
+        Opportunity o=TestDataFactory.getFinleapSalesOpportunity(a.Id,true);
+        o.Compliance_Approved_User_Id__c=Userinfo.getUserId();
+        update o;
+        Test.stopTest();
+    }
     
     @isTest
     static void setCampaingNameUpdateTest(){

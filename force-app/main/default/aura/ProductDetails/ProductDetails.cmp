@@ -11,18 +11,25 @@
    
     <div class="slds-p-left_x-large slds-p-right_x-large slds-expression">
         <div class="slds-m-left_xxx-small  slds-m-right_small  slds-expression__option slds-grid slds-gutters">
-            <div class="slds-col slds-size_1-of-2 slds-m-right_small slds-form-element slds-form-element_readonly">
+            <div class="slds-col slds-size_1-of-3 slds-m-right_small slds-form-element slds-form-element_readonl">
                 <span class="slds-form-element__label">Product</span>
                 <div class="slds-form-element__control">
                     <div class="slds-form-element__static">{!v.product.name}</div>
                 </div>
                 
             </div>
-            <div class="slds-col slds-size_1-of-2 slds-form-element slds-form-element_readonly">
+            <div class="slds-col slds-size_1-of-3 slds-form-element slds-form-element_readonl">
                 <span class="slds-form-element__label">Family</span>
                 <div class="slds-form-element__control">
                     <div class="slds-form-element__static">{!v.product.prodFamily}</div>
                 </div>
+            </div>
+            <div class="slds-col slds-size_1-of-3">
+                <lightning:select aura:id="types" value="{!v.product.type}" label="Product Price Type" name="Product Price Type" >
+                    <aura:iteration items="{!v.product.types}" var="t">
+                        <option value="{!t}">{!t}</option>
+                    </aura:iteration>
+                </lightning:select>
             </div>
         </div>
         <ul>
@@ -52,13 +59,13 @@
                                 <div class=" slds-grid slds-gutters_xx-small">
                                     <div class="slds-col slds-size_3-of-8">
                                         <div class="slds-form-element">
-                                            <label class="slds-form-element__label" for="form-element-Base-Price"> {!v.product.type=='Usage'?'Base Price':'Percentage Per Usage'}</label>
+                                            <label class="slds-form-element__label" for="form-element-Base-Price">{!v.product.type!='Percentage'?'Base Price':'Percentage Price'}</label>
                                             <div class="hide-label slds-form-element__control">
-                                                <lightning:input  id="form-element-Base-Price" value="{!v.product.baseprice}" formatter="{!v.product.type=='Usage'?'currency':'percent-fixed'}" step="0.01" varient="label-hidden" type="number" name="Base_Price" />
+                                                <lightning:input  id="form-element-Base-Price" value="{!v.product.baseprice}" formatter="{!v.product.type!='Percentage'?'currency':'percent-fixed'}" step="0.01" varient="label-hidden" type="number" name="Base_Price" />
                                             </div>
                                         </div>
                                     </div>
-                                    <aura:if isTrue="{!v.product.type=='Usage'}">
+                                    <aura:if isTrue="{!v.product.type!='Percentage'}">
                                         <div class="slds-col slds-size_2-of-8">
                                             <div class="slds-form-element">
                                                 <label class="slds-form-element__label" for="form-element-Base-Usage">Base Usage</label>
@@ -81,11 +88,10 @@
                                         <div class="slds-form-element__control">
                                             <aura:if isTrue="{!v.type=='edit'}">
                                                 <lightning:buttonIcon name="edit_remove_parent" onclick="{!c.onBucketAction}" value="{!v.product.index}" iconName="utility:delete" variant="border-filled" alternativeText="Remove Product" title="Remove Product"/>
-                                                
                                             </aura:if>
-                                            <aura:if isTrue="{!v.product.type=='Usage'}">
+                                            <aura:if isTrue="{!v.product.type!='Percentage'}">
                                                 <aura:if isTrue="{!v.product.children.length lt v.bucketLimit}">
-                                                    <lightning:buttonIcon name="add_new_child" value="{!v.product.index}" iconName="utility:add" variant="border-filled" alternativeText="Add Bucket" title="Add Bucket" onclick="{!c.onBucketAction}"/>
+                                                    <lightning:buttonIcon name="add_new_child" value="{!v.product.index}" iconName="utility:add" variant="border-filled" alternativeText="Add Tier" title="Add Tier" onclick="{!c.onBucketAction}"/>
                                                     <aura:set attribute="else">
                                                         Limit Reached
                                                     </aura:set>
@@ -96,8 +102,8 @@
                                 </div>
                             </fieldset>
                         </li>
-                        <aura:if isTrue="{!v.product.type=='Usage'}">
-                            <aura:iteration items="{!v.product.children}" var="child">
+                        
+                        <aura:iteration items="{!v.product.children}" var="child">
                                 <li class="slds-expression__row_group">
                                     <fieldset>
                                         <legend class="bucket-width   slds-expression__legend">
@@ -134,7 +140,7 @@
                                     </fieldset>
                                 </li> 
                             </aura:iteration>
-                        </aura:if>
+                        
                     </aura:if>
                 </ul>
             </li>

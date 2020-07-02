@@ -161,7 +161,7 @@
             <footer class="slds-modal__footer">
                 <lightning:button value="Add_Memeber" label="Add Row" title="Add Row" onclick="{!c.addNewRow}"/>
                 <lightning:button variant="brand-outline" value="Add_Memeber" label="Cancel" title="Cancel" onclick="{! c.closePopup }"/>
-                <lightning:button variant="brand" value="Add_Memeber" label="Save" title="Save"/>
+                <lightning:button variant="brand" value="Add_Memeber" label="Save" title="Save" onclick="{!c.insertUser}" />
             </footer>
         </c:Modal>
     </aura:if>

@@ -38,7 +38,7 @@ public class OpportunityTriggerHandler extends Triggerhandler {
         if(campaingAndOpportunity.size()>0) setCampaingName(campaingAndOpportunity,newOpportunityMap);
         //preserve team members if owner changed
         if(opportunityOwnerChanged.size()>0) setTeamMembers(opportunityOwnerChanged);
-        
+        //set approved users id
         if(opportunityApproved.size()>0) setApproverUsers(opportunityApproved);
         
     }
@@ -51,7 +51,7 @@ public class OpportunityTriggerHandler extends Triggerhandler {
         
         Map<String,String> contractIdAndStage=new Map<String,String>();
         
-        
+        /*
         for(Opportunity o:newOpportunityList){
             if(o.RecordTypeId==Constant.OPPORTUNITY_FINLEAP_CONNECT_RECORDTYPE_ID){
                 //check if opportuntiy is approved and update contract stage to approved and create product instance
@@ -69,7 +69,6 @@ public class OpportunityTriggerHandler extends Triggerhandler {
                    && oldOpportunityMap.get(o.Id).Compliance_Approved_Date__c!=o.Compliance_Approved_Date__c
                    && o.Compliance_Approved_Date__c!=null 
                    && o.ContractId!=null ){
-                       finleapConnectApprovedOpportuntiyList.add(o);
                        contractIdAndStage.put(o.ContractId,'In Approval Process');
                 }
                 //update contract stage to draft if approval process is rejected
@@ -78,15 +77,16 @@ public class OpportunityTriggerHandler extends Triggerhandler {
                    && oldOpportunityMap.get(o.Id).Compliance_Approved_Date__c!=o.Compliance_Approved_Date__c
                    && o.Compliance_Approved_Date__c==null 
                    && o.ContractId!=null ){
-                       finleapConnectApprovedOpportuntiyList.add(o);
                        contractIdAndStage.put(o.ContractId,'Draft');
                 }
             }
         }
         
+        //create product instance
         if(finleapConnectApprovedOpportuntiyList.size()>0) createProductInstanceInContract(finleapConnectApprovedOpportuntiyList);
+        //update contract stage
         if(contractIdAndStage.size()>0) updateContractStage(contractIdAndStage);
-        
+        */
         //track changes
         if(!System.Label.Track_History_Exclusion.contains(Userinfo.getUserEmail()))
         TrackHistory.publishChanges('Opportunity', newOpportunityList, oldOpportunityMap);
@@ -113,12 +113,12 @@ public class OpportunityTriggerHandler extends Triggerhandler {
             o.Compliance_Approved_User__c=o.Compliance_Approved_User_Id__c;
         }
     }
-    
+    /*
     private static void createProductInstanceInContract(List<Opportunity> finleapConnectApprovedOpportuntiyList){
         List<Product_Instance__c> toInsert=new List<Product_Instance__c>();
-        List<OpportunityLineItem> opportunityLineItemList=[SELECT Id,Percentage_Per_Usage__c,Pricing_Type__c,Product2Id,Product2.Name,OpportunityId,Opportunity.ContractId,UnitPrice,One_Time_Setup_Price__c,Base_Limit__c,
-                                                           Excess_Limit_Bucket_1__c,Excess_Limit_Bucket_2__c,Excess_Limit_Bucket_3__c,Excess_Limit_Bucket_4__c,Excess_Limit_Bucket_5__c,
-                                                           Excess_Price_Bucket_1__c,Excess_Price_Bucket_2__c,Excess_Price_Bucket_3__c,Excess_Price_Bucket_4__c,Excess_Price_Bucket_5__c
+        List<OpportunityLineItem> opportunityLineItemList=[SELECT Id,Pricing_Type__c,Percentage_Per_Usage__c,Product2Id,Product2.Name,OpportunityId,Opportunity.ContractId,UnitPrice,One_Time_Setup_Price__c,Base_Limit__c,
+                                                           Excess_Limit_Tier_1__c,Excess_Limit_Tier_2__c,Excess_Limit_Tier_3__c,Excess_Limit_Tier_4__c,Excess_Limit_Tier_5__c,
+                                                           Excess_Price_Tier_1__c,Excess_Price_Tier_2__c,Excess_Price_Tier_3__c,Excess_Price_Tier_4__c,Excess_Price_Tier_5__c
                                                            FROM OpportunityLineItem 
                                                            WHERE OpportunityId IN:finleapConnectApprovedOpportuntiyList];
         List<Product_Instance__c> prodInstaceList=[SELECT id,Product__c,Opportunity__c
@@ -145,16 +145,16 @@ public class OpportunityTriggerHandler extends Triggerhandler {
                     x.Status__c='Active';
                     x.Opportunity__c=oli.OpportunityId;
                     x.One_Time_Setup_Price__c=oli.One_Time_Setup_Price__c;
-                    x.Excess_Limit_Bucket_1__c=oli.Excess_Limit_Bucket_1__c;
-                    x.Excess_Limit_Bucket_2__c=oli.Excess_Limit_Bucket_2__c;
-                    x.Excess_Limit_Bucket_3__c=oli.Excess_Limit_Bucket_3__c;
-                    x.Excess_Limit_Bucket_4__c=oli.Excess_Limit_Bucket_4__c;
-                    x.Excess_Limit_Bucket_5__c=oli.Excess_Limit_Bucket_5__c;
-                    x.Excess_Price_Bucket_1__c=oli.Excess_Price_Bucket_1__c;
-                    x.Excess_Price_Bucket_2__c=oli.Excess_Price_Bucket_2__c;
-                    x.Excess_Price_Bucket_3__c=oli.Excess_Price_Bucket_3__c;
-                    x.Excess_Price_Bucket_4__c=oli.Excess_Price_Bucket_4__c;
-                    x.Excess_Price_Bucket_5__c=oli.Excess_Price_Bucket_5__c;
+                    x.Excess_Limit_Tier_1__c=oli.Excess_Limit_Tier_1__c;
+                    x.Excess_Limit_Tier_2__c=oli.Excess_Limit_Tier_2__c;
+                    x.Excess_Limit_Tier_3__c=oli.Excess_Limit_Tier_3__c;
+                    x.Excess_Limit_Tier_4__c=oli.Excess_Limit_Tier_4__c;
+                    x.Excess_Limit_Tier_5__c=oli.Excess_Limit_Tier_5__c;
+                    x.Excess_Price_Tier_1__c=oli.Excess_Price_Tier_1__c;
+                    x.Excess_Price_Tier_2__c=oli.Excess_Price_Tier_2__c;
+                    x.Excess_Price_Tier_3__c=oli.Excess_Price_Tier_3__c;
+                    x.Excess_Price_Tier_4__c=oli.Excess_Price_Tier_4__c;
+                    x.Excess_Price_Tier_5__c=oli.Excess_Price_Tier_5__c;
                     toInsert.add(x);
                 }
         }
@@ -168,7 +168,7 @@ public class OpportunityTriggerHandler extends Triggerhandler {
         }
         if (toUpdateContracts.size()>0) update toUpdateContracts;
     }
-    
+    */
     @future
     private static void insertTeamMemebers(String teamJson){
         System.debug('OpportunityTriggerHandler=>insertTeamMemebers');

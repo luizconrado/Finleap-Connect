@@ -24,7 +24,7 @@ public class AccountTriggerHandler extends Triggerhandler {
         Map<Id,Account> oldAccountMap=(Map<Id,Account>) Trigger.oldMap;
         
         //track record changes
-        if(!System.Label.Track_History_Exclusion.contains(Userinfo.getUserEmail()))
+        if(!System.Label.Track_History_Exclusion.contains(Userinfo.getUserName()))
         TrackHistory.publishChanges('Account', newAccountList,oldAccountMap);
     }
     

@@ -9,7 +9,7 @@
             childObj.bucket=i;
             childObj.prodId=product.prodId;
             childObj.index=product.index+'_'+i;
-            childObj.name='Stuffe '+i;
+            childObj.name='Tier '+i;
             childObj.excessprice=0;
             childObj.excesslimit=0;
             product.children.push(childObj)  

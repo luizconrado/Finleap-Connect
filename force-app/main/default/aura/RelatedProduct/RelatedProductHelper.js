@@ -1,6 +1,8 @@
 ({
     //utill
     BUCKET_LIMIT:5,
+    PRODUCT_PRICE_OPTIONS:["Packages", "Percentage", "Progressive", "Steps"],
+    PRODUCT_ACTIONS:[{value:'add_product',name:'Add Product'},{value:'edit_product',name:'Edit/Remove Product'}],
     showToast:function(type,title,message){
         const toastEvent = $A.get("e.force:showToast");
         toastEvent.setParams({
@@ -11,17 +13,8 @@
         toastEvent.fire();
     },
     getError:function(error){
-        if (error && error.fieldErrors && error.fieldErrors.PricebookEntryId[0] && error.fieldErrors.PricebookEntryId[0].message){
-            return error.fieldErrors.PricebookEntryId[0].message;
-        }
-        if(error && error.message){
+         if(error && error.message){
             return error.message;
-        }
-        if(error && error.pageErrors && error.pageErrors[0] && error.pageErrors[0].message){
-            return error.pageErrors[0].message
-        }
-        if(error && error.fieldErrors && error.fieldErrors.Product__c[0] && error.fieldErrors.Product__c[0].message){
-            return  error.fieldErrors.Product__c[0].message;
         }
         return 'Please contact your system admin if problem continues.';
     },
@@ -91,27 +84,28 @@
             let obj={};
             obj.isExpanded=true;
             obj.type=prod.Pricing_Type__c;
+            obj.types=_self.PRODUCT_PRICE_OPTIONS;
             obj.prodId=prod.Product2Id;
             obj.index=index;
             obj.id=prod.Id;
             obj.oppid=prod.OpportunityId;
             obj.name=prod.Product2.Name;
             obj.prodFamily=prod.Product2.Family;
-            obj.baseprice=(prod.Pricing_Type__c=='Usage')?prod.UnitPrice:prod.Percentage_Per_Usage__c;
+            obj.baseprice=(prod.Pricing_Type__c==='Percentage')?prod.Percentage_Per_Usage__c:prod.UnitPrice;
             obj.baselimit=prod.Base_Limit__c;
             obj.baseSetup=prod.One_Time_Setup_Price__c;
             obj.children=[];
             const limit=_self.BUCKET_LIMIT+1;
             for(let i=1;i<limit;i++){
-                if(prod['Excess_Limit_Bucket_'+i+'__c'] && prod['Excess_Price_Bucket_'+i+'__c']){
+                if(prod['Excess_Limit_Tier_'+i+'__c'] && prod['Excess_Price_Tier_'+i+'__c']){
                     let childObj={};
                     childObj.bucket=i;
                     childObj.prodId=prod.Product2Id;
                     childObj.index=index+'_'+i;
                     childObj.id=prod.Id;
-                    childObj.name='Stuffe '+i;
-                    childObj.excessprice=prod['Excess_Price_Bucket_'+i+'__c'];
-                    childObj.excesslimit=prod['Excess_Limit_Bucket_'+i+'__c'];
+                    childObj.name='Tier '+i;
+                    childObj.excessprice=prod['Excess_Price_Tier_'+i+'__c'];
+                    childObj.excesslimit=prod['Excess_Limit_Tier_'+i+'__c'];
                     obj.children.push(childObj);
                 }
             }
@@ -132,6 +126,7 @@
             obj.name=prod.Name;
             obj.prodFamily=prod.Family;
             obj.type=prod.Pricing_Type__c;
+            obj.types=_self.PRODUCT_PRICE_OPTIONS;
             obj.baseSetup=0;
             obj.baseprice=0;
             obj.baselimit=0;
@@ -191,7 +186,7 @@
                             childObj.bucket=i;
                             childObj.prodId=prod.prodId;
                             childObj.index=prod.index+'_'+i;
-                            childObj.name='Stuffe '+i;
+                            childObj.name='Tier '+i;
                             childObj.excessprice=0;
                             childObj.excesslimit=0;
                             prod.children.push(childObj)        
@@ -203,7 +198,7 @@
                         childObj.bucket=i;
                         childObj.prodId=prod.prodId;
                         childObj.index=prod.index+'_'+i;
-                        childObj.name='Stuffe '+i;
+                        childObj.name='Tier '+i;
                         childObj.excessprice=0;
                         childObj.id=prod.id;
                         childObj.excesslimit=0;
@@ -230,24 +225,22 @@
                 helper.showToast('warrning','Missing Values','Check Price for '+prod.name);
                 return;
             }
-            else if(!prod.baselimit && prod.type=='Usage'){
+            else if(!prod.baselimit  && prod.type!='Percentage'){
                 error=true;
                 helper.showToast('warrning','Missing Values','Check Limit for '+prod.name);
                 return;
             }
-            else if(!(prod.baseSetup)){
-                error=true;
-                helper.showToast('warrning','Missing Values','Check Setup Price for '+prod.name);
-                return;
-            }
+           
             recordObj.Pricing_Type__c=prod.type;
-            if(prod.type=='Usage'){
-                recordObj.UnitPrice=prod.baseprice;
-            }
-            else{
+            
+            if(prod.type==='Percentage'){
                 recordObj.UnitPrice=0;
                 recordObj.Percentage_Per_Usage__c=prod.baseprice;
             }
+            else{
+                recordObj.UnitPrice=prod.baseprice;
+            }
+            
             recordObj.Base_Limit__c=prod.baselimit;
             recordObj.One_Time_Setup_Price__c=prod.baseSetup;
             recordObj.Quantity=1;
@@ -259,15 +252,15 @@
                 }
                 
                 else{
-                    recordObj['Excess_Limit_Bucket_'+bucket.bucket+'__c']=bucket.excesslimit;
-                    recordObj['Excess_Price_Bucket_'+bucket.bucket+'__c']=bucket.excessprice
+                    recordObj['Excess_Limit_Tier_'+bucket.bucket+'__c']=bucket.excesslimit;
+                    recordObj['Excess_Price_Tier_'+bucket.bucket+'__c']=bucket.excessprice
                 }
                 
             });
             if(opration=='edit'){
                 prod.removedBucket.forEach(function(child){
-                    recordObj['Excess_Limit_Bucket_'+child.bucket+'__c']=null;
-                    recordObj['Excess_Price_Bucket_'+child.bucket+'__c']=null;
+                    recordObj['Excess_Limit_Tier_'+child.bucket+'__c']=null;
+                    recordObj['Excess_Price_Tier_'+child.bucket+'__c']=null;
                 });
             }
             return recordObj;
@@ -325,10 +318,20 @@
             fileObj.access=true;
             fileObj.Id=file.Id;
             fileObj.header=file.Product2.Name;
-            fileObj.field1Label='Base Price';
-            fileObj.field1Value=file.UnitPrice +' '+symbol;
-            fileObj.field2Label='Base Limit';
-            fileObj.field2Value=file.Base_Limit__c;
+            if(file.Pricing_Type__c==='Percentage'){
+            	fileObj.field1Label='Percentage Price';
+            	fileObj.field1Value=file.Percentage_Per_Usage__c +' %';
+                fileObj.field2Label='Setup Price';
+	            fileObj.field2Value=file.One_Time_Setup_Price__c+' '+symbol;
+            }
+            else{
+            	fileObj.field1Label='Base Price';
+            	fileObj.field1Value=file.UnitPrice +' '+symbol;
+                fileObj.field2Label='Base Limit';
+                fileObj.field2Value=file.Base_Limit__c;
+                
+            }
+            
             fileObj.field3Label='Product Code';
             fileObj.field3Value=file.ProductCode;
             displayList.push(fileObj);
