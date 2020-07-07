@@ -62,7 +62,6 @@ export default class LoginUsageReport extends LightningElement {
     fetchDates() {
 
         allWeeks().then(dates => {
-            console.log('dates data', dates);
             this.preapreDateValues(dates);
             this.prepareDateFilterValues();
             this.fetchData();
@@ -92,14 +91,12 @@ export default class LoginUsageReport extends LightningElement {
             start = (startDate.getMonth() + 1) + '/' + startDate.getDate() + '/' + startDate.getFullYear()
             end = (endDate.getMonth() + 1) + '/' + endDate.getDate() + '/' + endDate.getFullYear()
         }
-        console.log('start', start);
-        console.log('end', end);
+
 
         allLoginRecords({
             startDate: start,
             endDate: end
         }).then(data => {
-            console.log('usage data', data);
             this.records = data;
             this.loginRecords = data.Logins
             this.userRecords = data.Users;
@@ -356,8 +353,7 @@ export default class LoginUsageReport extends LightningElement {
 
 
         }
-        console.log('this.week_year', this.week_year)
-        console.log('this.month_year', this.month_year)
+
 
 
 
@@ -372,7 +368,7 @@ export default class LoginUsageReport extends LightningElement {
             this.periodEnd = weeks
 
             this.filterByPeriodStart = 47;
-            this.filterByPeriodEnd = 52;
+            this.filterByPeriodEnd = 53;
 
         }
         else if (!this.isWeek) {
@@ -536,6 +532,7 @@ export default class LoginUsageReport extends LightningElement {
         return list.reduce((r, a) => {
             let key = a.Browser;
             if (key == 'Unknown') key = a.LoginType;
+            if (key == 'Jakarta HTTP Commons') key = a.Application;
             r[key] = [...r[key] || [], a]
             return r;
         }, {});

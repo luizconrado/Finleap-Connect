@@ -5,7 +5,7 @@ public class UsageDashboardController {
         Date currentDate=Date.today();
         Date lastyearDate=currentDate.addYears(-1);
         List<DateTime> weeks=new List<DateTime>();
-        for(Integer i=0;i<53;i++){
+        for(Integer i=0;i<54;i++){
             Date monday=lastyearDate.toStartOfWeek();
             DateTime  week=DateTime.newInstanceGmt(monday.toStartOfWeek(), Time.NewInstance(12,0,0,0));
             weeks.add(week);
