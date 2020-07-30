@@ -1,4 +1,4 @@
-<aura:component controller="LogUsageController" implements="flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName" >
+<aura:component controller="LogUsageController" implements="flexipage:availableForRecordHome,flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName" >
 	<aura:attribute name="load" type="Boolean" default="false"/>
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 

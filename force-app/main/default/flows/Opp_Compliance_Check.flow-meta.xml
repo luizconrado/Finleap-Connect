@@ -81,6 +81,134 @@
         </inputParameters>
     </actionCalls>
     <decisions>
+        <name>isChangedDecision11_myRule_9_KYC_Check_Status_c</name>
+        <label>isChangedDecision11_myRule_9_KYC_Check_Status_c</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>isChangedDecision15_myRule_13_KYC_Check_Status_c</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>isChangedRule_11_myRule_9_KYC_Check_Status_c</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>myVariable_old</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>myVariable_old.KYC_Check_Status__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>myVariable_current.KYC_Check_Status__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>isChangedDecision15_myRule_13_KYC_Check_Status_c</targetReference>
+            </connector>
+            <label>isChangedRule_11_myRule_9_KYC_Check_Status_c</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>isChangedDecision15_myRule_13_KYC_Check_Status_c</name>
+        <label>isChangedDecision15_myRule_13_KYC_Check_Status_c</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>myDecision</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>isChangedRule_15_myRule_13_KYC_Check_Status_c</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>myVariable_old</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>myVariable_old.KYC_Check_Status__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>myVariable_current.KYC_Check_Status__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myDecision</targetReference>
+            </connector>
+            <label>isChangedRule_15_myRule_13_KYC_Check_Status_c</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>isChangedDecision3_myRule_1_KYC_Form_Filled_Out_c</name>
+        <label>isChangedDecision3_myRule_1_KYC_Form_Filled_Out_c</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>isChangedDecision7_myRule_5_KYC_Check_Status_c</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>isChangedRule_3_myRule_1_KYC_Form_Filled_Out_c</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>myVariable_old</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>myVariable_old.KYC_Form_Filled_Out__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>myVariable_current.KYC_Form_Filled_Out__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>isChangedDecision7_myRule_5_KYC_Check_Status_c</targetReference>
+            </connector>
+            <label>isChangedRule_3_myRule_1_KYC_Form_Filled_Out_c</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>isChangedDecision7_myRule_5_KYC_Check_Status_c</name>
+        <label>isChangedDecision7_myRule_5_KYC_Check_Status_c</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>isChangedDecision11_myRule_9_KYC_Check_Status_c</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>isChangedRule_7_myRule_5_KYC_Check_Status_c</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>myVariable_old</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>myVariable_old.KYC_Check_Status__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>myVariable_current.KYC_Check_Status__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>isChangedDecision11_myRule_9_KYC_Check_Status_c</targetReference>
+            </connector>
+            <label>isChangedRule_7_myRule_5_KYC_Check_Status_c</label>
+        </rules>
+    </decisions>
+    <decisions>
         <processMetadataValues>
             <name>index</name>
             <value>
@@ -194,11 +322,42 @@
                 <leftValueReference>myVariable_current.RecordTypeId</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <elementReference>formula_2_myRule_1_1807691942</elementReference>
+                    <elementReference>formula_2_myRule_1_4237710476</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <processMetadataValues>
+                    <name>inputDataType</name>
+                    <value>
+                        <stringValue>Boolean</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>leftHandSideType</name>
+                    <value>
+                        <stringValue>Picklist</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>operatorDataType</name>
+                    <value>
+                        <stringValue>String</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>rightHandSideType</name>
+                    <value>
+                        <stringValue>Boolean</stringValue>
+                    </value>
+                </processMetadataValues>
+                <leftValueReference>isChangedRule_3_myRule_1_KYC_Form_Filled_Out_c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>myRule_1_pmetdec</targetReference>
+                <targetReference>myRule_1_A1</targetReference>
             </connector>
             <label>KYC Form Filled Out</label>
         </rules>
@@ -283,11 +442,42 @@
                 <leftValueReference>myVariable_current.RecordTypeId</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <elementReference>formula_14_myRule_13_0919201108</elementReference>
+                    <elementReference>formula_14_myRule_13_5042010094</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <processMetadataValues>
+                    <name>inputDataType</name>
+                    <value>
+                        <stringValue>Boolean</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>leftHandSideType</name>
+                    <value>
+                        <stringValue>Picklist</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>operatorDataType</name>
+                    <value>
+                        <stringValue>String</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>rightHandSideType</name>
+                    <value>
+                        <stringValue>Boolean</stringValue>
+                    </value>
+                </processMetadataValues>
+                <leftValueReference>isChangedRule_15_myRule_13_KYC_Check_Status_c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>myRule_13_pmetdec</targetReference>
+                <targetReference>myRule_13_A1</targetReference>
             </connector>
             <label>KYC Check Rejected</label>
         </rules>
@@ -375,11 +565,42 @@
                 <leftValueReference>myVariable_current.RecordTypeId</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <elementReference>formula_6_myRule_5_6446279376</elementReference>
+                    <elementReference>formula_6_myRule_5_8699398663</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <processMetadataValues>
+                    <name>inputDataType</name>
+                    <value>
+                        <stringValue>Boolean</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>leftHandSideType</name>
+                    <value>
+                        <stringValue>Picklist</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>operatorDataType</name>
+                    <value>
+                        <stringValue>String</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>rightHandSideType</name>
+                    <value>
+                        <stringValue>Boolean</stringValue>
+                    </value>
+                </processMetadataValues>
+                <leftValueReference>isChangedRule_7_myRule_5_KYC_Check_Status_c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>myRule_5_pmetdec</targetReference>
+                <targetReference>myRule_5_A1</targetReference>
             </connector>
             <label>KYC Check In Progress</label>
         </rules>
@@ -467,169 +688,7 @@
                 <leftValueReference>myVariable_current.RecordTypeId</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <elementReference>formula_10_myRule_9_9943626393</elementReference>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>myRule_9_pmetdec</targetReference>
-            </connector>
-            <label>KYC Check Passed</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>myRule_13_pmetdec</name>
-        <label>Previously Met Decision</label>
-        <locationX>1300</locationX>
-        <locationY>100</locationY>
-        <defaultConnector>
-            <targetReference>myRule_13_A1</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Not Previously Met</defaultConnectorLabel>
-        <rules>
-            <name>myRule_13_pmetnullrule</name>
-            <conditionLogic>or</conditionLogic>
-            <conditions>
-                <leftValueReference>myVariable_old</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>myRule_13_A1</targetReference>
-            </connector>
-            <label>Previously Met - Null</label>
-        </rules>
-        <rules>
-            <name>myRule_13_pmetrule</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <processMetadataValues>
-                    <name>inputDataType</name>
-                    <value>
-                        <stringValue>Picklist</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>leftHandSideType</name>
-                    <value>
-                        <stringValue>Picklist</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>operatorDataType</name>
-                    <value>
-                        <stringValue>String</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>rightHandSideType</name>
-                    <value>
-                        <stringValue>Picklist</stringValue>
-                    </value>
-                </processMetadataValues>
-                <leftValueReference>myVariable_old.KYC_Check_Status__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Customer Rejected</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <processMetadataValues>
-                    <name>inputDataType</name>
-                    <value>
-                        <stringValue>ID</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>leftHandSideReferenceTo</name>
-                    <value>
-                        <stringValue>RecordType</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>leftHandSideType</name>
-                    <value>
-                        <stringValue>ID</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>operatorDataType</name>
-                    <value>
-                        <stringValue>String</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>rightHandSideType</name>
-                    <value>
-                        <stringValue>Formula</stringValue>
-                    </value>
-                </processMetadataValues>
-                <leftValueReference>myVariable_old.RecordTypeId</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <elementReference>formula_15_myRule_13_pmetrule_3981349679</elementReference>
-                </rightValue>
-            </conditions>
-            <label>Previously Met - Prev</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>myRule_1_pmetdec</name>
-        <label>Previously Met Decision</label>
-        <locationX>100</locationX>
-        <locationY>100</locationY>
-        <defaultConnector>
-            <targetReference>myRule_1_A1</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Not Previously Met</defaultConnectorLabel>
-        <rules>
-            <name>myRule_1_pmetnullrule</name>
-            <conditionLogic>or</conditionLogic>
-            <conditions>
-                <leftValueReference>myVariable_old</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>myRule_1_A1</targetReference>
-            </connector>
-            <label>Previously Met - Null</label>
-        </rules>
-        <rules>
-            <name>myRule_1_pmetrule</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <processMetadataValues>
-                    <name>inputDataType</name>
-                    <value>
-                        <stringValue>Picklist</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>leftHandSideType</name>
-                    <value>
-                        <stringValue>Picklist</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>operatorDataType</name>
-                    <value>
-                        <stringValue>String</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>rightHandSideType</name>
-                    <value>
-                        <stringValue>Picklist</stringValue>
-                    </value>
-                </processMetadataValues>
-                <leftValueReference>myVariable_old.KYC_Form_Filled_Out__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Yes</stringValue>
+                    <elementReference>formula_10_myRule_9_5033693389</elementReference>
                 </rightValue>
             </conditions>
             <conditions>
@@ -642,104 +701,6 @@
                 <processMetadataValues>
                     <name>leftHandSideType</name>
                     <value>
-                        <stringValue>Boolean</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>operatorDataType</name>
-                    <value>
-                        <stringValue>Boolean</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>rightHandSideType</name>
-                    <value>
-                        <stringValue>Boolean</stringValue>
-                    </value>
-                </processMetadataValues>
-                <leftValueReference>myVariable_old.Is_Test__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <processMetadataValues>
-                    <name>inputDataType</name>
-                    <value>
-                        <stringValue>ID</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>leftHandSideReferenceTo</name>
-                    <value>
-                        <stringValue>RecordType</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>leftHandSideType</name>
-                    <value>
-                        <stringValue>ID</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>operatorDataType</name>
-                    <value>
-                        <stringValue>String</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>rightHandSideType</name>
-                    <value>
-                        <stringValue>Formula</stringValue>
-                    </value>
-                </processMetadataValues>
-                <leftValueReference>myVariable_old.RecordTypeId</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <elementReference>formula_3_myRule_1_pmetrule_8091719935</elementReference>
-                </rightValue>
-            </conditions>
-            <label>Previously Met - Prev</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>myRule_5_pmetdec</name>
-        <label>Previously Met Decision</label>
-        <locationX>500</locationX>
-        <locationY>100</locationY>
-        <defaultConnector>
-            <targetReference>myRule_5_A1</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Not Previously Met</defaultConnectorLabel>
-        <rules>
-            <name>myRule_5_pmetnullrule</name>
-            <conditionLogic>or</conditionLogic>
-            <conditions>
-                <leftValueReference>myVariable_old</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>myRule_5_A1</targetReference>
-            </connector>
-            <label>Previously Met - Null</label>
-        </rules>
-        <rules>
-            <name>myRule_5_pmetrule</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <processMetadataValues>
-                    <name>inputDataType</name>
-                    <value>
-                        <stringValue>Picklist</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>leftHandSideType</name>
-                    <value>
                         <stringValue>Picklist</stringValue>
                     </value>
                 </processMetadataValues>
@@ -752,70 +713,11 @@
                 <processMetadataValues>
                     <name>rightHandSideType</name>
                     <value>
-                        <stringValue>Picklist</stringValue>
+                        <stringValue>Boolean</stringValue>
                     </value>
                 </processMetadataValues>
-                <leftValueReference>myVariable_old.KYC_Check_Status__c</leftValueReference>
+                <leftValueReference>isChangedRule_11_myRule_9_KYC_Check_Status_c</leftValueReference>
                 <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>In Progress</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <processMetadataValues>
-                    <name>inputDataType</name>
-                    <value>
-                        <stringValue>ID</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>leftHandSideReferenceTo</name>
-                    <value>
-                        <stringValue>RecordType</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>leftHandSideType</name>
-                    <value>
-                        <stringValue>ID</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>operatorDataType</name>
-                    <value>
-                        <stringValue>String</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>rightHandSideType</name>
-                    <value>
-                        <stringValue>Formula</stringValue>
-                    </value>
-                </processMetadataValues>
-                <leftValueReference>myVariable_old.RecordTypeId</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <elementReference>formula_7_myRule_5_pmetrule_3043560960</elementReference>
-                </rightValue>
-            </conditions>
-            <label>Previously Met - Prev</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>myRule_9_pmetdec</name>
-        <label>Previously Met Decision</label>
-        <locationX>900</locationX>
-        <locationY>100</locationY>
-        <defaultConnector>
-            <targetReference>myRule_9_A1</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Not Previously Met</defaultConnectorLabel>
-        <rules>
-            <name>myRule_9_pmetnullrule</name>
-            <conditionLogic>or</conditionLogic>
-            <conditions>
-                <leftValueReference>myVariable_old</leftValueReference>
-                <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
                 </rightValue>
@@ -823,80 +725,7 @@
             <connector>
                 <targetReference>myRule_9_A1</targetReference>
             </connector>
-            <label>Previously Met - Null</label>
-        </rules>
-        <rules>
-            <name>myRule_9_pmetrule</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <processMetadataValues>
-                    <name>inputDataType</name>
-                    <value>
-                        <stringValue>Picklist</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>leftHandSideType</name>
-                    <value>
-                        <stringValue>Picklist</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>operatorDataType</name>
-                    <value>
-                        <stringValue>String</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>rightHandSideType</name>
-                    <value>
-                        <stringValue>Picklist</stringValue>
-                    </value>
-                </processMetadataValues>
-                <leftValueReference>myVariable_old.KYC_Check_Status__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Customer Passed</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <processMetadataValues>
-                    <name>inputDataType</name>
-                    <value>
-                        <stringValue>ID</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>leftHandSideReferenceTo</name>
-                    <value>
-                        <stringValue>RecordType</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>leftHandSideType</name>
-                    <value>
-                        <stringValue>ID</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>operatorDataType</name>
-                    <value>
-                        <stringValue>String</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>rightHandSideType</name>
-                    <value>
-                        <stringValue>Formula</stringValue>
-                    </value>
-                </processMetadataValues>
-                <leftValueReference>myVariable_old.RecordTypeId</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <elementReference>formula_11_myRule_9_pmetrule_9736807081</elementReference>
-                </rightValue>
-            </conditions>
-            <label>Previously Met - Prev</label>
+            <label>KYC Check Passed</label>
         </rules>
     </decisions>
     <description>Opportunity Compliance Check</description>
@@ -904,91 +733,47 @@
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>$CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c </stringValue>
+                <stringValue>CASESAFEID($CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c)</stringValue>
             </value>
         </processMetadataValues>
-        <name>formula_10_myRule_9_9943626393</name>
+        <name>formula_10_myRule_9_5033693389</name>
         <dataType>String</dataType>
-        <expression>{!$CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c}</expression>
+        <expression>CASESAFEID({!$CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c})</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>$CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c </stringValue>
+                <stringValue>CASESAFEID($CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c)</stringValue>
             </value>
         </processMetadataValues>
-        <name>formula_11_myRule_9_pmetrule_9736807081</name>
+        <name>formula_14_myRule_13_5042010094</name>
         <dataType>String</dataType>
-        <expression>{!$CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c}</expression>
+        <expression>CASESAFEID({!$CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c})</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>$CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c </stringValue>
+                <stringValue>CASESAFEID($CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c)</stringValue>
             </value>
         </processMetadataValues>
-        <name>formula_14_myRule_13_0919201108</name>
+        <name>formula_2_myRule_1_4237710476</name>
         <dataType>String</dataType>
-        <expression>{!$CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c}</expression>
+        <expression>CASESAFEID({!$CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c})</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>$CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c </stringValue>
+                <stringValue>CASESAFEID($CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c)</stringValue>
             </value>
         </processMetadataValues>
-        <name>formula_15_myRule_13_pmetrule_3981349679</name>
+        <name>formula_6_myRule_5_8699398663</name>
         <dataType>String</dataType>
-        <expression>{!$CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c}</expression>
+        <expression>CASESAFEID({!$CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c})</expression>
     </formulas>
-    <formulas>
-        <processMetadataValues>
-            <name>originalFormula</name>
-            <value>
-                <stringValue>$CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c </stringValue>
-            </value>
-        </processMetadataValues>
-        <name>formula_2_myRule_1_1807691942</name>
-        <dataType>String</dataType>
-        <expression>{!$CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c}</expression>
-    </formulas>
-    <formulas>
-        <processMetadataValues>
-            <name>originalFormula</name>
-            <value>
-                <stringValue>$CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c </stringValue>
-            </value>
-        </processMetadataValues>
-        <name>formula_3_myRule_1_pmetrule_8091719935</name>
-        <dataType>String</dataType>
-        <expression>{!$CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c}</expression>
-    </formulas>
-    <formulas>
-        <processMetadataValues>
-            <name>originalFormula</name>
-            <value>
-                <stringValue>$CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c </stringValue>
-            </value>
-        </processMetadataValues>
-        <name>formula_6_myRule_5_6446279376</name>
-        <dataType>String</dataType>
-        <expression>{!$CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c}</expression>
-    </formulas>
-    <formulas>
-        <processMetadataValues>
-            <name>originalFormula</name>
-            <value>
-                <stringValue>$CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c </stringValue>
-            </value>
-        </processMetadataValues>
-        <name>formula_7_myRule_5_pmetrule_3043560960</name>
-        <dataType>String</dataType>
-        <expression>{!$CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c}</expression>
-    </formulas>
-    <interviewLabel>Opp_Compliance_Check-5_InterviewLabel</interviewLabel>
+    <interviewLabel>Opp_Compliance_Check-7_InterviewLabel</interviewLabel>
     <label>Opp Compliance Check</label>
     <processMetadataValues>
         <name>ObjectType</name>
@@ -1015,7 +800,7 @@
         </value>
     </processMetadataValues>
     <processType>Workflow</processType>
-    <startElementReference>myDecision</startElementReference>
+    <startElementReference>isChangedDecision3_myRule_1_KYC_Form_Filled_Out_c</startElementReference>
     <status>Active</status>
     <variables>
         <name>myVariable_current</name>

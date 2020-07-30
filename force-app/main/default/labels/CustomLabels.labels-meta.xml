@@ -161,7 +161,7 @@ system.administrator@finleap.com</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Restricted Edit/Upload Files Objects</shortDescription>
-        <value>Account,Opportunity,Contract,Campaign,Contact</value>
+        <value>Account,Opportunity,Contract,Campaign,Contact,Task,Event</value>
     </labels>
     <labels>
         <fullName>Track_History_Exclusion</fullName>
@@ -170,7 +170,8 @@ system.administrator@finleap.com</value>
         <protected>false</protected>
         <shortDescription>Track History Exclusion</shortDescription>
         <value>system.administrator@finreach.com
-system.administrator@finleap.com</value>
+system.administrator@finleap.com
+syed.furqan@extern.finleap.com</value>
     </labels>
     <labels>
         <fullName>Upcoming_Overdue</fullName>

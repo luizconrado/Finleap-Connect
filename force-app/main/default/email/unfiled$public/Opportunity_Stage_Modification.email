@@ -1,0 +1,20 @@
+Hi {!User.Name},
+
+The opportunity "{!Opportunity.Name}" just changed it's stage to {!Opportunity.StageName}.
+
+Here is a link to it, if you would like to see it:
+https://finleap-connect.lightning.force.com/{!Opportunity.Id}
+
+Here is some basic information:
+Opportunity Owner: {!Opportunity.OwnerFullName}
+Account Name: {!Opportunity.Account}
+Opportunity Name: {!Opportunity.Name}
+Opportunity Creation Date: {!Opportunity.CreatedDate}
+Opportunity Amount: {!Opportunity.Amount}
+Opportunity Expected Revenue: {!Opportunity.ExpectedRevenue}
+Revenue Start Date: {!Opportunity.Revenue_Start_Date__c}
+Opportunity MRR: {!Opportunity.MRR_Monthly_Recurring_Revenue__c}'
+Opportunity OTR: {!Opportunity.OTR_One_Time_Revenue__c}
+Finleap Company: {!Opportunity.Finleap_Company__c}
+Product Vertical: {!Opportunity.Product_Vertical__c}
+Product(s): {!Opportunity.Product__c}

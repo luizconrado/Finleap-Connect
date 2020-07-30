@@ -6,7 +6,7 @@ public class ContentVersionHandler  extends Triggerhandler {
     
     public override void afterInsert() {
         List<ContentVersion> files=(List<ContentVersion>) Trigger.new;
-        if(!System.Label.File_Delete_Users_Exclusion.contains(Userinfo.getUserEmail()))   
+        if(!System.Label.File_Delete_Users_Exclusion.contains(Userinfo.getUserName()))   
             validateInsert(files);
     }
     

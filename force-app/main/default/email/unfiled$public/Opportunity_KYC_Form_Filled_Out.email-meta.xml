@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Email Template warning about the KYC form that was flagged and filled out</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Opportunity KYC Form Filled Out</name>
+    <style>none</style>
+    <subject>The KYC Form for opportunity &quot;{!Opportunity.Name}&quot; just got flagged as done.</subject>
+    <type>text</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

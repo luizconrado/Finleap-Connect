@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Email Template warning about a modification on the Opportunity Stage.</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Opportunity Stage Modification</name>
+    <style>none</style>
+    <subject>Opportunity &quot;{!Opportunity.Name}&quot; is now at &quot;{!Opportunity.StageName}&quot; stage!</subject>
+    <type>text</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

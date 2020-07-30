@@ -33,6 +33,7 @@
 		<members>File_Type_Option__mdt.Record_Type_Name__c</members>
 		<members>File_Type_Option__mdt.Types__c</members>
 		<members>History_Tracker__mdt.Fields__c</members>
+		<members>History_Tracker__mdt.Object__c</members>
 		<members>History_Tracker__mdt.Track_Fields__c</members>
 		<members>History_Tracker__mdt.Track_Usage__c</members>
 		<members>Opportunity.DD_Confirmatory_Access_Granted__c</members>
@@ -68,6 +69,33 @@
 		<name>CustomField</name>
 	</types>
 	<types>
+		<members>Collapse_Text</members>
+		<members>Expand_Text</members>
+		<members>File_Accepted_Extensions</members>
+		<members>File_Delete_Users_Exclusion</members>
+		<members>Insufficient_Access_Text</members>
+		<members>Month_April</members>
+		<members>Month_August</members>
+		<members>Month_December</members>
+		<members>Month_February</members>
+		<members>Month_January</members>
+		<members>Month_July</members>
+		<members>Month_June</members>
+		<members>Month_March</members>
+		<members>Month_May</members>
+		<members>Month_November</members>
+		<members>Month_October</members>
+		<members>Month_September</members>
+		<members>Priority_Order_By_Company</members>
+		<members>Priority_Order_By_Role</members>
+		<members>Restricted_Edit_Upload_Files_Objects</members>
+		<members>Track_History_Exclusion</members>
+		<members>Upcoming_Overdue</members>
+		<members>Users_Exclusion</members>
+		<members>View_All_Text</members>
+		<name>CustomLabel</name>
+	</types>
+	<types>
 		<members>*</members>
 		<name>CustomLabels</name>
 	</types>
@@ -87,6 +115,12 @@
 	<types>
 		<members>Field_History_Tracker__c</members>
 		<name>CustomTab</name>
+	</types>
+	<types>
+		<members>unfiled$public/Opportunity_KYC_Form_Filled_Out</members>
+		<members>unfiled$public/Opportunity_KYC_Status</members>
+		<members>unfiled$public/Opportunity_Stage_Modification</members>
+		<name>EmailTemplate</name>
 	</types>
 	<types>
 		<members>*</members>
@@ -128,6 +162,10 @@
 		<members>OpportunityTeamMember-Opportunity Team Member Layout</members>
 		<members>Trigger_Setting__mdt-Trigger Setting Layout</members>
 		<name>Layout</name>
+	</types>
+	<types>
+		<members>*</members>
+		<name>LightningComponentBundle</name>
 	</types>
 	<types>
 		<members>Field_History_Tracker__c.All</members>

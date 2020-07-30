@@ -34,7 +34,7 @@ public class OpportunityTriggerHandler extends Triggerhandler {
         List<Opportunity> newOpportunityList=(List<Opportunity>) Trigger.new;
         Map<Id,Opportunity> oldOpportunityMap=(Map<Id,Opportunity>) Trigger.oldMap;
         //track changes
-        if(!System.Label.Track_History_Exclusion.contains(Userinfo.getUserEmail()))
+        if(!System.Label.Track_History_Exclusion.contains(Userinfo.getUserName()))
         TrackHistory.publishChanges('Opportunity', newOpportunityList, oldOpportunityMap);
     }
     

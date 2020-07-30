@@ -4,7 +4,11 @@
     <protected>false</protected>
     <values>
         <field>Fields__c</field>
-        <value xsi:type="xsd:string">LastName</value>
+        <value xsi:type="xsd:string">AccountId,LastName,FirstName,Salutation,MiddleName,Suffix,Name,OtherStreet,OtherCity,OtherState,OtherPostalCode,OtherCountry,MailingStreet,MailingCity,MailingState,MailingPostalCode,MailingCountry,Phone,Fax,MobilePhone,HomePhone,OtherPhone,AssistantPhone, Email,Title,Department,AssistantName,LeadSource,Birthdate,Description,OwnerId,HasOptedOutOfEmail,HasOptedOutOfFax,DoNotCall,CreatedDate,CreatedById,LastModifiedDate,LastModifiedById,PhotoUrl,Is_Test__c,Country_of_contact__c,FinreachContactID__c,InfinitecContactID__c,LinkedIn_Search__c,Record_Id__c,Legacy_Salesforce_ID__c,No_Longer_at_Company__c,LinkedIn_Profile__c,Comments_for_Communication__c,Dietary_Restrictions__c,Gender__c,Preferred_Language__c,FinTexxWomen__c,Fintech_Dinner__c,Fintech_Summit__c,finleap_Newsletter_Subscription__c,NPS_Contact__c,Finleap_Connect_Newsletter_Subscription__c</value>
+    </values>
+    <values>
+        <field>Object__c</field>
+        <value xsi:type="xsd:string">Contact</value>
     </values>
     <values>
         <field>Track_Fields__c</field>

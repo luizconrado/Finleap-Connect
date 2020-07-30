@@ -4,6 +4,9 @@
         "paths": {
             "c/usageDashboard": [
                 "usageDashboard/usageDashboard.js"
+            ],
+            "c/loginUsageReport": [
+                "loginUsageReport/loginUsageReport.js"
             ]
         },
         "experimentalDecorators": true

@@ -160,6 +160,14 @@
         <apexClass>TriggerHandlerTest</apexClass>
         <enabled>false</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>UsageDashboardController</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>UsageDashboardControllerTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
     <custom>true</custom>
     <fieldPermissions>
         <editable>true</editable>
@@ -259,6 +267,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>History_Tracker__mdt.Fields__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>History_Tracker__mdt.Object__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>

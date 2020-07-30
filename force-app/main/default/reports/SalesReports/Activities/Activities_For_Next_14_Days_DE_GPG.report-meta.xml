@@ -52,7 +52,7 @@
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>contains</operator>
-            <value>Cedric,Claudia,Florian,Christian,Chris,Julia,Fabian,Joohee,Oleksiy</value>
+            <value>Cedric,Claudia,Florian,Christian,Chris,Julia,Oleksiy</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>

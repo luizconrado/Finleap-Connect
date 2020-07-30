@@ -119,7 +119,7 @@ Finleap connect Org
     -20-05-2020 : Adding Platform Event to capture logs
     -20-05-2020 : Addling Log component to capture user activity
     -03-06-2020 : Adding Usage Tracking Dashboard 
-
+    -30-07-2020 : Sync With Porduction
 
 
 # Commands

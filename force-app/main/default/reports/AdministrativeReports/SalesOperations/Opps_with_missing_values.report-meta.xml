@@ -24,7 +24,7 @@
         <field>Opportunity.Revenue_Start_Date__c</field>
     </columns>
     <filter>
-        <booleanFilter>1 AND (2 OR 3 OR 4) AND 5 AND 6</booleanFilter>
+        <booleanFilter>1 AND (2 OR 3 OR 4) AND 5 AND 6 AND 7</booleanFilter>
         <criteriaItems>
             <column>STAGE_NAME</column>
             <columnToColumn>false</columnToColumn>
@@ -66,6 +66,13 @@
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>0</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>User.Is_Finleap_Connect__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>1</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>
