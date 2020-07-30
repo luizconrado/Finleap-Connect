@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Close_Date_must_be_correct</fullName>
+    <active>true</active>
+    <description>Close Date  must be within a normal range</description>
+    <errorConditionFormula>AND(
+
+NOT(ISPICKVAL(PRIORVALUE(StageName), &quot;Closed Won&quot;)),
+NOT(ISPICKVAL(StageName, &quot;Cancelled&quot;)),
+
+OR(
+CloseDate &lt; TODAY(),
+CloseDate &lt; DATEVALUE(CreatedDate),
+CloseDate &gt; ADDMONTHS(TODAY(), 12),
+CloseDate &gt; Revenue_Start_Date__c
+
+),
+NOT(CONTAINS($Label.Users_Exclusion,$User.Username)),
+RecordTypeId == $CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c
+)</errorConditionFormula>
+    <errorDisplayField>CloseDate</errorDisplayField>
+    <errorMessage>Close Date Cannot be less than today or more than 12 months in future. And Close Date should be less than the revenue start date.</errorMessage>
+</ValidationRule>

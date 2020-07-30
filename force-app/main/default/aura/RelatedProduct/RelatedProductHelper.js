@@ -13,8 +13,17 @@
         toastEvent.fire();
     },
     getError:function(error){
-         if(error && error.message){
+        if (error && error.fieldErrors && error.fieldErrors.PricebookEntryId[0] && error.fieldErrors.PricebookEntryId[0].message){
+            return error.fieldErrors.PricebookEntryId[0].message;
+        }
+        if(error && error.message){
             return error.message;
+        }
+        if(error && error.pageErrors && error.pageErrors[0] && error.pageErrors[0].message){
+            return error.pageErrors[0].message
+        }
+        if(error && error.fieldErrors && error.fieldErrors.Product__c[0] && error.fieldErrors.Product__c[0].message){
+            return  error.fieldErrors.Product__c[0].message;
         }
         return 'Please contact your system admin if problem continues.';
     },
@@ -128,8 +137,8 @@
             obj.type=prod.Pricing_Type__c;
             obj.types=_self.PRODUCT_PRICE_OPTIONS;
             obj.baseSetup=0;
-            obj.baseprice=0;
-            obj.baselimit=0;
+            obj.baseprice=1;
+            obj.baselimit=1000000;
             obj.children=[];
             objList.push(obj);
         });
@@ -318,20 +327,10 @@
             fileObj.access=true;
             fileObj.Id=file.Id;
             fileObj.header=file.Product2.Name;
-            if(file.Pricing_Type__c==='Percentage'){
-            	fileObj.field1Label='Percentage Price';
-            	fileObj.field1Value=file.Percentage_Per_Usage__c +' %';
-                fileObj.field2Label='Setup Price';
-	            fileObj.field2Value=file.One_Time_Setup_Price__c+' '+symbol;
-            }
-            else{
-            	fileObj.field1Label='Base Price';
-            	fileObj.field1Value=file.UnitPrice +' '+symbol;
-                fileObj.field2Label='Base Limit';
-                fileObj.field2Value=file.Base_Limit__c;
-                
-            }
-            
+            fileObj.field1Label='Base Price';
+            fileObj.field1Value=file.UnitPrice +' '+symbol;
+            fileObj.field2Label='Base Limit';
+            fileObj.field2Value=file.Base_Limit__c;
             fileObj.field3Label='Product Code';
             fileObj.field3Value=file.ProductCode;
             displayList.push(fileObj);

@@ -174,8 +174,17 @@ syed.furcan@extern.finleap.com.partial .
 
 # LC
 RealtedProducts
+ProductDetails	
 
 # Custom Fields
 OpprtunityProductLineItem.Total Product Cost
 Opportuntiy.Estimated MRR
 Opprtuntiy.Estimated OTR
+OpportunityLineItem.Total_Product_Cost__c
+
+
+# Apex
+TrackHistory
+LogUsageController
+
+# Custom metadta records of history tracker

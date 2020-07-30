@@ -575,26 +575,6 @@
     <picklistValues>
         <picklist>Product__c</picklist>
         <values>
-            <fullName>Account Service - Account Information Service</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Account Service - Aggregation Service</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Account Service - Categorization Service</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Account Service - Financial Timeline</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Account Service - Payment Initiation Service</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>CS - FinanceAds</fullName>
             <default>false</default>
         </values>
@@ -623,14 +603,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Contract Service - Contract Recognition</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Contract Service - Payment Partner Recognition</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>DS - Analytics %26 Segmentation</fullName>
             <default>false</default>
         </values>
@@ -640,10 +612,6 @@
         </values>
         <values>
             <fullName>DS - Data activation</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Deep Digital Transformation Workshop - Deep Digital Transformation Workshop</fullName>
             <default>false</default>
         </values>
         <values>
@@ -659,15 +627,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Finance %26 Banking Products - Digital Bank</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>FinanceAds - Product</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Integration Workshop - Integration Workshop</fullName>
             <default>false</default>
         </values>
         <values>
@@ -704,62 +664,6 @@
         </values>
         <values>
             <fullName>Perseus - Product</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Pilot Study - Pilot Study</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Salary Backed Loans - Lendbox</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Switch Kit - Account Switch Kit</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Switch Kit - Depot Switch Kit</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Switch Kit - Mobile Account Switch Kit</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Switch Kit - PAD-Italy</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Switch Kit - PSK Spain</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Switch Kit - Payment Accounts Directive Service</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Tenant Access Products - API</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Tenant Access Products - Connectivity Widget</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Tenant Access Products - RegShield</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Tenant Access Products - SDK</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Use-Case Workshop - Use-Case Workshop</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Visionary Workshops - Visionary Workshops</fullName>
             <default>false</default>
         </values>
         <values>

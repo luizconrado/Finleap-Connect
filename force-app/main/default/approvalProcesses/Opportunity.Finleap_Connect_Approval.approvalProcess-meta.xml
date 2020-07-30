@@ -138,7 +138,7 @@
         </rejectionActions>
     </approvalStep>
     <description>Approval Process for Finleap Connect Opportunity</description>
-    <emailTemplate>Finleap_Connect_Contract_Approval/Finleap_Connect_Contract_Approval_Submit</emailTemplate>
+    <emailTemplate>Finleap_Connect_Opportunity_Approval/Opportunity_Approval_Request</emailTemplate>
     <enableMobileDeviceAccess>false</enableMobileDeviceAccess>
     <entryCriteria>
         <criteriaItems>
@@ -157,10 +157,6 @@
         </criteriaItems>
         <criteriaItems>
             <field>Opportunity.OTR_One_Time_Revenue__c</field>
-            <operation>notEqual</operation>
-        </criteriaItems>
-        <criteriaItems>
-            <field>Opportunity.Contract</field>
             <operation>notEqual</operation>
         </criteriaItems>
     </entryCriteria>
@@ -202,6 +198,12 @@
         </action>
     </finalRejectionActions>
     <finalRejectionRecordLock>false</finalRejectionRecordLock>
+    <initialSubmissionActions>
+        <action>
+            <name>Initial_Approval_Request</name>
+            <type>Alert</type>
+        </action>
+    </initialSubmissionActions>
     <label>Finleap Connect Approval</label>
     <recallActions>
         <action>

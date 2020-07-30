@@ -66,8 +66,8 @@ public inherited sharing class TrackHistory {
             change.New_Value__c=event.New_Value__c;
             change.Record_Name__c=event.Record_Name__c;
             change.User__c=event.User_Id__c;
-            if(objectDescriptionMap.containsKey(event.Object__c)) change.Object_Label__c=objectDescriptionMap.get(event.Object__c).getLabel();
-            if(objectFieldsMap.containsKey(event.Object__c)) change.Field_Label__c=objectFieldsMap.get(event.Object__c).get(event.Field__c).getLabel();
+            if(objectDescriptionMap.containsKey(event.Object__c)) change.Field_Label__c=objectDescriptionMap.get(event.Object__c).getLabel();
+            if(objectFieldsMap.containsKey(event.Object__c)) change.Object_Label__c=objectFieldsMap.get(event.Object__c).get(event.Field__c).getLabel();
             toInsertRecords.add(change);
         }
         if(toInsertRecords.size()>0) insert toInsertRecords;
@@ -102,7 +102,7 @@ public inherited sharing class TrackHistory {
        
     private static List<String> getFieldsToTrack(String ObjectName){
         //get field names that needs to be tracked
-        List<History_Tracker__mdt> fieldConfig=[SELECT Fields__c FROM History_Tracker__mdt WHERE DeveloperName=:ObjectName AND Track_Fields__c=True];
+        List<History_Tracker__mdt> fieldConfig=[SELECT Fields__c FROM History_Tracker__mdt WHERE Object__c=:ObjectName AND Track_Fields__c=True];
         List<String> fields=new List<String>();
         if(fieldConfig.size()>0) fields=fieldConfig.get(0).Fields__c.split(',');
         return fields;
@@ -113,6 +113,7 @@ public inherited sharing class TrackHistory {
         if(objectName=='Task' || objectName=='Event' ) name='Subject';
         if(objectName=='Case') name='CaseNumber';
         if(objectName=='Contact') name='LastName';
+
         return name;
     }
 

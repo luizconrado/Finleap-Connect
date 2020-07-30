@@ -395,10 +395,26 @@
                                 <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                     <tr>
                                         <br>
-                                        <p>{!Opportunity.Name} is Approved by Compliance</p>
+                                        <p>{!Opportunity.Name} is Submitted For Approval.</p>
+                                        <p>Approval Request By {!Approval_Requesting_User.Name}</p>
                                         <br />
                                         <p>Here is a link to it, if you would like to see it:</p>
                                         <p>{!$Label.siteUrl}/{!Opportunity.Record_Id__c} </p>
+                                        <br />
+                                        <p>Here is some basic information:</p>
+                                        <p> Opportunity Owner: {!Opportunity.OwnerFullName}</p>
+                                        <p>Account Name: {!Opportunity.Account}</p>
+                                        <p>Opportunity Name: {!Opportunity.Name}</p>
+                                        <p>Opportunity Creation Date: {!Opportunity.CreatedDate}</p>
+                                        <p>Opportunity Amount: {!Opportunity.Amount}</p>
+                                        <p>Opportunity Expected Revenue: {!Opportunity.ExpectedRevenue}</p>
+                                        <p>Revenue Start Date: {!Opportunity.Revenue_Start_Date__c}</p>
+                                        <p>Opportunity MRR: {!Opportunity.MRR_Monthly_Recurring_Revenue__c}'</p>
+                                        <p>Opportunity OTR: {!Opportunity.OTR_One_Time_Revenue__c}</p>
+                                        <p>Finleap Company: {!Opportunity.Finleap_Company__c}</p>
+                                        <p>Product Vertical: {!Opportunity.Product_Vertical__c}</p>
+                                        <p>Product(s): {!Opportunity.Product__c}</p>
+
                             </td>
                         </tr>
                     </table>

@@ -57,5 +57,6 @@
 	NOT(CONTAINS($Label.Users_Exclusion,$User.Username)),
 	RecordTypeId == $CustomMetadata.Constant__mdt.FinleapConnectStandardSales_RecordTypeId.value__c
 )</errorConditionFormula>
+    <errorDisplayField>StageName</errorDisplayField>
     <errorMessage>Closed Lost or Cancelled opportunities cannot be changed anymore</errorMessage>
 </ValidationRule>

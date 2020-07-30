@@ -15,8 +15,9 @@
             product.children.push(childObj)  
         }
         else if(type=='remove_new_child'){
-            product.children.pop();
-            
+            let removedBucket=product.children.pop();
+            if(!product.removedBucket)product.removedBucket=[];
+            product.removedBucket.push(removedBucket);
         }
         else if(type=='edit_remove_parent'){
             console.log('index',index);
