@@ -169,4 +169,13 @@ sfdx force:source:deploy --sourcepath c:\Users\SyedFurqanAhmed\Documents\GitHub\
 
 sfdx deploy:lwc -p "C:/Users/SyedFurqanAhmed/Documents/GitHub/Finleap-Connect/force-app/main/default/lwc/usageDashboard"
 
-syed.furcan@extern.finleap.com.partial 
+syed.furcan@extern.finleap.com.partial .
+
+
+# LC
+RealtedProducts
+
+# Custom Fields
+OpprtunityProductLineItem.Total Product Cost
+Opportuntiy.Estimated MRR
+Opprtuntiy.Estimated OTR
