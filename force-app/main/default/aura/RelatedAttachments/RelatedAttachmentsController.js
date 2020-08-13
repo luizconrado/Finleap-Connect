@@ -6,7 +6,7 @@
     },
     viewAllInvoked:function(component){
         const isMobile=component.get('v.isMobile');
-        if(isMobile){
+        if(false/*disalbed due to https://help.salesforce.com/articleView?id=000354334&type=1&mode=1*/){
             //if in mobile context opening modal as refrence
             const viewAllListData=component.get('v.attachmentList');
             const relatedList={

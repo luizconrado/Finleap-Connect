@@ -78,7 +78,7 @@
     },
     viewAllInvoked:function(component, event, helper){
         const isMobile=component.get('v.isMobile');
-        if(isMobile){
+        if(false/*disalbed due to https://help.salesforce.com/articleView?id=000354334&type=1&mode=1*/){
             const viewAllListData=component.get('v.viewAllListData');
             const relatedList={
                 componentDef:"c:RelatedListItem",

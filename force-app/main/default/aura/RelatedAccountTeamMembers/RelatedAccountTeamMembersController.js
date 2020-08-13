@@ -14,7 +14,7 @@
     viewAllInvoked:function(component){
         //show view all popup
         const isMobile=component.get('v.isMobile');
-        if(isMobile){
+        if(false/*disalbed due to https://help.salesforce.com/articleView?id=000354334&type=1&mode=1*/){
             //if in mobile context opening modal as refrence
             const viewAllListData=component.get('v.teamMemberViewList');
             const relatedList={
