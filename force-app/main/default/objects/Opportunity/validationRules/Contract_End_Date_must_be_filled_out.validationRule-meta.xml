@@ -6,12 +6,12 @@
 	OR(
 		AND(
 		NOT(ISBLANK(Contract_End_Date__c)),
-		NOT(ISPICKVAL(StageName,&#39;Cancelled&#39;))			
+		NOT(ISPICKVAL(StageName,&apos;Cancelled&apos;))			
 		),
 		
 		AND(
 		ISBLANK(Contract_End_Date__c),
-		ISPICKVAL(StageName,&#39;Cancelled&#39;)			
+		ISPICKVAL(StageName,&apos;Cancelled&apos;)			
 		)
 	),
 	NOT(CONTAINS($Label.Users_Exclusion,$User.Username)),

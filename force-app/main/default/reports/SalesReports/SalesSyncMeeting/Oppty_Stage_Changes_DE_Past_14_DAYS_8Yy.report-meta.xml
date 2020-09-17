@@ -16,9 +16,6 @@
         <field>STAGE_NAME</field>
     </columns>
     <columns>
-        <field>CLOSE_DATE</field>
-    </columns>
-    <columns>
         <field>Opportunity.Revenue_Start_Date__c</field>
     </columns>
     <columns>

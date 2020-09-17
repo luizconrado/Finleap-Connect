@@ -19,10 +19,10 @@
         <field>Opportunity.Product__c</field>
     </columns>
     <columns>
-        <field>STAGE_NAME</field>
+        <field>Opportunity.Revenue_Start_Date__c</field>
     </columns>
     <columns>
-        <field>CLOSE_DATE</field>
+        <field>STAGE_NAME</field>
     </columns>
     <columns>
         <aggregateTypes>Sum</aggregateTypes>
@@ -31,17 +31,6 @@
     <columns>
         <aggregateTypes>Sum</aggregateTypes>
         <field>Opportunity.OTR_One_Time_Revenue__c</field>
-    </columns>
-    <columns>
-        <aggregateTypes>Sum</aggregateTypes>
-        <field>AMOUNT</field>
-    </columns>
-    <columns>
-        <aggregateTypes>Sum</aggregateTypes>
-        <field>EXP_AMOUNT</field>
-    </columns>
-    <columns>
-        <field>CAMPAIGN_SOURCE</field>
     </columns>
     <filter>
         <criteriaItems>

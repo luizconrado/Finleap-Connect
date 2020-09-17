@@ -61,6 +61,11 @@
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
+        <field>OPP_ACCOUNT</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
         <field>OPPORUNITY.NAME</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>

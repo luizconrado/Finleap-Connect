@@ -124,13 +124,6 @@
             <value>Finleap Connect</value>
         </criteriaItems>
         <criteriaItems>
-            <column>Opportunity.Revenue_Start_Date__c</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>THIS_YEAR</value>
-        </criteriaItems>
-        <criteriaItems>
             <column>RECORDTYPE</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
@@ -158,6 +151,13 @@
             <operator>equals</operator>
             <value>0</value>
         </criteriaItems>
+        <criteriaItems>
+            <column>Opportunity.Revenue_Start_Date__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>THIS_YEAR</value>
+        </criteriaItems>
     </filter>
     <format>Summary</format>
     <groupingsDown>
@@ -175,7 +175,7 @@
         <field>FULL_NAME</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Opps in Pipeline DE (RSDate This Year)</name>
+    <name>Opps in Pipeline DE THIS YEAR</name>
     <params>
         <name>open</name>
         <value>all</value>
