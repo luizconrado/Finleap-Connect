@@ -76,7 +76,7 @@
                 </div>
                 <!--UI Tiles View-->
                 <c:RelatedListItem sobjectName="{!v.sobjectName}" recordList="{!v.recordViewList}" inlineDetals="{!v.inlineDetals}" viewLength="3"></c:RelatedListItem>
-            </div>
+            </div> 
             <aura:if isTrue="{!v.recordViewList.length>0}">
                 <footer class="slds-card__footer">
                     <a class="slds-card__footer-action" href="javascript:void(0);" onclick="{!c.viewAll}">

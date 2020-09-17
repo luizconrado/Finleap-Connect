@@ -22,13 +22,20 @@
         <field>Account.No_Opportunities_Cancelled__c</field>
     </columns>
     <filter>
-        <booleanFilter>1</booleanFilter>
+        <booleanFilter>1 AND 2</booleanFilter>
         <criteriaItems>
             <column>DESCRIPTION</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>contains</operator>
             <value>target customer</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Account.Is_Test__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>0</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>

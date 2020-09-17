@@ -100,34 +100,119 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Partner_Interaction_Purpose__c</picklist>
+        <values>
+            <fullName>G2M-V</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Licence</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TBD</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Partnership_Model__c</picklist>
+        <values>
+            <fullName>G2M-V</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>License</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TBD</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Sub_Stage__c</picklist>
+        <values>
+            <fullName>Awaiting Deal Closure</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Awaiting Extended Deck Follow Up</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Awaiting Extended Deck to be Sent Out</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Awaiting Fact Sheet to be Sent Out</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Awaiting Follow up after Due Diligence</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Awaiting Follow up after Due Diligence Confirmatory</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Awaiting Follow up after Fact Sheet</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Awaiting ISHA Negotiation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Awaiting ISHA to be Signed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Awaiting Initial Call%2FMeeting to be Schedule</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Awaiting Invitation for on-site Mgmt%2E Meeting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Awaiting Invitation to Due Diligence</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Awaiting Invitation to Due Diligence Confirmatory</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Awaiting NDA to be Signed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Awaiting Q%26A to be Answered</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Awaiting Short Deck to be Sent Out</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Awaiting Term Sheet to be Signed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Completed</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Type</picklist>
         <values>
             <fullName>Ecosystem Deal</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Marketing - Recurring Revenue</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Other</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Project %26 SaaS - Recurring Revenue</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Project - One Time Revenue only</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SaaS - Recurring Revenue</fullName>
+            <fullName>Ecosystem Project</fullName>
             <default>true</default>
-        </values>
-        <values>
-            <fullName>Workshop - One Time Revenue only</fullName>
-            <default>false</default>
         </values>
     </picklistValues>
 </RecordType>

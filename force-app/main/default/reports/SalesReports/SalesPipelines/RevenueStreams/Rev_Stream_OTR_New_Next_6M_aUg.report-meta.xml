@@ -76,7 +76,7 @@
         <field>Revenue_Stream__c.Expected_Monthly_Revenue_Weighted__c</field>
     </columns>
     <filter>
-        <booleanFilter>1 AND 2 AND 3 AND (4 OR 5) AND 6</booleanFilter>
+        <booleanFilter>1 AND 2 AND 3 AND (4 OR 5) AND 6 AND 7 AND 8</booleanFilter>
         <criteriaItems>
             <column>Revenue_Stream__c.Contract_Ended__c</column>
             <columnToColumn>false</columnToColumn>
@@ -118,6 +118,20 @@
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>One Time Revenue</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>RECORDTYPE</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Opportunity.Finleap_Connect_Standard_Sales</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Opportunity.Is_Test__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>0</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>

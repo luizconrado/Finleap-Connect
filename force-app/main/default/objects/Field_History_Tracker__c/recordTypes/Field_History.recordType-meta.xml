@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Field_History</fullName>
+    <active>true</active>
+    <description>Track Field  Changes</description>
+    <label>Field History</label>
+    <picklistValues>
+        <picklist>Relation__c</picklist>
+        <values>
+            <fullName>Child Object</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>On Record</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Parent Object</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

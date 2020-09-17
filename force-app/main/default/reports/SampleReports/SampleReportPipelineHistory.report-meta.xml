@@ -41,6 +41,15 @@
         <field>TAMOUNT</field>
     </columns>
     <description>What did the pipeline look like as of...</description>
+    <filter>
+        <criteriaItems>
+            <column>Opportunity.Is_Test__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>0</value>
+        </criteriaItems>
+    </filter>
     <format>Matrix</format>
     <groupingsAcross>
         <dateGranularity>Day</dateGranularity>
@@ -60,6 +69,10 @@
     <params>
         <name>probability</name>
         <value>&gt;0</value>
+    </params>
+    <params>
+        <name>co</name>
+        <value>0</value>
     </params>
     <reportType>OpportunityTrend</reportType>
     <scope>organization</scope>

@@ -133,6 +133,7 @@ public virtual class TriggerHandler {
   private void addToLoopCount() {
     String handlerName = getHandlerName();
     if(TriggerHandler.loopCountMap.containsKey(handlerName)) {
+      System.debug(handlerName+' Loop count '+TriggerHandler.loopCountMap.get(handlerName).getCount()+' Context '+this.context);  
       Boolean exceeded = TriggerHandler.loopCountMap.get(handlerName).increment();
       if(exceeded) {
         Integer max = TriggerHandler.loopCountMap.get(handlerName).max;

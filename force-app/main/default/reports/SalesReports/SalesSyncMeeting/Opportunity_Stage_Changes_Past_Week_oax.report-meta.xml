@@ -55,7 +55,7 @@
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>LAST_N_DAYS:7</value>
+            <value>LAST_N_DAYS:14</value>
         </criteriaItems>
         <criteriaItems>
             <column>LAST_UPDATE</column>
@@ -63,6 +63,20 @@
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>LAST_STAGE_CHANGE_DATE</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>RECORDTYPE</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Opportunity.Finleap_Connect_Standard_Sales</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Opportunity.Is_Test__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>0</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>
@@ -76,7 +90,7 @@
         <field>ACCOUNT.NAME</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Opportunity Stage Changes - Past Week</name>
+    <name>Opportunity Stage Changes - Past 14 DAYS</name>
     <params>
         <name>include</name>
         <value>all</value>

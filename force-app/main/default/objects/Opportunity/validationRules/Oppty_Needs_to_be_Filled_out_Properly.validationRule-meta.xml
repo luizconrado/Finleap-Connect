@@ -5,9 +5,9 @@
     <errorConditionFormula>AND(
     NOT(
 	    OR(
-	    ISPICKVAL(StageName, &#39;Qualifying&#39;),
-	    ISPICKVAL(StageName, &#39;Engage&#39;),
-	    ISPICKVAL(StageName, &#39;Closed Lost&#39;)
+	    ISPICKVAL(StageName, &apos;Qualifying&apos;),
+	    ISPICKVAL(StageName, &apos;Engage&apos;),
+	    ISPICKVAL(StageName, &apos;Closed Lost&apos;)
         )
 	),
 	OR(

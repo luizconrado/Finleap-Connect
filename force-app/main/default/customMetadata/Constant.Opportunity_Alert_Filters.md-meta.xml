@@ -3,6 +3,11 @@
     <label>Opportunity Alert Filters</label>
     <protected>false</protected>
     <values>
+        <field>Description__c</field>
+        <value xsi:type="xsd:string">Define Opportunity Record Type Developer Name.,
+Which is used in AlertInProgressOpportunitie Component to identify investment opportunities</value>
+    </values>
+    <values>
         <field>value__c</field>
         <value xsi:type="xsd:string">Finleap_Build_Investment,Finleap_Investment_in_Venture,Finleap_Venture_Acquisition,Finleap_Investment_in_Finleap_Group</value>
     </values>

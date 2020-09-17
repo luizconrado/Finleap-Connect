@@ -78,123 +78,19 @@
     <picklistValues>
         <picklist>Industry</picklist>
         <values>
-            <fullName>ACCOUNTING</fullName>
+            <fullName>Banks</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>APPAREL_FASHION</fullName>
+            <fullName>Communication Services</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ARCHITECTURE_PLANNING</fullName>
+            <fullName>Consumer Discretionary</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>AUTOMOTIVE</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Agriculture</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Apparel</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>BROADCAST_MEDIA</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>BUILDING_MATERIALS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Banking</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Biotechnology</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>CAPITAL_MARKETS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>CIVIC_SOCIAL_ORGANIZATION</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>COMPUTER_NETWORKING</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>COMPUTER_NETWORK_SECURITY</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>COMPUTER_SOFTWARE</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>CONSUMER_ELECTRONICS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>CONSUMER_GOODS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>CONSUMER_SERVICES</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Chemicals</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Communications</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Construction</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Consulting</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>DEFENSE_SPACE</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>DESIGN</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>EDUCATION_MANAGEMENT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ELECTRICAL_ELECTRONIC_MANUFACTURING</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>EVENTS_SERVICES</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>E_LEARNING</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Education</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Electronics</fullName>
+            <fullName>Consumer Staples</fullName>
             <default>false</default>
         </values>
         <values>
@@ -202,155 +98,19 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Engineering</fullName>
+            <fullName>Health Care</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Entertainment</fullName>
+            <fullName>Industrials</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Environmental</fullName>
+            <fullName>Information Technology</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>FINANCIAL_SERVICES</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>FINE_ART</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Finance</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Food %26 Beverage</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>GOVERNMENT_ADMINISTRATION</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>GOVERNMENT_RELATIONS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Government</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>HIGHER_EDUCATION</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>HUMAN_RESOURCES</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Healthcare</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Hospitality</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>INFORMATION_SERVICES</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>INFORMATION_TECHNOLOGY_AND_SERVICES</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>INTERNATIONAL_TRADE_AND_DEVELOPMENT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>INVESTMENT_BANKING</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>INVESTMENT_MANAGEMENT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Insurance</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>LAW_PRACTICE</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>LEGAL_SERVICES</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>LEGISLATIVE_OFFICE</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>LEISURE_TRAVEL_TOURISM</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>LOGISTICS_AND_SUPPLY_CHAIN</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>LUXURY_GOODS_JEWELRY</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>MANAGEMENT_CONSULTING</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>MARKETING_AND_ADVERTISING</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>MARKET_RESEARCH</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>MEDIA_PRODUCTION</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>MEDICAL_DEVICES</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Machinery</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Manufacturing</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Media</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>NEWSPAPERS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>NON_PROFIT_ORGANIZATION_MANAGEMENT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Not For Profit</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ONLINE_MEDIA</fullName>
+            <fullName>Materials</fullName>
             <default>false</default>
         </values>
         <values>
@@ -358,95 +118,15 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>PHARMACEUTICALS</fullName>
+            <fullName>Public Sector</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>PRINTING</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>PUBLIC_RELATIONS_AND_COMMUNICATIONS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>PUBLISHING</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>RAILROAD_MANUFACTURE</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>REAL_ESTATE</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>RELIGIOUS_INSTITUTIONS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>RENEWABLES_ENVIRONMENT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>RESEARCH</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>RESTAURANTS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Recreation</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Retail</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SECURITY_AND_INVESTIGATIONS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>STAFFING_AND_RECRUITING</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Shipping</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>THINK_TANKS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>TRANSPORTATION_TRUCKING_RAILROAD</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Technology</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Telecommunications</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Transportation</fullName>
+            <fullName>Real Estate</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Utilities</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>VENTURE_CAPITAL_PRIVATE_EQUITY</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>WRITING_AND_EDITING</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -485,7 +165,7 @@
         </values>
         <values>
             <fullName>No Rating</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
     </picklistValues>
     <picklistValues>
@@ -532,6 +212,10 @@
         </values>
         <values>
             <fullName>Reseller</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Strategic Investor</fullName>
             <default>false</default>
         </values>
     </picklistValues>

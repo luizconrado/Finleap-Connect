@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Email Template warning about the KYC Status has changed</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Opportunity KYC Status</name>
+    <style>none</style>
+    <subject>Opportunity &quot;{!Opportunity.Name}&quot; KYC Status is now at &quot;{!Opportunity.KYC_Check_Status__c}&quot;!</subject>
+    <type>text</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

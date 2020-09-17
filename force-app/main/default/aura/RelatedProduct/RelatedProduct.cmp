@@ -1,0 +1,210 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" controller="RelatedProductController" access="global" >
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="RelatedList_viewAll" event="c:RelatedListEvent" action="{!c.viewAllInvoked}"/>
+    <aura:handler name="RelatedList_menuAction" event="c:RelatedListEvent" action="{!c.actionInvoked}"/>
+
+    <aura:handler event="c:GlobalApplicationEvent"  action="{!c.setProductActions}" />
+    <force:recordData aura:id="recordLoader"
+                      recordId="{!v.recordId}"
+                      fields="Target_Countries__c"
+                      targetFields="{!v.oppRecord}"
+                      targetError="{!v.recordLoadError}"
+                      />
+    <!--ui attributes-->
+    <aura:attribute name="isMobile" type="boolean" default="false" access="private"/>
+    <aura:attribute name="isViewAll" type="boolean" default="false" />  
+    
+    <aura:attribute name="isAddProduct" type="boolean" default="false" />  
+    <aura:attribute name="isEditProduct" type="boolean" default="false" />  
+    
+    <aura:attribute name="loadView" type="boolean" default="false" />    
+    <aura:attribute name="isLoading" type="boolean" default="false" />  
+    
+    <aura:attribute name="currentStep" type="string" default="1" />  
+    <aura:attribute name="currentSubStep" type="Integer" default="0" /> 
+    
+    
+    <!--data attribute-->
+    <aura:attribute name="oppRecord" type="Object"/>
+    
+    <aura:attribute name="relatedProductList" type="List"  description="view all list view products" />  
+    <aura:attribute name="relatedProductViewList" type="List" description="ui list view products" />
+    
+    <aura:attribute name="allSystemProductsList" type="List" />
+    <aura:attribute name="allSelectedProductsList" type="List" />
+    
+    
+    
+    <aura:attribute name="linkedProductsOrignal" type="string" />
+    <aura:attribute name="linkedProductsList" type="List" />
+    <aura:attribute name="linkedDeleteProductsList" type="List" default="[]" />
+    
+    <aura:attribute name="newProductsList" type="List" />
+    
+    <!--helper variables-->
+    <aura:attribute name="recordLoadError" type="String"/>
+    <aura:attribute name="systemProductColums" type="List" />
+    <aura:attribute name="selectedProductsIdList" type="List"  />
+    <aura:attribute name="productActions" type="List"  />
+
+    <aura:attribute name="searchText" type="String"/>
+    
+    <aura:attribute name="isShowAllProducts" type="Boolean" default="false" />
+    <aura:attribute name="bucketLimit" type="integer" default="4"  />
+    <!--popups-->
+    <aura:if isTrue="{!v.isViewAll}"> 
+        <c:Modal header="{!'All Products ('+v.relatedProductList.length+')'}" open="{!v.isViewAll}" >
+            <c:RelatedListItem sobjectName="OpportunityLineItem"   recordList="{!v.relatedProductList}" tileclass="slds-box" viewLength="{!v.relatedProductList.length}"></c:RelatedListItem>
+        </c:Modal>
+    </aura:if>
+    
+    <aura:if isTrue="{!v.isAddProduct}">
+        <c:Modal isLarge="true" header="Add Products" open="{!v.isAddProduct}" showFooter="false">
+            <div class="slds-modal__content slds-is-relative slds-grid slds-grid_vertical" id="modal-add-product">
+                <aura:if isTrue="{!v.isLoading}">
+                    <lightning:spinner alternativeText="Loading" size="medium" />
+                </aura:if>
+                <aura:if isTrue="{!v.currentStep=='1'}">
+                    <div class="set-min-height slds-col slds-grid slds-grid_vertical slds-nowrap">
+                        <div class="slds-p-vertical_x-small slds-p-horizontal_large slds-shrink-none slds-theme_shade">
+                            <div class="slds-form-element ">
+                                <label class="slds-form-element__label slds-assistive-text"
+                                       for="combobox-unique-id-22">Search</label>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-combobox_container">
+                                        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"
+                                             aria-expanded="false" aria-haspopup="listbox" role="combobox">
+                                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                                                 role="none">
+                                                <lightning:input value="{!v.searchText}" onchange="{! c.onSearchProduct }" varient="label-hidden" type="search" />
+                                                
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form-element ">
+                                <label class="slds-form-element__label slds-assistive-text"
+                                       for="show-all-product-toggle">Show All Products in search</label>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-combobox_container">
+                                        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"
+                                             aria-expanded="false" aria-haspopup="listbox" role="combobox">
+                                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                                                 role="none">
+                                                <lightning:input varient="lable-hidden" type="checkbox" label="Show All Products" name="show_all_products" aura:id="show-all-product-toggle" onchange="{!c.onShowAllToggle}" checked="{!v.isShowAllProducts}"/>
+                                                
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-text-title slds-m-top_x-small" aria-live="polite">{!v.allSelectedProductsList.length} Item(s) Selected</div>
+                        </div>
+                        <lightning:datatable
+                                             columns="{! v.systemProductColums }"
+                                             data="{! v.allSystemProductsList }"
+                                             keyField="Id"
+                                             onrowselection="{! c.onProductSeletion }"
+                                             selectedRows="{! v.selectedProductsIdList }"/>
+                    </div>
+                    
+                </aura:if>
+                <aura:if isTrue="{!v.currentStep=='2'}">
+                    <div class="set-min-height">
+                        <div class="slds-col slds-p-around_small">
+                            <aura:if isTrue="{!v.newProductsList.length>1}">
+                                <div class="slds-grid slds-gutters">
+                                    <div class="slds-col ">
+                                        <lightning:progressIndicator currentStep="{!v.currentSubStep}" type="base" hasError="false" variant="base">
+                                            <aura:iteration items="{!v.newProductsList}" var="parent">
+                                                <lightning:progressStep label="{!parent.name}" value="{!parent.index}" id="{!parent.index}"/>
+                                             </aura:iteration>
+                                        </lightning:progressIndicator>
+                                    </div>
+                                    <div class="slds-col slds-grow-none">
+                                        <lightning:button variant="brand-outline" value="Add_Product_back" name="Add_Product_back" label="Back" title="Back" onclick="{! c.changeSubStep }"/>
+                                        <lightning:button variant="brand-outline" value="Add_Product_next" name="Add_Product_next" label="Next" title="Next" onclick="{! c.changeSubStep }"/>
+                                    </div>
+                                </div>
+                                
+                            </aura:if>
+                        </div>
+                        <aura:iteration items="{!v.newProductsList}" var="parent">
+                            <aura:if isTrue="{!parent.index==v.currentSubStep}">
+                                <c:ProductDetails type="new"  bucketLimit="{!v.bucketLimit}" product="{!parent}"/>
+                            </aura:if>
+                           
+                        </aura:iteration>
+                   
+                    </div>
+                </aura:if>
+            </div>
+            <footer class="slds-modal__footer">
+                <lightning:button  value="Add_Product" label="Cancel" title="Cancel" onclick="{! c.closePopup }"/>
+                <aura:if isTrue="{!v.currentStep=='2'}">
+                    <lightning:button variant="brand-outline" value="Add_Product" label="Return To Product Selection" title="Return To Product Selection" onclick="{! c.step1 }"/>
+                </aura:if>
+                <lightning:button variant="brand" disabled="{!v.allSelectedProductsList.length==0}" value="Add_Product" label="{!v.currentStep=='2'?'Save':'Next'}" title="{!v.currentStep=='2'?'Save':'Next'}" onclick="{!c.onSaveProduct}"/>
+            </footer>
+        </c:Modal>
+    </aura:if>
+    <aura:if isTrue="{!v.isEditProduct}">
+        <c:Modal isLarge="true" header="Edit Products" open="{!v.isEditProduct}" showFooter="false">
+            <div class="slds-modal__content slds-is-relative " id="modal-edit-product">
+                <aura:if isTrue="{!v.isLoading}">
+                    <lightning:spinner alternativeText="Loading" size="medium" />
+                </aura:if>
+                
+                <div class="set-min-height">
+                    <div class="slds-col slds-p-around_small">
+                        <aura:if isTrue="{!v.linkedProductsList.length>1}">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col ">
+                                    <lightning:progressIndicator currentStep="{!v.currentSubStep}" type="base" hasError="false" variant="base">
+                                        <aura:iteration items="{!v.linkedProductsList}" var="parent">
+                                            <lightning:progressStep label="{!parent.name}" value="{!parent.index}" id="{!parent.index}"/>
+                                        </aura:iteration>
+                                    </lightning:progressIndicator>
+                                </div>
+                                <div class="slds-col slds-grow-none">
+                                    <lightning:button variant="brand-outline" value="Edit_Product_back" name="Edit_Product_back" label="Back" title="Back" onclick="{! c.changeSubStep }"/>
+                                    <lightning:button variant="brand-outline" value="Edit_Product_next" name="Edit_Product_next" label="Next" title="Next" onclick="{! c.changeSubStep }"/>
+                                    
+                                </div>
+                            </div>
+                            
+                        </aura:if>
+                    </div>
+                    <aura:iteration items="{!v.linkedProductsList}" var="parent">
+                        <aura:if isTrue="{!parent.index==v.currentSubStep}">
+                            <c:ProductDetails linkedDeleteProductsList="{!v.linkedDeleteProductsList}" type="edit" bucketLimit="{!v.bucketLimit}" product="{!parent}"/>
+                        </aura:if>
+                        
+                    </aura:iteration>
+                    
+                  
+                </div>
+            </div>
+          
+            <footer class="slds-modal__footer">
+                <lightning:button variant="brand-outline" value="Edit_Product" label="Cancel" title="Cancel" onclick="{! c.closePopup }"/>
+                <lightning:button variant="brand" value="Edit_Product" label="Update" title="Update" onclick="{!c.onUpdateProduct}"/>
+            </footer>
+        </c:Modal>
+    </aura:if>
+    
+    <!--list-->
+    <aura:if isTrue="{!v.loadView}">
+        <c:RelatedList icon="standard:product" sobjectName="OpportunityLineItem"   header="{!'Products ('+v.relatedProductList.length+')'}" recordViewList="{!v.relatedProductViewList}" recordActions="{!v.productActions}">
+            <aura:if isTrue="{!v.isLoading}">
+                <lightning:spinner alternativeText="Loading" size="medium" />
+            </aura:if>
+        </c:RelatedList>
+    </aura:if>
+    
+    
+</aura:component>

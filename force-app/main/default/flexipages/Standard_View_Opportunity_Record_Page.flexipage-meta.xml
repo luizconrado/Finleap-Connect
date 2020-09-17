@@ -7,6 +7,10 @@
                 <value>false</value>
             </componentInstanceProperties>
             <componentInstanceProperties>
+                <name>enableActionsConfiguration</name>
+                <value>false</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
                 <name>hideChatterActions</name>
                 <value>false</value>
             </componentInstanceProperties>
@@ -15,6 +19,9 @@
                 <value>10</value>
             </componentInstanceProperties>
             <componentName>force:highlightsPanel</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentName>AlertApprovalProcessOpportunitie</componentName>
         </componentInstances>
         <mode>Replace</mode>
         <name>header</name>
@@ -27,6 +34,9 @@
                 <value>false</value>
             </componentInstanceProperties>
             <componentName>runtime_sales_pathassistant:pathAssistant</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentName>Log_Usage</componentName>
         </componentInstances>
         <mode>Replace</mode>
         <name>subheader</name>
@@ -123,6 +133,9 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <componentInstances>
+            <componentName>RelatedProduct</componentName>
+        </componentInstances>
+        <componentInstances>
             <componentInstanceProperties>
                 <name>parentFieldApiName</name>
                 <value>Opportunity.AccountId</value>
@@ -159,6 +172,9 @@
                 <value>true</value>
             </componentInstanceProperties>
             <componentName>force:relatedListContainer</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentName>RelatedHistoryTracker</componentName>
         </componentInstances>
         <componentInstances>
             <componentName>RelatedAttachments</componentName>

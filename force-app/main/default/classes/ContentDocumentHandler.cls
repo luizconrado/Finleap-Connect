@@ -5,7 +5,7 @@ public class ContentDocumentHandler extends Triggerhandler {
     }
     public override void beforedelete() {
         List<ContentDocument> files=(List<ContentDocument>) Trigger.old;
-        if(!System.Label.File_Delete_Users_Exclusion.contains(Userinfo.getUserEmail())) validateDelete(files);
+        if(!System.Label.File_Delete_Users_Exclusion.contains(Userinfo.getUserName())) validateDelete(files);
     }
     
     private void validateDelete(List<ContentDocument> files){

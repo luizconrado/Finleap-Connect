@@ -36,7 +36,7 @@
         <scale>0</scale>
     </customDetailFormulas>
     <filter>
-        <booleanFilter>1 AND 2</booleanFilter>
+        <booleanFilter>1 AND 2 AND 3</booleanFilter>
         <criteriaItems>
             <column>User.Finleap_Country__c</column>
             <columnToColumn>false</columnToColumn>
@@ -50,6 +50,13 @@
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>B</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Account.Is_Test__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>0</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>

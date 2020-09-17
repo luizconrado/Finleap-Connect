@@ -1,0 +1,5 @@
+<aura:event type="APPLICATION" description="Global Event to communicate between components on page layout" >
+    <aura:attribute name="fromComponent" type="String"/>
+    <aura:attribute name="toComponent" type="String"/>
+    <aura:attribute name="data" type="Object"/>
+</aura:event>

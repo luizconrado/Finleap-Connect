@@ -7,13 +7,19 @@
         <field>CREATED_DATE</field>
     </columns>
     <columns>
-        <field>OPPORUNITY.NAME</field>
-    </columns>
-    <columns>
         <field>Opportunity.Product__c</field>
     </columns>
     <columns>
         <field>STAGE_NAME</field>
+    </columns>
+    <columns>
+        <field>OLDVAL</field>
+    </columns>
+    <columns>
+        <field>NEWVAL</field>
+    </columns>
+    <columns>
+        <field>Opportunity.KYC_Check_Status__c</field>
     </columns>
     <filter>
         <criteriaItems>
@@ -28,14 +34,14 @@
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>KYC Check Status</value>
+            <value>KYC Check Status,Stage</value>
         </criteriaItems>
         <criteriaItems>
             <column>NEWVAL</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>Customer Passed</value>
+            <value>Customer Passed,customer rejected,Confirmed,Closed won</value>
         </criteriaItems>
         <criteriaItems>
             <column>RECORDTYPE</column>
@@ -44,8 +50,20 @@
             <operator>equals</operator>
             <value>Opportunity.Finleap_Connect_Standard_Sales</value>
         </criteriaItems>
+        <criteriaItems>
+            <column>Opportunity.Is_Test__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>0</value>
+        </criteriaItems>
     </filter>
-    <format>Tabular</format>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>OPPORUNITY.NAME</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
     <name>monthly_KYC Check</name>
     <params>
         <name>include</name>
@@ -60,8 +78,8 @@
     <showDetails>true</showDetails>
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
-    <sortColumn>CREATED_DATE</sortColumn>
-    <sortOrder>Desc</sortOrder>
+    <sortColumn>Opportunity.Product__c</sortColumn>
+    <sortOrder>Asc</sortOrder>
     <timeFrameFilter>
         <dateColumn>CREATED_DATE</dateColumn>
         <interval>INTERVAL_CUSTOM</interval>

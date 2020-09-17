@@ -1,0 +1,83 @@
+<template>
+    <div class="slds-card">
+        <lightning-tabset variant="vertical">
+            <lightning-tab label="Activity">
+
+                <div class="slds-scrollable slds-grid slds-grid_vertical">
+                    <div class="slds-p-around_small slds-box slds-col slds-grid">
+                        <div class="slds-col slds-form-element">
+                            <label class="slds-form-element__label" for="industryValues">Filter Industry</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-select_container">
+                                    <select onchange={onIndustryFilter} class="slds-select" id="industryValues">
+                                        <option value="">All</option>
+                                        <template for:each={industryValues} for:item="itm">
+                                            <option key={itm.value} value={itm.value}>{itm.label}</option>
+                                        </template>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-form-element">
+                            <label class="slds-form-element__label" for="ratingValues">Filter Rateing</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-select_container">
+                                    <select onchange={onRatingFilter} class="slds-select" id="ratingValues">
+                                        <option value="">All</option>
+                                        <template for:each={ratingValues} for:item="itm">
+                                            <option key={itm.value} value={itm.value}>{itm.label}</option>
+                                        </template>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-form-element">
+                            <label class="slds-form-element__label" for="taskValues">Filter Task
+                                Type</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-select_container">
+                                    <select onchange={onTaskFilter} class="slds-select" id="taskValues">
+                                        <option value="">All</option>
+                                        <template for:each={taskValues} for:item="itm">
+                                            <option key={itm.value} value={itm.value}>{itm.label}</option>
+                                        </template>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-form-element">
+                            <label class="slds-form-element__label" for="eventValues">Filter Event
+                                Type</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-select_container">
+                                    <select onchange={onEventFilter} class="slds-select" id="eventValues">
+                                        <option value="">All</option>
+                                        <template for:each={eventValues} for:item="itm">
+                                            <option key={itm.value} value={itm.value}>{itm.label}</option>
+                                        </template>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-form-element">
+                            <label class="slds-form-element__label" for="monthValues">Filter Month</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-select_container">
+                                    <select onchange={onMonthFilter} class="slds-select" id="monthValues">
+                                        <option value="">All</option>
+                                        <template for:each={monthValues} for:item="itm">
+                                            <option key={itm} value={itm}>{itm}</option>
+                                        </template>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-m-top_small slds-p-around_small slds-box  slds-col">
+                        <div lwc:dom="manual" class="vega"></div>
+                    </div>
+                </div>
+            </lightning-tab>
+        </lightning-tabset>
+    </div>
+</template>

@@ -1,0 +1,9 @@
+<aura:documentation>
+	<aura:description>Documentation</aura:description>
+	<aura:example name="Account_Team_Configuration__c" ref="RelatedAccountTeamMembers" label="Custom Setting">
+		use Account_Team_Configuration__c Custom setting to configure Visiblity and edit access
+	</aura:example>
+    <aura:example name="CustomLabel" ref="RelatedAccountTeamMembers" label="Custom Lables">
+		use Priority Order By Company	and Priority Order By Role	to order records in component
+	</aura:example>
+</aura:documentation>
